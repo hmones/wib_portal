@@ -19,6 +19,7 @@
         "sass-loader": "^7.1.0"
     },
     "dependencies": {
-        "semantic-ui": "^2.4.2"
+        "semantic-ui": "^2.4.2",
+        "diff": ">=3.5.0"
     }
 }
