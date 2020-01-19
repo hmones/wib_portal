@@ -16,11 +16,10 @@ class CreateExternalLinks extends Migration
         Schema::create('links', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->char('link', 255);
-            $table->unsignedBigInteger('type_id');
+            $table->bigInteger('type_id')->unsigned()->index();
             $table->boolean('verified')->default(False);
             $table->timestamps();
             $table->foreign('type_id')->references('id')->on('supported_links');
-            $table->primary('id');
         });
     }
 
@@ -31,6 +30,9 @@ class CreateExternalLinks extends Migration
      */
     public function down()
     {
+        Schema::table('links', function ($table){
+            $table->dropForeign(['type_id']);
+        });
         Schema::dropIfExists('links');
     }
 }

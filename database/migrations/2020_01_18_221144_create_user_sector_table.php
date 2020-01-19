@@ -14,9 +14,8 @@ class CreateUserSectorTable extends Migration
     public function up()
     {
         Schema::create('user_sector', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned();
-            $table->integer('sector_id')->unsigned();
-            $table->primary(['user_id', 'sector_id']);
+            $table->bigInteger('user_id')->unsigned()->index();
+            $table->bigInteger('sector_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('sector_id')->references('id')->on('sectors')
@@ -31,6 +30,10 @@ class CreateUserSectorTable extends Migration
      */
     public function down()
     {
+        Schema::table('user_sector', function ($table){
+            $table->dropForeign(['user_id']);
+            $table->dropForeign(['sector_id']);
+        });
         Schema::dropIfExists('user_sector');
     }
 }

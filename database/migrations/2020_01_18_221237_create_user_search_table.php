@@ -14,9 +14,8 @@ class CreateUserSearchTable extends Migration
     public function up()
     {
         Schema::create('user_search', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned();
-            $table->integer('search_id')->unsigned();
-            $table->primary(['user_id', 'search_id']);
+            $table->bigInteger('user_id')->unsigned()->index();
+            $table->bigInteger('search_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('search_id')->references('id')->on('searching_for_options')
@@ -31,6 +30,10 @@ class CreateUserSearchTable extends Migration
      */
     public function down()
     {
+        Schema::table('user_search', function ($table){
+            $table->dropForeign(['user_id']);
+            $table->dropForeign(['search_id']);
+        });
         Schema::dropIfExists('user_search');
     }
 }

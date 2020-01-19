@@ -14,13 +14,12 @@ class CreateUserEntityTable extends Migration
     public function up()
     {
         Schema::create('user_entity', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned();
-            $table->integer('entity_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned()->index();
+            $table->bigInteger('entity_id')->unsigned()->index();
             $table->char('relation_type',255);
             $table->char('relation_desc',255);
             $table->boolean('relation_active');
             $table->dateTime('relation_date');
-            $table->primary(['user_id', 'entity_id']);
             $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('entity_id')->references('id')->on('entities')
@@ -35,6 +34,10 @@ class CreateUserEntityTable extends Migration
      */
     public function down()
     {
+        Schema::table('user_entity', function ($table){
+            $table->dropForeign(['user_id']);
+            $table->dropForeign(['entity_id']);
+        });
         Schema::dropIfExists('user_entity');
     }
 }

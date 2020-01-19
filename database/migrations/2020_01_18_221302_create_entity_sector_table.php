@@ -13,13 +13,12 @@ class CreateEntitySectorTable extends Migration
      */
     public function up()
     {
-        Schema::create('entity-sector', function (Blueprint $table) {
-            $table->integer('entity_id')->unsigned();
-            $table->integer('sector_id')->unsigned();
-            $table->primary(['entity_id', 'sector_id']);
+        Schema::create('entity_sector', function (Blueprint $table) {
+            $table->bigInteger('entity_id')->unsigned()->index();
+            $table->bigInteger('sector_id')->unsigned()->index();
             $table->foreign('entity_id')->references('id')->on('entities')
                 ->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('search_id')->references('id')->on('searching_for_options')
+            $table->foreign('sector_id')->references('id')->on('sectors')
                 ->onDelete('cascade')->onUpdate('cascade');
         });
     }
@@ -31,6 +30,10 @@ class CreateEntitySectorTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('entity-sector');
+        Schema::table('entity_sector', function ($table){
+            $table->dropForeign(['entity_id']);
+            $table->dropForeign(['sector_id']);
+        });
+        Schema::dropIfExists('entity_sector');
     }
 }

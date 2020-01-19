@@ -13,10 +13,9 @@ class CreateEntitySearchTable extends Migration
      */
     public function up()
     {
-        Schema::create('entity-search', function (Blueprint $table) {
-            $table->integer('entity_id')->unsigned();
-            $table->integer('search_id')->unsigned();
-            $table->primary(['entity_id', 'search_id']);
+        Schema::create('entity_search', function (Blueprint $table) {
+            $table->bigInteger('entity_id')->unsigned()->index();
+            $table->bigInteger('search_id')->unsigned()->index();
             $table->foreign('entity_id')->references('id')->on('entities')
                 ->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('search_id')->references('id')->on('searching_for_options')
@@ -31,6 +30,10 @@ class CreateEntitySearchTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('entity-search');
+        Schema::table('entity_search', function ($table){
+            $table->dropForeign(['entity_id']);
+            $table->dropForeign(['search_id']);
+        });
+        Schema::dropIfExists('entity_search');
     }
 }

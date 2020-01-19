@@ -15,22 +15,22 @@ class CreateEntitiesTable extends Migration
     {
         Schema::create('entities', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->char('name',255);
-            $table->char('name_additional',255)->nullable();
-            $table->integer('entity_type');
-            $table->unsignedSmallInteger('founding_year');
+            $table->char('name',255)->index();
+            $table->char('name_additional',255)->nullable()->index();
+            $table->bigInteger('entity_type_id')->unsigned()->index();
+            $table->unsignedSmallInteger('founding_year')->index();
             $table->char('primary_address',100)->nullable();
             $table->char('primary_postbox',100)->nullable();
             $table->char('primary_postal_code',50)->nullable();
             $table->char('primary_state',150)->nullable();
-            $table->integer('primary_city_id');
-            $table->integer('primary_country_id');
+            $table->bigInteger('primary_city_id')->unsigned()->index();
+            $table->bigInteger('primary_country_id')->unsigned()->index();
             $table->char('secondary_address',100)->nullable();
             $table->char('secondary_postbox',100)->nullable();
             $table->char('secondary_postal_code',50)->nullable();
             $table->char('secondary_state',150)->nullable();
-            $table->integer('secondary_city_id');
-            $table->integer('secondary_country_id');
+            $table->bigInteger('secondary_city_id')->unsigned()->index();
+            $table->bigInteger('secondary_country_id')->unsigned()->index();
             $table->char('primary_email',255);
             $table->char('secondary_email',255);
             $table->unsignedSmallInteger('phone_country_code')->nullable();
@@ -49,12 +49,11 @@ class CreateEntitiesTable extends Migration
             $table->boolean('approved')->default(False);
             $table->unsignedBigInteger('approved_by');
             $table->timestamps();
-            $table->primary('id');
-            $table->index(['name','name_additional', 'founding_year','primary_city_id','primary_country_id','secondary_city_id', 'secondary_country_id']);
             $table->foreign('primary_city_id')->references('id')->on('cities');
             $table->foreign('primary_country_id')->references('id')->on('countries');
             $table->foreign('secondary_city_id')->references('id')->on('cities');
             $table->foreign('secondary_country_id')->references('id')->on('countries');
+            $table->foreign('entity_type_id')->references('id')->on('entity_types');
         });
     }
 
@@ -65,6 +64,13 @@ class CreateEntitiesTable extends Migration
      */
     public function down()
     {
+        Schema::table('entities', function ($table){
+            $table->dropForeign(['primary_city_id']);
+            $table->dropForeign(['primary_country_id']);
+            $table->dropForeign(['secondary_city_id']);
+            $table->dropForeign(['secondary_country_id']);
+            $table->dropForeign(['entity_type_id']);
+        });
         Schema::dropIfExists('entities');
     }
 }

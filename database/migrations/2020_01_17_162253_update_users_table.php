@@ -22,8 +22,8 @@ class UpdateUsersTable extends Migration
             $table->char('phone',20)->nullable();
             $table->char('postal_code',50)->nullable();
             $table->char('state',150)->nullable();
-            $table->integer('city_id');
-            $table->integer('country_id');
+            $table->bigInteger('city_id')->unsigned()->index();
+            $table->bigInteger('country_id')->unsigned()->index();
             $table->char('activity',255);
             $table->char('sphere',255);
             $table->char('education',255);
@@ -31,14 +31,12 @@ class UpdateUsersTable extends Migration
             $table->char('network',3)->default('WIB');
             $table->char('business_association_wom',30)->nullable();
             $table->boolean('approved')->default(False);
-            $table->unsignedBigInteger('approved_by');
+            $table->bigInteger('approved_by')->unsigned()->index();
             $table->boolean('premium')->default(False);
             $table->boolean('sponsor')->default(False);
             $table->boolean('newsletter')->default(False);
-            $table->dateTime('newsletter_date',30)->nullable();
+            $table->dateTime('newsletter_date')->nullable();
             $table->boolean('gdpr_consent')->default(False);
-            $table->index(['country_id','city_id']);
-            $table->primary('id');
             $table->foreign('city_id')->references('id')->on('cities');
             $table->foreign('country_id')->references('id')->on('countries');
             $table->foreign('approved_by')->references('id')->on('admin_users');
@@ -53,12 +51,37 @@ class UpdateUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
+//            $table->dropForeign(['city_id']);
+//            $table->dropForeign(['country_id']);
+//            $table->dropForeign(['approved_by']);
+//            $table->dropIndex(['country_id']);
+//            $table->dropIndex(['city_id']);
             $table->dropColumn([
-                'title', 'gender', 'birth_year', 'bio','phone_country_code','phone','postal_code','state','city_id',
-                'country_id','activity','sphere','education','mena_diaspora','network','business_association_wom',
-                'active','premium','sponsor','newsletter','newsletter_date','gdpr_consent'
+                'title',
+                'gender',
+                'birth_year',
+                'bio',
+                'phone_country_code',
+                'phone',
+                'postal_code',
+                'state',
+                'city_id',
+                'country_id',
+                'activity',
+                'sphere',
+                'education',
+                'mena_diaspora',
+                'network',
+                'business_association_wom',
+                'approved',
+                'approved_by',
+                'premium',
+                'sponsor',
+                'newsletter',
+                'newsletter_date',
+                'gdpr_consent'
             ]);
-            $table->dropIndex(['country_id','city_id']);
         });
     }
 }
+

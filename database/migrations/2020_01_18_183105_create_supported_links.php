@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSearchingForOptions extends Migration
+class CreateSupportedLinks extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class CreateSearchingForOptions extends Migration
      */
     public function up()
     {
-        Schema::create('searching_for_options', function (Blueprint $table) {
+        Schema::create('supported_links', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->char('search',255)->index();
+            $table->char('name',100);
+            $table->char('url_regex',150)->nullable();
+            $table->char('icon',100)->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ class CreateSearchingForOptions extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('searching_for_options');
+        Schema::dropIfExists('supported_links');
     }
 }

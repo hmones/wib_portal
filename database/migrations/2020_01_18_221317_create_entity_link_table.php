@@ -13,10 +13,9 @@ class CreateEntityLinkTable extends Migration
      */
     public function up()
     {
-        Schema::create('entity-link', function (Blueprint $table) {
-            $table->integer('entity_id')->unsigned();
-            $table->integer('link_id')->unsigned();
-            $table->primary(['entity_id', 'link_id']);
+        Schema::create('entity_link', function (Blueprint $table) {
+            $table->bigInteger('entity_id')->unsigned()->index();
+            $table->bigInteger('link_id')->unsigned()->index();
             $table->foreign('entity_id')->references('id')->on('entities')
                 ->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('link_id')->references('id')->on('links')
@@ -31,6 +30,10 @@ class CreateEntityLinkTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('entity-link');
+        Schema::table('entity_link', function ($table){
+            $table->dropForeign(['entity_id']);
+            $table->dropForeign(['link_id']);
+        });
+        Schema::dropIfExists('entity_link');
     }
 }
