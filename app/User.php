@@ -36,4 +36,36 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function entities()
+    {
+        return $this->belongsToMany('App\Entity', 'user_entity')->withPivot('relation_type','relation_desc', 'relation_active','relation_date');
+    }
+
+    public function sectors()
+    {
+        return $this->belongsToMany('App\Sector', 'user_sector', 'user_id', 'sector_id');
+    }
+
+    public function searching_for()
+    {
+        return $this->belongsToMany('App\SearchingForOption', 'user_search', 'user_id', 'search_id');
+    }
+
+    public function links()
+    {
+        return $this->hasMany('App\Link', 'user_id');
+    }
+    public function approved_by()
+    {
+        return $this->belongsTo('App\AdminUser', 'approved_by');
+    }
+    public function country()
+    {
+        return $this->belongsTo('App\Country', 'country_id');
+    }
+    public function city()
+    {
+        return $this->belongsTo('App\City', 'city_id');
+    }
 }

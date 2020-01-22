@@ -7,4 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class EntityType extends Model
 {
     protected $table = 'entity_types';
+
+    public function entities()
+    {
+        return $this->hasMany('App\Entity', 'entity_type_id');
+    }
 }

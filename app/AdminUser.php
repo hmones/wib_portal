@@ -36,4 +36,13 @@ class AdminUser extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function users()
+    {
+        return $this->hasMany('App\User', 'approved_by');
+    }
+    public function entities()
+    {
+        return $this->hasMany('App\Entity', 'approved_by');
+    }
 }

@@ -9,6 +9,18 @@ class City extends Model
     protected $table = 'cities';
     public function country()
     {
-        return $this->hasOne('App\Country');
+        return $this->belongsTo('App\Country', 'country_id');
+    }
+    public function users()
+    {
+        return $this->hasMany('App\User', 'city_id');
+    }
+    public function entities()
+    {
+        return $this->hasMany('App\Entity', 'primary_city_id');
+    }
+    public function entities_secondary()
+    {
+        return $this->hasMany('App\Entity', 'secondary_city_id');
     }
 }

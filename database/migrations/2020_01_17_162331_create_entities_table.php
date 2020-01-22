@@ -47,13 +47,14 @@ class CreateEntitiesTable extends Migration
             $table->char('students', 50);
             $table->char('business_type', 50);
             $table->boolean('approved')->default(False);
-            $table->unsignedBigInteger('approved_by');
+            $table->bigInteger('approved_by')->unsigned()->index();
             $table->timestamps();
             $table->foreign('primary_city_id')->references('id')->on('cities');
             $table->foreign('primary_country_id')->references('id')->on('countries');
             $table->foreign('secondary_city_id')->references('id')->on('cities');
             $table->foreign('secondary_country_id')->references('id')->on('countries');
             $table->foreign('entity_type_id')->references('id')->on('entity_types');
+            $table->foreign('approved_by')->references('id')->on('admin_users');
         });
     }
 
@@ -70,6 +71,8 @@ class CreateEntitiesTable extends Migration
             $table->dropForeign(['secondary_city_id']);
             $table->dropForeign(['secondary_country_id']);
             $table->dropForeign(['entity_type_id']);
+            $table->dropForeign(['approved_by']);
+
         });
         Schema::dropIfExists('entities');
     }

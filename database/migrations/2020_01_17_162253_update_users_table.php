@@ -51,11 +51,9 @@ class UpdateUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-//            $table->dropForeign(['city_id']);
-//            $table->dropForeign(['country_id']);
-//            $table->dropForeign(['approved_by']);
-//            $table->dropIndex(['country_id']);
-//            $table->dropIndex(['city_id']);
+            $table->dropForeign(['city_id']);
+            $table->dropForeign(['country_id']);
+            $table->dropForeign(['approved_by']);
             $table->dropColumn([
                 'title',
                 'gender',
