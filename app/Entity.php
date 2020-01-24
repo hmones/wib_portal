@@ -11,6 +11,10 @@ class Entity extends Model
     {
         return $this->hasMany('App\Link', 'entity_id');
     }
+    public function photos()
+    {
+        return $this->hasMany('App\EntityPhoto', 'entity_id');
+    }
     public function type()
     {
         return $this->belongsTo('App\EntityType', 'entity_type_id');

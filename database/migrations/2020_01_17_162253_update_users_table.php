@@ -17,6 +17,7 @@ class UpdateUsersTable extends Migration
             $table->char('title',20)->after('id')->nullable();
             $table->char('gender',30);
             $table->unsignedSmallInteger('birth_year');
+            $table->char('avatar', 255)->nullable();
             $table->longText('bio')->nullable();
             $table->unsignedSmallInteger('phone_country_code')->nullable();
             $table->char('phone',20)->nullable();
@@ -59,6 +60,7 @@ class UpdateUsersTable extends Migration
                 'gender',
                 'birth_year',
                 'bio',
+                'avatar',
                 'phone_country_code',
                 'phone',
                 'postal_code',

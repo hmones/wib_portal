@@ -18,6 +18,7 @@ class CreateEntitiesTable extends Migration
             $table->char('name',255)->index();
             $table->char('name_additional',255)->nullable()->index();
             $table->bigInteger('entity_type_id')->unsigned()->index();
+            $table->char('logo', 255);
             $table->unsignedSmallInteger('founding_year')->index();
             $table->char('primary_address',100)->nullable();
             $table->char('primary_postbox',100)->nullable();

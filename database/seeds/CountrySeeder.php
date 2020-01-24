@@ -239,7 +239,9 @@ class CountrySeeder extends Seeder
             [ "name" => "Mayotte", "code" => "yt", "code_long" => "MYT", "calling_code" => "262", "continent" => "Africa", "mena" => FALSE ],
             [ "name" => "South Africa", "code" => "za", "code_long" => "ZAF", "calling_code" => "27", "continent" => "Africa", "mena" => FALSE ],
             [ "name" => "Zambia", "code" => "zm", "code_long" => "ZMB", "calling_code" => "260", "continent" => "Africa", "mena" => FALSE ],
-            [ "name" => "Zimbabwe", "code" => "zw", "code_long" => "ZWE", "calling_code" => "263", "continent" => "Africa", "mena" => FALSE ]
+            [ "name" => "Zimbabwe", "code" => "zw", "code_long" => "ZWE", "calling_code" => "263", "continent" => "Africa", "mena" => FALSE ],
+            [ "name" => "Kosovo", "code" => "xk", "code_long" => "xks", "calling_code" => "383", "continent" => "Europe", "mena" => FALSE ],
+            [ "name" => "Congo", "code" => "cd", "code_long" => "cod", "calling_code" => "242", "continent" => "Africa", "mena" => FALSE ]
         ];
         DB::table('countries')->insert($countries);
     }
