@@ -8,17 +8,20 @@ class Link extends Model
 {
     protected $table = 'links';
 
-    public function entity()
+    protected $guarded = [];
+
+    /**
+     * Get the owning linkable model.
+     */
+    public function linkable()
     {
-        return $this->belongsTo('App\Entity');
+        return $this->morphTo();
     }
+
     public function type()
     {
         return $this->belongsTo('App\SupportedLink');
     }
-    public function user()
-    {
-        return $this->belongsTo('App\User');
-    }
+
 
 }

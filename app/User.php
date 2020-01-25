@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'gender', 'birth_year',
     ];
 
     /**
@@ -51,11 +51,6 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\SearchingForOption', 'user_search', 'user_id', 'search_id');
     }
-
-    public function links()
-    {
-        return $this->hasMany('App\Link', 'user_id');
-    }
     public function approved_by()
     {
         return $this->belongsTo('App\AdminUser', 'approved_by');
@@ -67,5 +62,13 @@ class User extends Authenticatable
     public function city()
     {
         return $this->belongsTo('App\City', 'city_id');
+    }
+    public function links()
+    {
+        return $this->morphMany('App\Link', 'linkable');
+    }
+    public function avatar()
+    {
+        return $this->morphOne('App\ProfilePicture', 'profileable');
     }
 }

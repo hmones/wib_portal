@@ -17,22 +17,21 @@ class UpdateUsersTable extends Migration
             $table->char('title',20)->after('id')->nullable();
             $table->char('gender',30);
             $table->unsignedSmallInteger('birth_year');
-            $table->char('avatar', 255)->nullable();
             $table->longText('bio')->nullable();
             $table->unsignedSmallInteger('phone_country_code')->nullable();
             $table->char('phone',20)->nullable();
             $table->char('postal_code',50)->nullable();
             $table->char('state',150)->nullable();
-            $table->bigInteger('city_id')->unsigned()->index();
-            $table->bigInteger('country_id')->unsigned()->index();
-            $table->char('activity',255);
-            $table->char('sphere',255);
-            $table->char('education',255);
+            $table->bigInteger('city_id')->unsigned()->index()->nullable();
+            $table->bigInteger('country_id')->unsigned()->index()->nullable();
+            $table->char('activity',255)->nullable();
+            $table->char('sphere',255)->nullable();
+            $table->char('education',255)->nullable();
             $table->boolean('mena_diaspora')->default(False);
             $table->char('network',3)->default('WIB');
             $table->char('business_association_wom',30)->nullable();
             $table->boolean('approved')->default(False);
-            $table->bigInteger('approved_by')->unsigned()->index();
+            $table->bigInteger('approved_by')->unsigned()->index()->nullable();
             $table->boolean('premium')->default(False);
             $table->boolean('sponsor')->default(False);
             $table->boolean('newsletter')->default(False);
@@ -60,7 +59,6 @@ class UpdateUsersTable extends Migration
                 'gender',
                 'birth_year',
                 'bio',
-                'avatar',
                 'phone_country_code',
                 'phone',
                 'postal_code',

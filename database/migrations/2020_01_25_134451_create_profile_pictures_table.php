@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEntityPhotosTable extends Migration
+class CreateProfilePicturesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateEntityPhotosTable extends Migration
      */
     public function up()
     {
-        Schema::create('entity_photos', function (Blueprint $table) {
+        Schema::create('profile_pictures', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('entity_id')->unsigned()->index();
-            $table->char('filename',255)->unique();
+            $table->unsignedBigInteger('profileable_id')->index();
+            $table->string('profileable_type')->index();
+            $table->string('url');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateEntityPhotosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('entity_photos');
+        Schema::dropIfExists('profile_pictures');
     }
 }

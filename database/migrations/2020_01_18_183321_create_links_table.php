@@ -15,16 +15,14 @@ class CreateLinksTable extends Migration
     {
         Schema::create('links', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->char('link', 255);
-            $table->bigInteger('type_id')->unsigned()->index();
-            $table->bigInteger('entity_id')->unsigned()->index();
-            $table->bigInteger('user_id')->unsigned()->index();
+            $table->string('url');
+            $table->unsignedBigInteger('type_id')->index();
+            $table->unsignedBigInteger('linkable_id')->index();
+            $table->string('linkable_type')->index();
             $table->boolean('verified')->default(False);
-            $table->bigInteger('verified_by')->unsigned()->index();
+            $table->bigInteger('verified_by')->unsigned()->index()->nullable();
             $table->timestamps();
             $table->foreign('type_id')->references('id')->on('supported_links');
-            $table->foreign('entity_id')->references('id')->on('entities');
-            $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('verified_by')->references('id')->on('admin_users');
         });
     }
@@ -38,8 +36,6 @@ class CreateLinksTable extends Migration
     {
         Schema::table('links', function ($table){
             $table->dropForeign(['type_id']);
-            $table->dropForeign(['user_id']);
-            $table->dropForeign(['entity_id']);
             $table->dropForeign(['verified_by']);
         });
         Schema::dropIfExists('links');

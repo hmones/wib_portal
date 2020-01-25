@@ -670,7 +670,48 @@
         ;
     }
     $('#entity_submit').click(function (){
-        $('#entity_form').submit();
+        $.ajax({
+            method: 'POST',
+            url: "{{route('entity.store')}}",
+            data: {
+                logo: $('entity_form').find('input[name="logo"]').val(),
+                entity_type_id: $('entity_form').find('input[name="entity_type_id"]').val(),
+                founding_year: $('entity_form').find('input[name="founding_year"]').val(),
+                name: $('entity_form').find('input[name="name"]').val(),
+                name_additional: $('entity_form').find('input[name="name_additional"]').val(),
+                primary_email: $('entity_form').find('input[name="primary_email"]').val(),
+                secondary_email: $('entity_form').find('input[name="secondary_email"]').val(),
+                phone_country_code: $('entity_form').find('input[name="phone_country_code"]').val(),
+                phone: $('entity_form').find('input[name="phone"]').val(),
+                fax: $('entity_form').find('input[name="fax"]').val(),
+                links: $('entity_form').find('input[name^="links"]').val() || [],
+                primary_address: $('entity_form').find('input[name="primary_address"]').val(),
+                primary_country_id: $('entity_form').find('input[name="primary_country_id"]').val(),
+                primary_city_id: $('entity_form').find('input[name="primary_city_id"]').val(),
+                primary_postbox: $('entity_form').find('input[name="primary_postbox"]').val(),
+                primary_postal_code: $('entity_form').find('input[name="primary_postal_code"]').val(),
+                secondary_address: $('entity_form').find('input[name="secondary_address"]').val(),
+                secondary_country_id: $('entity_form').find('input[name="secondary_country_id"]').val(),
+                secondary_city_id: $('entity_form').find('input[name="secondary_city_id"]').val(),
+                secondary_postbox: $('entity_form').find('input[name="secondary_postbox"]').val(),
+                secondary_postal_code: $('entity_form').find('input[name="secondary_postal_code"]').val(),
+                sector_1: $('entity_form').find('input[name="sector_1"]').val(),
+                sector_2: $('entity_form').find('input[name="sector_2"]').val(),
+                sector_3: $('entity_form').find('input[name="sector_3"]').val(),
+                legal_form: $('entity_form').find('input[name="legal_form"]').val(),
+                activity: $('entity_form').find('input[name="activity"]').val(),
+                business_type: $('entity_form').find('input[name="business_type"]').val(),
+                entity_size:$('entity_form').find('input[name="entity_size"]').val(),
+                employees: $('entity_form').find('input[name="employees"]').val(),
+                students: $('entity_form').find('input[name="students"]').val(),
+                turnover: $('entity_form').find('input[name="turnover"]').val(),
+                balance_sheet: $('entity_form').find('input[name="balance_sheet"]').val(),
+                revenue: $('entity_form').find('input[name="revenue"]').val(),
+                _token: '{{Session::token()}}',
+            }
+        }).done(function(msg){
+            console.log(msg['message']);
+        });
     });
     $('#personal_info').click(function () {
         $('#personal_info_form').show();
@@ -702,6 +743,12 @@
     $('#avatar_upload_icon').click(function () {
         $('#avatar_upload_input').trigger('click');
     });
+    $('#avatar_upload_input').change(function () {
+        alert('Changed');
+    });
+    $('#logo_upload_input').change(function () {
+        alert('Changed');
+    });
     function entity_step(){
         $('#organization_info').trigger('click');
     }
@@ -711,4 +758,5 @@
     function portal_step(){
         $('#portal_info').trigger('click');
     }
+
 </script>

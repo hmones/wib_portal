@@ -9,11 +9,15 @@ class Entity extends Model
     protected $table = 'entities';
     public function links()
     {
-        return $this->hasMany('App\Link', 'entity_id');
+        return $this->morphMany('App\Link', 'linkable');
     }
     public function photos()
     {
-        return $this->hasMany('App\EntityPhoto', 'entity_id');
+        return $this->morphMany('App\Photos', 'photoable');
+    }
+    public function logo()
+    {
+        return $this->morphOne('App\ProfilePicture', 'profileable');
     }
     public function type()
     {
