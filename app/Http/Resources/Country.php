@@ -3,9 +3,9 @@
 namespace App\Http\Resources;
 
 use App\Http\Resources\City as CityResource;
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class Country extends ResourceCollection
+class Country extends JsonResource
 {
     /**
      * Transform the resource collection into an array.

@@ -27,24 +27,24 @@
             <div class="ui centered center aligned very padded basic segment">
                 <h1 class="ui centered header">Currently registered users</h1>
                 <br>
-                <table class="ui very basic collapsing celled table">
+                <table class="ui celled stackable table">
                     <thead>
                     <tr>
                         <th class="five wide">User</th>
-                        <th class="five wide">Email</th>
-                        <th class="five wide">Country</th>
-                        <th class="five wide">City</th>
-                        <th class="five wide">Created</th>
+                        <th class="four wide">Email</th>
+                        <th class="two wide">Country</th>
+                        <th class="two wide">City</th>
+                        <th class="two wide">Created</th>
                     </tr>
                     </thead>
                     <tbody>
                     @forelse ($users as $user)
                         <td>
                             <h4 class="ui image header">
-                                <img src="{{url('storage/app/wib_uploads/users/avatar/90x90/')}}{{$user->avatar}}" class="ui mini rounded image" alt="{{$user->name}} avatar">
+                                <img src="{{url('storage/app/wib_uploads/users/avatar/90x90/')}}{{$user->avatar}}" class="ui mini rounded image" alt="{{$user->name}}'s avatar">
                                 <div class="content">
                                     {{$user->name}}
-                                    <div class="sub header">{{$user->entities->first()->name}}
+                                    <div class="sub header">{{ $user->entities()->exists() ? $user->entities->first()->name:'No organization'}}
                                     </div>
                                 </div>
                             </h4></td>
@@ -52,13 +52,13 @@
                             <a href="mailto:{{$user->email}}">{{$user->email}}</a>
                         </td>
                         <td>
-                            {{$user->country->name}}
+                            {{$user->country()->exists()? $user->country->name:'None'}}
                         </td>
                         <td>
-                            {{$user->city->name}}
+                            {{$user->city()->exists()? $user->city->name:'None'}}
                         </td>
                         <td>
-                            {{$user->created_at}}
+                            {{$user->created_at->diffForHumans()}}
                         </td>
                     @empty
                         <tr>
@@ -67,7 +67,7 @@
                     @endforelse
                     </tbody>
                 </table>
-                <a href="{{url('/profile/create')}}" class="ui left floated button">Create a new user</a>
+                <a href="{{route('profile.create')}}" class="ui left floated button">Create a new user</a>
             </div>
         </div>
 

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Intervention\Image\Facades\Image;
 
-class Profile extends Controller
+class ProfileController extends Controller
 {
     private $activities = array('Export','Import','Production','Services','Trade');
     private $speheres = array('Politics and Society','Science and Education','Business and Innovation','Arts and Culture','Media and Journalism');
@@ -81,26 +81,7 @@ class Profile extends Controller
      */
     public function store(Request $request)
     {
-        $validation = $request->validate([
-            'avatar' => 'required|file|image|mimes:jpeg,png,gif,webp|max:2048',
 
-        ]);
-        $avatar = $validation['avatar'];
-        $extension = $avatar->extension();
-        $filename = $avatar->hashName();
-
-        $normal = Image::make($avatar)->resize(180, 180)->encode($extension);
-        $medium = Image::make($avatar)->resize(90, 90)->encode($extension);
-
-        Storage::put('wib_uploads/users/avatar/o/'.$filename, $avatar, 'public');
-        Storage::put('wib_uploads/users/avatar/180x180/'.$filename, (string)$normal, 'public');
-        Storage::put('wib_uploads/users/avatar/90x90/'.$filename, (string)$medium, 'public');
-
-//        $user = User::findorFail(Auth::user()->id);
-//        $user->avatar = $filename;
-//        $user->save();
-
-        return Storage::url($filename);
     }
 
     /**
