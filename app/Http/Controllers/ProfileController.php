@@ -10,9 +10,8 @@ use App\SupportedLink;
 use App\Entity;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
-use Intervention\Image\Facades\Image;
 
 class ProfileController extends Controller
 {
@@ -77,12 +76,93 @@ class ProfileController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
+        request()->validate([
+            "avatar_url" => "nullable|active_url",
+            "title" => "required|in:Mr.,Ms.,Prof.,Dr.",
+            "birth_year" => "nullable|date_format:Y",
+            "name" => "required|string",
+            "email" => "required|email",
+            "phone_country_code" => "required|digits_between:1,5",
+            "phone" => "required|digits_between:4,20",
+            "links[*]['url']" => "nullable|active_url",
+            "links[*]['link_type']" => "nullable|exists:supported_links,id",
+            "country_id" => "required|exists:countries,id",
+            "city_id" => "required|exists:cities,id",
+            "postal_code" => "nullable|alpha_num|between:0,50",
+            "entity_1" => "nullable|exists:entities,id",
+            "relation_1" => "nullable|required_with:entity_1|in:Board Member,Advisory Board Member,Owner / Co-Owner,Employee,Manager,Founder,Co-Founder,Professor,Employee,Student",
+            "entity_2" => "nullable|exists:entities,id",
+            "relation_2" => "nullable|required_with:entity_2|in:Board Member,Advisory Board Member,Owner / Co-Owner,Employee,Manager,Founder,Co-Founder,Professor,Employee,Student",
+            "entity_3" => "nullable|exists:entities,id",
+            "relation_3" => "nullable|required_with:entity_3|in:Board Member,Advisory Board Member,Owner / Co-Owner,Employee,Manager,Founder,Co-Founder,Professor,Employee,Student",
+            "sector_1" => "required|exists:sectors,id",
+            "sector_2" => "nullable|exists:sectors,id",
+            "sector_3" => "nullable|exists:sectors,id",
+            "sphere" => "required|in:Politics and Society,Science and Education,Business and Innovation,Arts and Culture,Media and Journalism",
+            "activity" => "required|in:Export,Import,Production,Services,Trade",
+            "business_association_wom" => "nullable|in:ABWA,BWE21,CNFCE,LLWB,SEVE",
+            "education" =>"required|in:Highschool,Bachelor,Master,Doctorate",
+            "gender" => "required|in:Male,Female",
+            "gdpr_consent" => "required|boolean",
+            "newsletter" => "required|boolean",
+            "mena_diaspora" => "required|boolean",
+            "bio" => "nullable|string"
+        ]);
 
-    }
+        $user = User::firstOrNew(
+            ['email' => $request->email],
+            [
+                "birth_year" => $request->birth_year,
+                "name" => $request->name,
+                "title" => $request->title,
+                "email" => $request->email,
+                "gender" => $request->gender,
+                "phone_country_code" => $request->phone_country_code,
+                "phone" => $request->phone,
+                "country_id" => $request->country_id,
+                "city_id" => $request->city_id,
+                "postal_code" => $request->postal_code,
+                "sphere" => $request->sphere,
+                "activity" => $request->activity,
+                "business_association_wom" => $request->business_association_wom,
+                "gdpr_consent" => $request->gdpr_consent,
+                "newsletter" => $request->newsletter,
+                "mena_diaspora" => $request->mena_diaspora,
+                "education" => $request->education,
+                "network" => 'wib',
+                'password' => Hash::make('pjYqy8P3hD7RVuzZrsrq'),
+                'bio' => $request->bio,
+            ]
+        );
+
+        $user->save();
+
+        if ($request->avatar_url)
+        {
+            $user->avatar()->create(['url'=>$request->avatar_url]);
+        }
+
+        if ($request->sector_1 != null){ $user->sectors()->attach($request->sector_1); }
+        if ($request->sector_2 != null){ $user->sectors()->attach($request->sector_2); }
+        if ($request->sector_3 != null){ $user->sectors()->attach($request->sector_3); }
+
+        if ($request->entity_1 != null){ $user->entities()->attach($request->entity_1,['relation_type'=>$request->relation_1, 'relation_active' => 1]); }
+        if ($request->entity_2 != null){ $user->entities()->attach($request->entity_2, ['relation_type'=>$request->relation_2, 'relation_active' => 1]); }
+        if ($request->entity_3 != null){ $user->entities()->attach($request->entity_3, ['relation_type'=>$request->relation_3, 'relation_active' => 1]); }
+
+        foreach ($request->links as $link)
+        {
+            if ($link['url'] != null)
+            {
+                $user->links()->create(['url'=>$link['url'],'type_id'=>$link['link_type']]);
+            }
+        }
+        $user->save();
+        return response()->json(['message'=>'success','data'=>$user , 'id'=>$user->id, 'name'=>$user->name]);    }
 
     /**
      * Display the specified resource.

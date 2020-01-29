@@ -1,49 +1,27 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.profile')
 
-        <title>Women in Business Portal | Users Listing</title>
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-        <link href="{{asset('dist/semantic.min.css')}}" rel="stylesheet" type="text/css">
-        <script
-            src="https://code.jquery.com/jquery-3.1.1.min.js"
-            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-            crossorigin="anonymous"></script>
-        <script type="application/javascript" src="{{asset('dist/semantic.min.js')}}"></script>
-    </head>
-    <body>
-        <div class="ui grid">
-            <div class="ui container">
-                <br><br>
-                <img class="ui centered center aligned image" src="{{asset('images/logo.png')}}" alt="">
-            </div>
-        </div>
-        <br>
+@section('content')
         <div class="ui centered container">
-            <div class="ui centered center aligned padded basic segment">
-                <h1 class="ui centered header">Registration form for Women in Business</h1>
+            <div class="ui padded basic segment" style="padding-right: 0;padding-left: 0;">
+                <h1 class="ui blue header"> Signup to the portal</h1>
                 <br>
                 <div class="ui fluid stackable steps">
                     <div class="active step" id="personal_info">
-                        <i class="ui info circle icon"></i>
+                        <i class="address card outline blue icon"></i>
                         <div class="content">
                             <div class="title">Personal Information</div>
                             <div class="description">Information about you</div>
                         </div>
                     </div>
                     <div class="step" id="organization_info">
-                        <i class="dollar icon"></i>
+                        <i class="building outline blue icon"></i>
                         <div class="content">
                             <div class="title">Organization Information</div>
                             <div class="description">Information about your organization</div>
                         </div>
                     </div>
                     <div class="step" id="portal_info">
-                        <i class="info circle icon"></i>
+                        <i class="tasks blue icon"></i>
                         <div class="content">
                             <div class="title">Portal Settings</div>
                             <div class="description">Settings for your profile on the portal</div>
@@ -55,7 +33,7 @@
         <div class="ui centered container">
             <div class="ui hidden message" id="flash_message"></div>
             <div class="ui padded segment" >
-            <form action="/profile" class="ui form" method="post" enctype="multipart/form-data">
+            <form action="/profile" class="ui form" method="post" enctype="multipart/form-data" id="user_form">
                 @csrf
                 <div id="personal_info_form" style="">
                     <h4 class="ui dividing header">Personal Information</h4>
@@ -63,9 +41,17 @@
                         <div class="four wide column">
                             <div class="ui center aligned basic segment field">
                                 <h4 class="ui header">Profile Picture</h4>
-                                <label for="avatar"><a href="#"><i class="circular inverted grey image huge icon" id="avatar_upload_icon"></i></a></label>
+                                <label for="avatar">
+                                    <a href="#">
+                                        @if(old('avatar_url'))
+                                            <img class='ui circular centered small image' src='{{old('avatar_url')}}'>
+                                        @else
+                                            <i class="circular inverted grey user huge icon" id="avatar_upload_icon"></i>
+                                        @endif
+                                    </a>
+                                </label>
                                 <input type="file" name="avatar" style="display: none;" id="avatar_upload_input">
-                                <input type="hidden" value="" name="avatar_url">
+                                <input type="hidden" value="{{old('avatar_url')}}" name="avatar_url">
                             </div>
                         </div>
                         <div class="twelve wide column">
@@ -157,7 +143,7 @@
                                 <div class="default text">Select Country</div>
                                 <div class="menu">
                                     @forelse ($countries as $country)
-                                        <div class="item" data-value="{{$country->code}}"><i class="{{$country->code}} flag"></i>{{$country->name}} (+{{$country->calling_code}})</div>
+                                        <div class="item" data-value="{{$country->calling_code}}"><i class="{{$country->code}} flag"></i>{{$country->name}} (+{{$country->calling_code}})</div>
                                     @empty
                                         <p>No Supported phones currently ...</p>
                                     @endforelse
@@ -202,7 +188,11 @@
                             <input type="text" name="postal_code" placeholder="e.g. AX113Z" maxlength="15">
                         </div>
                     </div>
-                    <a href="#" class="ui teal button" onclick="entity_step();">Next <i class="right angle icon"></i></a>
+                    <div class="ui basic segment">
+                        <a href="#" class="ui blue right labeled right floated icon button" onclick="entity_step();">Next <i class="right angle icon"></i></a>
+                    </div>
+                    <br>
+
                 </div>
 
                 <div id="organization_info_form" style="display: none;">
@@ -214,7 +204,7 @@
                         <div class="two fields">
                             <div class="field">
                                 <label for="entity_{{$i}}">Organization {{$i}}</label>
-                                <div class="ui fluid search selection dropdown">
+                                <div class="ui fluid search selection dropdown entity_search_dropdown">
                                     <input type="hidden" name="entity_{{$i}}">
                                     <i class="dropdown icon"></i>
                                     <div class="default text">Search for a registered organization</div>
@@ -240,8 +230,12 @@
                             </div>
                         </div>
                     @endfor
-                    <a href="#" class="ui teal button" onclick="person_step();"><i class="left angle icon"></i> Back </a>
-                    <a href="#" class="ui teal button" onclick="portal_step();">Next <i class="right angle icon"></i></a>
+                    <div class="ui basic segment">
+                        <a href="#" class="ui blue left labeled left floated icon button" onclick="person_step();"><i class="left angle icon"></i> Back </a>
+                        <a href="#" class="ui blue right labeled right floated icon button" onclick="portal_step();">Next <i class="right angle icon"></i></a>
+                    </div>
+                    <br>
+
                 </div>
 
                 <div id="portal_info_form" style="display:none;">
@@ -296,7 +290,7 @@
                     <h4 class="ui dividing header">Which sectors are you mostly affiliated with?</h4>
                     <div class="three fields">
                         @for ($i = 1; $i < 4; $i++)
-                        <div class="field">
+                        <div class="{{$i==1?'required':''}} field">
                             <label for="sector_{{$i}}">Business sector {{$i}}</label>
                             <div class="ui fluid search selection dropdown">
                                 <input type="hidden" name="sector_{{$i}}" >
@@ -339,20 +333,23 @@
                     <div class="ui segment">
                         <div class="field">
                             <div class="ui toggle checkbox">
-                                <input type="checkbox" name="" tabindex="0" class="hidden">
+                                <input type="checkbox" name="newsletter" tabindex="0" class="hidden">
                                 <label>Would you like to receive a newsletter from Women in Business about the recent updates to the platform and updates in the network?</label>
                             </div>
                         </div>
                         <div class="required field">
                             <div class="ui toggle checkbox">
-                                <input type="checkbox" name="" tabindex="0" class="hidden">
+                                <input type="checkbox" name="gdpr_consent" tabindex="0" class="hidden">
                                 <label>I consent that I have read WiB privacy policy and agree to the <a href="#">privacy statement</a>  and that I would like to share my data with GPP on this portal</label>
                             </div>
                         </div>
                     </div>
+                    <div class="ui basic segment">
+                        <a href="#" class="ui blue left labeled left floated icon button" onclick="entity_step();"><i class="left angle icon"></i> Back</a>
+                        <a class="ui positive right labeled right floated icon button" id="user_submit">Submit <i class="checkmark icon"></i></a>
+                    </div>
                     <br>
-                    <a href="#" class="ui teal button" onclick="entity_step();"><i class="left angle icon"></i> Back</a>
-                    <button type="submit" class="ui teal button">Submit</button>
+
                 </div>
             </form>
             </div>
@@ -364,14 +361,23 @@
                 </div>
                 <div class="ui form padded basic segment">
                     <form id="entity_form" action="/entity" method="post" enctype="multipart/form-data">
+                        @csrf
                         <div class="ui stackable grid">
                             <div class="five wide column">
                                 <div class="ui medium image">
                                     <div class="ui center aligned basic segment field">
                                         <h4 class="ui header">Organization logo</h4>
-                                        <label for="logo"><a href="#"><i class="circular inverted grey image huge icon" id="logo_upload_icon"></i></a></label>
+                                        <label for="logo">
+                                            <a href="#">
+                                                @if(old('logo_url'))
+                                                    <img class='ui circular centered small image' src='{{old('logo_url')}}'>
+                                                @else
+                                                    <i class="circular inverted grey image huge icon" id="logo_upload_icon"></i>
+                                                @endif
+                                            </a>
+                                        </label>
                                         <input type="file" name="logo" style="display: none;" id="logo_upload_input">
-                                        <input type="hidden" value="" name="logo_url">
+                                        <input type="hidden" value="{{old('logo_url')}}" name="logo_url">
                                     </div>
                                 </div>
                             </div>
@@ -426,14 +432,14 @@
                                     <div class="default text">Select Country</div>
                                     <div class="menu">
                                         @foreach ($countries as $country)
-                                            <div class="item" data-value="{{$country->code}}"><i class="{{$country->code}} flag"></i>{{$country->name}} (+{{$country->calling_code}})</div>
+                                            <div class="item" data-value="{{$country->calling_code}}"><i class="{{$country->code}} flag"></i>{{$country->name}} (+{{$country->calling_code}})</div>
                                         @endforeach
                                     </div>
                                 </div>
                             </div>
                             <div class="field">
                                 <label for="entity_phone">Phone Number</label>
-                                <input type="text" name="phone" placeholder="e.g. 15444444499" maxlength="15">
+                                <input type="text" name="entity_phone" placeholder="e.g. 15444444499" maxlength="15">
                             </div>
                             <div class="field">
                                 <label for="fax">Fax</label>
@@ -444,7 +450,7 @@
                             @forelse ($supported_links as $link)
                                 <div class="field">
                                     <div class="ui left icon input">
-                                        <input type="text" placeholder="{{$link->name}} Link" name="links[]">
+                                        <input type="text" placeholder="{{$link->name}} Link" data-type="{{$link->id}}" name="entity_link_{{$link->id}}">
                                         <i class="{{ $link->icon }} icon"></i>
                                     </div>
                                 </div>
@@ -460,7 +466,7 @@
                                 <label for="{{$address}}_address">Address</label>
                                 <input type="text" name="{{$address}}_address">
                             </div>
-                            <div class="required field">
+                            <div class="{{$address == 'primary'?'required':''}} field">
                                 <label for="{{$address}}_country_id">Country</label>
                                 <div class="ui fluid search selection dropdown">
                                     <input type="hidden" name="{{$address}}_country_id">
@@ -473,9 +479,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="required field">
+                            <div class="{{$address == 'primary'?'required':''}} field">
                                 <label for="{{$address}}_city_id">City, State</label>
-                                <div class="ui fluid search selection dropdown">
+                                <div class="ui fluid search selection dropdown" id="{{$address}}_city_id">
                                     <input type="hidden" name="{{$address}}_city_id">
                                     <i class="dropdown icon"></i>
                                     <div class="default text">City, State</div>
@@ -499,7 +505,7 @@
                         <h4 class="ui dividing header">Which business sectors do the organization work in?</h4>
                         <div class="three fields">
                             @for ($i = 1; $i < 4; $i++)
-                                <div class="field">
+                                <div class="{{$i==1?'required':''}} field">
                                     <label for="entity_sector_{{$i}}">Business sector {{$i}}</label>
                                     <div class="ui fluid search selection dropdown">
                                         <input type="hidden" name="entity_sector_{{$i}}">
@@ -524,7 +530,7 @@
                                     <div class="default text">Legal form</div>
                                     <div class="menu">
                                         <div class="item" data-value="Public">Public</div>
-                                        <div class="item" data-value="Public">Private</div>
+                                        <div class="item" data-value="Private">Private</div>
                                     </div>
                                 </div>
                             </div>
@@ -638,7 +644,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="ui hidden error message" id="entity_form_errors"></div>
+                        <div class="ui hidden error message" id="form_errors"></div>
                         <div class="ui right floated basic segment">
                                 <div class="ui black deny button" onclick="$('.ui.modal').modal('hide');">
                                     Cancel
@@ -653,209 +659,356 @@
 
         </div>
         <br><br>
-    </body>
-</html>
+@endsection
 
 
 
-
-<script type="application/javascript">
-    $(function() {
-        $('.ui.dropdown')
-            .dropdown()
-        ;
-        $('.checkbox').checkbox();
-        $('#entity_form').form({
-            on:'blur',
-            inline: true,
-            fields: {
-                entity_type_id: {rules:[{type:'empty',prompt:'Please select an organization type'}]},
-                founding_year: {optional:true,rules:[{type:'integer[1000..2050]', prompt:'Please enter a valid year'}]},
-                name: {rules:[{type:'empty',prompt:'Please select an organization name'},{type:'maxLength[255]'}]},
-                name_additional: {optional:true, rules:[{type:'maxLength[255]'}]},
-                primary_email: {rules:[{type:'email', prompt:'Please enter a valid email'}]},
-                secondary_email: {optional:true,rules:[{type:'email', prompt:'Please enter a valid email'}]},
-                // phone_country_code: $('input[name="phone_country_code"]').val(),
-                phone: {optional:true,rules:[{type:'maxLength[20]'},{type:'integer'}]},
-                fax: {optional:true,rules:[{type:'maxLength[20]'},{type:'integer'}]},
-                links: {identifier:'links[]',optional:true,rules:[{type:'url'}]},
-                primary_address: {rules:[{type:'empty'},{type:'maxLength[100]'}]},
-                primary_country_id: {rules:[{type:'empty'}]},
-                primary_city_id: {rules:[{type:'empty'}]},
-                primary_postbox: {optional:true, rules:[{type:'empty'},{type:'maxLength[100]'}]},
-                primary_postal_code: {optional:true,rules:[{type:'empty'},{type:'maxLength[50]'}]},
-                secondary_address: {optional:true,rules:[{type:'empty'},{type:'maxLength[100]'}]},
-                secondary_postbox: {optional:true, rules:[{type:'empty'},{type:'maxLength[100]'}]},
-                secondary_postal_code: {optional:true,rules:[{type:'empty'},{type:'maxLength[50]'}]},
+@section('scripts')
+    <script type="application/javascript">
+        $(function() {
+            $('.ui.dropdown')
+                .dropdown()
+            ;
+            $('.checkbox').checkbox();
+            $('#entity_form').form({
+                on:'blur',
+                inline: true,
+                fields: {
+                    entity_type_id: {rules:[{type:'empty',prompt:'Please select an organization type'}]},
+                    founding_year: {optional:true,rules:[{type:'integer[1000..2050]', prompt:'Please enter a valid year'}]},
+                    name: {rules:[{type:'empty',prompt:'Please select an organization name'},{type:'maxLength[255]'}]},
+                    name_additional: {optional:true, rules:[{type:'maxLength[255]'}]},
+                    primary_email: {rules:[{type:'email', prompt:'Please enter a valid email'}]},
+                    secondary_email: {optional:true,rules:[{type:'email', prompt:'Please enter a valid email'}]},
+                    phone: {optional:true,rules:[{type:'maxLength[20]'},{type:'integer'}]},
+                    fax: {optional:true,rules:[{type:'maxLength[20]'},{type:'integer'}]},
+                    entity_link_1: {optional:true,rules:[{type:'url'}]},
+                    entity_link_2: {optional:true,rules:[{type:'url'}]},
+                    entity_link_3: {optional:true,rules:[{type:'url'}]},
+                    entity_link_4: {optional:true,rules:[{type:'url'}]},
+                    entity_link_5: {optional:true,rules:[{type:'url'}]},
+                    primary_address: {rules:[{type:'empty'},{type:'maxLength[100]'}]},
+                    primary_country_id: {rules:[{type:'empty'}]},
+                    primary_city_id: {rules:[{type:'empty'}]},
+                    primary_postbox: {optional:true, rules:[{type:'empty'},{type:'maxLength[100]'}]},
+                    primary_postal_code: {optional:true,rules:[{type:'empty'},{type:'maxLength[50]'}]},
+                    entity_sector_1:{rules:[{type:'empty'}]},
+                    secondary_address: {optional:true,rules:[{type:'empty'},{type:'maxLength[100]'}]},
+                    secondary_postbox: {optional:true, rules:[{type:'empty'},{type:'maxLength[100]'}]},
+                    secondary_postal_code: {optional:true,rules:[{type:'empty'},{type:'maxLength[50]'}]},
+                }
+            });
+            $('#user_form').form({
+                on:'blur',
+                inline: true,
+                fields: {
+                    title: {rules:[{type:'empty',prompt:'Please select a title'}]},
+                    birth_year: {rules:[{type:'empty'},{type:'integer[1000..2050]', prompt:'Please enter a valid year'}]},
+                    name: {rules:[{type:'empty',prompt:'Please select an organization name'},{type:'maxLength[255]'}]},
+                    gender: {rules:[{type:'empty'}]},
+                    email: {rules:[{type:'email', prompt:'Please enter a valid email'}]},
+                    email_confirm: {rules:[{type:'match[email]', prompt:'Email does not match'}]},
+                    bio:{optional:true, rules:[{type:'maxLength[3000]'}]},
+                    phone_country_code: {rules:[{type:'empty'}]},
+                    phone: {rules:[{type:'maxLength[20]'},{type:'integer'}]},
+                    fax: {optional:true,rules:[{type:'maxLength[20]'},{type:'integer'}]},
+                    link_1: {optional:true,rules:[{type:'url'}]},
+                    link_2: {optional:true,rules:[{type:'url'}]},
+                    link_3: {optional:true,rules:[{type:'url'}]},
+                    link_4: {optional:true,rules:[{type:'url'}]},
+                    link_5: {optional:true,rules:[{type:'url'}]},
+                    country_id: {rules:[{type:'empty'}]},
+                    city_id: {rules:[{type:'empty'}]},
+                    postal_code: {optional:true,rules:[{type:'empty'},{type:'maxLength[50]'}]},
+                    relation_1:{depends:'entity_1'},
+                    relation_2:{depends:'entity_2'},
+                    relation_3:{depends:'entity_3'},
+                    sector_1:{rules:[{type:'empty'}]},
+                    education:{rules:[{type:'empty'}]},
+                    activity:{rules:[{type:'empty'}]},
+                    sphere:{rules:[{type:'empty'}]},
+                    gdpr_consent:{rules:[{type:'checked'}]},
+                }
+            });
+        });
+        function register_open(){
+            $('.ui.modal')
+                .modal('show')
+            ;
+        }
+        $('input[name="country_id"]').change(function(){
+            let value = this.value;
+            let url = "{{url('/')}}"+"/country/"+value;
+            console.log(url);
+            $.ajax({
+                method: 'GET',
+                url: url,
+            }).done(function(data){
+                $('#city_id').dropdown('clear');
+                $('#city_id').dropdown('setup menu', {
+                    values: data['data']['cities']
+                });
+            });
+        });
+        $('input[name="primary_country_id"]').change(function(){
+            let value = this.value;
+            let url = "{{url('/')}}"+"/country/"+value;
+            console.log(url);
+            $.ajax({
+                method: 'GET',
+                url: url,
+            }).done(function(data){
+                $('#primary_city_id').dropdown('clear');
+                $('#primary_city_id').dropdown('setup menu', {
+                    values: data['data']['cities']
+                });
+            });
+        });
+        $('input[name="secondary_country_id"]').change(function(){
+            let value = this.value;
+            let url = "{{url('/')}}"+"/country/"+value;
+            console.log(url);
+            $.ajax({
+                method: 'GET',
+                url: url,
+            }).done(function(data){
+                $('#secondary_city_id').dropdown('clear');
+                $('#secondary_city_id').dropdown('setup menu', {
+                    values: data['data']['cities']
+                });
+            });
+        });
+        $('#entity_submit').click(function (){
+            if( $('#entity_form').form('is valid')) {
+                let web_links = [];
+                $('input[name^="entity_link_"]').each(function(){
+                    let temp = {
+                        'link_type': $(this).attr('data-type'),
+                        'url': $(this).val()
+                    };
+                    web_links.push(temp);
+                });
+                $.ajax({
+                    method: 'POST',
+                    url: "{{route('entity.store')}}",
+                    data: {
+                        logo: $('input[name="logo"]').file,
+                        entity_type_id: $('input[name="entity_type_id"]').val(),
+                        founding_year: $('input[name="founding_year"]').val(),
+                        name: $('input[name="entity_name"]').val(),
+                        name_additional: $('input[name="name_additional"]').val(),
+                        primary_email: $('input[name="primary_email"]').val(),
+                        secondary_email: $('input[name="secondary_email"]').val(),
+                        phone_country_code: $('input[name="entity_phone_country_code"]').val(),
+                        phone: $('input[name="entity_phone"]').val(),
+                        fax: $('input[name="fax"]').val(),
+                        links: web_links,
+                        primary_address: $('input[name="primary_address"]').val(),
+                        primary_country_id: $('input[name="primary_country_id"]').val(),
+                        primary_city_id: $('input[name="primary_city_id"]').val(),
+                        primary_postbox: $('input[name="primary_postbox"]').val(),
+                        primary_postal_code: $('input[name="primary_postal_code"]').val(),
+                        secondary_address: $('input[name="secondary_address"]').val(),
+                        secondary_country_id: $('input[name="secondary_country_id"]').val(),
+                        secondary_city_id: $('input[name="secondary_city_id"]').val(),
+                        secondary_postbox: $('input[name="secondary_postbox"]').val(),
+                        secondary_postal_code: $('input[name="secondary_postal_code"]').val(),
+                        sector_1: $('input[name="entity_sector_1"]').val(),
+                        sector_2: $('input[name="entity_sector_2"]').val(),
+                        sector_3: $('input[name="entity_sector_3"]').val(),
+                        legal_form: $('input[name="legal_form"]').val(),
+                        activity: $('input[name="entity_activity"]').val(),
+                        business_type: $('input[name="business_type"]').val(),
+                        entity_size:$('input[name="entity_size"]').val(),
+                        employees: $('input[name="employees"]').val(),
+                        students: $('input[name="students"]').val(),
+                        turnover: $('input[name="turnover"]').val(),
+                        balance_sheet: $('input[name="balance_sheet"]').val(),
+                        revenue: $('input[name="revenue"]').val(),
+                        _token: '{{Session::token()}}',
+                    }
+                }).done(function(msg){
+                    if(msg['message']==='success')
+                    {
+                        let item = "<div class='item' data-value='" + msg['id'] + "' data-text='" + msg['name'] + "'>"+ msg['name'] +"</div>";
+                        $('.entity_search_dropdown > div.menu').append(item);
+                        $('.entity_search_dropdown').dropdown('refresh').dropdown('clear');
+                        $('.ui.modal').modal('hide');
+                        $('#flash_message').show()
+                            .removeClass('negative')
+                            .addClass("positive")
+                            .text('Entity Saved Successfully!')
+                            .delay(1500)
+                            .fadeOut(400)
+                        ;
+                    }else{
+                        $('#form_errors').text('There are some errors with your organization registration form, please revise it and resubmit your form').show().delay(1500).fadeOut(400);
+                    }
+                });
+            }else{
+                $('#form_errors').text('There are some errors with your input, please revise it and resubmit your form').show().delay(1500).fadeOut(400);
             }
+
         });
-    });
-    function register_open(){
-        $('.ui.modal')
-            .modal('show')
-        ;
-    }
-    $('input[name="country_id"]').change(function(){
-        let value = this.value;
-        let url = "{{url('/')}}"+"/country/"+value;
-        console.log(url);
-        $.ajax({
-            method: 'GET',
-            url: url,
-        }).done(function(data){
-            $('#city_id').dropdown('clear');
-            $('#city_id').dropdown('setup menu', {
-                values: data['data']['cities']
-            });
+        $('#user_submit').click(function (){
+            if( $('#user_form').form('is valid')) {
+                let web_links = [];
+                $('input[name^="link_"]').each(function(){
+                    let temp = {
+                        'link_type': $(this).attr('data-type'),
+                        'url': $(this).val()
+                    };
+                    web_links.push(temp);
+                });
+                let mena_diaspora = 0;
+                let newsletter = 0;
+                let gdpr_consent = 0;
+
+                if ($('input[name="mena_diaspora"]').is(":checked"))
+                {
+                    mena_diaspora = 1;
+                }
+                if ($('input[name="newsletter"]').is(":checked"))
+                {
+                    newsletter = 1;
+                }
+                if ($('input[name="gdpr_consent"]').is(":checked"))
+                {
+                    gdpr_consent = 1;
+                }
+                $.ajax({
+                    method: 'POST',
+                    url: "{{route('profile.store')}}",
+                    data: {
+                        avatar_url: $('input[name="avatar_url"]').val(),
+                        title: $('input[name="title"]').val(),
+                        birth_year: $('input[name="birth_year"]').val(),
+                        name: $('input[name="name"]').val(),
+                        email: $('input[name="email"]').val(),
+                        gender: $('input[name="gender"]').val(),
+                        phone_country_code: $('input[name="phone_country_code"]').val(),
+                        phone: $('input[name="phone"]').val(),
+                        bio: $('textarea[name="bio"]').val(),
+                        links: web_links,
+                        country_id: $('input[name="country_id"]').val(),
+                        city_id: $('input[name="city_id"]').val(),
+                        postal_code: $('input[name="postal_code"]').val(),
+                        entity_1: $('input[name="entity_1"]').val(),
+                        relation_1: $('input[name="relation_1"]').val(),
+                        entity_2: $('input[name="entity_2"]').val(),
+                        relation_2: $('input[name="relation_2"]').val(),
+                        entity_3: $('input[name="entity_3"]').val(),
+                        relation_3: $('input[name="relation_3"]').val(),
+                        education: $('input[name="education"]').val(),
+                        activity: $('input[name="activity"]').val(),
+                        sphere: $('input[name="sphere"]').val(),
+                        sector_1: $('input[name="sector_1"]').val(),
+                        sector_2: $('input[name="sector_2"]').val(),
+                        sector_3: $('input[name="sector_3"]').val(),
+                        business_association_wom: $('input[name="business_association_wom"]').val(),
+                        mena_diaspora: mena_diaspora,
+                        newsletter:newsletter,
+                        gdpr_consent: gdpr_consent,
+                        _token: '{{Session::token()}}',
+                    },
+                    error: function(){
+                        $('#form_errors').text('There are some errors with your organization registration form, please revise it and resubmit your form').show().delay(1500).fadeOut(400);
+                    }
+                }).done(function(msg){
+                    if(msg['message']!='success'){
+                        $('#form_errors').text('There are some errors with your organization registration form, please revise it and resubmit your form').show().delay(1500).fadeOut(400);
+                    }else{
+                        window.location.href = "{{route('home')}}";
+                    }
+                });
+            }else{
+                $('#form_errors').text('There are some errors with your input, please revise it and resubmit your form').show().delay(1500).fadeOut(400);
+            }
+
         });
-    });
-    $('#entity_submit').click(function (){
-        if( $('#entity_form').form('is valid')) {
-            let web_links = [];
-            $('input[name^="link_"]').each(function(){
-                let temp = {
-                    'link_type': $(this).attr('data-type'),
-                    'url': $(this).val()
-                };
-                web_links.push(temp);
-            });
+        $('#personal_info').click(function () {
+            $('#personal_info_form').show();
+            $('#organization_info_form').hide();
+            $('#portal_info_form').hide();
+            $('#personal_info').addClass('active');
+            $('#organization_info').removeClass('active');
+            $('#portal_info').removeClass('active');
+        });
+        $('#organization_info').click(function () {
+            $('#personal_info_form').hide();
+            $('#organization_info_form').show();
+            $('#portal_info_form').hide();
+            $('#personal_info').removeClass('active');
+            $('#organization_info').addClass('active');
+            $('#portal_info').removeClass('active');
+        });
+        $('#portal_info').click(function () {
+            $('#personal_info_form').hide();
+            $('#organization_info_form').hide();
+            $('#portal_info_form').show();
+            $('#personal_info').removeClass('active');
+            $('#organization_info').removeClass('active');
+            $('#portal_info').addClass('active');
+        });
+        $('#logo_upload_icon').click(function () {
+            $('#logo_upload_input').trigger('click');
+        });
+        $('#avatar_upload_icon').click(function () {
+            $('#avatar_upload_input').trigger('click');
+        });
+        $('#avatar_upload_input').change(function () {
+            let file = $('input[name="avatar"]')[0].files[0];
+            let form = new FormData();
+            form.append('new_pp', file);
+            form.append('old_pp', $('input[name="avatar_url"]').val());
+            form.append('_token', "{{Session::token()}}");
+            console.log(form);
             $.ajax({
                 method: 'POST',
-                url: "{{route('entity.store')}}",
-                data: {
-                    logo: $('input[name="logo"]').file,
-                    entity_type_id: $('input[name="entity_type_id"]').val(),
-                    founding_year: $('input[name="founding_year"]').val(),
-                    name: $('input[name="entity_name"]').val(),
-                    name_additional: $('input[name="name_additional"]').val(),
-                    primary_email: $('input[name="primary_email"]').val(),
-                    secondary_email: $('input[name="secondary_email"]').val(),
-                    phone_country_code: $('input[name="entity_phone_country_code"]').val(),
-                    phone: $('input[name="entity_phone"]').val(),
-                    fax: $('input[name="fax"]').val(),
-                    links: web_links,
-                    primary_address: $('input[name="primary_address"]').val(),
-                    primary_country_id: $('input[name="primary_country_id"]').val(),
-                    primary_city_id: $('input[name="primary_city_id"]').val(),
-                    primary_postbox: $('input[name="primary_postbox"]').val(),
-                    primary_postal_code: $('input[name="primary_postal_code"]').val(),
-                    secondary_address: $('input[name="secondary_address"]').val(),
-                    secondary_country_id: $('input[name="secondary_country_id"]').val(),
-                    secondary_city_id: $('input[name="secondary_city_id"]').val(),
-                    secondary_postbox: $('input[name="secondary_postbox"]').val(),
-                    secondary_postal_code: $('input[name="secondary_postal_code"]').val(),
-                    sector_1: $('input[name="entity_sector_1"]').val(),
-                    sector_2: $('input[name="entity_sector_2"]').val(),
-                    sector_3: $('input[name="entity_sector_3"]').val(),
-                    legal_form: $('input[name="legal_form"]').val(),
-                    activity: $('input[name="entity_activity"]').val(),
-                    business_type: $('input[name="business_type"]').val(),
-                    entity_size:$('input[name="entity_size"]').val(),
-                    employees: $('input[name="employees"]').val(),
-                    students: $('input[name="students"]').val(),
-                    turnover: $('input[name="turnover"]').val(),
-                    balance_sheet: $('input[name="balance_sheet"]').val(),
-                    revenue: $('input[name="revenue"]').val(),
-                    _token: '{{Session::token()}}',
+                url: "{{route('profilepicture.store')}}",
+                contentType: false,
+                processData: false,
+                data: form,
+                error: function() {
+                    alert("Error uploading the image, images should be png or jpg and less than 2MB");
                 }
-            }).done(function(msg){
-                console.log(msg['message']);
-                $('.ui.modal').modal('hide');
-                $('#flash_message').show()
-                    .removeClass('negative')
-                    .addClass("positive")
-                    .text('Entity Saved Successfully!')
-                    .delay(1500)
-                    .fadeOut(400)
-                ;
+            }).done(function(link){
+                let image_html = "<img class='ui circular centered small image' src='"+link+"'>";
+                $('label[for="avatar"]').html(image_html);
+                $('input[name="avatar_url"]').val(link);
             });
-        }else{
-            $('#entity_form_errors').text('There are some errors with your input, please revise it and resubmit your form').show().delay(1500).fadeOut(400);
+        });
+        $('#logo_upload_input').change(function () {
+            let file = $('input[name="logo"]')[0].files[0];
+            let form = new FormData();
+            form.append('new_pp', file);
+            form.append('old_pp', $('input[name="logo_url"]').val());
+            form.append('_token', "{{Session::token()}}");
+            console.log(form);
+            $.ajax({
+                method: 'POST',
+                url: "{{route('profilepicture.store')}}",
+                contentType: false,
+                processData: false,
+                data: form,
+                error: function() {
+                    alert("Error uploading the image, images should be png or jpg and less than 2MB");
+                }
+            }).done(function(link){
+                let image_html = "<img class='ui circular centered small image' src='"+link+"'>";
+                $('label[for="logo"]').html(image_html);
+                $('input[name="logo_url"]').val(link);
+            });
+        });
+        function entity_step(){
+            $('#organization_info').trigger('click');
+        }
+        function person_step(){
+            $('#personal_info').trigger('click');
+        }
+        function portal_step(){
+            $('#portal_info').trigger('click');
         }
 
-    });
-    $('#personal_info').click(function () {
-        $('#personal_info_form').show();
-        $('#organization_info_form').hide();
-        $('#portal_info_form').hide();
-        $('#personal_info').addClass('active');
-        $('#organization_info').removeClass('active');
-        $('#portal_info').removeClass('active');
-    });
-    $('#organization_info').click(function () {
-        $('#personal_info_form').hide();
-        $('#organization_info_form').show();
-        $('#portal_info_form').hide();
-        $('#personal_info').removeClass('active');
-        $('#organization_info').addClass('active');
-        $('#portal_info').removeClass('active');
-    });
-    $('#portal_info').click(function () {
-        $('#personal_info_form').hide();
-        $('#organization_info_form').hide();
-        $('#portal_info_form').show();
-        $('#personal_info').removeClass('active');
-        $('#organization_info').removeClass('active');
-        $('#portal_info').addClass('active');
-    });
-    $('#logo_upload_icon').click(function () {
-        $('#logo_upload_input').trigger('click');
-    });
-    $('#avatar_upload_icon').click(function () {
-        $('#avatar_upload_input').trigger('click');
-    });
-    $('#avatar_upload_input').change(function () {
-        let file = $('input[name="avatar"]')[0].files[0];
-        let form = new FormData();
-        form.append('new_pp', file);
-        form.append('old_pp', $('input[name="avatar_url"]').val());
-        form.append('_token', "{{Session::token()}}");
-        console.log(form);
-        $.ajax({
-            method: 'POST',
-            url: "{{route('profilepicture.store')}}",
-            contentType: false,
-            processData: false,
-            data: form,
-            error: function() {
-                alert("Error uploading the image, images should be png or jpg and less than 2MB");
-            }
-        }).done(function(link){
-            let image_html = "<img class='ui circular centered small image' src='"+link+"'>";
-            $('label[for="avatar"]').html(image_html);
-            $('input[name="avatar_url"]').val(link);
-        });
-    });
-    $('#logo_upload_input').change(function () {
-        let file = $('input[name="logo"]')[0].files[0];
-        let form = new FormData();
-        form.append('new_pp', file);
-        form.append('old_pp', $('input[name="logo_url"]').val());
-        form.append('_token', "{{Session::token()}}");
-        console.log(form);
-        $.ajax({
-            method: 'POST',
-            url: "{{route('profilepicture.store')}}",
-            contentType: false,
-            processData: false,
-            data: form,
-            error: function() {
-                alert("Error uploading the image, images should be png or jpg and less than 2MB");
-            }
-        }).done(function(link){
-            let image_html = "<img class='ui circular centered small image' src='"+link+"'>";
-            $('label[for="logo"]').html(image_html);
-            $('input[name="logo_url"]').val(link);
-        });
-    });
-    function entity_step(){
-        $('#organization_info').trigger('click');
-    }
-    function person_step(){
-        $('#personal_info').trigger('click');
-    }
-    function portal_step(){
-        $('#portal_info').trigger('click');
-    }
-
 </script>
+@endsection

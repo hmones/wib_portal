@@ -18,8 +18,8 @@ class CreateCitiesTable extends Migration
             $table->char('name',255)->index();
             $table->char('state', 255)->index();
             $table->bigInteger('country_id')->unsigned()->index();
-            $table->foreign('country_id')->references('id')->on('countries');
-            $table->timestamps();
+            $table->bigInteger('geoname_id')->unsigned()->index();
+            $table->foreign('country_id')->references('country_iso_code')->on('countries')->onDelete('cascade');
         });
     }
 

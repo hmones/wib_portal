@@ -9,7 +9,7 @@ class City extends Model
     protected $table = 'cities';
     public function country()
     {
-        return $this->belongsTo('App\Country', 'country_id');
+        return $this->belongsTo('App\Country', 'country_id', 'country_iso_code');
     }
     public function users()
     {

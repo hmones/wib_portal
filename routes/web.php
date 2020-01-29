@@ -15,10 +15,16 @@ use Illuminate\Support\Facades\Route;
 use App\Country;
 use App\Http\Resources\Country as CountryResource;
 
-Route::get('/', 'ProfileController@index');
+Route::get('/', function (){
+    $users = App\User::latest()->take(10)->get();
+    $entities = App\Entity::latest()->take(10)->get();
+    return view('home', ['users'=> $users, 'entities' =>$entities]);
+})->name('home');
 
 Route::resource('profile', 'ProfileController');
+
 Route::resource('entity', 'EntityController');
+
 Route::resource('profilepicture', 'ProfilePictureController');
 
 Route::get('/country/{id}', function($id){

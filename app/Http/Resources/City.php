@@ -2,9 +2,9 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class City extends ResourceCollection
+class City extends JsonResource
 {
     /**
      * Transform the resource collection into an array.
@@ -14,6 +14,10 @@ class City extends ResourceCollection
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'value' => $this->id,
+            'text' => $this->name .', '. $this->state,
+            'name' => $this->name .', '. $this->state,
+        ];
     }
 }

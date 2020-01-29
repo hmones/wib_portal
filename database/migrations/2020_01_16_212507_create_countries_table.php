@@ -18,10 +18,10 @@ class CreateCountriesTable extends Migration
             $table->char('name', 255)->index();
             $table->char('code',25)->index();
             $table->char('code_long',25)->index();
+            $table->bigInteger('country_iso_code')->unsigned()->index();
             $table->unsignedSmallInteger('calling_code');
             $table->char('continent',25);
             $table->boolean('mena')->default(True);
-            $table->timestamps();
         });
     }
 

@@ -17,9 +17,9 @@ class CreateUserEntityTable extends Migration
             $table->bigInteger('user_id')->unsigned()->index();
             $table->bigInteger('entity_id')->unsigned()->index();
             $table->char('relation_type',255);
-            $table->char('relation_desc',255);
+            $table->char('relation_desc',255)->nullable();
             $table->boolean('relation_active');
-            $table->dateTime('relation_date');
+            $table->timestamp('relation_date')->default(\Carbon\Carbon::now());
             $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('entity_id')->references('id')->on('entities')

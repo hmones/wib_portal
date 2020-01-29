@@ -16,7 +16,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'gender', 'birth_year',
+        'name', 'email', 'password', 'gender', 'birth_year', 'title', 'phone_country_code','phone',
+        'postal_code','sphere','activity','business_association_wom','gdpr_consent','newsletter','mena_diaspora','education','network','bio','city_id','country_id'
     ];
 
     /**
@@ -39,7 +40,7 @@ class User extends Authenticatable
 
     public function entities()
     {
-        return $this->belongsToMany('App\Entity', 'user_entity')->withPivot('relation_type','relation_desc', 'relation_active','relation_date');
+        return $this->belongsToMany('App\Entity', 'user_entity', 'user_id', 'entity_id')->withPivot('relation_type','relation_desc', 'relation_active','relation_date');
     }
 
     public function sectors()

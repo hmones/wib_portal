@@ -99,11 +99,11 @@
 
 .ui.statistics .statistic > .value,
 .ui.statistic > .value {
-  font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'Source Sans Pro', 'Helvetica Neue', Arial, Helvetica, sans-serif;
   font-size: 4rem;
   font-weight: normal;
   line-height: 1em;
-  color: #1B1C1D;
+  color: #262626;
   text-transform: uppercase;
   text-align: center;
 }
@@ -114,7 +114,7 @@
 
 .ui.statistics .statistic > .label,
 .ui.statistic > .label {
-  font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'PT Serif', 'Helvetica Neue', Arial, Helvetica, sans-serif;
   font-size: 1em;
   font-weight: bold;
   color: rgba(0, 0, 0, 0.87);
@@ -342,12 +342,12 @@
 .ui.teal.statistics .statistic > .value,
 .ui.statistics .teal.statistic > .value,
 .ui.teal.statistic > .value {
-  color: #00B5AD;
+  color: #1a4d99;
 }
 .ui.blue.statistics .statistic > .value,
 .ui.statistics .blue.statistic > .value,
 .ui.blue.statistic > .value {
-  color: #2185D0;
+  color: #153e7a;
 }
 .ui.violet.statistics .statistic > .value,
 .ui.statistics .violet.statistic > .value,
@@ -372,7 +372,7 @@
 .ui.grey.statistics .statistic > .value,
 .ui.statistics .grey.statistic > .value,
 .ui.grey.statistic > .value {
-  color: #767676;
+  color: #f4f3f0;
 }
 
 /*--------------

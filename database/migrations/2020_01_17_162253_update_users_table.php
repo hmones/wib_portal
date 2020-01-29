@@ -21,7 +21,6 @@ class UpdateUsersTable extends Migration
             $table->unsignedSmallInteger('phone_country_code')->nullable();
             $table->char('phone',20)->nullable();
             $table->char('postal_code',50)->nullable();
-            $table->char('state',150)->nullable();
             $table->bigInteger('city_id')->unsigned()->index()->nullable();
             $table->bigInteger('country_id')->unsigned()->index()->nullable();
             $table->char('activity',255)->nullable();
@@ -62,7 +61,6 @@ class UpdateUsersTable extends Migration
                 'phone_country_code',
                 'phone',
                 'postal_code',
-                'state',
                 'city_id',
                 'country_id',
                 'activity',

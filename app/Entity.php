@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Entity extends Model
 {
     protected $table = 'entities';
+
+    protected $guarded = [];
+
     public function links()
     {
         return $this->morphMany('App\Link', 'linkable');
@@ -41,19 +44,19 @@ class Entity extends Model
     }
     public function primary_country()
     {
-        return $this->hasOne('App\Country', 'primary_country_id');
+        return $this->hasOne('App\Country', 'id', 'primary_country_id');
     }
     public function secondary_country()
     {
-        return $this->hasOne('App\Country', 'secondary_country_id');
+        return $this->hasOne('App\Country', 'id', 'secondary_country_id');
     }
     public function primary_city()
     {
-        return $this->hasOne('App\City', 'primary_city_id');
+        return $this->hasOne('App\City', 'id','primary_city_id');
     }
     public function secondary_city()
     {
-        return $this->hasOne('App\City', 'secondary_city_id');
+        return $this->hasOne('App\City', 'id','secondary_city_id');
     }
 
 

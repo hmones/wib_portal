@@ -8,6 +8,8 @@ class Sector extends Model
 {
     protected $table = 'sectors';
 
+    protected $guarded = [];
+
     public function users()
     {
         return $this->belongsToMany('App\User', 'user_sector');

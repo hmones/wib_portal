@@ -1,48 +1,108 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.profile')
 
-        <title>Women in Business Portal</title>
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-        <link href="{{asset('css/semantic.min.css')}}" rel="stylesheet" type="text/css">
-        <script
-            src="https://code.jquery.com/jquery-3.1.1.min.js"
-            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-            crossorigin="anonymous"></script>
-        <script type="application/javascript" src="{{asset('js/semantic.min.js')}}"></script>
-
-
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
-
-            <div class="ui container">
-                <div class="ui middle aligned centered basic segment">
-                    <h1 class="ui header">Registration form for Women in Business</h1>
-                    <form action="{{route('profile/create')}}" class="ui form" method="post" enctype="multipart/form-data">
-                        {{csrf_field()}}
-                        <input type="file" name="avatar">
-                        <input type="submit" class="ui teal button">
-                    </form>
-                </div>
-            </div>
+@section('content')
+    <br><br>
+    <div class="ui centered container">
+        <h1 class="ui blue header">Recently registered members</h1>
+        <div class="ui basic segment">
+            <table class="ui celled stackable table">
+                <thead>
+                <tr>
+                    <th class="five wide">User</th>
+                    <th class="four wide">Email</th>
+                    <th class="two wide">Country</th>
+                    <th class="two wide">City</th>
+                    <th class="two wide">Created</th>
+                </tr>
+                </thead>
+                <tbody>
+                @forelse ($users as $user)
+                    <tr>
+                        <td>
+                            <h4 class="ui image header">
+                                @if($user->avatar()->exists())
+                                    <img src="{{$user->avatar->url}}" class="ui circular image" alt="{{$user->name}}'s avatar">
+                                @else
+                                    <i class="circular inverted grey user small icon"></i>
+                                @endif
+                                <div class="content">
+                                    {{$user->name}}
+                                    <div class="sub header">{{ $user->entities()->exists() ? $user->entities->first()->name:'No organization'}}
+                                    </div>
+                                </div>
+                            </h4></td>
+                        <td>
+                            <a href="mailto:{{$user->email}}">{{$user->email}}</a>
+                        </td>
+                        <td>
+                            {{$user->country()->exists()? $user->country->name:'None'}}
+                        </td>
+                        <td>
+                            {{$user->city()->exists()? $user->city->name:'None'}}
+                        </td>
+                        <td>
+                            {{$user->created_at->diffForHumans()}}
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4"><p>No users registered currently!</p></td>
+                    </tr>
+                @endforelse
+                </tbody>
+            </table>
+            <a href="{{route('profile.create')}}" class="ui right floated blue button">Create a new user</a>
         </div>
-    </body>
-</html>
+    </div>
+    <br><br><br>
+    <div class="ui centered container">
+        <h1 class="ui blue header">Recently registered Entities</h1>
+        <div class="ui basic segment">
+            <table class="ui celled stackable table">
+                <thead>
+                <tr>
+                    <th class="five wide">Name</th>
+                    <th class="four wide">Email</th>
+                    <th class="two wide">Country</th>
+                    <th class="two wide">City</th>
+                    <th class="two wide">Created</th>
+                </tr>
+                </thead>
+                <tbody>
+                @forelse ($entities as $entity)
+                    <tr>
+                        <td>
+                            <h4 class="ui image header">
+                                @if($entity->logo()->exists())
+                                    <img src="{{$entity->logo()->url}}" class="ui circular image" alt="{{$entity->name}}'s avatar">
+                                @else
+                                    <i class="circular inverted grey image small icon"></i>
+                                @endif
+                                <div class="content">
+                                    {{$entity->name}}
+                                    </div>
+                                </div>
+                            </h4></td>
+                        <td>
+                            <a href="mailto:{{$entity->primary_email}}">{{$entity->primary_email}}</a>
+                        </td>
+                        <td>
+                            {{$entity->primary_country()->exists() ? $entity->primary_country->name:'None'}}
+                        </td>
+                        <td>
+                            {{$entity->primary_city()->exists() ? $entity->primary_city->name:'None'}}
+                        </td>
+                        <td>
+                            {{$entity->created_at->diffForHumans()}}
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4"><p>No entities registered currently!</p></td>
+                    </tr>
+                @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+@endsection

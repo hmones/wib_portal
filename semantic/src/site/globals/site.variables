@@ -1,3 +1,29 @@
 /*******************************
      User Global Variables
 *******************************/
+
+@primaryColor   : @blue;
+@secondaryColor : @grey;
+@teal           : #1a4d99;
+@blue           : #153e7a;
+@grey           : #f4f3f0;
+@black          : #262626;
+
+
+@fontName          : 'PT Serif';
+@fontSmoothing     : antialiased;
+
+@headerFont        : @fontName, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+@pageFont          : 'Source Sans Pro', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+
+@googleFontName    : @fontName;
+@importGoogleFonts : true;
+@googleFontSizes   : '400,700,400italic,700italic';
+@googleSubset      : 'latin';
+
+@googleProtocol    : 'https://';
+@googleFontRequest : '@{googleFontName}:@{googleFontSizes}&subset=@{googleSubset}';
+
+
+@bold              : bold;
+@normal            : normal;
