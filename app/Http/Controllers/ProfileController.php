@@ -95,11 +95,11 @@ class ProfileController extends Controller
             "city_id" => "required|exists:cities,id",
             "postal_code" => "nullable|alpha_num|between:0,50",
             "entity_1" => "nullable|exists:entities,id",
-            "relation_1" => "nullable|required_with:entity_1|in:Board Member,Advisory Board Member,Owner / Co-Owner,Employee,Manager,Founder,Co-Founder,Professor,Employee,Student",
+            "relation_1" => "nullable|required_with:entity_1|string",
             "entity_2" => "nullable|exists:entities,id",
-            "relation_2" => "nullable|required_with:entity_2|in:Board Member,Advisory Board Member,Owner / Co-Owner,Employee,Manager,Founder,Co-Founder,Professor,Employee,Student",
+            "relation_2" => "nullable|required_with:entity_2|string",
             "entity_3" => "nullable|exists:entities,id",
-            "relation_3" => "nullable|required_with:entity_3|in:Board Member,Advisory Board Member,Owner / Co-Owner,Employee,Manager,Founder,Co-Founder,Professor,Employee,Student",
+            "relation_3" => "nullable|required_with:entity_3|string",
             "sector_1" => "required|exists:sectors,id",
             "sector_2" => "nullable|exists:sectors,id",
             "sector_3" => "nullable|exists:sectors,id",
@@ -158,7 +158,7 @@ class ProfileController extends Controller
                     $user->avatar()->save($image);
                 }
             }
-            
+
         }
 
         if ($request->sector_1 != null){ $user->sectors()->attach($request->sector_1); }

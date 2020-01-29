@@ -77,6 +77,7 @@ class EntityController extends Controller
             ['name' => $request->name],
             [
                 "founding_year" => $request->founding_year,
+                "entity_type_id" => $request->entity_type_id,
                 "name" => $request->name,
                 "name_additional" => $request->name_additional,
                 "primary_email" => $request->primary_email,
@@ -113,7 +114,7 @@ class EntityController extends Controller
         }
 
         $entity->save();
-        
+
         if ($request->logo)
         {
             $thumbnail = ProfilePicture::find($request->logo);
@@ -125,9 +126,9 @@ class EntityController extends Controller
                     $entity->logo()->save($image);
                 }
             }
-            
+
         }
-     
+
         $entity->type()->associate($request->entity_type_id);
         $entity->save();
 
