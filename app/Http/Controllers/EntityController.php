@@ -36,7 +36,7 @@ class EntityController extends Controller
     public function store(Request $request)
     {
         request()->validate([
-            "logo" => "nullable|regex:/(^https:\/\/dan\.fra1\.(cdn\.)?digitaloceanspaces.com\/wib_uploads\/profile_pictures\/180x180\/[a-zA-Z0-9_-]+\.(png|jpg|jpeg|gif|webp))/u",
+            "logo" => "nullable|exists:profile_pictures,id",
             "entity_type_id" => "required|exists:entity_types,id",
             "founding_year" => "nullable|date_format:Y",
             "name" => "required|string",
@@ -106,9 +106,14 @@ class EntityController extends Controller
             ]
         );
 
-        if ($request->url)
+        if(isset($entity->id))
         {
-            $entity->logo()->create(['url'=>$request->logo]);
+            return response()->json(['message'=>'Organization already exists','data'=>$entity->name]);
+        }
+
+        if ($request->logo)
+        {
+            $entity->logo()->attach($request->logo);
         }
         $entity->type()->associate($request->entity_type_id);
         $entity->save();

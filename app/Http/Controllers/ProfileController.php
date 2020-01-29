@@ -81,7 +81,7 @@ class ProfileController extends Controller
     public function store(Request $request)
     {
         request()->validate([
-            "avatar_url" => "nullable|active_url",
+            "avatar_id" => "nullable|exists:profile_pictures,id",
             "title" => "required|in:Mr.,Ms.,Prof.,Dr.",
             "birth_year" => "nullable|date_format:Y",
             "name" => "required|string",
@@ -139,11 +139,16 @@ class ProfileController extends Controller
             ]
         );
 
+        if(isset($user->id))
+        {
+            return response()->json(['message'=>'User already exists','data'=>$user->email]);
+        }
+
         $user->save();
 
-        if ($request->avatar_url)
+        if ($request->avatar_id)
         {
-            $user->avatar()->create(['url'=>$request->avatar_url]);
+            $user->avatar()->attach($request->avatar_id);
         }
 
         if ($request->sector_1 != null){ $user->sectors()->attach($request->sector_1); }

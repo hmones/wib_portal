@@ -15,9 +15,11 @@ class CreateProfilePicturesTable extends Migration
     {
         Schema::create('profile_pictures', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('profileable_id')->index();
-            $table->string('profileable_type')->index();
+            $table->unsignedBigInteger('profileable_id')->index()->nullable();
+            $table->string('profileable_type')->index()->nullable();
             $table->string('url');
+            $table->string('resolution')->index();
+            $table->string('filename');
             $table->timestamps();
         });
     }

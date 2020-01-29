@@ -43,15 +43,11 @@
                                 <h4 class="ui header">Profile Picture</h4>
                                 <label for="avatar">
                                     <a href="#">
-                                        @if(old('avatar_url'))
-                                            <img class='ui circular centered small image' src='{{old('avatar_url')}}'>
-                                        @else
-                                            <i class="circular inverted grey user huge icon" id="avatar_upload_icon"></i>
-                                        @endif
+                                        <i class="circular inverted grey user huge icon" id="avatar_upload_icon"></i>
                                     </a>
                                 </label>
                                 <input type="file" name="avatar" style="display: none;" id="avatar_upload_input">
-                                <input type="hidden" value="{{old('avatar_url')}}" name="avatar_url">
+                                <input type="hidden" value="{{old('avatar_id')}}" name="avatar_id">
                             </div>
                         </div>
                         <div class="twelve wide column">
@@ -360,6 +356,7 @@
                     Register a new organization
                 </div>
                 <div class="ui form padded basic segment">
+                    <div class="ui hidden message" id="form_errors"></div>
                     <form id="entity_form" action="/entity" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="ui stackable grid">
@@ -369,15 +366,11 @@
                                         <h4 class="ui header">Organization logo</h4>
                                         <label for="logo">
                                             <a href="#">
-                                                @if(old('logo_url'))
-                                                    <img class='ui circular centered small image' src='{{old('logo_url')}}'>
-                                                @else
-                                                    <i class="circular inverted grey image huge icon" id="logo_upload_icon"></i>
-                                                @endif
+                                                <i class="circular inverted grey image huge icon" id="logo_upload_icon"></i>
                                             </a>
                                         </label>
                                         <input type="file" name="logo" style="display: none;" id="logo_upload_input">
-                                        <input type="hidden" value="{{old('logo_url')}}" name="logo_url">
+                                        <input type="hidden" value="{{old('logo_id')}}" name="logo_id">
                                     </div>
                                 </div>
                             </div>
@@ -644,7 +637,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="ui hidden error message" id="form_errors"></div>
                         <div class="ui right floated basic segment">
                                 <div class="ui black deny button" onclick="$('.ui.modal').modal('hide');">
                                     Cancel
@@ -792,7 +784,7 @@
                     method: 'POST',
                     url: "{{route('entity.store')}}",
                     data: {
-                        logo: $('input[name="logo"]').file,
+                        logo: $('input[name="logo_id"]').val(),,
                         entity_type_id: $('input[name="entity_type_id"]').val(),
                         founding_year: $('input[name="founding_year"]').val(),
                         name: $('input[name="entity_name"]').val(),
@@ -842,11 +834,11 @@
                             .fadeOut(400)
                         ;
                     }else{
-                        $('#form_errors').text('There are some errors with your organization registration form, please revise it and resubmit your form').show().delay(1500).fadeOut(400);
+                        $('#form_errors').text(msg['message']).removeClass('positive').addClass('negative').show().delay(1500).fadeOut(400);
                     }
                 });
             }else{
-                $('#form_errors').text('There are some errors with your input, please revise it and resubmit your form').show().delay(1500).fadeOut(400);
+                $('#form_errors').text('There are some errors with your input, please revise it and resubmit your form').removeClass('positive').addClass('negative').show().delay(1500).fadeOut(400);
             }
 
         });
@@ -880,7 +872,7 @@
                     method: 'POST',
                     url: "{{route('profile.store')}}",
                     data: {
-                        avatar_url: $('input[name="avatar_url"]').val(),
+                        avatar_id: $('input[name="avatar_id"]').val(),
                         title: $('input[name="title"]').val(),
                         birth_year: $('input[name="birth_year"]').val(),
                         name: $('input[name="name"]').val(),
@@ -912,17 +904,18 @@
                         _token: '{{Session::token()}}',
                     },
                     error: function(){
-                        $('#form_errors').text('There are some errors with your organization registration form, please revise it and resubmit your form').show().delay(1500).fadeOut(400);
+                        $('#flash_message').text('There are some errors with your user registration form, please revise it and resubmit your form').removeClass('positive').addClass('negative').show().delay(1500).fadeOut(400);
                     }
                 }).done(function(msg){
                     if(msg['message']!='success'){
-                        $('#form_errors').text('There are some errors with your organization registration form, please revise it and resubmit your form').show().delay(1500).fadeOut(400);
+                        console.log(msg['message']);
+                        $('#flash_message').text(msg['message']).removeClass('positive').addClass('negative').show().delay(1500).fadeOut(400);
                     }else{
                         window.location.href = "{{route('home')}}";
                     }
                 });
             }else{
-                $('#form_errors').text('There are some errors with your input, please revise it and resubmit your form').show().delay(1500).fadeOut(400);
+                $('#flash_message').text('There are some errors with your user registration form, please revise it and resubmit your form').removeClass('positive').addClass('negative').show().delay(1500).fadeOut(400);
             }
 
         });
@@ -950,9 +943,6 @@
             $('#organization_info').removeClass('active');
             $('#portal_info').addClass('active');
         });
-        $('#logo_upload_icon').click(function () {
-            $('#logo_upload_input').trigger('click');
-        });
         $('#avatar_upload_icon').click(function () {
             $('#avatar_upload_input').trigger('click');
         });
@@ -960,9 +950,10 @@
             let file = $('input[name="avatar"]')[0].files[0];
             let form = new FormData();
             form.append('new_pp', file);
-            form.append('old_pp', $('input[name="avatar_url"]').val());
+            form.append('old_pp', $('input[name="avatar_id"]').val());
             form.append('_token', "{{Session::token()}}");
             console.log(form);
+            $('label[for="avatar"]').html('<i class="circular grey inverted huge spinner loading icon"></i>');
             $.ajax({
                 method: 'POST',
                 url: "{{route('profilepicture.store')}}",
@@ -970,13 +961,17 @@
                 processData: false,
                 data: form,
                 error: function() {
-                    alert("Error uploading the image, images should be png or jpg and less than 2MB");
+                    $('#flash_message').text('Error uploading the image, images should be png or jpg and less than 2MB').removeClass('positive').addClass('negative').show().delay(1500).fadeOut(400);
+                    $('label[for="avatar"]').html('<i class="circular inverted grey user huge icon"></i>');
                 }
             }).done(function(link){
-                let image_html = "<img class='ui circular centered small image' src='"+link+"'>";
+                let image_html = "<img class='ui circular centered small image' src='"+link.url+"'>";
                 $('label[for="avatar"]').html(image_html);
-                $('input[name="avatar_url"]').val(link);
+                $('input[name="avatar_id"]').val(link.id);
             });
+        });
+        $('#logo_upload_icon').click(function () {
+            $('#logo_upload_input').trigger('click');
         });
         $('#logo_upload_input').change(function () {
             let file = $('input[name="logo"]')[0].files[0];
@@ -985,6 +980,7 @@
             form.append('old_pp', $('input[name="logo_url"]').val());
             form.append('_token', "{{Session::token()}}");
             console.log(form);
+            $('label[for="logo"]').html('<i class="circular grey inverted huge spinner loading icon"></i>');
             $.ajax({
                 method: 'POST',
                 url: "{{route('profilepicture.store')}}",
@@ -992,12 +988,13 @@
                 processData: false,
                 data: form,
                 error: function() {
-                    alert("Error uploading the image, images should be png or jpg and less than 2MB");
+                    $('#flash_message').text('Error uploading the image, images should be png or jpg and less than 2MB').removeClass('positive').addClass('negative').show().delay(1500).fadeOut(400);
+                    $('label[for="logo"]').html('<i class="circular inverted grey image huge icon"></i>');
                 }
             }).done(function(link){
-                let image_html = "<img class='ui circular centered small image' src='"+link+"'>";
+                let image_html = "<img class='ui circular centered small image' src='"+link.url+"'>";
                 $('label[for="logo"]').html(image_html);
-                $('input[name="logo_url"]').val(link);
+                $('input[name="logo_id"]').val(link.id);
             });
         });
         function entity_step(){
