@@ -15,4 +15,14 @@ class ProfilePicture extends Model
     {
         return $this->morphTo();
     }
+
+    public function scopeThumbnail($query)
+    {
+        return $query->where('resolution','180')->first();
+    }
+
+    public function scopeOriginal($query)
+    {
+        return $query->where('resolution','original')->first();
+    }
 }

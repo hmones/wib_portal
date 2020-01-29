@@ -20,7 +20,7 @@ class Entity extends Model
     }
     public function logo()
     {
-        return $this->morphOne('App\ProfilePicture', 'profileable');
+        return $this->morphMany('App\ProfilePicture', 'profileable');
     }
     public function type()
     {

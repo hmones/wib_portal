@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Entity;
+use App\ProfilePicture;
 use Illuminate\Http\Request;
 
 class EntityController extends Controller
@@ -111,10 +112,22 @@ class EntityController extends Controller
             return response()->json(['message'=>'Organization already exists','data'=>$entity->name]);
         }
 
+        $entity->save();
+        
         if ($request->logo)
         {
-            $entity->logo()->attach($request->logo);
+            $thumbnail = ProfilePicture::find($request->logo);
+            if(isset($thumbnail->id))
+            {
+                $images = ProfilePicture::where('filename',$thumbnail->filename)->get();
+                foreach($images as $image)
+                {
+                    $entity->logo()->save($image);
+                }
+            }
+            
         }
+     
         $entity->type()->associate($request->entity_type_id);
         $entity->save();
 

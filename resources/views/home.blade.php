@@ -21,7 +21,7 @@
                         <td>
                             <h4 class="ui image header">
                                 @if($user->avatar()->exists())
-                                    <img src="{{$user->avatar->url}}" class="ui circular image" alt="{{$user->name}}'s avatar">
+                                    <img src="{{$user->avatar()->thumbnail()->url}}" class="ui circular image" alt="{{$user->name}}'s avatar">
                                 @else
                                     <i class="circular inverted grey user small icon"></i>
                                 @endif
@@ -74,7 +74,7 @@
                         <td>
                             <h4 class="ui image header">
                                 @if($entity->logo()->exists())
-                                    <img src="{{$entity->logo()->url}}" class="ui circular image" alt="{{$entity->name}}'s avatar">
+                                    <img src="{{$entity->logo()->thumbnail()->url}}" class="ui circular image" alt="{{$entity->name}}'s avatar">
                                 @else
                                     <i class="circular inverted grey image small icon"></i>
                                 @endif

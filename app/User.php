@@ -70,6 +70,6 @@ class User extends Authenticatable
     }
     public function avatar()
     {
-        return $this->morphOne('App\ProfilePicture', 'profileable');
+        return $this->morphMany('App\ProfilePicture', 'profileable');
     }
 }

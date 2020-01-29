@@ -42,10 +42,11 @@
                             <div class="ui center aligned basic segment field">
                                 <h4 class="ui header">Profile Picture</h4>
                                 <label for="avatar">
-                                    <a href="#">
-                                        <i class="circular inverted grey user huge icon" id="avatar_upload_icon"></i>
+                                    <a href="#" id="avatar_upload_icon">
+                                        <i class="circular inverted grey user huge icon"></i>
                                     </a>
                                 </label>
+                                <div class=""><small>Image size 180px x 180px</small></div>
                                 <input type="file" name="avatar" style="display: none;" id="avatar_upload_input">
                                 <input type="hidden" value="{{old('avatar_id')}}" name="avatar_id">
                             </div>
@@ -365,10 +366,11 @@
                                     <div class="ui center aligned basic segment field">
                                         <h4 class="ui header">Organization logo</h4>
                                         <label for="logo">
-                                            <a href="#">
-                                                <i class="circular inverted grey image huge icon" id="logo_upload_icon"></i>
+                                            <a href="#" id="logo_upload_icon">
+                                                <i class="circular inverted grey image huge icon"></i>
                                             </a>
                                         </label>
+                                        <div class=""><small>Image size 180px x 180px</small></div>
                                         <input type="file" name="logo" style="display: none;" id="logo_upload_input">
                                         <input type="hidden" value="{{old('logo_id')}}" name="logo_id">
                                     </div>
@@ -784,7 +786,7 @@
                     method: 'POST',
                     url: "{{route('entity.store')}}",
                     data: {
-                        logo: $('input[name="logo_id"]').val(),,
+                        logo: $('input[name="logo_id"]').val(),
                         entity_type_id: $('input[name="entity_type_id"]').val(),
                         founding_year: $('input[name="founding_year"]').val(),
                         name: $('input[name="entity_name"]').val(),
@@ -948,54 +950,60 @@
         });
         $('#avatar_upload_input').change(function () {
             let file = $('input[name="avatar"]')[0].files[0];
-            let form = new FormData();
-            form.append('new_pp', file);
-            form.append('old_pp', $('input[name="avatar_id"]').val());
-            form.append('_token', "{{Session::token()}}");
-            console.log(form);
-            $('label[for="avatar"]').html('<i class="circular grey inverted huge spinner loading icon"></i>');
-            $.ajax({
-                method: 'POST',
-                url: "{{route('profilepicture.store')}}",
-                contentType: false,
-                processData: false,
-                data: form,
-                error: function() {
-                    $('#flash_message').text('Error uploading the image, images should be png or jpg and less than 2MB').removeClass('positive').addClass('negative').show().delay(1500).fadeOut(400);
-                    $('label[for="avatar"]').html('<i class="circular inverted grey user huge icon"></i>');
-                }
-            }).done(function(link){
-                let image_html = "<img class='ui circular centered small image' src='"+link.url+"'>";
-                $('label[for="avatar"]').html(image_html);
-                $('input[name="avatar_id"]').val(link.id);
-            });
+            if(file != null)
+            {
+                let form = new FormData();
+                form.append('new_pp', file);
+                form.append('old_pp', $('input[name="avatar_id"]').val());
+                form.append('_token', "{{Session::token()}}");
+                console.log(form);
+                $('#avatar_upload_icon').html('<i class="circular grey inverted huge spinner loading icon"></i>');
+                $.ajax({
+                    method: 'POST',
+                    url: "{{route('profilepicture.store')}}",
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    error: function() {
+                        $('#flash_message').text('Error uploading the image, images should be png or jpg and less than 2MB').removeClass('positive').addClass('negative').show().delay(1500).fadeOut(400);
+                        $('#avatar_upload_icon').html('<i class="circular inverted grey user huge icon" ></i>');
+                    }
+                }).done(function(link){
+                    let image_html = "<img class='ui circular centered small image' src='"+link.url+"'>";
+                    $('#avatar_upload_icon').html(image_html);
+                    $('input[name="avatar_id"]').val(link.id);
+                });
+            }
         });
         $('#logo_upload_icon').click(function () {
             $('#logo_upload_input').trigger('click');
         });
         $('#logo_upload_input').change(function () {
             let file = $('input[name="logo"]')[0].files[0];
-            let form = new FormData();
-            form.append('new_pp', file);
-            form.append('old_pp', $('input[name="logo_url"]').val());
-            form.append('_token', "{{Session::token()}}");
-            console.log(form);
-            $('label[for="logo"]').html('<i class="circular grey inverted huge spinner loading icon"></i>');
-            $.ajax({
-                method: 'POST',
-                url: "{{route('profilepicture.store')}}",
-                contentType: false,
-                processData: false,
-                data: form,
-                error: function() {
-                    $('#flash_message').text('Error uploading the image, images should be png or jpg and less than 2MB').removeClass('positive').addClass('negative').show().delay(1500).fadeOut(400);
-                    $('label[for="logo"]').html('<i class="circular inverted grey image huge icon"></i>');
-                }
-            }).done(function(link){
-                let image_html = "<img class='ui circular centered small image' src='"+link.url+"'>";
-                $('label[for="logo"]').html(image_html);
-                $('input[name="logo_id"]').val(link.id);
-            });
+            if(file != null)
+            {
+                let form = new FormData();
+                form.append('new_pp', file);
+                form.append('old_pp', $('input[name="logo_id"]').val());
+                form.append('_token', "{{Session::token()}}");
+                console.log(form);
+                $('#logo_upload_icon').html('<i class="circular grey inverted huge spinner loading icon"></i>');
+                $.ajax({
+                    method: 'POST',
+                    url: "{{route('profilepicture.store')}}",
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    error: function() {
+                        $('#flash_message').text('Error uploading the image, images should be png or jpg and less than 2MB').removeClass('positive').addClass('negative').show().delay(1500).fadeOut(400);
+                        $('#logo_upload_icon').html('<i class="circular inverted grey image huge icon"></i>');
+                    }
+                }).done(function(link){
+                    let image_html = "<img class='ui circular centered small image' src='"+link.url+"'>";
+                    $('#logo_upload_icon').html(image_html);
+                    $('input[name="logo_id"]').val(link.id);
+                });
+            }
         });
         function entity_step(){
             $('#organization_info').trigger('click');

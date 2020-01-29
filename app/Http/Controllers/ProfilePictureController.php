@@ -44,7 +44,7 @@ class ProfilePictureController extends Controller
     {
         $validation = $request->validate([
             'new_pp' => 'required|file|image|mimes:jpeg,png,gif,webp|max:2048',
-            'old_pp' => 'nullable|exists:profile_pictures,id'
+            'old_pp' => 'nullable|string'
         ]);
 
         if($validation['old_pp'] != null)
@@ -57,11 +57,10 @@ class ProfilePictureController extends Controller
         $filename = $picture->hashName();
 
         $normal = Image::make($picture)->resize(180, 180)->encode($extension);
-        
         $storage_path = Self::PATH_180.$filename;
         Storage::disk('s3')->put($storage_path, (string)$normal, 'public');
 
-        $thumbnail = ProfilePicture::findOrCreate(
+        $thumbnail = ProfilePicture::firstOrNew(
             ['filename' => $filename],
             [
                 'url' => Storage::url($storage_path),
@@ -70,17 +69,19 @@ class ProfilePictureController extends Controller
             ]
         );
 
-        $storage_path_o = Self::PATH_ORIGINAL.$filename;
-        Storage::disk('s3')->put($storage_path_o, (string)$picture, 'public');
+        if(!isset($thumbnail->id))
+        {
+            $thumbnail->save();
+            $large = Image::make($picture)->encode($extension);
+            $storage_path_o = Self::PATH_ORIGINAL.$filename;
+            Storage::disk('s3')->put($storage_path_o, (string)$large, 'public');
         
-        $original = ProfilePicture::findOrCreate(
-            ['filename' => $filename],
-            [
+            $original = ProfilePicture::create([
                 'url' => Storage::url($storage_path_o),
                 'filename' => $filename,
                 'resolution' => "original"
-            ]
-        );
+            ]);
+        }
 
         return $thumbnail;
     }

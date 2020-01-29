@@ -9,6 +9,7 @@ use App\Sector;
 use App\SupportedLink;
 use App\Entity;
 use App\User;
+use App\ProfilePicture;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
@@ -148,7 +149,16 @@ class ProfileController extends Controller
 
         if ($request->avatar_id)
         {
-            $user->avatar()->attach($request->avatar_id);
+            $thumbnail = ProfilePicture::find($request->avatar_id);
+            if(isset($thumbnail->id))
+            {
+                $images = ProfilePicture::where('filename',$thumbnail->filename)->get();
+                foreach($images as $image)
+                {
+                    $user->avatar()->save($image);
+                }
+            }
+            
         }
 
         if ($request->sector_1 != null){ $user->sectors()->attach($request->sector_1); }
