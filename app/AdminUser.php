@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -41,6 +40,7 @@ class AdminUser extends Authenticatable
     {
         return $this->hasMany('App\User', 'approved_by');
     }
+
     public function entities()
     {
         return $this->hasMany('App\Entity', 'approved_by');

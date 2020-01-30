@@ -1,4 +1,4 @@
-@extends('layouts.profile')
+@extends('layouts.default')
 
 @section('content')
         <div class="ui centered container">

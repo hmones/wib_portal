@@ -10,7 +10,7 @@
                 Members
             </a>
             <a class="item">
-                <a href="/profile/create" class="ui green button">Signup</a>
+                <a href="/profile/create" class="ui blue basic button">Signup</a>
             </a>
             <div class="item">
                 <a href="#" class="ui blue button">Login</a>

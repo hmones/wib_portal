@@ -11,14 +11,14 @@
 |
 */
 
-use Illuminate\Support\Facades\Route;
 use App\Country;
 use App\Http\Resources\Country as CountryResource;
+use Illuminate\Support\Facades\Route;
 
-Route::get('/', function (){
+Route::get('/', function () {
     $users = App\User::latest()->take(10)->get();
     $entities = App\Entity::latest()->take(10)->get();
-    return view('home', ['users'=> $users, 'entities' =>$entities]);
+    return view('home', ['users' => $users, 'entities' => $entities]);
 })->name('home');
 
 Route::resource('profile', 'ProfileController');
@@ -27,7 +27,7 @@ Route::resource('entity', 'EntityController');
 
 Route::resource('profilepicture', 'ProfilePictureController');
 
-Route::get('/country/{id}', function($id){
+Route::get('/country/{id}', function ($id) {
     return new CountryResource(Country::findOrFail($id));
 })->name('country.cities.get');
 

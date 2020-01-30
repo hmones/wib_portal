@@ -4,23 +4,23 @@ namespace App\Http\Controllers;
 
 use App\City;
 use App\Country;
+use App\Entity;
 use App\EntityType;
+use App\ProfilePicture;
 use App\Sector;
 use App\SupportedLink;
-use App\Entity;
 use App\User;
-use App\ProfilePicture;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
-    private $activities = array('Export','Import','Production','Services','Trade');
-    private $speheres = array('Politics and Society','Science and Education','Business and Innovation','Arts and Culture','Media and Journalism');
-    private $education = array('Highschool','Bachelor','Master','Doctorate');
-    private $associations = array('ABWA','BWE21','CNFCE','LLWB','SEVE');
-    private $relations = array('Board Member / Advisory Board Member', 'Owner / Co-Owner', 'Employee / Manager', 'Founder / Co-Founder', 'Professor', 'Employee',  'Student');
+    private $activities = array('Export', 'Import', 'Production', 'Services', 'Trade');
+    private $speheres = array('Politics and Society', 'Science and Education', 'Business and Innovation', 'Arts and Culture', 'Media and Journalism');
+    private $education = array('Highschool', 'Bachelor', 'Master', 'Doctorate');
+    private $associations = array('ABWA', 'BWE21', 'CNFCE', 'LLWB', 'SEVE');
+    private $relations = array('Board Member / Advisory Board Member', 'Owner / Co-Owner', 'Employee / Manager', 'Founder / Co-Founder', 'Professor', 'Employee', 'Student');
 
     /**
      * Display a listing of the resource.
@@ -46,20 +46,20 @@ class ProfileController extends Controller
         $sectors = Sector::all();
         $entities = Entity::all();
         $entity_types = EntityType::all();
-        $addresses = array('primary','secondary');
+        $addresses = array('primary', 'secondary');
         $business_options = array(
-            'balance_sheet' => array('<25Mio','25Mio-50Mio','50Mio-100Mio','100Mio-500Mio','500Mio-1Bil','1Bil-3Bil','3Bil-5Bil','5Bil-10Bil','>10Bil'),
-            'revenue' => array('<25K','25K-50K','50K-100K','100K-500K','500K-1Mio','1Mio-3Mio','3Mio-5Mio','5Mio-10Mio','>10Mio'),
-            'entity_size' => array('1-25','26-50','51-100','101-250','>250'),
-            'employees' => array('100-300','150-200','101-250','250-500','>500'),
-            'business_type' => array('Start-Up','Scale-Up','Traditional Business'),
-            'turn_over' => array('<25K','25K-50K','50K-100K','100K-500K','500K-1Mio','1Mio-3Mio','3Mio-5Mio','5Mio-10Mio','>10Mio'),
-            'students' => array('<200','201-500','501-1000','1001-5000','5001-10000','10001-20000','20001-50000','50001-100000','>100000'),
+            'balance_sheet' => array('<25Mio', '25Mio-50Mio', '50Mio-100Mio', '100Mio-500Mio', '500Mio-1Bil', '1Bil-3Bil', '3Bil-5Bil', '5Bil-10Bil', '>10Bil'),
+            'revenue' => array('<25K', '25K-50K', '50K-100K', '100K-500K', '500K-1Mio', '1Mio-3Mio', '3Mio-5Mio', '5Mio-10Mio', '>10Mio'),
+            'entity_size' => array('1-25', '26-50', '51-100', '101-250', '>250'),
+            'employees' => array('100-300', '150-200', '101-250', '250-500', '>500'),
+            'business_type' => array('Start-Up', 'Scale-Up', 'Traditional Business'),
+            'turn_over' => array('<25K', '25K-50K', '50K-100K', '100K-500K', '500K-1Mio', '1Mio-3Mio', '3Mio-5Mio', '5Mio-10Mio', '>10Mio'),
+            'students' => array('<200', '201-500', '501-1000', '1001-5000', '5001-10000', '10001-20000', '20001-50000', '50001-100000', '>100000'),
         );
         return view('profile.create', [
             'activities' => $this->activities,
             'spheres' => $this->speheres,
-            'education'=> $this->education,
+            'education' => $this->education,
             'countries' => $countries,
             'cities' => $cities,
             'supported_links' => $supported_links,
@@ -76,7 +76,7 @@ class ProfileController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
@@ -106,7 +106,7 @@ class ProfileController extends Controller
             "sphere" => "required|in:Politics and Society,Science and Education,Business and Innovation,Arts and Culture,Media and Journalism",
             "activity" => "required|in:Export,Import,Production,Services,Trade",
             "business_association_wom" => "nullable|in:ABWA,BWE21,CNFCE,LLWB,SEVE",
-            "education" =>"required|in:Highschool,Bachelor,Master,Doctorate",
+            "education" => "required|in:Highschool,Bachelor,Master,Doctorate",
             "gender" => "required|in:Male,Female",
             "gdpr_consent" => "required|boolean",
             "newsletter" => "required|boolean",
@@ -140,49 +140,56 @@ class ProfileController extends Controller
             ]
         );
 
-        if(isset($user->id))
-        {
-            return response()->json(['message'=>'User already exists','data'=>$user->email]);
+        if (isset($user->id)) {
+            return response()->json(['message' => 'User already exists', 'data' => $user->email]);
         }
 
         $user->save();
 
-        if ($request->avatar_id)
-        {
+        if ($request->avatar_id) {
             $thumbnail = ProfilePicture::find($request->avatar_id);
-            if(isset($thumbnail->id))
-            {
-                $images = ProfilePicture::where('filename',$thumbnail->filename)->get();
-                foreach($images as $image)
-                {
+            if (isset($thumbnail->id)) {
+                $images = ProfilePicture::where('filename', $thumbnail->filename)->get();
+                foreach ($images as $image) {
                     $user->avatar()->save($image);
                 }
             }
 
         }
 
-        if ($request->sector_1 != null){ $user->sectors()->attach($request->sector_1); }
-        if ($request->sector_2 != null){ $user->sectors()->attach($request->sector_2); }
-        if ($request->sector_3 != null){ $user->sectors()->attach($request->sector_3); }
+        if ($request->sector_1 != null) {
+            $user->sectors()->attach($request->sector_1);
+        }
+        if ($request->sector_2 != null) {
+            $user->sectors()->attach($request->sector_2);
+        }
+        if ($request->sector_3 != null) {
+            $user->sectors()->attach($request->sector_3);
+        }
 
-        if ($request->entity_1 != null){ $user->entities()->attach($request->entity_1,['relation_type'=>$request->relation_1, 'relation_active' => 1]); }
-        if ($request->entity_2 != null){ $user->entities()->attach($request->entity_2, ['relation_type'=>$request->relation_2, 'relation_active' => 1]); }
-        if ($request->entity_3 != null){ $user->entities()->attach($request->entity_3, ['relation_type'=>$request->relation_3, 'relation_active' => 1]); }
+        if ($request->entity_1 != null) {
+            $user->entities()->attach($request->entity_1, ['relation_type' => $request->relation_1, 'relation_active' => 1]);
+        }
+        if ($request->entity_2 != null) {
+            $user->entities()->attach($request->entity_2, ['relation_type' => $request->relation_2, 'relation_active' => 1]);
+        }
+        if ($request->entity_3 != null) {
+            $user->entities()->attach($request->entity_3, ['relation_type' => $request->relation_3, 'relation_active' => 1]);
+        }
 
-        foreach ($request->links as $link)
-        {
-            if ($link['url'] != null)
-            {
-                $user->links()->create(['url'=>$link['url'],'type_id'=>$link['link_type']]);
+        foreach ($request->links as $link) {
+            if ($link['url'] != null) {
+                $user->links()->create(['url' => $link['url'], 'type_id' => $link['link_type']]);
             }
         }
         $user->save();
-        return response()->json(['message'=>'success','data'=>$user , 'id'=>$user->id, 'name'=>$user->name]);    }
+        return response()->json(['message' => 'success', 'data' => $user, 'id' => $user->id, 'name' => $user->name]);
+    }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\User  $user
+     * @param \App\User $user
      * @return \Illuminate\Http\Response
      */
     public function show(User $user)
@@ -193,7 +200,7 @@ class ProfileController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\User  $user
+     * @param \App\User $user
      * @return \Illuminate\Http\Response
      */
     public function edit(User $user)
@@ -204,8 +211,8 @@ class ProfileController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User  $user
+     * @param \Illuminate\Http\Request $request
+     * @param \App\User $user
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, User $user)
@@ -216,7 +223,7 @@ class ProfileController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\User  $user
+     * @param \App\User $user
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $user)

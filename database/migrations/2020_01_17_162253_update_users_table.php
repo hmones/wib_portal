@@ -25,16 +25,17 @@ class UpdateUsersTable extends Migration
             $table->bigInteger('country_id')->unsigned()->index()->nullable();
             $table->char('activity',255)->nullable();
             $table->char('sphere',255)->nullable();
+            $table->timestamp('last_login')->nullable();
             $table->char('education',255)->nullable();
             $table->boolean('mena_diaspora')->default(False);
             $table->char('network',3)->default('WIB');
             $table->char('business_association_wom',30)->nullable();
-            $table->boolean('approved')->default(False);
+            $table->timestamp('approved_at')->nullable();
             $table->bigInteger('approved_by')->unsigned()->index()->nullable();
             $table->boolean('premium')->default(False);
             $table->boolean('sponsor')->default(False);
             $table->boolean('newsletter')->default(False);
-            $table->dateTime('newsletter_date')->nullable();
+            $table->timestamp('newsletter_date')->nullable();
             $table->boolean('gdpr_consent')->default(False);
             $table->foreign('city_id')->references('id')->on('cities');
             $table->foreign('country_id')->references('id')->on('countries');
@@ -65,6 +66,7 @@ class UpdateUsersTable extends Migration
                 'country_id',
                 'activity',
                 'sphere',
+                'last_login',
                 'education',
                 'mena_diaspora',
                 'network',

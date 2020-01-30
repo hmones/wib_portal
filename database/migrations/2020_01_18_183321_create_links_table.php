@@ -19,7 +19,7 @@ class CreateLinksTable extends Migration
             $table->unsignedBigInteger('type_id')->index();
             $table->unsignedBigInteger('linkable_id')->index();
             $table->string('linkable_type')->index();
-            $table->boolean('verified')->default(False);
+            $table->timestamp('verified_at')->nullable();
             $table->bigInteger('verified_by')->unsigned()->index()->nullable();
             $table->timestamps();
             $table->foreign('type_id')->references('id')->on('supported_links');

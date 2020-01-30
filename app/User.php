@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -16,8 +15,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'gender', 'birth_year', 'title', 'phone_country_code','phone',
-        'postal_code','sphere','activity','business_association_wom','gdpr_consent','newsletter','mena_diaspora','education','network','bio','city_id','country_id'
+        'name', 'email', 'password', 'gender', 'birth_year', 'title', 'phone_country_code', 'phone',
+        'postal_code', 'sphere', 'activity', 'business_association_wom', 'gdpr_consent', 'newsletter', 'mena_diaspora', 'education', 'network', 'bio', 'city_id', 'country_id'
     ];
 
     /**
@@ -38,9 +37,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+
+    public function country()
+    {
+        return $this->belongsTo('App\Country', 'country_id');
+    }
+
+    public function city()
+    {
+        return $this->belongsTo('App\City', 'city_id');
+    }
+
+    public function approved_by()
+    {
+        return $this->belongsTo('App\AdminUser', 'approved_by');
+    }
+
     public function entities()
     {
-        return $this->belongsToMany('App\Entity', 'user_entity', 'user_id', 'entity_id')->withPivot('relation_type','relation_desc', 'relation_active','relation_date');
+        return $this->belongsToMany('App\Entity', 'user_entity', 'user_id', 'entity_id')->withPivot('relation_type', 'relation_desc', 'relation_active', 'relation_date');
     }
 
     public function sectors()
@@ -48,28 +63,19 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Sector', 'user_sector', 'user_id', 'sector_id');
     }
 
-    public function searching_for()
+
+    public function avatar()
     {
-        return $this->belongsToMany('App\SearchingForOption', 'user_search', 'user_id', 'search_id');
+        return $this->morphMany('App\ProfilePicture', 'profileable');
     }
-    public function approved_by()
-    {
-        return $this->belongsTo('App\AdminUser', 'approved_by');
-    }
-    public function country()
-    {
-        return $this->belongsTo('App\Country', 'country_id');
-    }
-    public function city()
-    {
-        return $this->belongsTo('App\City', 'city_id');
-    }
+
     public function links()
     {
         return $this->morphMany('App\Link', 'linkable');
     }
-    public function avatar()
+
+    public function searching_for()
     {
-        return $this->morphMany('App\ProfilePicture', 'profileable');
+        return $this->morphMany('App\SearchingForOption', 'searchable');
     }
 }

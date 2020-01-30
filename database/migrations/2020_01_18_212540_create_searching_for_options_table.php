@@ -15,7 +15,9 @@ class CreateSearchingForOptionsTable extends Migration
     {
         Schema::create('searching_for_options', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->char('search',255)->index();
+            $table->string('search')->index();
+            $table->unsignedBigInteger('searchable_id')->index();
+            $table->string('searchable_type')->index();
             $table->timestamps();
         });
     }

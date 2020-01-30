@@ -18,11 +18,11 @@ class ProfilePicture extends Model
 
     public function scopeThumbnail($query)
     {
-        return $query->where('resolution','180')->first();
+        return $query->where('resolution', '180')->first();
     }
 
     public function scopeOriginal($query)
     {
-        return $query->where('resolution','original')->first();
+        return $query->where('resolution', 'original')->first();
     }
 }

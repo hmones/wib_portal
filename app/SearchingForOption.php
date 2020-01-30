@@ -10,10 +10,11 @@ class SearchingForOption extends Model
 
     public function users()
     {
-        return $this->belongsToMany('App\User','user_search', 'search_id', 'user_id');
+        return $this->morphTo();
     }
+
     public function entities()
     {
-        return $this->belongsToMany('App\Entity', 'entity_search', 'search_id', 'entity_id');
+        return $this->morphTo();
     }
 }

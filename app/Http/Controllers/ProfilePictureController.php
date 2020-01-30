@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\ProfilePicture;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
-use App\ProfilePicture;
 
 class ProfilePictureController extends Controller
 {
-    
+
     const PATH_180 = "wib_uploads/profile_pictures/180x180/";
 
     const PATH_ORIGINAL = 'wib_uploads/profile_pictures/original/';
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -37,7 +37,7 @@ class ProfilePictureController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -47,8 +47,7 @@ class ProfilePictureController extends Controller
             'old_pp' => 'nullable|string'
         ]);
 
-        if($validation['old_pp'] != null)
-        {
+        if ($validation['old_pp'] != null) {
             $this->destroy($validation['old_pp']);
         }
 
@@ -57,7 +56,7 @@ class ProfilePictureController extends Controller
         $filename = $picture->hashName();
 
         $normal = Image::make($picture)->resize(180, 180)->encode($extension);
-        $storage_path = Self::PATH_180.$filename;
+        $storage_path = Self::PATH_180 . $filename;
         Storage::disk('s3')->put($storage_path, (string)$normal, 'public');
 
         $thumbnail = ProfilePicture::firstOrNew(
@@ -69,13 +68,12 @@ class ProfilePictureController extends Controller
             ]
         );
 
-        if(!isset($thumbnail->id))
-        {
+        if (!isset($thumbnail->id)) {
             $thumbnail->save();
             $large = Image::make($picture)->encode($extension);
-            $storage_path_o = Self::PATH_ORIGINAL.$filename;
+            $storage_path_o = Self::PATH_ORIGINAL . $filename;
             Storage::disk('s3')->put($storage_path_o, (string)$large, 'public');
-        
+
             $original = ProfilePicture::create([
                 'url' => Storage::url($storage_path_o),
                 'filename' => $filename,
@@ -89,7 +87,7 @@ class ProfilePictureController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -100,7 +98,7 @@ class ProfilePictureController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -111,8 +109,8 @@ class ProfilePictureController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -123,15 +121,15 @@ class ProfilePictureController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return string
      */
     public function destroy($id)
     {
         $image = ProfilePicture::findOrFail($id);
         Storage::disk('s3')->delete([
-            Self::PATH_180 . $image->filename ,
-            Self::PATH_ORIGINAL . $image->filename ,
+            Self::PATH_180 . $image->filename,
+            Self::PATH_ORIGINAL . $image->filename,
         ]);
         ProfilePicture::where('filename', $image->filename)->delete();
 
