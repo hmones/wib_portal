@@ -46,7 +46,7 @@
                                         <i class="circular inverted grey user huge icon"></i>
                                     </a>
                                 </label>
-                                <div class=""><small>Image size 180px x 180px</small></div>
+                                <div class=""><small>Image size 300px x 300px</small></div>
                                 <input type="file" name="avatar" style="display: none;" id="avatar_upload_input">
                                 <input type="hidden" value="{{old('avatar_id')}}" name="avatar_id">
                             </div>
@@ -370,7 +370,7 @@
                                                 <i class="circular inverted grey image huge icon"></i>
                                             </a>
                                         </label>
-                                        <div class=""><small>Image size 180px x 180px</small></div>
+                                        <div class=""><small>Image size 300px x 300px</small></div>
                                         <input type="file" name="logo" style="display: none;" id="logo_upload_input">
                                         <input type="hidden" value="{{old('logo_id')}}" name="logo_id">
                                     </div>

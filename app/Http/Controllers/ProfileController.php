@@ -146,6 +146,7 @@ class ProfileController extends Controller
 
         $user->save();
 
+//        Saving profile pictures to the user
         if ($request->avatar_id) {
             $thumbnail = ProfilePicture::find($request->avatar_id);
             if (isset($thumbnail->id)) {
@@ -154,8 +155,11 @@ class ProfileController extends Controller
                     $user->avatar()->save($image);
                 }
             }
-
         }
+
+//        Removing unused and uploaded profile pictures to a user and to an entity
+        ProfilePictureController::destroyEmpty();
+
 
         if ($request->sector_1 != null) {
             $user->sectors()->attach($request->sector_1);

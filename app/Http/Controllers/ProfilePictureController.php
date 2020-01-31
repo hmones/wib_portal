@@ -12,6 +12,8 @@ class ProfilePictureController extends Controller
 
     const PATH_180 = "wib_uploads/profile_pictures/180x180/";
 
+    const PATH_300 = "wib_uploads/profile_pictures/300x300/";
+
     const PATH_ORIGINAL = 'wib_uploads/profile_pictures/original/';
 
     /**
@@ -53,9 +55,9 @@ class ProfilePictureController extends Controller
 
         $picture = $validation['new_pp'];
         $extension = $picture->extension();
-        $filename = $picture->hashName();
+        $filename = uniqid().'.'.$extension;
 
-        $normal = Image::make($picture)->resize(180, 180)->encode($extension);
+        $normal = Image::make($picture)->fit(180,180)->encode($extension);
         $storage_path = Self::PATH_180 . $filename;
         Storage::disk('s3')->put($storage_path, (string)$normal, 'public');
 
@@ -70,6 +72,17 @@ class ProfilePictureController extends Controller
 
         if (!isset($thumbnail->id)) {
             $thumbnail->save();
+
+            $medium = Image::make($picture)->fit(300,300)->encode($extension);
+            $storage_path_m = Self::PATH_300 . $filename;
+            Storage::disk('s3')->put($storage_path_m, (string)$medium, 'public');
+
+            $medium = ProfilePicture::create([
+                'url' => Storage::url($storage_path_m),
+                'filename' => $filename,
+                'resolution' => "300"
+            ]);
+
             $large = Image::make($picture)->encode($extension);
             $storage_path_o = Self::PATH_ORIGINAL . $filename;
             Storage::disk('s3')->put($storage_path_o, (string)$large, 'public');
@@ -130,8 +143,30 @@ class ProfilePictureController extends Controller
         Storage::disk('s3')->delete([
             Self::PATH_180 . $image->filename,
             Self::PATH_ORIGINAL . $image->filename,
+            Self::PATH_300 . $image->filename,
         ]);
         ProfilePicture::where('filename', $image->filename)->delete();
+
+        return 'Pictures were deleted successfully';
+    }
+
+    /**
+     * Remove empty  resources from storage and database.
+     *
+     * @return string
+     */
+    public static function destroyEmpty()
+    {
+        $images = ProfilePicture::unused();
+        foreach($images->get() as $image)
+        {
+            Storage::disk('s3')->delete([
+                Self::PATH_180 . $image->filename,
+                Self::PATH_ORIGINAL . $image->filename,
+                Self::PATH_300 . $image->filename,
+            ]);
+        }
+        $images->delete();
 
         return 'Pictures were deleted successfully';
     }

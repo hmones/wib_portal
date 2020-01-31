@@ -65,6 +65,7 @@ $(function() {
         }
     });
 });
+
 function display_flash_msg(target='#flash_message', type = 'error', msg = 'There are few errors with your data, please revise it and resubmit your form'){
     let remove_class = 'positive';
     let add_class = 'negative';
@@ -77,15 +78,6 @@ function display_flash_msg(target='#flash_message', type = 'error', msg = 'There
 }
 
 // Navigation for steps
-function entity_step(){
-    $('#organization_info').trigger('click');
-}
-function person_step(){
-    $('#personal_info').trigger('click');
-}
-function portal_step(){
-    $('#portal_info').trigger('click');
-}
 $('#personal_info').click(function () {
     $('#personal_info_form').show();
     $('#organization_info_form').hide();
@@ -111,7 +103,17 @@ $('#portal_info').click(function () {
     $('#portal_info').addClass('active');
 });
 
-// Entity Registration form modal
+function entity_step(){
+    $('#organization_info').trigger('click');
+}
+function person_step(){
+    $('#personal_info').trigger('click');
+}
+function portal_step(){
+    $('#portal_info').trigger('click');
+}
+
+
 function register_open(){
     $('.ui.modal')
         .modal('show')
@@ -218,6 +220,7 @@ $('#entity_submit').click(function (){
 });
 $('#user_submit').click(function (){
     if( $('#user_form').form('is valid')) {
+        $('#user_submit').addClass('loading');
         let web_links = [];
         $('input[name^="link_"]').each(function(){
             let temp = {
@@ -279,11 +282,13 @@ $('#user_submit').click(function (){
             },
             error: function(){
                 display_flash_msg();
+                $('#user_submit').removeClass('loading');
             }
         }).done(function(msg){
             if(msg['message']!='success'){
                 console.log(msg['message']);
-                display_flash_msg(msg = msg['message']);
+                display_flash_msg('#flash_message', 'error' , msg = msg['message']);
+                $('#user_submit').removeClass('loading');
             }else{
                 window.location.href = app_url;
             }

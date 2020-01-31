@@ -7,6 +7,6 @@
     @include('partials.navigation')
     @yield('content')
     @include('partials.footer')
-</body>
     @yield('scripts')
+</body>
 </html>

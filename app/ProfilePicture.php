@@ -16,13 +16,23 @@ class ProfilePicture extends Model
         return $this->morphTo();
     }
 
-    public function scopeThumbnail($query)
+    public function scopeSmallThumbnail($query)
     {
         return $query->where('resolution', '180')->first();
+    }
+
+    public function scopeThumbnail($query)
+    {
+        return $query->where('resolution', '300')->first();
     }
 
     public function scopeOriginal($query)
     {
         return $query->where('resolution', 'original')->first();
+    }
+
+    public function scopeUnused($query)
+    {
+        return $query->whereNull('profileable_id');
     }
 }
