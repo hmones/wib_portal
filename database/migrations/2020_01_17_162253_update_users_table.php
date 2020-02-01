@@ -23,7 +23,6 @@ class UpdateUsersTable extends Migration
             $table->char('postal_code',50)->nullable();
             $table->bigInteger('city_id')->unsigned()->index()->nullable();
             $table->bigInteger('country_id')->unsigned()->index()->nullable();
-            $table->char('activity',255)->nullable();
             $table->char('sphere',255)->nullable();
             $table->timestamp('last_login')->nullable();
             $table->char('education',255)->nullable();
@@ -39,7 +38,7 @@ class UpdateUsersTable extends Migration
             $table->boolean('gdpr_consent')->default(False);
             $table->foreign('city_id')->references('id')->on('cities');
             $table->foreign('country_id')->references('id')->on('countries');
-            $table->foreign('approved_by')->references('id')->on('admin_users');
+            $table->foreign('approved_by')->references('id')->on('admins');
         });
     }
 
@@ -64,7 +63,6 @@ class UpdateUsersTable extends Migration
                 'postal_code',
                 'city_id',
                 'country_id',
-                'activity',
                 'sphere',
                 'last_login',
                 'education',

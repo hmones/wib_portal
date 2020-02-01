@@ -27,6 +27,7 @@ class SectorsSeeder extends Seeder
             [ "name"=>"Conflict & Mediation", "icon"=>"info" ],
             [ "name"=>"Construction", "icon"=>"info" ],
             [ "name"=>"Corporate Social Responsibility", "icon"=>"info" ],
+            [ "name"=>"Creative Industries", "icon"=>"info" ],
             [ "name"=>"Culture", "icon"=>"info" ],
             [ "name"=>"Cybersecurity", "icon"=>"info" ],
             [ "name"=>"Data Science", "icon"=>"info" ],

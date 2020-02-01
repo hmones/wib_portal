@@ -114,8 +114,8 @@
                     </div>
 
                     <div class="field">
-                        <label for="bio">About you</label>
-                        <textarea rows="2" name="bio"></textarea>
+                        <label for="bio">Profile</label>
+                        <textarea rows="2" name="bio" placeholder="Max. 2500 charachters"></textarea>
                     </div>
                     <h4 class="ui dividing header">Web Links</h4>
                     <div class="four fields">
@@ -206,6 +206,7 @@
                                     <i class="dropdown icon"></i>
                                     <div class="default text">Search for a registered organization</div>
                                     <div class="menu">
+                                            <div class="item" data-value="">Not Applicable</div>
                                         @foreach ($entities as $entity)
                                             <div class="item" data-value="{{$entity->id}}">{{$entity->name}}</div>
                                         @endforeach
@@ -219,6 +220,7 @@
                                     <i class="dropdown icon"></i>
                                     <div class="default text">What is your relation to the organization?</div>
                                     <div class="menu">
+                                        <div class="item" data-value="">Not Applicable</div>
                                         @foreach ($relations as $relation)
                                             <div class="item" data-value="{{$relation}}">{{$relation}}</div>
                                         @endforeach
@@ -251,71 +253,43 @@
                             </div>
                         </div>
                     </div>
-                    <h4 class="ui dividing header">Work Related Information</h4>
-                    <div class="two fields">
-                        <div class="required field">
-                            <label for="activity">Your business activity</label>
-                            <div class="ui fluid search selection dropdown">
-                                <input type="hidden" name="activity">
-                                <i class="dropdown icon"></i>
-                                <div class="default text">Business activity</div>
-                                <div class="menu">
-                                    @forelse ($activities as $activity)
-                                        <div class="item" data-value="{{$activity}}">{{$activity}}</div>
-                                    @empty
-                                        <p>No Supported activity fields currently ...</p>
-                                    @endforelse
-                                </div>
-                            </div>
-                        </div>
-                        <div class="required field">
-                            <label for="sphere">Your main business sphere</label>
-                            <div class="ui fluid search selection dropdown">
-                                <input type="hidden" name="sphere">
-                                <i class="dropdown icon"></i>
-                                <div class="default text">Business sphere</div>
-                                <div class="menu">
-                                    @forelse ($spheres as $sphere)
-                                        <div class="item" data-value="{{$sphere}}">{{$sphere}}</div>
-                                    @empty
-                                        <p>No supported spheres currently ...</p>
-                                    @endforelse
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <h4 class="ui dividing header">Which sectors are you mostly affiliated with?</h4>
+                    <h4 class="ui dividing header">Which fields are you currently working in?</h4>
                     <div class="three fields">
                         @for ($i = 1; $i < 4; $i++)
                         <div class="{{$i==1?'required':''}} field">
-                            <label for="sector_{{$i}}">Business sector {{$i}}</label>
+                            <label for="sector_{{$i}}">Field {{$i}}</label>
                             <div class="ui fluid search selection dropdown">
                                 <input type="hidden" name="sector_{{$i}}" >
                                 <i class="dropdown icon"></i>
-                                <div class="default text">Business sector {{$i}}</div>
+                                <div class="default text">Working field {{$i}}</div>
                                 <div class="menu">
+                                    @if($i != 1)
+                                    <div class="item" data-value="">Not Applicable</div>
+                                    @endif
                                     @forelse ($sectors as $sector)
                                         <div class="item" data-value="{{$sector->id}}">{{$sector->name}}</div>
                                     @empty
-                                        No Supported sector fields currently ...
+                                        No Supported fields currently ...
                                     @endforelse
                                 </div>
                             </div>
                         </div>
                         @endfor
                     </div>
+                    <h4 class="ui dividing header">Which business women association are you member of?</h4>
                     <div class="field">
-                        <label for="business_association_wom">Business Woman Association</label>
                         <div class="ui fluid search selection dropdown">
                             <input type="hidden" name="business_association_wom">
                             <i class="dropdown icon"></i>
                             <div class="default text">Business Woman Association</div>
                             <div class="menu">
+                                <div class="item" data-value="">None</div>
                                 @forelse ($associations as $association)
                                     <div class="item" data-value="{{$association}}">{{$association}}</div>
                                 @empty
                                     <p>No supported women associations currently ...</p>
                                 @endforelse
+                                <div class="item" data-value="Other">Other</div>
                             </div>
                         </div>
                     </div>
@@ -497,16 +471,19 @@
                             </div>
                         </div>
                         @endforeach
-                        <h4 class="ui dividing header">Which business sectors do the organization work in?</h4>
+                        <h4 class="ui dividing header">Which field of activity does your organization work in?</h4>
                         <div class="three fields">
                             @for ($i = 1; $i < 4; $i++)
                                 <div class="{{$i==1?'required':''}} field">
-                                    <label for="entity_sector_{{$i}}">Business sector {{$i}}</label>
+                                    <label for="entity_sector_{{$i}}">Field {{$i}}</label>
                                     <div class="ui fluid search selection dropdown">
                                         <input type="hidden" name="entity_sector_{{$i}}">
                                         <i class="dropdown icon"></i>
-                                        <div class="default text">Business sector</div>
+                                        <div class="default text">Field of activity</div>
                                         <div class="menu">
+                                            @if($i != 1)
+                                                <div class="item" data-value=""></div>
+                                            @endif
                                             @foreach ($sectors as $sector)
                                                 <div class="item" data-value="{{$sector->id}}">{{$sector->name}}</div>
                                             @endforeach
@@ -531,7 +508,7 @@
                             </div>
                             <div class="field">
                                 <label for="activity">Business activity</label>
-                                <div class="ui fluid search selection dropdown">
+                                <div class="ui selection dropdown">
                                     <input type="hidden" name="entity_activity">
                                     <i class="dropdown icon"></i>
                                     <div class="default text">Business activity</div>

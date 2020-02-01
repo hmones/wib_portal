@@ -23,7 +23,7 @@ class CreateLinksTable extends Migration
             $table->bigInteger('verified_by')->unsigned()->index()->nullable();
             $table->timestamps();
             $table->foreign('type_id')->references('id')->on('supported_links');
-            $table->foreign('verified_by')->references('id')->on('admin_users');
+            $table->foreign('verified_by')->references('id')->on('admins');
         });
     }
 

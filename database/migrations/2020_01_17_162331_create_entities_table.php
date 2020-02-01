@@ -46,13 +46,14 @@ class CreateEntitiesTable extends Migration
             $table->char('business_type', 50)->nullable();
             $table->timestamp('approved_at')->nullable();
             $table->bigInteger('approved_by')->unsigned()->nullable()->index();
+            $table->unsignedBigInteger('owned_by')->nullable()->index();
             $table->timestamps();
             $table->foreign('primary_city_id')->references('id')->on('cities');
             $table->foreign('primary_country_id')->references('id')->on('countries');
             $table->foreign('secondary_city_id')->references('id')->on('cities');
             $table->foreign('secondary_country_id')->references('id')->on('countries');
             $table->foreign('entity_type_id')->references('id')->on('entity_types');
-            $table->foreign('approved_by')->references('id')->on('admin_users');
+            $table->foreign('approved_by')->references('id')->on('admins');
         });
     }
 

@@ -59,8 +59,6 @@ $(function() {
             relation_3:{depends:'entity_3'},
             sector_1:{rules:[{type:'empty'}]},
             education:{rules:[{type:'empty'}]},
-            activity:{rules:[{type:'empty'}]},
-            sphere:{rules:[{type:'empty'}]},
             gdpr_consent:{rules:[{type:'checked'}]},
         }
     });
@@ -269,8 +267,6 @@ $('#user_submit').click(function (){
                 entity_3: $('input[name="entity_3"]').val(),
                 relation_3: $('input[name="relation_3"]').val(),
                 education: $('input[name="education"]').val(),
-                activity: $('input[name="activity"]').val(),
-                sphere: $('input[name="sphere"]').val(),
                 sector_1: $('input[name="sector_1"]').val(),
                 sector_2: $('input[name="sector_2"]').val(),
                 sector_3: $('input[name="sector_3"]').val(),

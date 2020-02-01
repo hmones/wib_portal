@@ -50,7 +50,7 @@ class User extends Authenticatable
 
     public function approved_by()
     {
-        return $this->belongsTo('App\AdminUser', 'approved_by');
+        return $this->belongsTo('App\Admin', 'approved_by');
     }
 
     public function entities()
