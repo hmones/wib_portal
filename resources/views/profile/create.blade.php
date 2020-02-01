@@ -640,6 +640,7 @@
         let entity_store_url = "{{route('entity.store')}}";
         let profile_store_url = "{{route('profile.store')}}";
         let profile_picture_store_url = "{{route('profilepicture.store')}}";
+        let login_url = "{{route('login')}}";
         let app_token = "{{Session::token()}}";
     </script>
     <script src="{{asset('js/profile.create.js')}}" type="application/javascript"></script>

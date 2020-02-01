@@ -5,6 +5,7 @@
 </head>
 <body>
     @include('partials.navigation')
+    @include('partials.flash-message')
     @yield('content')
     @include('partials.footer')
     @yield('scripts')

@@ -204,19 +204,16 @@ $('#entity_submit').click(function (){
                 $('.entity_search_dropdown > div.menu').append(item);
                 $('.entity_search_dropdown').dropdown('refresh').dropdown('clear');
                 $('.ui.modal').modal('hide');
-                $('#flash_message').show()
-                    .removeClass('negative')
-                    .addClass("positive")
-                    .text('Entity Saved Successfully!')
-                    .delay(1500)
-                    .fadeOut(400)
-                ;
+                $(window).scrollTop(0);
+                display_flash_msg('#flash_message', 'success','Entity Saved Successfully!');
             }else{
                 display_flash_msg('#form_errors','error', msg = msg['message']);
+                $(window).scrollTop(0);
             }
         });
     }else{
         display_flash_msg('#form_errors','error',  msg = msg['message']);
+        $(window).scrollTop(0);
     }
 
 });
@@ -284,14 +281,16 @@ $('#user_submit').click(function (){
             error: function(){
                 display_flash_msg();
                 $('#user_submit').removeClass('loading');
+                $(window).scrollTop(0);
             }
         }).done(function(msg){
             if(msg['message']!='success'){
                 console.log(msg['message']);
                 display_flash_msg('#flash_message', 'error' , msg = msg['message']);
                 $('#user_submit').removeClass('loading');
+                $(window).scrollTop(0);
             }else{
-                window.location.href = app_url;
+                window.location.href = login_url;
             }
         });
     }else{

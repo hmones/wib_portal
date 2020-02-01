@@ -187,6 +187,8 @@ class ProfileController extends Controller
         {
             Entity::whereIn('id', $request->reg_entities)->update(['owned_by'=> $user->id]);
         }
+
+        $request->session()->flash('success', 'User was saved successfully!');
         return response()->json(['message' => 'success', 'data' => $user, 'id' => $user->id, 'name' => $user->name]);
     }
 
