@@ -1,3 +1,4 @@
+let registered_entities = [];
 // Page initializations
 $(function() {
     $('.ui.dropdown')
@@ -54,9 +55,9 @@ $(function() {
             country_id: {rules:[{type:'empty'}]},
             city_id: {rules:[{type:'empty'}]},
             postal_code: {optional:true,rules:[{type:'empty'},{type:'maxLength[50]'}]},
-            relation_1:{depends:'entity_1'},
-            relation_2:{depends:'entity_2'},
-            relation_3:{depends:'entity_3'},
+            relation_1:{depends:'entity_1',rules:[{type:'empty'}]},
+            relation_2:{depends:'entity_2',rules:[{type:'empty'}]},
+            relation_3:{depends:'entity_3',rules:[{type:'empty'}]},
             sector_1:{rules:[{type:'empty'}]},
             education:{rules:[{type:'empty'}]},
             gdpr_consent:{rules:[{type:'checked'}]},
@@ -197,6 +198,9 @@ $('#entity_submit').click(function (){
             if(msg['message']==='success')
             {
                 let item = "<div class='item' data-value='" + msg['id'] + "' data-text='" + msg['name'] + "'>"+ msg['name'] +"</div>";
+                registered_entities.push(msg['id']);
+                console.log(registered_entities);
+                console.log(msg['id']);
                 $('.entity_search_dropdown > div.menu').append(item);
                 $('.entity_search_dropdown').dropdown('refresh').dropdown('clear');
                 $('.ui.modal').modal('hide');
@@ -270,6 +274,7 @@ $('#user_submit').click(function (){
                 sector_1: $('input[name="sector_1"]').val(),
                 sector_2: $('input[name="sector_2"]').val(),
                 sector_3: $('input[name="sector_3"]').val(),
+                reg_entities : registered_entities,
                 business_association_wom: $('input[name="business_association_wom"]').val(),
                 mena_diaspora: mena_diaspora,
                 newsletter:newsletter,

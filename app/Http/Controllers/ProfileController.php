@@ -183,6 +183,10 @@ class ProfileController extends Controller
             }
         }
         $user->save();
+        if ($request->reg_entities != null)
+        {
+            Entity::whereIn('id', $request->reg_entities)->update(['owned_by'=> $user->id]);
+        }
         return response()->json(['message' => 'success', 'data' => $user, 'id' => $user->id, 'name' => $user->name]);
     }
 
@@ -205,7 +209,7 @@ class ProfileController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return response()->redirectTo(route('home'));
     }
 
     /**
@@ -229,5 +233,16 @@ class ProfileController extends Controller
     public function destroy(User $user)
     {
         //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param \App\User $user
+     * @return \Illuminate\Http\Response
+     */
+    public function settings(User $user)
+    {
+        return response()->redirectTo(route('home'));
     }
 }

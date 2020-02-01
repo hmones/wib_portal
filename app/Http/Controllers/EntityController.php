@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Entity;
 use App\ProfilePicture;
+use App\User;
 use Illuminate\Http\Request;
 
 class EntityController extends Controller
@@ -11,11 +12,11 @@ class EntityController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function index()
     {
-        //
+        return view('entity.index', ['entities'=>Entity::all()]);
     }
 
     /**
@@ -156,6 +157,17 @@ class EntityController extends Controller
     public function show(Entity $entity)
     {
         //
+    }
+
+    /**
+     * Display the specified resource for a particular user.
+     *
+     * @param  \App\Entity  $entity
+     * @return \Illuminate\Http\Response
+     */
+    public function showUser(User $user)
+    {
+        return response()->redirectTo(route('home'));
     }
 
     /**
