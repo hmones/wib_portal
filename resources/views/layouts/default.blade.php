@@ -9,5 +9,6 @@
     @yield('content')
     @include('partials.footer')
     @yield('scripts')
+    @yield('styles')
 </body>
 </html>

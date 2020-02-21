@@ -26,7 +26,8 @@
             </div>
         @endif
     </div>
-    <br>
+    <a href="{{route('password.request')}}">Forgot password?</a>
+    <br><br>
     <button class="ui primary fluid button" type="submit">Login</button>
     <div class="ui divider"></div>
     @if($url==='user')

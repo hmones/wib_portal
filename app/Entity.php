@@ -71,5 +71,10 @@ class Entity extends Model
         return $this->morphMany('App\SearchingForOption', 'searchable');
     }
 
+    public function scopeOwnedby($query, $userID)
+    {
+        $query->where('owned_by', $userID);
+    }
+
 
 }

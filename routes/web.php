@@ -13,26 +13,27 @@
 
 use App\Country;
 use App\Http\Resources\Country as CountryResource;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/', 'HomeController@index')->middleware('auth')->name('home');
+Route::get('/', 'HomeController@index')->middleware(['auth', 'verified'])->name('home');
 
-Route::get('profile/create','ProfileController@create')->name('profile.create');
+Route::prefix('profile/entities')->as('profile.entities')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', 'EntityController@indexUser');
+    Route::post('/associate', 'EntityController@associateEntity')->name('.associate');
+    Route::post('/{entity}/disassociate', 'EntityController@disassociateEntity')->name('.disassociate');
+});
+
+Route::resource('entity', 'EntityController')->middleware(['auth', 'verified']);
+
+Route::get('profile/create', 'ProfileController@create')->name('profile.create');
 
 Route::post('profile', 'ProfileController@store')->name('profile.store');
 
-Route::get('profile/settings', 'ProfileController@settings')->name('profile.settings')->middleware('auth');
+Route::post('profile/contact/{profile}', 'ProfileController@contact')->name('profile.contact')->middleware(['auth', 'verified']);
 
-Route::resource('profile', 'ProfileController')->except(['create','store'])->middleware('auth');
-
-Route::get('entity/create','EntityController@create')->name('entity.create');
-
-Route::post('entity', 'EntityController@store')->name('entity.store');
-
-Route::resource('entity', 'EntityController')->except(['create','store'])->middleware('auth');
-
-Route::get('entity/user/{user}', 'EntityController@showUser')->name('entity.show.user')->middleware('auth');
+Route::resource('profile', 'ProfileController')->except(['create', 'store'])->middleware('auth');
 
 Route::resource('profilepicture', 'ProfilePictureController');
 
@@ -40,9 +41,11 @@ Route::get('/country/{id}', function ($id) {
     return new CountryResource(Country::findOrFail($id));
 })->name('country.cities.get');
 
-Auth::routes();
+Route::get('/entities/search', 'EntityController@search')->middleware(['auth', 'verified']);
 
-Route::namespace('Admin')->prefix('adminpanel')->as('admin.')->group(function() {
+Auth::routes(['verify' => true]);
+
+Route::namespace('Admin')->prefix('adminpanel')->as('admin.')->group(function () {
     Auth::routes(['register' => false]);
     Route::get('/dashboard', 'DashboardController@index')->middleware('auth:admin')->name('home');
 });

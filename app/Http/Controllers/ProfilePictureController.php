@@ -137,7 +137,7 @@ class ProfilePictureController extends Controller
      * @param int $id
      * @return string
      */
-    public function destroy($id)
+    public static function destroy($id)
     {
         $image = ProfilePicture::findOrFail($id);
         Storage::disk('s3')->delete([

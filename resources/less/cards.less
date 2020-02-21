@@ -1,0 +1,45 @@
+.profilebox {
+    border-radius: 5px;
+    overflow: hidden !important;
+    padding: 0px !important;
+    margin: 0px !important;
+    width: 100%;
+    display: block;
+}
+
+.profilecontent {
+    position: absolute;
+    text-align: center;
+    vertical-align: bottom;
+    background: rgb(0, 0, 0);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(46, 46, 46, 1) 80%);
+    color: white;
+    z-index: 1;
+    bottom: 0px;
+    width: 90%;
+    padding-bottom: 20px;
+    padding-top: 40px;
+    border-radius: 5px;
+    height: 50%;
+}
+
+@media screen  and (max-width: 768px) {
+    .profilecontent {
+        width: 100%;
+    }
+}
+
+.profilecontent h2, p {
+    margin: 2px;
+}
+
+.profileimage {
+    width: 100%;
+    border-radius: 5px;
+    overflow: hidden;
+    transition: all 1s;
+}
+
+.profileimage:hover {
+    transform: scale(1.1);
+}

@@ -12,5 +12,6 @@ const mix = require('laravel-mix');
  */
 
 mix.scripts('resources/js/app.js', 'public/js/app.js')
-    .scripts('resources/js/profile/create.js','public/js/profile.create.js')
+    .scripts('resources/js/profile/create.js', 'public/js/profile.create.js')
+    .scripts('resources/js/entity/create.js', 'public/js/entity.create.js')
     .less('resources/less/app.less', 'public/css/app.css');
