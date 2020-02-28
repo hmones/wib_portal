@@ -225,6 +225,7 @@ class EntityController extends Controller
         $supported_links = SupportedLink::all();
         $sectors = Sector::all();
         $entity_types = EntityType::all();
+        $images = $entity->photos()->latest()->get();
         return view('entity.edit', [
             'activities' => $this->activities,
             'countries' => $countries,
@@ -236,6 +237,7 @@ class EntityController extends Controller
             'addresses' => $this->addresses,
             'business_options' => $this->business_options,
             'entity' => $entity,
+            'images' => $images
         ]);
     }
 

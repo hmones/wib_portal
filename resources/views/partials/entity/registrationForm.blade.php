@@ -343,6 +343,50 @@
                 </div>
             </div>
         </div>
+        @isset($entity)
+            <h4 class="ui dividing header">Product images:</h4>
+            <div class="ui fluid basic segment" id="ImageUpload">
+                <form id="uploadPhotos" action="{{route('image.upload', ['entity'=>$entity])}}" method="POST"
+                      enctype="multipart/form-data">
+                    <div class="ui middle aligned four column centered grid">
+                        <div onclick="upload_images();" class="row" id="styledUploader">
+                            <div class="ui basic center aligned segment column" style="">
+                                <i class="upload big blue icon"></i>
+                                <br><br>
+                                Click here to select product photos to upload
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+                <form id="uploadPhotos" action="{{route('image.upload', ['entity'=>$entity])}}" method="POST"
+                      enctype="multipart/form-data">
+                    @csrf
+                    <input style="display: none;" id="photoSelection" type="file" name="file[]" multiple>
+                    <br><br>
+                </form>
+            </div>
+            <div class="ui stackable five column centered grid">
+                @forelse($images as $image)
+                    <div class="column">
+                        <form method="POST" action="{{route('images.delete',['entity'=>$entity,'photo'=>$image])}}">
+                            @method('DELETE')
+                            @csrf
+                            <div class="ui rounded image">
+                                <button type="submit" class="ui red right corner label">
+                                    <i class="close icon" style="top: -0.7em;"></i>
+                                </button>
+                                <img src="{{$image->thumbnail}}" class="ui image" alt="">
+                            </div>
+                        </form>
+                    </div>
+                @empty
+                    <div class="ten wide center aligned centered column">
+                        <i class="info circle teal icon"></i> No product images to display
+                    </div>
+                @endforelse
+            </div>
+        @endisset
         <div class="ui right floated basic segment">
             <a class="ui blue deny button" href="{{route('profile.entities')}}">
                 Cancel

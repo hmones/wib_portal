@@ -49,3 +49,5 @@ Route::namespace('Admin')->prefix('adminpanel')->as('admin.')->group(function ()
     Auth::routes(['register' => false]);
     Route::get('/dashboard', 'DashboardController@index')->middleware('auth:admin')->name('home');
 });
+
+Route::delete('/images/{entity}/{photo}', 'PhotosController@destroy')->name('images.delete');

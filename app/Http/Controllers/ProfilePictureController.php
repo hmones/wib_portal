@@ -11,9 +11,7 @@ class ProfilePictureController extends Controller
 {
 
     const PATH_180 = "wib_uploads/profile_pictures/180x180/";
-
     const PATH_300 = "wib_uploads/profile_pictures/300x300/";
-
     const PATH_ORIGINAL = 'wib_uploads/profile_pictures/original/';
 
     /**
@@ -57,8 +55,8 @@ class ProfilePictureController extends Controller
         $extension = $picture->extension();
         $filename = uniqid().'.'.$extension;
 
-        $normal = Image::make($picture)->fit(180,180)->encode($extension);
-        $storage_path = Self::PATH_180 . $filename;
+        $normal = Image::make($picture)->fit(180, 180)->encode($extension);
+        $storage_path = self::PATH_180 . $filename;
         Storage::disk('s3')->put($storage_path, (string)$normal, 'public');
 
         $thumbnail = ProfilePicture::firstOrNew(
@@ -73,8 +71,8 @@ class ProfilePictureController extends Controller
         if (!isset($thumbnail->id)) {
             $thumbnail->save();
 
-            $medium = Image::make($picture)->fit(300,300)->encode($extension);
-            $storage_path_m = Self::PATH_300 . $filename;
+            $medium = Image::make($picture)->fit(300, 300)->encode($extension);
+            $storage_path_m = self::PATH_300 . $filename;
             Storage::disk('s3')->put($storage_path_m, (string)$medium, 'public');
 
             $medium = ProfilePicture::create([
@@ -84,7 +82,7 @@ class ProfilePictureController extends Controller
             ]);
 
             $large = Image::make($picture)->encode($extension);
-            $storage_path_o = Self::PATH_ORIGINAL . $filename;
+            $storage_path_o = self::PATH_ORIGINAL . $filename;
             Storage::disk('s3')->put($storage_path_o, (string)$large, 'public');
 
             $original = ProfilePicture::create([
@@ -141,9 +139,9 @@ class ProfilePictureController extends Controller
     {
         $image = ProfilePicture::findOrFail($id);
         Storage::disk('s3')->delete([
-            Self::PATH_180 . $image->filename,
-            Self::PATH_ORIGINAL . $image->filename,
-            Self::PATH_300 . $image->filename,
+            self::PATH_180 . $image->filename,
+            self::PATH_ORIGINAL . $image->filename,
+            self::PATH_300 . $image->filename,
         ]);
         ProfilePicture::where('filename', $image->filename)->delete();
 

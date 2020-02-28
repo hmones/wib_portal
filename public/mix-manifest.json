@@ -1,6 +1,8 @@
 {
     "/css/app.css": "/css/app.css",
-    "/js/app.js": "/js/app.js",
+    "/js/ui.js": "/js/ui.js",
+    "/js/entity.create.js": "/js/entity.create.js",
     "/js/profile.create.js": "/js/profile.create.js",
-    "/js/entity.create.js": "/js/entity.create.js"
+    "/js/entity.upload.photos.js": "/js/entity.upload.photos.js",
+    "/js/app.js": "/js/app.js"
 }

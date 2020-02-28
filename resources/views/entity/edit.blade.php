@@ -17,7 +17,9 @@
         let entities_url = "{{route('profile.entities')}}";
         let profile_picture_store_url = "{{route('profilepicture.store')}}";
         let app_token = "{{Session::token()}}";
+        let entity_photos_url = "{{route('image.upload', ['entity'=>$entity])}}";
     </script>
     <script src="{{asset('js/entity.create.js')}}" type="application/javascript"></script>
+    <script src="{{asset('js/entity.upload.photos.js')}}"></script>
 @endsection
 

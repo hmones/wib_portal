@@ -117,6 +117,24 @@
 
             </div>
         </div>
+        <div class="ui six column stackable grid">
+            @if($entity->photos()->exists())
+                <div class="sixteen wide column">
+                    <h4 class="ui dividing header">Product Photos</h4>
+                </div>
+                @foreach($entity->photos()->get() as $photo)
+                    <div class="column">
+                        <a onclick="$('#image_{{$photo->id}}').modal('show');"><img class="ui image"
+                                                                                    src="{{$photo->thumbnail}}" alt=""></a>
+                        <div class="ui basic modal" id="image_{{$photo->id}}">
+                            <div class="ui center aligned basic segment">
+                                <img src="{{$photo->url}}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            @endif
+        </div>
 
     </div>
     <br><br><br>
