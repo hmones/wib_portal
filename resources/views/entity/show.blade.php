@@ -3,12 +3,12 @@
 @section('content')
     <br><br>
     <div class="ui centered container">
-        <div class="ui grid">
-            <div class="ui blue header breadcrumb">
+        <div class="ui stackable grid">
+            <h2 class="ui blue header breadcrumb">
                 <a class="section" href="{{route('entity.index')}}">Organizations</a>
                 <i class="right angle icon divider"></i>
                 <a class="active section" href="{{route('entity.show', $entity)}}">{{$entity->name}}</a>
-            </div>
+            </h2>
         </div>
         <br><br><br>
         <div class="ui stackable middle aligned grid">
@@ -30,24 +30,40 @@
                 @endforeach
 
             </div>
-            <div class="five wide column">
-                <div class="ui left aligned basic segment">
-                    @isset($entity->phone)
-                        <p><i class="phone blue icon"></i>Tel: +({{$entity->phone_country_code??'00'}}
-                            )&nbsp;{{$entity->phone}}</p>
-                    @endisset
-                    @isset($entity->primary_email)
-                        <p><i class="at blue icon"></i>Email: <a
-                                href="{{$entity->primary_email??'#'}}">{{$entity->primary_email}}</a></p>
-                    @endisset
+            <div class="right floated four wide column">
+                <div class="ui stackable grid">
+                    <div class="row">
+                        <div class="two wide column">
+                            <i class="mobile alternate blue icon"></i>
+                        </div>
+                        <div class="fourteen wide column">
+                            @isset($entity->phone)
+                                +({{$entity->phone_country_code??'00'}})&nbsp;{{$entity->phone}}
+                            @else
+                                No phone available
+                            @endisset
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="two wide column">
+                            <i class="at blue icon"></i>
+                        </div>
+                        <div class="fourteen wide column">
+                            @isset($entity->phone)
+                                <a href="{{$entity->primary_email??'#'}}">{{$entity->primary_email}}</a>
+                            @else
+                                No email available
+                            @endisset
+                        </div>
+                    </div>
                 </div>
             </div>
+
         </div>
         <br><br><br><br>
         <div class="ui stackable grid">
             <div class="five wide column">
-                <h4 class="ui blue header">Members</h4>
-                <div class="ui divider"></div>
+                <h4 class="ui blue header"><i class="stop wib bullet icon"></i>Members</h4>
                 <div class="ui list">
                     @forelse($entity->users as $user)
                         <div class="item">
@@ -76,44 +92,42 @@
 
             </div>
             <div class="five wide column">
-                <h4 class="ui blue header">Fields of Activity</h4>
-                <div class="ui divider"></div>
-                @foreach($entity->sectors as $sector)
-                    <div>
-                    <!--                             <i class="{{$sector->icon}} blue icon"></i> -->
-                        {{$sector->name}}
-                    </div>
-                @endforeach
+                <h4 class="ui blue header"><i class="stop wib bullet icon"></i>Fields of Activity</h4>
+                <div class="ui grey message">
+                    @foreach($entity->sectors as $sector)
+                        <div>
+                        <!--                             <i class="{{$sector->icon}} blue icon"></i> -->
+                            {{$sector->name}}
+                        </div>
+                    @endforeach
+                </div>
 
-                <h4 class="ui blue header">Business Activity</h4>
-                <div class="ui divider"></div>
-                @if($entity->activity)
-                    {{$entity->activity}}
-                @else
-                    <i class="info circle teal icon"></i> No information to show!
-                @endif
+                <h4 class="ui blue header"><i class="stop wib bullet icon"></i>Business Activity</h4>
+                <div class="ui grey message">
+                    @if($entity->activity)
+                        {{$entity->activity}}
+                    @else
+                        <i class="info circle teal icon"></i> No information to show!
+                    @endif
+                </div>
             </div>
             <div class="five wide column">
-                <h4 class="ui blue header">Locations</h4>
-                <div class="ui divider"></div>
-                <i class="map marker alternate teal icon"></i> Primary Address
-                <div class="ui basic segment">
+                <h4 class="ui blue header"><i class="stop wib bullet icon"></i>Locations</h4>
+                <div class="ui grey message">
                     {{$entity->primary_address}} <br> {{$entity->primary_city->name}}
                     <br>{{$entity->primary_country->name}}
                 </div>
-                <div class="ui divider"></div>
-                <i class="map marker alternate teal icon"></i> Secondary Address
-                <div class="ui basic segment">
-                    @if($entity->secondary_address)
+
+                @if($entity->secondary_address)
+                    <div class="ui divider"></div>
+                    <div class="ui grey message">
                         {{$entity->secondary_address ?? ""}}
                         <br>
                         {{$entity->secondary_city->name ?? ""}}
                         <br>
                         {{$entity->secondary_country->name ?? ""}}
-                    @else
-                        <i class='info circle teal icon'></i> No secondary address available
-                    @endif
-                </div>
+                    </div>
+                @endif
 
             </div>
         </div>

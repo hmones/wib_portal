@@ -16,17 +16,17 @@
 
 /* Prototype */
 .ui.table {
-  width: 100%;
-  background: #FFFFFF;
-  margin: 1em 0em;
-  border: 1px solid rgba(34, 36, 38, 0.15);
-  -webkit-box-shadow: none;
-          box-shadow: none;
-  border-radius: 0.28571429rem;
-  text-align: right;
-  color: rgba(0, 0, 0, 0.87);
-  border-collapse: separate;
-  border-spacing: 0px;
+    width: 100%;
+    background: #FFFFFF;
+    margin: 1em 0em;
+    border: 1px solid rgba(34, 36, 38, 0.15);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-radius: 0.25rem;
+    text-align: right;
+    color: rgba(0, 0, 0, 0.87);
+    border-collapse: separate;
+    border-spacing: 0px;
 }
 .ui.table:first-child {
   margin-top: 0em;
@@ -54,29 +54,29 @@
           box-shadow: none;
 }
 .ui.table thead th {
-  cursor: auto;
-  background: #F9FAFB;
-  text-align: inherit;
-  color: rgba(0, 0, 0, 0.87);
-  padding: 0.92857143em 0.78571429em;
-  vertical-align: inherit;
-  font-style: none;
-  font-weight: bold;
-  text-transform: none;
-  border-bottom: 1px solid rgba(34, 36, 38, 0.1);
-  border-right: none;
+    cursor: auto;
+    background: #F9FAFB;
+    text-align: inherit;
+    color: rgba(0, 0, 0, 0.87);
+    padding: 0.9375em 0.8125em;
+    vertical-align: inherit;
+    font-style: none;
+    font-weight: bold;
+    text-transform: none;
+    border-bottom: 1px solid rgba(34, 36, 38, 0.1);
+    border-right: none;
 }
 .ui.table thead tr > th:first-child {
   border-right: none;
 }
 .ui.table thead tr:first-child > th:first-child {
-  border-radius: 0em 0.28571429rem 0em 0em;
+    border-radius: 0em 0.25rem 0em 0em;
 }
 .ui.table thead tr:first-child > th:last-child {
-  border-radius: 0.28571429rem 0em 0em 0em;
+    border-radius: 0.25rem 0em 0em 0em;
 }
 .ui.table thead tr:first-child > th:only-child {
-  border-radius: 0.28571429rem 0.28571429rem 0em 0em;
+    border-radius: 0.25rem 0.25rem 0em 0em;
 }
 
 /* Footer */
@@ -85,28 +85,28 @@
           box-shadow: none;
 }
 .ui.table tfoot th {
-  cursor: auto;
-  border-top: 1px solid rgba(34, 36, 38, 0.15);
-  background: #F9FAFB;
-  text-align: inherit;
-  color: rgba(0, 0, 0, 0.87);
-  padding: 0.78571429em 0.78571429em;
-  vertical-align: middle;
-  font-style: normal;
-  font-weight: normal;
-  text-transform: none;
+    cursor: auto;
+    border-top: 1px solid rgba(34, 36, 38, 0.15);
+    background: #F9FAFB;
+    text-align: inherit;
+    color: rgba(0, 0, 0, 0.87);
+    padding: 0.8125em 0.8125em;
+    vertical-align: middle;
+    font-style: normal;
+    font-weight: normal;
+    text-transform: none;
 }
 .ui.table tfoot tr > th:first-child {
   border-right: none;
 }
 .ui.table tfoot tr:first-child > th:first-child {
-  border-radius: 0em 0em 0.28571429rem 0em;
+    border-radius: 0em 0em 0.25rem 0em;
 }
 .ui.table tfoot tr:first-child > th:last-child {
-  border-radius: 0em 0em 0em 0.28571429rem;
+    border-radius: 0em 0em 0em 0.25rem;
 }
 .ui.table tfoot tr:first-child > th:only-child {
-  border-radius: 0em 0em 0.28571429rem 0.28571429rem;
+    border-radius: 0em 0em 0.25rem 0.25rem;
 }
 
 /* Table Row */
@@ -124,8 +124,8 @@
 
 /* Table Cells */
 .ui.table td {
-  padding: 0.78571429em 0.78571429em;
-  text-align: inherit;
+    padding: 0.8125em 0.8125em;
+    text-align: inherit;
 }
 
 /* Icons */
@@ -186,7 +186,7 @@
   .ui.table:not(.unstackable) td:first-child {
     font-weight: bold;
   }
-  
+
 /* Definition Table */
   .ui.definition.table:not(.unstackable) thead th:first-child {
     -webkit-box-shadow: none !important;
@@ -431,7 +431,7 @@
     -webkit-box-shadow: none !important;
             box-shadow: none !important;
   }
-  
+
 /* Definition Table */
   .ui.definition[class*="tablet stackable"].table thead th:first-child {
     -webkit-box-shadow: none !important;
@@ -516,9 +516,9 @@
   padding: 0em;
 }
 .ui.table tbody tr td.selectable > a:not(.ui) {
-  display: block;
-  color: inherit;
-  padding: 0.78571429em 0.78571429em;
+    display: block;
+    color: inherit;
+    padding: 0.8125em 0.8125em;
 }
 
 /* Other States */
@@ -576,11 +576,11 @@
 
 /* Top */
 .ui[class*="top attached"].table {
-  bottom: 0px;
-  margin-bottom: 0em;
-  top: 0px;
-  margin-top: 1em;
-  border-radius: 0.28571429rem 0.28571429rem 0em 0em;
+    bottom: 0px;
+    margin-bottom: 0em;
+    top: 0px;
+    margin-top: 1em;
+    border-radius: 0.25rem 0.25rem 0em 0em;
 }
 .ui.table[class*="top attached"]:first-child {
   margin-top: 0em;
@@ -588,13 +588,13 @@
 
 /* Bottom */
 .ui[class*="bottom attached"].table {
-  bottom: 0px;
-  margin-top: 0em;
-  top: 0px;
-  margin-bottom: 1em;
-  -webkit-box-shadow: none, none;
-          box-shadow: none, none;
-  border-radius: 0em 0em 0.28571429rem 0.28571429rem;
+    bottom: 0px;
+    margin-top: 0em;
+    top: 0px;
+    margin-bottom: 1em;
+    -webkit-box-shadow: none, none;
+    box-shadow: none, none;
+    border-radius: 0em 0em 0.25rem 0.25rem;
 }
 .ui[class*="bottom attached"].table:last-child {
   margin-bottom: 0em;

@@ -39,7 +39,7 @@ class EntityController extends Controller
      */
     public function index()
     {
-        return view('entity.index', ['entities' => Entity::all()]);
+        return view('entity.index', ['entities' => Entity::latest()->paginate(12)]);
     }
 
     /**

@@ -9,20 +9,18 @@
 @grey           : #f4f3f0;
 @black          : #262626;
 
-
-@fontName          : 'PT Serif';
+@emSize            : 16px;
+@fontSize          : 16px;
+@h1                : 2.25em;
 @fontSmoothing     : antialiased;
 
-@headerFont        : @fontName, 'Helvetica Neue', Arial, Helvetica, sans-serif;
-@pageFont          : 'Source Sans Pro', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+@headerFont        : 'PT Serif', Helvetica, sans-serif;
+@pageFont          : 'Source Sans Pro', Arial, sans-serif;
 
-@googleFontName    : @fontName;
 @importGoogleFonts : true;
-@googleFontSizes   : '400,700,400italic,700italic';
-@googleSubset      : 'latin';
 
 @googleProtocol    : 'https://';
-@googleFontRequest : '@{googleFontName}:@{googleFontSizes}&subset=@{googleSubset}';
+@googleFontRequest : 'PT+Serif:400,700|Source+Sans+Pro:400,700';
 
 
 @bold              : bold;

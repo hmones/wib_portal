@@ -17,31 +17,31 @@
   position: absolute;
   display: none;
   z-index: 1001;
-  text-align: right;
-  background: #FFFFFF;
-  border: none;
-  -webkit-box-shadow: -1px 3px 3px 0px rgba(0, 0, 0, 0.2), -1px 3px 15px 2px rgba(0, 0, 0, 0.2);
-          box-shadow: -1px 3px 3px 0px rgba(0, 0, 0, 0.2), -1px 3px 15px 2px rgba(0, 0, 0, 0.2);
-  -webkit-transform-origin: 50% 25%;
-          transform-origin: 50% 25%;
-  -webkit-box-flex: 0;
-      -ms-flex: 0 0 auto;
-          flex: 0 0 auto;
-  border-radius: 0.28571429rem;
-  -webkit-user-select: text;
-     -moz-user-select: text;
-      -ms-user-select: text;
-          user-select: text;
-  will-change: top, left, margin, transform, opacity;
+    text-align: right;
+    background: #FFFFFF;
+    border: none;
+    -webkit-box-shadow: -1px 3px 3px 0px rgba(0, 0, 0, 0.2), -1px 3px 15px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: -1px 3px 3px 0px rgba(0, 0, 0, 0.2), -1px 3px 15px 2px rgba(0, 0, 0, 0.2);
+    -webkit-transform-origin: 50% 25%;
+    transform-origin: 50% 25%;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    border-radius: 0.25rem;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+    will-change: top, left, margin, transform, opacity;
 }
 .ui.modal > :first-child:not(.icon),
 .ui.modal > .icon:first-child + * {
-  border-top-right-radius: 0.28571429rem;
-  border-top-left-radius: 0.28571429rem;
+    border-top-right-radius: 0.25rem;
+    border-top-left-radius: 0.25rem;
 }
 .ui.modal > :last-child {
-  border-bottom-right-radius: 0.28571429rem;
-  border-bottom-left-radius: 0.28571429rem;
+    border-bottom-right-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
 }
 
 
@@ -76,20 +76,20 @@
 ---------------*/
 
 .ui.modal > .header {
-  display: block;
-  font-family: 'PT Serif', 'Helvetica Neue', Arial, Helvetica, sans-serif;
-  background: #FFFFFF;
-  margin: 0em;
-  padding: 1.25rem 1.5rem;
-  -webkit-box-shadow: none;
-          box-shadow: none;
-  color: rgba(0, 0, 0, 0.85);
-  border-bottom: 1px solid rgba(34, 36, 38, 0.15);
+    display: block;
+    font-family: 'PT Serif', Helvetica, sans-serif;
+    background: #FFFFFF;
+    margin: 0em;
+    padding: 1.25rem 1.5rem;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    color: rgba(0, 0, 0, 0.85);
+    border-bottom: 1px solid rgba(34, 36, 38, 0.15);
 }
 .ui.modal > .header:not(.ui) {
-  font-size: 1.42857143rem;
-  line-height: 1.28571429em;
-  font-weight: bold;
+    font-size: 1.4375rem;
+    line-height: 1.28571429em;
+    font-weight: bold;
 }
 
 /*--------------
@@ -266,7 +266,7 @@
     -webkit-box-shadow: none;
             box-shadow: none;
   }
-  
+
 /* Let Buttons Stack */
   .ui.modal > .actions {
     padding: 1rem 1rem 0rem !important;

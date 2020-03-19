@@ -138,16 +138,16 @@
   padding-right: 1.5em;
 }
 .ui.items > .item > .content > .header {
-  display: inline-block;
-  margin: -0.21425em 0em 0em;
-  font-family: 'PT Serif', 'Helvetica Neue', Arial, Helvetica, sans-serif;
-  font-weight: bold;
-  color: rgba(0, 0, 0, 0.85);
+    display: inline-block;
+    margin: -0.21425em 0em 0em;
+    font-family: 'PT Serif', Helvetica, sans-serif;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.85);
 }
 
 /* Default Header Size */
 .ui.items > .item > .content > .header:not(.ui) {
-  font-size: 1.28571429em;
+    font-size: 1.3125em;
 }
 
 /*--------------

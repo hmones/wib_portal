@@ -3,7 +3,7 @@
 @section('content')
     <div class="ui centered container">
         <div class="ui padded basic segment" style="padding-right: 0;padding-left: 0;">
-            <h1 class="ui blue header">Profile settings</h1>
+            <h1 class="ui blue header"><i class="stop wib bullet icon"></i>Profile settings</h1>
             <br>
             <div class="ui fluid stackable steps">
                 <div class="active step" id="personal_info">

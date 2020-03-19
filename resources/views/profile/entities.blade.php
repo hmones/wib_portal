@@ -3,15 +3,14 @@
 @section('content')
     <br>
     <div class="ui centered container">
-        <h1 class="ui blue header">Organizations registered under your account</h1>
+        <h1 class="ui blue header"><i class="stop wib bullet icon"></i>Organizations registered under your account</h1>
         <br>
         <table class="ui middle aligned centered center aligned very basic table">
             <thead>
             <tr>
-                <th></th>
-                <th class="left aligned">Organization name</th>
-                <th>Relationship to the organization</th>
-                <th>Actions</th>
+                <th colspan="2" class="ui blue center aligned header">Organization name</th>
+                <th class="ui blue center aligned header">Relationship to the organization</th>
+                <th class="ui blue center aligned header">Actions</th>
             </tr>
             </thead>
             @forelse($owned_entities as $entity)
@@ -44,21 +43,24 @@
                     <td colspan="4">You have no organization registered</td>
                 </tr>
             @endforelse
-            <tr>
-                <td colspan="4"><br><a class="ui blue button" href="{{route('entity.create')}}"> <i
-                            class="plus icon"></i> Register an organization</a></td>
+            <tr class="ui inverted grey table">
+                <td colspan="4">
+                    <div class="ui basic centered center aligned basic segment">
+                        <a class="ui teal basic button" href="{{route('entity.create')}}"> <i
+                                class="plus icon"></i> Register an organization</a>
+                    </div>
+                </td>
             </tr>
         </table>
-
-        <h1 class="ui blue header">Other organizations</h1>
+        <br><br>
+        <h1 class="ui blue header"><i class="stop wib bullet icon"></i>Other organizations</h1>
         <br>
         <table class="ui middle aligned centered center aligned very basic table">
             <thead>
             <tr>
-                <th></th>
-                <th class="left aligned">Organization name</th>
-                <th>Relationship to the organization</th>
-                <th>Actions</th>
+                <th class="center aligned ui blue header" colspan="2">Organization name</th>
+                <th class="center aligned ui blue header">Relationship to the organization</th>
+                <th class="center aligned ui blue header">Actions</th>
             </tr>
             </thead>
             @forelse($other_entities as $entity)
@@ -87,7 +89,7 @@
                     <td colspan="4">You have no organization registered</td>
                 </tr>
             @endforelse
-            <tr>
+            <tr class="ui inverted grey table">
                 <form id="entity_associate_form"
                       action="{{route('profile.entities.associate',['profile'=> Auth::user()])}}" method="POST">
                     @csrf
@@ -121,7 +123,7 @@
                         </div>
                     </td>
                     <td>
-                        <button type="submit" class="ui blue button"><i class="plus icon"></i> Add</button>
+                        <button type="submit" class="ui teal button"><i class="plus icon"></i> Add</button>
                     </td>
                 </form>
             </tr>

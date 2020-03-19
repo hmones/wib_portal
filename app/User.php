@@ -38,7 +38,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-
     public function country()
     {
         return $this->belongsTo('App\Country', 'country_id');
@@ -78,5 +77,20 @@ class User extends Authenticatable implements MustVerifyEmail
     public function searching_for()
     {
         return $this->morphMany('App\SearchingForOption', 'searchable');
+    }
+
+    public function scopeFilter($query, \Illuminate\Http\Request $request)
+    {
+        if ($request) {
+            if (isset($request->countries) && !empty($request->countries)) {
+                $query->whereIn('country_id', $request->countries);
+            }
+            if (isset($request->sectors) && !empty($request->sectors)) {
+                $query->whereHas('sectors', function ($query) use ($request) {
+                    $query->whereIn('id', $request->sectors);
+                });
+            }
+        }
+        return $query->latest();
     }
 }

@@ -30,10 +30,12 @@ class ProfileController extends Controller
      *
      * @return View
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all();
-        return view('profile.index', compact('users'));
+        $users = User::filter($request)->paginate(12);
+        $countries = Country::all();
+        $sectors = Sector::all();
+        return view('profile.index', compact(['users', 'countries', 'sectors', 'request']));
     }
 
 
@@ -171,7 +173,12 @@ class ProfileController extends Controller
      */
     public function show(User $profile)
     {
-        return view('profile.show', ['user' => $profile]);
+        $association = Entity::where('name', $profile->business_association_wom)->first();
+
+        return view('profile.show', [
+            'user' => $profile,
+            'association' => $association
+        ]);
     }
 
     /**

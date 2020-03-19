@@ -1,6 +1,5 @@
-$(function () {
-    $('.ui.dropdown').dropdown();
-});
+$('.ui.dropdown').dropdown();
+
 $('.message .close')
     .on('click', function () {
         $(this)

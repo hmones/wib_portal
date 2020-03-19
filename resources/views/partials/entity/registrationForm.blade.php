@@ -350,7 +350,7 @@
                       enctype="multipart/form-data">
                     <div class="ui middle aligned four column centered grid">
                         <div onclick="upload_images();" class="row" id="styledUploader">
-                            <div class="ui basic center aligned segment column" style="">
+                            <div class="ui basic center aligned segment sixteen wide column">
                                 <i class="upload big blue icon"></i>
                                 <br><br>
                                 Click here to select product photos to upload
@@ -366,6 +366,7 @@
                     <br><br>
                 </form>
             </div>
+            <br>
             <div class="ui stackable five column centered grid">
                 @forelse($images as $image)
                     <div class="column">

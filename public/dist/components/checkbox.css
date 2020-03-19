@@ -61,19 +61,19 @@
 }
 .ui.checkbox .box:before,
 .ui.checkbox label:before {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 17px;
-  height: 17px;
-  content: '';
-  background: #FFFFFF;
-  border-radius: 0.21428571rem;
-  -webkit-transition: border 0.1s ease, opacity 0.1s ease, -webkit-transform 0.1s ease, -webkit-box-shadow 0.1s ease;
-  transition: border 0.1s ease, opacity 0.1s ease, -webkit-transform 0.1s ease, -webkit-box-shadow 0.1s ease;
-  transition: border 0.1s ease, opacity 0.1s ease, transform 0.1s ease, box-shadow 0.1s ease;
-  transition: border 0.1s ease, opacity 0.1s ease, transform 0.1s ease, box-shadow 0.1s ease, -webkit-transform 0.1s ease, -webkit-box-shadow 0.1s ease;
-  border: 1px solid #D4D4D5;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 17px;
+    height: 17px;
+    content: '';
+    background: #FFFFFF;
+    border-radius: 0.1875rem;
+    -webkit-transition: border 0.1s ease, opacity 0.1s ease, -webkit-transform 0.1s ease, -webkit-box-shadow 0.1s ease;
+    transition: border 0.1s ease, opacity 0.1s ease, -webkit-transform 0.1s ease, -webkit-box-shadow 0.1s ease;
+    transition: border 0.1s ease, opacity 0.1s ease, transform 0.1s ease, box-shadow 0.1s ease;
+    transition: border 0.1s ease, opacity 0.1s ease, transform 0.1s ease, box-shadow 0.1s ease, -webkit-transform 0.1s ease, -webkit-box-shadow 0.1s ease;
+    border: 1px solid #D4D4D5;
 }
 
 /*--------------
@@ -374,21 +374,21 @@
 /* Line */
 .ui.slider.checkbox .box:before,
 .ui.slider.checkbox label:before {
-  display: block;
-  position: absolute;
-  content: '';
-  border: none !important;
-  left: 0em;
-  z-index: 1;
-  top: 0.4rem;
-  background-color: rgba(0, 0, 0, 0.05);
-  width: 3.5rem;
-  height: 0.21428571rem;
-  -webkit-transform: none;
-          transform: none;
-  border-radius: 500rem;
-  -webkit-transition: background 0.3s ease;
-  transition: background 0.3s ease;
+    display: block;
+    position: absolute;
+    content: '';
+    border: none !important;
+    left: 0em;
+    z-index: 1;
+    top: 0.4rem;
+    background-color: rgba(0, 0, 0, 0.05);
+    width: 3.5rem;
+    height: 0.1875rem;
+    -webkit-transform: none;
+    transform: none;
+    border-radius: 500rem;
+    -webkit-transition: background 0.3s ease;
+    transition: background 0.3s ease;
 }
 
 /* Handle */

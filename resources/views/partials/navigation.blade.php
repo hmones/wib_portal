@@ -20,20 +20,20 @@
                         {{Auth::user()->name}}
                     </div>
                     <i class="dropdown icon"></i>
-                    <div class="menu">
-                        <a href="#" class="item">
-                            <i class="envelope blue icon"></i> Inbox
-                        </a>
+                    <div class="menu" id="desktopMenu">
+                        {{--                        <a href="#" class="item">--}}
+                        {{--                            <i class="envelope blue icon"></i> Inbox--}}
+                        {{--                        </a>--}}
                         <a href="{{route('profile.entities')}}" class="item">
                             <i class="university blue icon"></i> Organizations
                         </a>
                         <a href="{{route('profile.edit',['profile'=>Auth::user()])}}" class="item">
-                            <i class="cog blue icon"></i> Settings
+                            <i class="cog blue icon"></i> Profile Settings
                         </a>
                         <div class="ui blue inverted item" style="background: none !important;">
                             <form method="post" action="{{route('logout')}}">
                                 @csrf
-                                <button type="submit" class="ui blue fluid basic button">Logout</button>
+                                <button type="submit" class="ui teal fluid button">Logout</button>
                             </form>
                         </div>
                     </div>

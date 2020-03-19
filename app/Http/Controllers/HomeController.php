@@ -10,13 +10,11 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $users = User::latest()->take(12)->get();
-        $entities = Entity::latest()->take(12)->get();
-        $user = \Auth::user();
-        return view('profile.index',[
+        $users = User::latest()->take(8)->get();
+        $entities = Entity::latest()->take(8)->get();
+        return view('home', [
             'users' => $users,
-            'entities' => $entities,
-            'user' => $user,
+            'entities' => $entities
         ]);
     }
 }
