@@ -37,4 +37,14 @@ class ConfirmPasswordController extends Controller
     {
         $this->middleware('auth:admin');
     }
+
+    /**
+     * Show the application's login form.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function login()
+    {
+        return view('admin.home');
+    }
 }

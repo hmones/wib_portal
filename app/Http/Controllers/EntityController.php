@@ -10,8 +10,10 @@ use App\ProfilePicture;
 use App\Sector;
 use App\SupportedLink;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 use PhpParser\Builder;
@@ -488,5 +490,45 @@ class EntityController extends Controller
             'results' => $entities,
         );
         return response()->json($response);
+    }
+
+    public function destroyAdmin(Entity $entity){
+
+        if ($entity->logo()->exists()) {
+            ProfilePictureController::destroy($entity->logo()->original()->id);
+        }
+        if ($entity->links()->exists()) {
+            $entity->links()->delete();
+        }
+        if ($entity->sectors()->exists()) {
+            $entity->sectors()->detach();
+        }
+        $entity->users()->detach();
+        $entity->delete();
+        Session::flash('success', $entity->name . ' has been successfully removed from the platform');
+
+        return Redirect::back();
+    }
+
+    public function verify(Entity $entity){
+
+        $admin = Auth::id();
+
+        if($entity->approved_at != null){
+            $entity->update([
+                'approved_at' => null,
+                'approved_by' => $admin
+            ]);
+        }else{
+            $entity->update([
+                'approved_at' => Carbon::now(),
+                'approved_by' => $admin
+            ]);
+        }
+        $entity->save();
+
+        Session::flash('success', 'Verification updated successfully');
+
+        return Redirect::back();
     }
 }

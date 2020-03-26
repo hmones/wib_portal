@@ -10,6 +10,7 @@ use App\ProfilePicture;
 use App\Sector;
 use App\SupportedLink;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -367,6 +368,47 @@ class ProfileController extends Controller
             Session::flash('error', 'You do not have permission to perform this operation!');
         }
         return \redirect(route('profile.show', ['profile' => Auth::user()]));
+    }
+
+    public function destroyAdmin(User $profile){
+
+        if ($profile->avatar()->exists()) {
+            ProfilePictureController::destroy($profile->avatar()->original()->id);
+        }
+        if ($profile->links()->exists()) {
+            $profile->links()->delete();
+        }
+        if ($profile->sectors()->exists()) {
+            $profile->sectors()->detach();
+        }
+        Entity::ownedby(Auth::id())->update(['owned_by' => null]);
+        $profile->entities()->detach();
+        $profile->delete();
+        Session::flash('success', $profile->name . ' has been successfully removed from the platform');
+
+        return Redirect::back();
+    }
+
+    public function verify(User $profile){
+
+        $admin = Auth::id();
+
+        if($profile->approved_at != null){
+            $profile->update([
+                'approved_at' => null,
+                'approved_by' => $admin
+            ]);
+        }else{
+            $profile->update([
+                'approved_at' => Carbon::now(),
+                'approved_by' => $admin
+            ]);
+        }
+        $profile->save();
+//        dd($profile);
+        Session::flash('success', 'Verification updated successfully');
+
+        return Redirect::back();
     }
 
 }

@@ -26,6 +26,11 @@ class Entity extends Model
         return $this->belongsToMany('App\User', 'user_entity')->withPivot('relation_type', 'relation_desc', 'relation_active', 'relation_date');
     }
 
+    public function owned_by()
+    {
+        return $this->belongsTo('App\User', 'owned_by');
+    }
+
     public function sectors()
     {
         return $this->belongsToMany('App\Sector', 'entity_sector', 'entity_id', 'sector_id');

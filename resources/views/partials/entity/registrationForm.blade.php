@@ -275,11 +275,11 @@
                 </div>
             </div>
             <div class="field">
-                <label for="employees">Employees</label>
+                <label for="employees">Members (for associations)</label>
                 <div class="ui selection dropdown">
                     <input type="hidden" name="employees" value="{{$entity->employees??''}}">
                     <i class="dropdown icon"></i>
-                    <div class="default text">Number of Employees</div>
+                    <div class="default text">Number of Members</div>
                     <div class="menu">
                         @foreach($business_options['employees'] as $option)
                             <div class="item" data-value="{{$option}}">{{$option}}</div>

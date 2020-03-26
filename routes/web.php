@@ -12,7 +12,9 @@
 */
 
 use App\Country;
+use App\Entity;
 use App\Http\Resources\Country as CountryResource;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -45,9 +47,40 @@ Route::get('/entities/search', 'EntityController@search')->middleware(['auth', '
 
 Auth::routes(['verify' => true]);
 
-Route::namespace('Admin')->prefix('adminpanel')->as('admin.')->group(function () {
-    Auth::routes(['register' => false]);
-    Route::get('/dashboard', 'DashboardController@index')->middleware('auth:admin')->name('home');
+Route::namespace('Admin')->prefix('/admin')->name('admin.')->group(function () {
+
+    // Dashboard Routes
+    Route::get('/', 'DashboardController@index')->middleware('auth:admin')->name('home');
+    Route::get('/options', 'DashboardController@indexOptions')->middleware('auth:admin')->name('options');
+    Route::get('/users', 'DashboardController@indexUsers')->middleware('auth:admin')->name('users');
+    Route::get('/entities', 'DashboardController@indexEntities')->middleware('auth:admin')->name('entities');
+    Route::namespace('Auth')->group(function(){
+        //Login Routes
+        Route::get('/login','LoginController@showLoginForm')->name('login');
+        Route::post('/login','LoginController@login');
+        Route::post('/logout','LoginController@logout')->name('logout');
+
+        //Forgot Password Routes
+        Route::get('/password/reset','ForgotPasswordController@showLinkRequestForm')->name('password.request');
+        Route::post('/password/email','ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+
+        //Reset Password Routes
+        Route::get('/password/reset/{token}','ResetPasswordController@showResetForm')->name('password.reset');
+        Route::post('/password/reset','ResetPasswordController@reset')->name('password.update');
+    });
 });
 
 Route::delete('/images/{entity}/{photo}', 'PhotosController@destroy')->name('images.delete');
+
+Route::resource('entityType', 'EntityTypeController')->except(['index', 'create', 'show', 'edit'])->middleware('auth:admin');
+
+Route::resource('sector', 'SectorController')->except(['index', 'create', 'show', 'edit'])->middleware('auth:admin');
+
+Route::prefix('/admin/api/')->middleware('auth:admin')->group(function (){
+    Route::get('profile/{profile}', function (User $profile) { return $profile; });
+    Route::delete('profile/{profile}', 'ProfileController@destroyAdmin');
+    Route::post('profile/{profile}', 'ProfileController@verify');
+    Route::get('entity/{entity}', function (Entity $entity) { return $entity; });
+    Route::delete('entity/{entity}', 'EntityController@destroyAdmin');
+    Route::post('entity/{entity}', 'EntityController@verify');
+});

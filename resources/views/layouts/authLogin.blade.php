@@ -3,10 +3,9 @@
 <head>
     @include('admin.partials.header')
 </head>
-<body>
-    @include('admin.partials.navigation')
-    @include('partials.flash-message')
+<body class="ui inverted basic segment">
+<div id="app">
     @yield('content')
-    @yield('scripts')
+</div>
 </body>
 </html>

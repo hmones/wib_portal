@@ -11,6 +11,17 @@
 
     @endif
 
+    @if($errors->any())
+        <div class="ui negative message">
+            <i class="close icon"></i>
+            <div class="ui header">Error</div>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
     @if ($message = Session::get('error'))
 
@@ -50,3 +61,8 @@
 
     @endif
 </div>
+<script>
+    $('i.close.icon').click(function () {
+        $(this).parent().fadeOut();
+    });
+</script>
