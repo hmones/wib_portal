@@ -220,25 +220,25 @@ img.ui.bordered.image {
 .ui.mini.images img,
 .ui.mini.images svg,
 .ui.mini.image {
-    width: 35px;
-    height: auto;
-    font-size: 0.8125rem;
+  width: 35px;
+  height: auto;
+  font-size: 0.8125rem;
 }
 .ui.tiny.images .image,
 .ui.tiny.images img,
 .ui.tiny.images svg,
 .ui.tiny.image {
-    width: 80px;
-    height: auto;
-    font-size: 0.875rem;
+  width: 80px;
+  height: auto;
+  font-size: 0.875rem;
 }
 .ui.small.images .image,
 .ui.small.images img,
 .ui.small.images svg,
 .ui.small.image {
-    width: 150px;
-    height: auto;
-    font-size: 0.9375rem;
+  width: 150px;
+  height: auto;
+  font-size: 0.9375rem;
 }
 .ui.medium.images .image,
 .ui.medium.images img,
@@ -252,33 +252,33 @@ img.ui.bordered.image {
 .ui.large.images img,
 .ui.large.images svg,
 .ui.large.image {
-    width: 450px;
-    height: auto;
-    font-size: 1.125rem;
+  width: 450px;
+  height: auto;
+  font-size: 1.125rem;
 }
 .ui.big.images .image,
 .ui.big.images img,
 .ui.big.images svg,
 .ui.big.image {
-    width: 600px;
-    height: auto;
-    font-size: 1.3125rem;
+  width: 600px;
+  height: auto;
+  font-size: 1.3125rem;
 }
 .ui.huge.images .image,
 .ui.huge.images img,
 .ui.huge.images svg,
 .ui.huge.image {
-    width: 800px;
-    height: auto;
-    font-size: 1.4375rem;
+  width: 800px;
+  height: auto;
+  font-size: 1.4375rem;
 }
 .ui.massive.images .image,
 .ui.massive.images img,
 .ui.massive.images svg,
 .ui.massive.image {
-    width: 960px;
-    height: auto;
-    font-size: 1.6875rem;
+  width: 960px;
+  height: auto;
+  font-size: 1.6875rem;
 }
 
 

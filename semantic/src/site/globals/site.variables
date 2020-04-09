@@ -11,7 +11,7 @@
 
 @emSize            : 16px;
 @fontSize          : 16px;
-@h1                : 2.25em;
+@h1                : 2rem;
 @fontSmoothing     : antialiased;
 
 @headerFont        : 'PT Serif', Helvetica, sans-serif;
