@@ -10,7 +10,7 @@
 
         <div class="profilecontent">
             <p>{{strtoupper($entity->sectors()->first()->name)}}</p>
-            <h2>{{\Illuminate\Support\Str::limit($entity->name, 17,$end='..')}}</h2>
+            <h2>{{\Illuminate\Support\Str::limit($entity->name, 14,$end='..')}}</h2>
             <b>{{strtoupper($entity->primary_country->name)}}</b>
         </div>
     </a>

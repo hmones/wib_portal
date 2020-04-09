@@ -98,7 +98,7 @@
                             <div id="entity_search_dropdown"
                                  class="ui fluid search selection dropdown entity_search_dropdown @error('other_entity_name') error @enderror">
                                 <input required type="hidden" name="other_entity_name">
-                                <i class="dropdown icon"></i>
+                                <i class="search icon" style="padding-top:10px;"></i>
                                 <div class="default text">Search for a registered organization</div>
                                 <div class="menu">
                                     <div class="item">Select an organization</div>
@@ -158,7 +158,7 @@
         });
         $(function () {
             $('#entity_search_dropdown').dropdown('destroy').dropdown({
-                minCharacters: 3,
+                minCharacters: 1,
                 saveRemoteData: false,
                 apiSettings: {
                     on: 'change',

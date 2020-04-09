@@ -38,9 +38,10 @@
                             <!-- Body content -->
                             <tr>
                                 <td class="content-cell">
-                                    {{ Illuminate\Mail\Markdown::parse($slot) }}
-
-                                    {{ $subcopy ?? '' }}
+                                    <!-- Content of the email (eg. Reset link message content) -->
+                                    {!! $slot !!}
+                                    <!-- Optional content for a second footer (eg. if this link doesn't open do this and this) -->
+                                    {{ $subcopy }}
                                 </td>
                             </tr>
                         </table>

@@ -1,7 +1,6 @@
 @extends('layouts.default')
 
 @section('content')
-    <br><br>
     <div class="ui centered container">
         <h1 class="ui blue header"><i class="stop wib bullet icon"></i>Registered Businesses and Organizations</h1>
         <br>

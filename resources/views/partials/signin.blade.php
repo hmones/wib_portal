@@ -1,6 +1,7 @@
 <form class="ui form" method="POST" action="{{$url == 'user'? '/login':route('admin.')}}">
     @csrf
-    <div class="ui horizontal divider header">Login</div>
+    <div class="ui blue header">Login</div>
+    <div class="ui divider"></div>
     <div class="field">
         <input
             class="form-control"

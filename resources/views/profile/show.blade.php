@@ -11,7 +11,7 @@
             </h2>
         </div>
         <br><br><br>
-        <div class="ui stackable middle aligned stackable grid">
+        <div class="ui stackable middle aligned stackable grid" id="userInfoHeader">
             <div class="three wide column">
                 <img class="ui circular small image" src="
                 @if($user->avatar()->exists())
@@ -27,7 +27,7 @@
             </div>
             <div class="six wide column">
                 <p>{{strtoupper($user->sectors()->first()->name)}}</p>
-                <h1 style="margin: 0px;" class="ui blue header">{{$user->title}} {{$user->name}}</h1>
+                <h1 style="margin: 0px !important;" class="ui blue header" id="userNameTitle">{{$user->title}} {{$user->name}}</h1>
                 <p>{{strtoupper($user->country->name)}}</p>
                 @foreach($user->links as $link)
                     <a href="{{$link->url}}"> <i class="circular blue {{$link->type->icon}} icon"></i> </a>
@@ -36,7 +36,7 @@
             <div class="seven wide column">
                 <form action="{{route('profile.contact', ['profile'=>$user])}}" method="POST">
                     @csrf
-                    <button type="submit" class="ui right floated right labeled top aligned teal icon big button">
+                    <button type="submit" class="ui right floated right labeled top aligned teal icon big button" id="contactUser">
                         <i class="envelope icon"></i>
                         Contact
                     </button>
@@ -87,7 +87,13 @@
                 <div class="ui grey message">
                     @if($association)
                         <a href="{{route('entity.show', $association)}}">
-                            <img src="{{$association->logo()->smallthumbnail()->url}}" class="ui avatar image" alt="">
+                            <img class="ui avatar image" src="
+                                @if($association->logo()->exists())
+                                {{$association->logo()->smallthumbnail()->url}}
+                                @else
+                                {{asset('images/logo_avatar.png')}}
+                                @endif
+                                    ">
                             {{$association->name}}
                         </a>
                     @else

@@ -14,7 +14,7 @@
 
         <div class="profilecontent">
             <p>{{strtoupper($user->sectors()->first()->name)}}</p>
-            <h2>{{\Illuminate\Support\Str::limit($user->name, 17,$end='..')}}</h2>
+            <h2>{{\Illuminate\Support\Str::limit($user->name, 14,$end='..')}}</h2>
             <b>{{strtoupper($user->country->name)}}</b>
         </div>
     </a>
