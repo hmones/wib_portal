@@ -59,18 +59,19 @@ class LoginController extends Controller
      * Log the user out of the application.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function logout(Request $request)
     {
         $this->guard()->logout();
 
+        // If a regular user is not logged in, invalidate all session data and regenerate tokens
+        if(!Auth::guard('web')->check()){
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+        }
 
-        //        $request->session()->invalidate();
-        //
-        //        $request->session()->regenerateToken();
-
-        return $this->loggedOut($request) ?: redirect('/admin');
+        return $this->loggedOut($request) ?: redirect($this->redirectTo);
     }
 
 }
