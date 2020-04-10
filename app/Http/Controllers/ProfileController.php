@@ -172,12 +172,17 @@ class ProfileController extends Controller
      * @param \App\User $user
      * @return View
      */
-    public function show(User $profile)
+    public function show($profile)
     {
-        $association = Entity::where('name', $profile->business_association_wom)->first();
 
+        $user = User::with('sectors:name,icon', 'country', 'entities')->with(['avatar'=>function($query){
+            $query->where('resolution','300')->limit(1);
+        }])->where('id',$profile)->first();
+        $association = Entity::with(['logo'=>function($query){
+            $query->where('resolution','180')->limit(1);
+        }])->where('name', $user->business_association_wom)->first();
         return view('profile.show', [
-            'user' => $profile,
+            'user' => $user,
             'association' => $association
         ]);
     }

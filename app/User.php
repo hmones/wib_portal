@@ -91,7 +91,9 @@ class User extends Authenticatable implements MustVerifyEmail
                 });
             }
         }
-        return $query->latest();
+        return $query->with('sectors:name', 'country')->with(['avatar'=>function($query){
+            $query->where('resolution','300')->limit(1);
+        }])->latest();
     }
 
     public function owned_entities()

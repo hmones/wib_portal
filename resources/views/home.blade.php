@@ -34,7 +34,7 @@
             <div class="ui row"></div>
             <div class="ui centered row">
                 <a href="{{route('entity.index')}}" class="ui right labeled icon teal big button"> <i
-                        class="right angle icon"></i> Show more</a>
+                   class="right angle icon"></i> Show more</a>
             </div>
         </div>
         <br><br>

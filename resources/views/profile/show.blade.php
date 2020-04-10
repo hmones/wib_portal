@@ -14,19 +14,19 @@
         <div class="ui stackable middle aligned stackable grid" id="userInfoHeader">
             <div class="three wide column">
                 <img class="ui circular small image" src="
-                @if($user->avatar()->exists())
-                {{$user->avatar()->thumbnail()->url}}
-                @else
-                @if($user->gender === 'Male')
-                {{asset('images/male_avatar.jpg')}}
-                @else
-                {{asset('images/female_avatar.jpg')}}
-                @endif
-                @endif
+                    @isset($user->avatar->first()->url)
+                    {{$user->avatar->first()->url}}
+                    @else
+                        @if($user->gender === 'Male')
+                        {{asset('images/male_avatar.jpg')}}
+                        @else
+                        {{asset('images/female_avatar.jpg')}}
+                        @endif
+                    @endisset
                     " alt="{{$user->name}}'s avatar">
             </div>
             <div class="six wide column">
-                <p>{{strtoupper($user->sectors()->first()->name)}}</p>
+                <p>{{strtoupper($user->sectors->first()->name)}}</p>
                 <h1 style="margin: 0px !important;" class="ui blue header" id="userNameTitle">{{$user->title}} {{$user->name}}</h1>
                 <p>{{strtoupper($user->country->name)}}</p>
                 @foreach($user->links as $link)
@@ -88,11 +88,11 @@
                     @if($association)
                         <a href="{{route('entity.show', $association)}}">
                             <img class="ui avatar image" src="
-                                @if($association->logo()->exists())
-                                {{$association->logo()->smallthumbnail()->url}}
+                                @isset($association->logo->first()->url)
+                                {{$association->logo->first()->url}}
                                 @else
                                 {{asset('images/logo_avatar.png')}}
-                                @endif
+                                @endisset
                                     ">
                             {{$association->name}}
                         </a>
