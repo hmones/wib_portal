@@ -35,12 +35,12 @@ class DashboardController extends Controller
     }
 
     public function indexUsers(){
-        $users = User::paginate(12);
+        $users = User::latest()->paginate(12);
         return view('admin.users', compact('users'));
     }
 
     public function indexEntities(){
-        $entities = Entity::paginate(12);
+        $entities = Entity::latest()->paginate(12);
         return view('admin.entities', compact('entities'));
     }
 }

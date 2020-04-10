@@ -70,6 +70,13 @@
         </div>
     </div>
     <br><br><br>
+    <div class="ui centered grid">
+        <div class="ui centered basic segment">
+            {{ $users->appends($_GET)->links('vendor.pagination.semantic-ui') }}
+        </div>
+    </div>
+    <br><br>
+    <br><br><br>
     <div class="ui small modal">
         <div class="ui header">User Information</div>
         <div class="ui padded basic segment">

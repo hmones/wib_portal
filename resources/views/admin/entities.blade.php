@@ -77,6 +77,13 @@
                     </table>
     </div>
     </div>
+    <br><br><br>
+    <div class="ui centered grid">
+        <div class="ui centered basic segment">
+            {{ $entities->appends($_GET)->links('vendor.pagination.semantic-ui') }}
+        </div>
+    </div>
+    <br><br>
     <div class="ui small modal">
         <div class="ui header">Entity Information</div>
         <div class="ui padded basic segment">
