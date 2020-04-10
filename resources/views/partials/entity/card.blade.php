@@ -7,7 +7,13 @@
             {{asset('images/logo_avatar.png')}}
             @endif
             " alt="{{$entity->name}}'s avatar">
-
+        @if($entity->approved_at)
+            <i class="circular inverted teal check small icon" style="
+                position: absolute;
+                z-index: 3;
+                top: 25px;
+                right: 25px;"></i>
+        @endif
         <div class="profilecontent">
             @isset($entity->sectors->first()->name)
                 <p>{{strtoupper($entity->sectors->first()->name)}}</p>

@@ -11,6 +11,13 @@
                 @endif
             @endisset
             " alt="{{$user->name}}'s avatar">
+        @if($user->approved_at)
+            <i class="circular inverted teal check small icon" style="
+                position: absolute;
+                z-index: 3;
+                top: 25px;
+                right: 25px;"></i>
+        @endif
         <div class="profilecontent">
             @isset($user->sectors->first()->name)
                 <p>{{strtoupper($user->sectors->first()->name)}}</p>
