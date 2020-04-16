@@ -42,7 +42,7 @@ class EntityController extends Controller
     public function index()
     {
         $entities = Entity::with('sectors:name', 'primary_country')->with(['logo'=>function($query){
-            $query->where('resolution','300')->limit(1);
+            $query->where('resolution','300');
         }])->latest()->paginate(12);
         return view('entity.index', compact('entities'));
     }

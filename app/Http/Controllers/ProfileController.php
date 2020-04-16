@@ -33,7 +33,9 @@ class ProfileController extends Controller
      */
     public function index(Request $request)
     {
-        $users = User::filter($request)->paginate(12);
+        $users = User::with('sectors:name', 'country')->with(['avatar'=>function($query){
+            $query->where('resolution','300');
+        }])->filter($request)->paginate(12);
         $countries = Country::all();
         $sectors = Sector::all();
         return view('profile.index', compact(['users', 'countries', 'sectors', 'request']));
