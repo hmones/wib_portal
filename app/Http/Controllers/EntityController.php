@@ -22,7 +22,7 @@ use function MongoDB\BSON\toJSON;
 class EntityController extends Controller
 {
     private $activities = array('Export', 'Import', 'Production', 'Services', 'Trade');
-    private $relations = array('Board Member / Advisory Board Member', 'Owner / Co-Owner', 'Employee / Manager', 'Founder / Co-Founder', 'Professor', 'Employee', 'Student');
+    private $relations = array('Advisory Board Member','Board Member', 'Co-Founder', 'Co-Owner', 'Employee','Founder','Manager','Member' , 'Owner', 'Professor', 'Student');
     private $addresses = array('primary', 'secondary');
     private $business_options = array(
         'balance_sheet' => array('<25Mio', '25Mio-50Mio', '50Mio-100Mio', '100Mio-500Mio', '500Mio-1Bil', '1Bil-3Bil', '3Bil-5Bil', '5Bil-10Bil', '>10Bil'),
@@ -39,12 +39,14 @@ class EntityController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
-        $entities = Entity::with('sectors:name', 'primary_country')->with(['logo'=>function($query){
+        $entities = Entity::with('sectors:id,name', 'primary_country')->with(['logo'=>function($query){
             $query->where('resolution','300');
-        }])->latest()->paginate(12);
-        return view('entity.index', compact('entities'));
+        }])->filter($request)->paginate(12);
+        $countries = Country::all();
+        $sectors = Sector::all();
+        return view('entity.index', compact(['entities', 'countries', 'sectors', 'request']));
     }
 
     /**

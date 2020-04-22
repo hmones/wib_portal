@@ -79,24 +79,24 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->morphMany('App\SearchingForOption', 'searchable');
     }
 
+    public function owned_entities()
+    {
+        return $this->hasMany('App\Entity', 'owned_by');
+    }
+
     public function scopeFilter($query, \Illuminate\Http\Request $request)
     {
         if ($request) {
-            if (isset($request->countries) && !empty($request->countries)) {
-                $query->whereIn('country_id', $request->countries);
+            if (isset($request->countries) && !empty(implode('',$request->countries))) {
+                $query->whereIn('country_id', explode(",",$request->countries[0]));
             }
-            if (isset($request->sectors) && !empty($request->sectors)) {
-                $query->whereHas('sectors', function ($query) use ($request) {
-                    $query->whereIn('id', $request->sectors);
+            if (isset($request->sectors) && !empty(implode('',$request->sectors))) {
+                $query->whereHas('sectors', function ($q) use ($request) {
+                    $q->whereIn('id', explode(",",$request->sectors[0]));
                 });
             }
         }
         $query->latest();
         return $query;
-    }
-
-    public function owned_entities()
-    {
-        return $this->hasMany('App\Entity', 'owned_by');
     }
 }

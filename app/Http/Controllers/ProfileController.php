@@ -24,7 +24,6 @@ class ProfileController extends Controller
     private $activities = array('Export', 'Import', 'Production', 'Services', 'Trade');
     private $education = array('Highschool', 'Bachelor', 'Master', 'Doctorate');
     private $associations = array('ABWA', 'BWE21', 'CNFCE', 'LLWB', 'SEVE');
-    private $relations = array('Board Member / Advisory Board Member', 'Owner / Co-Owner', 'Employee / Manager', 'Founder / Co-Founder', 'Professor', 'Employee', 'Student');
 
     /**
      * Display a listing of the resource.
@@ -33,7 +32,7 @@ class ProfileController extends Controller
      */
     public function index(Request $request)
     {
-        $users = User::with('sectors:name', 'country')->with(['avatar'=>function($query){
+        $users = User::with('sectors:id,name', 'country')->with(['avatar'=>function($query){
             $query->where('resolution','300');
         }])->filter($request)->paginate(12);
         $countries = Country::all();

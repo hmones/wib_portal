@@ -4,7 +4,7 @@
     <div class="ui centered container">
         <h1 class="ui blue header"><i class="stop wib bullet icon"></i>Registered members</h1>
         <br>
-        @include('partials.filter_section')
+        @include('partials.filter_section', ['route' => route('profile.index')])
         <br><br>
         <div class="ui four column stackable grid">
             @forelse($users as $user)
