@@ -33,8 +33,8 @@
                                     <i class="circular inverted grey user small icon"></i>
                                 @endif
                                 <div class="content">
-                                    {{$user->name}}
-                                    <div class="sub header">{{ $user->entities()->exists() ? $user->entities->first()->name:'No organization'}}
+                                    {{\Illuminate\Support\Str::limit($user->name, 22,$end='..')}}
+                                    <div class="sub header">{{ $user->entities()->exists() ? \Illuminate\Support\Str::limit($user->entities->first()->name, 27,$end='..'):'No organization'}}
                                     </div>
                                 </div>
                             </h4></td>

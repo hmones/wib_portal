@@ -64,7 +64,7 @@
         <div class="ui stackable grid">
             <div class="five wide column">
                 <h4 class="ui blue header"><i class="stop wib bullet icon"></i>Members</h4>
-                <div class="ui list">
+                <div class="ui very relaxed divided list">
                     @forelse($entity->users as $user)
                         <div class="item">
                             <img class="ui avatar image" src="
@@ -78,8 +78,8 @@
                             @endif
                             @endif
                                 ">
-                            <div class="content">
-                                <a href="{{route('profile.show',$user)}}" class="header">{{$user->name}}</a>
+                            <div class="middle aligned content">
+                                <a href="{{route('profile.show',$user)}}" class="header">{{\Illuminate\Support\Str::limit($user->name, 30,$end='..')}}</a>
                                 <div class="description">{{$user->pivot->relation_type}}</div>
                             </div>
                         </div>

@@ -23,7 +23,7 @@
                         {{asset('images/female_avatar.jpg')}}
                         @endif
                     @endisset
-                    " alt="{{$user->name}}'s avatar">
+                    " alt="{{$user->name}}'s avatar"/>
             </div>
             <div class="six wide column">
                 <p>{{strtoupper($user->sectors->first()->name)}}</p>
@@ -56,9 +56,9 @@
                             @else
                             {{asset('images/logo_avatar.png')}}
                             @endif
-                                ">
-                            <div class=" top aligned content">
-                                <a href="{{route('entity.show',$entity)}}" class="header">{{$entity->name}}</a>
+                                "/>
+                            <div class="middle aligned content">
+                                <a href="{{route('entity.show',$entity)}}" class="header">{{\Illuminate\Support\Str::limit($entity->name, 30,$end='..')}}</a>
                                 <div class="description">{{$entity->pivot->relation_type}}</div>
                             </div>
                         </div>

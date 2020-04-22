@@ -33,11 +33,11 @@
                                     <i class="circular inverted grey image small icon"></i>
                                 @endif
                                 <div class="content">
-                                    {{$entity->name}}
+                                    {{\Illuminate\Support\Str::limit($entity->name, 27,$end='..')}}
                                     <br>
                                     <div class="sub header">
                                         @if($entity->owned_by()->first())
-                                            {{$entity->owned_by()->first()->name}}
+                                            {{\Illuminate\Support\Str::limit($entity->owned_by()->first()->name, 27,$end='..')}}
                                         @else
                                             No owner
                                         @endisset
