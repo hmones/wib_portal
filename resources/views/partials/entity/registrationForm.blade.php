@@ -262,7 +262,7 @@
         </div>
         <div class="three fields">
             <div class="field">
-                <label for="entity_size">Size of organization</label>
+                <label for="entity_size">Size of organization (employees)</label>
                 <div class="ui selection dropdown">
                     <input type="hidden" name="entity_size" value="{{$entity->entity_size??''}}">
                     <i class="dropdown icon"></i>
@@ -304,7 +304,7 @@
         <h4 class="ui dividing header">Financial Information</h4>
         <div class="three fields">
             <div class="field">
-                <label for="turnover">Annual turnover</label>
+                <label for="turnover">Annual turnover (USD)</label>
                 <div class="ui selection dropdown">
                     <input type="hidden" name="turnover" value="{{$entity->turn_over??''}}">
                     <i class="dropdown icon"></i>
@@ -317,7 +317,7 @@
                 </div>
             </div>
             <div class="field">
-                <label for="balance_sheet">Annual Balance Sheet</label>
+                <label for="balance_sheet">Annual Balance Sheet (USD)</label>
                 <div class="ui selection dropdown">
                     <input type="hidden" name="balance_sheet" value="{{$entity->balance_sheet??''}}">
                     <i class="dropdown icon"></i>
@@ -330,7 +330,7 @@
                 </div>
             </div>
             <div class="field">
-                <label for="revenue">Annual Revenue</label>
+                <label for="revenue">Annual Revenue (USD)</label>
                 <div class="ui selection dropdown">
                     <input type="hidden" name="revenue" value="{{$entity->revenue??''}}">
                     <i class="dropdown icon"></i>
