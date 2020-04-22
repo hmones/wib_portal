@@ -11,7 +11,7 @@
                 <h4 class="ui inverted header">Our Partners</h4>
                 <div class="ui inverted link list">
                     <a href="http://BWE21.com" class="item">Business Women of Egypt 21</a>
-                    <a href="http://interactions.tn/cnfce/?lang=en" class="item">Chambre Nationale des Femmes Chefs d'Entreprises</a>
+                    <a href="http://www.cnfce.org/en/" class="item">Chambre Nationale des Femmes Chefs d'Entreprises</a>
                     <a href="https://llwb.org/" class="item"> Lebanese League for Women in Business </a>
                     <a href="https://www.sevedz.com/" class="item"> Savoir et Vouloir Entreprendre </a>
                     <a href="https://www.vdu.de/home.html" class="item">Verband deutscher Unternehmerinnen</a>
