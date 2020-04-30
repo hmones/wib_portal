@@ -14,12 +14,7 @@
     @if($errors->any())
         <div class="ui negative message">
             <i class="close icon"></i>
-            <div class="ui header">Error</div>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+            <strong>{{ $errors->first() }}</strong>
         </div>
     @endif
 

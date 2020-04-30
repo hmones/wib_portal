@@ -7,7 +7,7 @@
 
             <div class="ui basic segment">
                 @if (session('resent'))
-                    <div class="ui negative message" role="alert">
+                    <div class="ui positive message" role="alert">
                         {{ __('A fresh verification link has been sent to your email address.') }}
                     </div>
                 @endif

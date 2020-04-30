@@ -8,11 +8,6 @@
             name="email"
             placeholder="Email"
             type="email"/>
-        @if ($errors->has('email'))
-            <div class="ui negative message">
-                <strong>{{ $errors->first('email') }}</strong>
-            </div>
-        @endif
     </div>
 
     <div class="field">
@@ -21,11 +16,6 @@
             name="password"
             placeholder="Password"
             type="password"/>
-        @if ($errors->has('password'))
-            <div class="ui negative message">
-                <strong>{{ $errors->first('password') }}</strong>
-            </div>
-        @endif
     </div>
     <a href="{{route('password.request')}}">Forgot password?</a>
     <br><br>
