@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\City;
 use App\Country;
 use App\Entity;
-use App\EntityType;
+use App\Jobs\NewMemberNotification;
+use App\Jobs\SendContactEmail;
 use App\ProfilePicture;
 use App\Sector;
 use App\SupportedLink;
@@ -14,7 +15,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
@@ -161,10 +161,7 @@ class ProfileController extends Controller
 
         $user->save();
 
-        Mail::send('emails.newRegistration', ['user' => $user], function ($m) use ($user) {
-            $m->from('noreply@womeninbusiness-mena.com', 'Women in Business Portal');
-            $m->to('esseghairi@gpp-berlin.de')->subject('A new registration for the portal!');
-        });
+        NewMemberNotification::dispatch($user);
 
         $request->session()->flash('success', 'User was saved successfully!');
 
@@ -174,18 +171,22 @@ class ProfileController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\User $user
+     * @param \App\User $profile
      * @return View
      */
     public function show($profile)
     {
-
         $user = User::with('sectors:name,icon', 'country', 'entities')->with(['avatar'=>function($query){
             $query->where('resolution','300')->limit(1);
-        }])->where('id',$profile)->first();
-        $association = Entity::with(['logo'=>function($query){
-            $query->where('resolution','180')->limit(1);
-        }])->where('name', $user->business_association_wom)->first();
+        }])->findOrFail($profile);
+
+        $association = false;
+        if (isset($user->business_association_wom)){
+            $association = Entity::with(['logo'=>function($query){
+                $query->where('resolution','180')->limit(1);
+            }])->where('name', $user->business_association_wom)->first();
+        }
+
         return view('profile.show', [
             'user' => $user,
             'association' => $association
@@ -341,13 +342,9 @@ class ProfileController extends Controller
     public function contact(User $profile)
     {
         $auth_user = Auth::user();
-        Mail::send('emails.contact', ['user' => $profile, 'auth_user' => $auth_user], function ($m) use ($profile, $auth_user) {
-            $m->from('noreply@womeninbusiness-mena.com', 'Women in Business Portal');
-            $m->to($profile->email)
-                ->bcc('esseghairi@gpp-berlin.de')
-                ->replyTo($auth_user->email, $auth_user->name)
-                ->subject('A new contact request!');
-        });
+
+        SendContactEmail::dispatch($profile, $auth_user);
+
         Session::flash('success', "The user has been contacted successfully!");
         return Redirect::back();
     }

@@ -1,5 +1,4 @@
-<div class="ui container">
-    <img src="{{asset('images/logo.png')}}" alt="Women in Business Portal" class="ui left floated image">
+<div>
     <p>Dear {{$user->title}} {{$user->name}},</p>
     <p>
         You just received a contact request from {{$auth_user->title}} {{$auth_user->name}}.
