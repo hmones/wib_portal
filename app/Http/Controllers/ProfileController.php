@@ -161,6 +161,10 @@ class ProfileController extends Controller
 
         $user->save();
 
+        Mail::send('emails.newRegistration', ['user' => $user], function ($m) use ($user) {
+            $m->from('noreply@womeninbusiness-mena.com', 'Women in Business Portal');
+            $m->to('esseghairi@gpp-berlin.de')->subject('A new registration for the portal!');
+        });
 
         $request->session()->flash('success', 'User was saved successfully!');
 
@@ -340,7 +344,7 @@ class ProfileController extends Controller
         Mail::send('emails.contact', ['user' => $profile, 'auth_user' => $auth_user], function ($m) use ($profile, $auth_user) {
             $m->from('noreply@womeninbusiness-mena.com', 'Women in Business Portal');
             $m->to($profile->email)
-                ->bcc('haythameyd@gmail.com')
+                ->bcc('esseghairi@gpp-berlin.de')
                 ->replyTo($auth_user->email, $auth_user->name)
                 ->subject('A new contact request!');
         });
