@@ -3,7 +3,7 @@
 @section('content')
     <br>
     <div class="ui centered container">
-        <h1 class="ui blue header"><i class="stop wib bullet icon"></i>Organizations registered under your account</h1>
+        <h1 class="ui blue header"><i class="stop wib bullet icon"></i>My Companies and Organizations</h1>
         <br>
         <table class="ui middle aligned centered center aligned very basic table">
             <thead>
@@ -53,7 +53,7 @@
             </tr>
         </table>
         <br><br>
-        <h1 class="ui blue header"><i class="stop wib bullet icon"></i>Other organizations</h1>
+        <h1 class="ui blue header"><i class="stop wib bullet icon"></i>Other Companies and Organizations</h1>
         <br>
         <table class="ui middle aligned centered center aligned very basic table">
             <thead>
