@@ -22,7 +22,7 @@ use function MongoDB\BSON\toJSON;
 class EntityController extends Controller
 {
     private $activities = array('Export', 'Import', 'Production', 'Services', 'Trade');
-    private $relations = array('Advisory Board Member','Board Member', 'Co-Founder', 'Co-Owner', 'Employee','Founder','Manager','Member' , 'Owner', 'Professor', 'Student');
+    private $relations = array('Advisory Board Member','Board Member', 'Co-Founder', 'Co-Owner', 'Employee','Founder','Manager','Member' , 'Owner', 'President', 'Professor', 'Student');
     private $addresses = array('primary', 'secondary');
     private $business_options = array(
         'balance_sheet' => array('<25Mio', '25Mio-50Mio', '50Mio-100Mio', '100Mio-500Mio', '500Mio-1Bil', '1Bil-3Bil', '3Bil-5Bil', '5Bil-10Bil', '>10Bil'),
