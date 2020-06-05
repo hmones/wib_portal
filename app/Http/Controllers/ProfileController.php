@@ -273,6 +273,7 @@ class ProfileController extends Controller
                 "education" => $request->education,
                 "network" => 'wib',
                 'bio' => $request->bio,
+                'updated_at' => Carbon::now(),
             ]
         );
 

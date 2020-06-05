@@ -325,6 +325,7 @@ class EntityController extends Controller
                 "turn_over" => $request->turnover,
                 "balance_sheet" => $request->balance_sheet,
                 "revenue" => $request->revenue,
+                "updated_at" => Carbon::now(),
             ]
         );
 
