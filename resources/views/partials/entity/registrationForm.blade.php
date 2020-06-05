@@ -247,7 +247,12 @@
                 </div>
             </div>
             <div class="field">
-                <label for="business_type">Business Type</label>
+                <label for="business_type">
+                Business Type 
+                    <div class="ui icon circular small basic grey button tooltip" data-content="A start up is a company running for up to 2 years, a scale up is a company running up to 5 years, a traditional business is a company that is operational for more than 5 years." data-variation="basic">
+                        <i class="question blue small icon"></i>
+                    </div>
+                </label>
                 <div class="ui selection dropdown">
                     <input type="hidden" name="business_type" value="{{$entity->business_type??''}}">
                     <i class="dropdown icon"></i>
@@ -399,3 +404,11 @@
         </div>
     </form>
 </div>
+
+@section('scripts')
+    <script>
+        $(function() {
+            $('div.tooltip').popup();
+        });
+    </script>
+@endsection
