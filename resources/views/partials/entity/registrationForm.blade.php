@@ -404,11 +404,3 @@
         </div>
     </form>
 </div>
-
-@section('scripts')
-    <script>
-        $(function() {
-            $('div.tooltip').popup();
-        });
-    </script>
-@endsection

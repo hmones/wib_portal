@@ -18,6 +18,9 @@
         let profile_picture_store_url = "{{route('profilepicture.store')}}";
         let app_token = "{{Session::token()}}";
         let entity_photos_url = "{{route('image.upload', ['entity'=>$entity])}}";
+        $(function() {
+            $('div.tooltip').popup();
+        });
     </script>
     <script src="{{asset('js/entity.create.js')}}" type="application/javascript"></script>
     <script src="{{asset('js/entity.upload.photos.js')}}"></script>
