@@ -15,6 +15,7 @@
                     <a href="https://llwb.org/" class="item"> Lebanese League for Women in Business </a>
                     <a href="https://www.sevedz.com/" class="item"> Savoir et Vouloir Entreprendre </a>
                     <a href="https://www.vdu.de/home.html" class="item">Verband deutscher Unternehmerinnen</a>
+                    <a href="https://www.ebrd.com/home" class="item">The European Bank for Reconstruction and Development</a>
                     <a href="http://www.global-project-partners.de/" class="item">Global Project Partners</a>
                 </div>
             </div>
