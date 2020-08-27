@@ -83,15 +83,13 @@ class Entity extends Model
 
     public function scopeFilter($query, \Illuminate\Http\Request $request)
     {
-        if ($request) {
-            if (isset($request->sectors) && !empty(implode('',$request->sectors))) {
-                $query->whereHas('sectors', function ($q) use ($request) {
-                    $q->whereIn('id', explode(",", $request->sectors[0]));
-                });
-            }
-            if (isset($request->countries) && !empty(implode('',$request->countries))) {
-                $query->whereIn('primary_country_id', explode(",", $request->countries[0]));
-            }
+        if (isset($request->countries[0])) {
+            $query->whereIn('primary_country_id', explode(",", $request->countries[0]));
+        }
+        if (isset($request->sectors[0])) {
+            $query->whereHas('sectors', function ($q) use ($request) {
+                $q->whereIn('id', explode(",", $request->sectors[0]));
+            });
         }
         $query->latest();
         return $query;

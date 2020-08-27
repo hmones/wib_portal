@@ -1,16 +1,5 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 use App\Country;
 use App\Entity;
 use App\Http\Resources\Country as CountryResource;
@@ -18,6 +7,11 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/', 'HomeController@index')->middleware(['auth', 'verified'])->name('home');
 
@@ -46,6 +40,12 @@ Route::get('/country/{id}', function ($id) {
 Route::get('/entities/search', 'EntityController@search')->middleware(['auth', 'verified']);
 
 Auth::routes(['verify' => true]);
+
+/*
+|--------------------------------------------------------------------------
+| Admin Panel Routes
+|--------------------------------------------------------------------------
+*/
 
 Route::namespace('Admin')->prefix('/admin')->name('admin.')->group(function () {
 
