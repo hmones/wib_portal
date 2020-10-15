@@ -23,7 +23,7 @@ class ProfileController extends Controller
 {
     private $activities = array('Export', 'Import', 'Production', 'Services', 'Trade');
     private $education = array('Highschool', 'Bachelor', 'Master', 'Doctorate');
-    private $associations = array('ABWA', 'BWE21', 'CNFCE', 'LLWB', 'SEVE');
+    private $associations = array('ABWA', 'BWE21', 'CNFCE', 'EBRD', 'LLWB', 'SEVE');
 
     /**
      * Display a listing of the resource.
@@ -88,7 +88,7 @@ class ProfileController extends Controller
             "sector_1" => "required|exists:sectors,id",
             "sector_2" => "nullable|exists:sectors,id",
             "sector_3" => "nullable|exists:sectors,id",
-            "business_association_wom" => "nullable|in:ABWA,BWE21,CNFCE,LLWB,SEVE,Other",
+            "business_association_wom" => "nullable|in:ABWA,BWE21,CNFCE,LLWB,SEVE,EBRD,Other",
             "education" => "required|in:Highschool,Bachelor,Master,Doctorate",
             "gender" => "required|in:Male,Female",
             "gdpr_consent" => "required|boolean",
@@ -247,7 +247,7 @@ class ProfileController extends Controller
             "sector_1" => "required|exists:sectors,id",
             "sector_2" => "nullable|exists:sectors,id",
             "sector_3" => "nullable|exists:sectors,id",
-            "business_association_wom" => "nullable|in:ABWA,BWE21,CNFCE,LLWB,SEVE,Other",
+            "business_association_wom" => "nullable|in:ABWA,BWE21,CNFCE,LLWB,SEVE,EBRD,Other",
             "education" => "required|in:Highschool,Bachelor,Master,Doctorate",
             "gender" => "required|in:Male,Female",
             "gdpr_consent" => "required|boolean",
