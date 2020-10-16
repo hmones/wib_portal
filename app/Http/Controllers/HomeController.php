@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Cookie;
 use App\User;
 use App\Entity;
 
@@ -20,5 +22,24 @@ class HomeController extends Controller
             'users' => $users,
             'entities' => $entities
         ]);
+    }
+
+    public function cookie(Request $request)
+    {
+        $status = $request->input('status');
+        if($status){
+            $request->session()->forget('consent-set');
+            $request->session()->forget('statistics');
+        }
+        switch ($status) {
+            case 'all':
+                $request->session()->put('consent-set','true');
+                $request->session()->put('statistics','true');
+                break;
+            default:
+                $request->session()->put('consent-set','true');
+                break;
+        }
+        return Redirect::back();
     }
 }

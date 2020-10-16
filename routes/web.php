@@ -41,6 +41,8 @@ Route::get('/entities/search', 'EntityController@search')->middleware(['auth', '
 
 Auth::routes(['verify' => true]);
 
+Route::post('/cookie/consent', 'HomeController@cookie')->name('cookie.consent');
+
 /*
 |--------------------------------------------------------------------------
 | Admin Panel Routes
