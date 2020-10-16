@@ -1,5 +1,5 @@
 @extends('layouts.default')
-
+@section('title', $entity->name)
 @section('content')
 <br><br>
 <div class="ui centered container">

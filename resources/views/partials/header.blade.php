@@ -14,7 +14,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Women in Business Portal | Users Listing</title>
+<title>Women in Business Portal | @yield('title')</title>
 
 <!-- CSRF Token -->
 <meta name="csrf-token" content="{{ csrf_token() }}">
