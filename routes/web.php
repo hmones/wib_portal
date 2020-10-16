@@ -7,29 +7,20 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+| Web Public Routes
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', 'HomeController@index')->middleware(['auth', 'verified'])->name('home');
+Route::get('/', 'EntityController@index')->name('entity.index');
 
-Route::prefix('profile/entities')->as('profile.entities')->middleware(['auth', 'verified'])->group(function () {
-    Route::get('/', 'EntityController@indexUser');
-    Route::post('/associate', 'EntityController@associateEntity')->name('.associate');
-    Route::post('/{entity}/disassociate', 'EntityController@disassociateEntity')->name('.disassociate');
-});
-
-Route::resource('entity', 'EntityController')->middleware(['auth', 'verified']);
+Route::get('/entity/{entity}', 'EntityController@show')->name('entity.show');
 
 Route::get('profile/create', 'ProfileController@create')->name('profile.create');
 
 Route::post('profile', 'ProfileController@store')->name('profile.store');
-
-Route::post('profile/contact/{profile}', 'ProfileController@contact')->name('profile.contact')->middleware(['auth', 'verified']);
-
-Route::resource('profile', 'ProfileController')->except(['create', 'store'])->middleware('auth');
 
 Route::resource('profilepicture', 'ProfilePictureController');
 
@@ -37,11 +28,36 @@ Route::get('/country/{id}', function ($id) {
     return new CountryResource(Country::findOrFail($id));
 })->name('country.cities.get');
 
+Route::post('/cookie/consent', 'HomeController@cookie')->name('cookie.consent');
+
+/*
+|--------------------------------------------------------------------------
+| User Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/home', 'HomeController@index')->middleware(['auth', 'verified'])->name('home');
+
+Route::prefix('profile/entities')->as('profile.entities')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', 'EntityController@indexUser');
+    Route::post('/associate', 'EntityController@associateEntity')->name('.associate');
+    Route::post('/{entity}/disassociate', 'EntityController@disassociateEntity')->name('.disassociate');
+});
+
+Route::resource('entity', 'EntityController')->except(['index', 'show'])->middleware(['auth', 'verified']);
+
+
+Route::post('profile/contact/{profile}', 'ProfileController@contact')->name('profile.contact')->middleware(['auth', 'verified']);
+
+Route::resource('profile', 'ProfileController')->except(['create', 'store'])->middleware('auth');
+
+
+
 Route::get('/entities/search', 'EntityController@search')->middleware(['auth', 'verified']);
 
 Auth::routes(['verify' => true]);
 
-Route::post('/cookie/consent', 'HomeController@cookie')->name('cookie.consent');
+
 
 /*
 |--------------------------------------------------------------------------
