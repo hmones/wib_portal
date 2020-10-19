@@ -82,42 +82,7 @@ class EntityController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate([
-            "logo" => "nullable|exists:profile_pictures,id",
-            "entity_type_id" => "required|exists:entity_types,id",
-            "founding_year" => "nullable|date_format:Y",
-            "name" => "required|string",
-            "name_additional" => "nullable|string",
-            "primary_email" => "required|email",
-            "secondary_email" => "nullable|email",
-            "phone_country_code" => "nullable|required_with:phone|digits_between:1,5",
-            "phone" => "nullable|digits_between:4,20",
-            "fax" => "nullable|digits_between:4,20",
-            "links[*]['url']" => "nullable|active_url",
-            "links[*]['link_type']" => "nullable|exists:supported_links,id",
-            "primary_address" => "required|string|between:0,100",
-            "primary_country_id" => "required|exists:countries,id",
-            "primary_city_id" => "required|exists:cities,id",
-            "primary_postbox" => "nullable|alpha_num|between:0,100",
-            "primary_postal_code" => "nullable|alpha_num|between:0,50",
-            "secondary_address" => "nullable|string|between:0,100",
-            "secondary_country_id" => "nullable|exists:countries,id",
-            "secondary_city_id" => "nullable|exists:cities,id",
-            "secondary_postbox" => "nullable|alpha_num|between:0,100",
-            "secondary_postal_code" => "nullable|alpha_num|between:0,50",
-            "sector_1" => "required|exists:sectors,id",
-            "sector_2" => "nullable|exists:sectors,id",
-            "sector_3" => "nullable|exists:sectors,id",
-            "legal_form" => "nullable|in:Public,Private",
-            "activity" => "nullable|in:Export,Import,Production,Services,Trade",
-            "business_type" => "nullable|in:Start-Up,Scale-Up,Traditional Business",
-            "entity_size" =>"nullable|in:1-25,26-50,51-100,101-250,>250",
-            "employees" => "nullable|in:100-300,150-200,101-250,250-500,>500",
-            "students" => "nullable|in:<200,201-500,501-1000,1001-5000,5001-10000,10001-20000,20001-50000,50001-100000,>100000",
-            "turnover" => "nullable|in:<25K,25K-50K,50K-100K,100K-500K,500K-1Mio,1Mio-3Mio,3Mio-5Mio,5Mio-10Mio,>10Mio",
-            "balance_sheet" => "nullable|in:<25Mio,25Mio-50Mio,50Mio-100Mio,100Mio-500Mio,500Mio-1Bil,1Bil-3Bil,3Bil-5Bil,5Bil-10Bil,>10Bil",
-            "revenue" => "nullable|in:<25K,25K-50K,50K-100K,100K-500K,500K-1Mio,1Mio-3Mio,3Mio-5Mio,5Mio-10Mio,>10Mio",
-        ]);
+        $this->validateInputs();
 
 
         $entity = Entity::firstOrNew(
@@ -257,42 +222,7 @@ class EntityController extends Controller
      */
     public function update(Request $request, Entity $entity)
     {
-        request()->validate([
-            "logo" => "nullable|exists:profile_pictures,id",
-            "entity_type_id" => "required|exists:entity_types,id",
-            "founding_year" => "nullable|date_format:Y",
-            "name" => "required|string",
-            "name_additional" => "nullable|string",
-            "primary_email" => "required|email",
-            "secondary_email" => "nullable|email",
-            "phone_country_code" => "nullable|required_with:phone|digits_between:1,5",
-            "phone" => "nullable|digits_between:4,20",
-            "fax" => "nullable|digits_between:4,20",
-            "links[*]['url']" => "nullable|active_url",
-            "links[*]['link_type']" => "nullable|exists:supported_links,id",
-            "primary_address" => "required|string|between:0,100",
-            "primary_country_id" => "required|exists:countries,id",
-            "primary_city_id" => "required|exists:cities,id",
-            "primary_postbox" => "nullable|alpha_num|between:0,100",
-            "primary_postal_code" => "nullable|alpha_num|between:0,50",
-            "secondary_address" => "nullable|string|between:0,100",
-            "secondary_country_id" => "nullable|exists:countries,id",
-            "secondary_city_id" => "nullable|exists:cities,id",
-            "secondary_postbox" => "nullable|alpha_num|between:0,100",
-            "secondary_postal_code" => "nullable|alpha_num|between:0,50",
-            "sector_1" => "required|exists:sectors,id",
-            "sector_2" => "nullable|exists:sectors,id",
-            "sector_3" => "nullable|exists:sectors,id",
-            "legal_form" => "nullable|in:Public,Private",
-            "activity" => "nullable|in:Export,Import,Production,Services,Trade",
-            "business_type" => "nullable|in:Start-Up,Scale-Up,Traditional Business",
-            "entity_size" => "nullable|in:1-25,26-50,51-100,101-250,>250",
-            "employees" => "nullable|in:100-300,150-200,101-250,250-500,>500",
-            "students" => "nullable|in:<200,201-500,501-1000,1001-5000,5001-10000,10001-20000,20001-50000,50001-100000,>100000",
-            "turnover" => "nullable|in:<25K,25K-50K,50K-100K,100K-500K,500K-1Mio,1Mio-3Mio,3Mio-5Mio,5Mio-10Mio,>10Mio",
-            "balance_sheet" => "nullable|in:<25Mio,25Mio-50Mio,50Mio-100Mio,100Mio-500Mio,500Mio-1Bil,1Bil-3Bil,3Bil-5Bil,5Bil-10Bil,>10Bil",
-            "revenue" => "nullable|in:<25K,25K-50K,50K-100K,100K-500K,500K-1Mio,1Mio-3Mio,3Mio-5Mio,5Mio-10Mio,>10Mio",
-        ]);
+        $this->validateInputs();
 
 
         $entity->update(
@@ -536,5 +466,44 @@ class EntityController extends Controller
         Session::flash('success', 'Verification updated successfully');
 
         return Redirect::back();
+    }
+
+    protected function validateInputs(){
+        return request()->validate([
+            "logo" => "nullable|exists:profile_pictures,id",
+            "entity_type_id" => "required|exists:entity_types,id",
+            "founding_year" => "nullable|date_format:Y",
+            "name" => "required|string",
+            "name_additional" => "nullable|string",
+            "primary_email" => "required|email",
+            "secondary_email" => "nullable|email",
+            "phone_country_code" => "nullable|required_with:phone|digits_between:1,5",
+            "phone" => "nullable|digits_between:4,20",
+            "fax" => "nullable|digits_between:4,20",
+            "links[*]['url']" => "nullable|active_url",
+            "links[*]['link_type']" => "nullable|exists:supported_links,id",
+            "primary_address" => "required|string|between:0,100",
+            "primary_country_id" => "required|exists:countries,id",
+            "primary_city_id" => "required|exists:cities,id",
+            "primary_postbox" => "nullable|alpha_num|between:0,100",
+            "primary_postal_code" => "nullable|alpha_num|between:0,50",
+            "secondary_address" => "nullable|string|between:0,100",
+            "secondary_country_id" => "nullable|exists:countries,id",
+            "secondary_city_id" => "nullable|exists:cities,id",
+            "secondary_postbox" => "nullable|alpha_num|between:0,100",
+            "secondary_postal_code" => "nullable|alpha_num|between:0,50",
+            "sector_1" => "required|exists:sectors,id",
+            "sector_2" => "nullable|exists:sectors,id",
+            "sector_3" => "nullable|exists:sectors,id",
+            "legal_form" => "nullable|in:Public,Private",
+            "activity" => "nullable|in:Export,Import,Production,Services,Trade",
+            "business_type" => "nullable|in:Start-Up,Scale-Up,Traditional Business",
+            "entity_size" => "nullable|in:1-25,26-50,51-100,101-250,>250",
+            "employees" => "nullable|in:100-300,150-200,101-250,250-500,>500",
+            "students" => "nullable|in:<200,201-500,501-1000,1001-5000,5001-10000,10001-20000,20001-50000,50001-100000,>100000",
+            "turnover" => "nullable|in:<25K,25K-50K,50K-100K,100K-500K,500K-1Mio,1Mio-3Mio,3Mio-5Mio,5Mio-10Mio,>10Mio",
+            "balance_sheet" => "nullable|in:<25Mio,25Mio-50Mio,50Mio-100Mio,100Mio-500Mio,500Mio-1Bil,1Bil-3Bil,3Bil-5Bil,5Bil-10Bil,>10Bil",
+            "revenue" => "nullable|in:<25K,25K-50K,50K-100K,100K-500K,500K-1Mio,1Mio-3Mio,3Mio-5Mio,5Mio-10Mio,>10Mio",
+        ]);
     }
 }

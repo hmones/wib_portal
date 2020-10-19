@@ -71,31 +71,7 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate([
-            "avatar_id" => "nullable|exists:profile_pictures,id",
-            "title" => "required|in:Mr.,Ms.,Prof.,Dr.",
-            "birth_year" => "nullable|date_format:Y",
-            "name" => "required|string",
-            "email" => "required|email",
-            "password" => "required|between:6,25",
-            "phone_country_code" => "required|digits_between:1,5",
-            "phone" => "required|digits_between:4,20",
-            "links[*]['url']" => "nullable|active_url",
-            "links[*]['link_type']" => "nullable|exists:supported_links,id",
-            "country_id" => "required|exists:countries,id",
-            "city_id" => "required|exists:cities,id",
-            "postal_code" => "nullable|alpha_num|between:0,50",
-            "sector_1" => "required|exists:sectors,id",
-            "sector_2" => "nullable|exists:sectors,id",
-            "sector_3" => "nullable|exists:sectors,id",
-            "business_association_wom" => "nullable|in:ABWA,BWE21,CNFCE,LLWB,SEVE,EBRD,Other",
-            "education" => "required|in:Highschool,Bachelor,Master,Doctorate",
-            "gender" => "required|in:Male,Female",
-            "gdpr_consent" => "required|boolean",
-            "newsletter" => "required|boolean",
-            "mena_diaspora" => "required|boolean",
-            "bio" => "nullable|string"
-        ]);
+        $this->validateInputs();
 
         $user = User::firstOrNew(
             ['email' => $request->email],
@@ -232,29 +208,8 @@ class ProfileController extends Controller
         if (Auth::id() != $profile->id) {
             return redirect(route('home'));
         }
-        request()->validate([
-            "avatar_id" => "nullable|exists:profile_pictures,id",
-            "title" => "required|in:Mr.,Ms.,Prof.,Dr.",
-            "birth_year" => "nullable|date_format:Y",
-            "name" => "required|string",
-            "phone_country_code" => "required|digits_between:1,5",
-            "phone" => "required|digits_between:4,20",
-            "links[*]['url']" => "nullable|active_url",
-            "links[*]['link_type']" => "nullable|exists:supported_links,id",
-            "country_id" => "required|exists:countries,id",
-            "city_id" => "required|exists:cities,id",
-            "postal_code" => "nullable|alpha_num|between:0,50",
-            "sector_1" => "required|exists:sectors,id",
-            "sector_2" => "nullable|exists:sectors,id",
-            "sector_3" => "nullable|exists:sectors,id",
-            "business_association_wom" => "nullable|in:ABWA,BWE21,CNFCE,LLWB,SEVE,EBRD,Other",
-            "education" => "required|in:Highschool,Bachelor,Master,Doctorate",
-            "gender" => "required|in:Male,Female",
-            "gdpr_consent" => "required|boolean",
-            "newsletter" => "required|boolean",
-            "mena_diaspora" => "required|boolean",
-            "bio" => "nullable|string"
-        ]);
+
+        $this->validateInputs();
 
         $profile->update(
             [
@@ -413,10 +368,36 @@ class ProfileController extends Controller
             ]);
         }
         $profile->save();
-//        dd($profile);
+
         Session::flash('success', 'Verification updated successfully');
 
         return Redirect::back();
+    }
+
+    protected function validateInputs(){
+        return request()->validate([
+            "avatar_id" => "nullable|exists:profile_pictures,id",
+            "title" => "required|in:Mr.,Ms.,Prof.,Dr.",
+            "birth_year" => "nullable|date_format:Y",
+            "name" => "required|string",
+            "phone_country_code" => "required|digits_between:1,5",
+            "phone" => "required|digits_between:4,20",
+            "links[*]['url']" => "nullable|active_url",
+            "links[*]['link_type']" => "nullable|exists:supported_links,id",
+            "country_id" => "required|exists:countries,id",
+            "city_id" => "required|exists:cities,id",
+            "postal_code" => "nullable|alpha_num|between:0,50",
+            "sector_1" => "required|exists:sectors,id",
+            "sector_2" => "nullable|exists:sectors,id",
+            "sector_3" => "nullable|exists:sectors,id",
+            "business_association_wom" => "nullable|in:ABWA,BWE21,CNFCE,LLWB,SEVE,EBRD,Other",
+            "education" => "required|in:Highschool,Bachelor,Master,Doctorate",
+            "gender" => "required|in:Male,Female",
+            "gdpr_consent" => "required|boolean",
+            "newsletter" => "required|boolean",
+            "mena_diaspora" => "required|boolean",
+            "bio" => "nullable|string"
+        ]);
     }
 
 }
