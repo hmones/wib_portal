@@ -16,13 +16,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'EntityController@index')->name('entity.index');
 
-Route::get('/entity/{entity}', 'EntityController@show')->name('entity.show');
-
 Route::get('profile/create', 'ProfileController@create')->name('profile.create');
 
 Route::post('profile', 'ProfileController@store')->name('profile.store');
 
-Route::resource('profilepicture', 'ProfilePictureController');
+Route::resource('profilepicture', 'ProfilePictureController')->except(['index','create','edit','show','update']);
+
+Route::resource('photos', 'PhotosController')->except(['index','create','edit','show'])->middleware(['auth', 'verified']);
 
 Route::get('/country/{id}', function ($id) {
     return new CountryResource(Country::findOrFail($id));
@@ -58,6 +58,7 @@ Route::get('/entities/search', 'EntityController@search')->middleware(['auth', '
 Auth::routes(['verify' => true]);
 
 
+Route::get('/entity/{entity}', 'EntityController@show')->name('entity.show');
 
 /*
 |--------------------------------------------------------------------------
@@ -88,7 +89,9 @@ Route::namespace('Admin')->prefix('/admin')->name('admin.')->group(function () {
     });
 });
 
-Route::delete('/images/{entity}/{photo}', 'PhotosController@destroy')->name('images.delete');
+// Route::post('/images/{entity}', 'PhotosController@store')->name('image.upload');
+
+// Route::delete('/images/{entity}/{photo}', 'PhotosController@destroy')->name('images.delete');
 
 Route::resource('entityType', 'EntityTypeController')->except(['index', 'create', 'show', 'edit'])->middleware('auth:admin');
 

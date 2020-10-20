@@ -11,6 +11,7 @@
   text-align: center;
   vertical-align: bottom;
   background: #000000;
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), color-stop(80%, #2e2e2e));
   background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #2e2e2e 80%);
   color: white;
   z-index: 1;
@@ -37,10 +38,12 @@ p {
   width: 100%;
   border-radius: 5px;
   overflow: hidden;
+  -webkit-transition: all 1s;
   transition: all 1s;
 }
 .profilebox:hover .profileimage {
-  transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
 }
 #styledUploader {
   height: 150px;
@@ -53,7 +56,8 @@ p {
   padding-bottom: 50px;
 }
 .stop.wib.bullet.icon {
-  transform: rotate(45deg) scale(0.35) translateY(-3px);
+  -webkit-transform: rotate(45deg) scale(0.35) translateY(-3px);
+          transform: rotate(45deg) scale(0.35) translateY(-3px);
 }
 .ui.breadcrumb a {
   color: #1a4d99 !important;

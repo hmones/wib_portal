@@ -88,7 +88,7 @@
                 @forelse($entity->users as $user)
                 <div class="item">
                     <img class="ui avatar image" src="
-                                @if($user->avatar()->exists())
+                            @if($user->avatar()->exists())
                             {{$user->avatar()->smallthumbnail()->url}}
                             @else
                             @if($user->gender === 'Male')
@@ -177,8 +177,12 @@
         </div>
         @foreach($entity->photos()->get() as $photo)
         <div class="column">
-            <a onclick="$('#image_{{$photo->id}}').modal('show');"><img class="ui image" src="{{$photo->thumbnail}}"
-                    alt=""></a>
+            <a href="javascript:void(0);" onclick="$('#image_{{$photo->id}}').modal('show');"><img class="ui image"
+                    src="{{$photo->thumbnail}}" alt="">
+                <div class="ui center aligned basic segment">
+                    {{$photo->comment}}
+                </div>
+            </a>
             <div class="ui basic modal" id="image_{{$photo->id}}">
                 <div class="ui center aligned basic segment">
                     <img src="{{$photo->url}}" alt="">

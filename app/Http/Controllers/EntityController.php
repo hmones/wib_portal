@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\City;
 use App\Country;
 use App\Entity;
 use App\EntityType;
@@ -61,6 +60,7 @@ class EntityController extends Controller
         $supported_links = SupportedLink::all();
         $sectors = Sector::all();
         $entity_types = EntityType::all();
+        $entity = new Entity;
         return view('entity.create', [
             'activities' => $this->activities,
             'countries' => $countries,
@@ -71,6 +71,7 @@ class EntityController extends Controller
             'entity_types' => $entity_types,
             'addresses' => $this->addresses,
             'business_options' => $this->business_options,
+            'entity' => $entity
         ]);
     }
 
@@ -83,7 +84,6 @@ class EntityController extends Controller
     public function store(Request $request)
     {
         $this->validateInputs();
-
 
         $entity = Entity::firstOrNew(
             ['name' => $request->name],
@@ -161,6 +161,15 @@ class EntityController extends Controller
                 $entity->links()->create(['url' => $link['url'], 'type_id' => $link['link_type']]);
             }
         }
+        
+        if(isset($request->photosID)){
+            foreach ($request->photosID as $photoID) {
+                $photo = \App\Photos::find($photoID);
+                if($photo){
+                    $entity->photos()->save($photo);
+                }
+            }
+        }
 
         $entity->save();
 
@@ -223,7 +232,6 @@ class EntityController extends Controller
     public function update(Request $request, Entity $entity)
     {
         $this->validateInputs();
-
 
         $entity->update(
             [
@@ -314,6 +322,16 @@ class EntityController extends Controller
                 );
             }
         }
+
+        if(isset($request->photosID)){
+            foreach ($request->photosID as $photoID) {
+                $photo = \App\Photos::find($photoID);
+                if($photo){
+                    $entity->photos()->save($photo);
+                }
+            }
+        }
+        
 
         $entity->save();
 
@@ -482,6 +500,7 @@ class EntityController extends Controller
             "fax" => "nullable|digits_between:4,20",
             "links[*]['url']" => "nullable|active_url",
             "links[*]['link_type']" => "nullable|exists:supported_links,id",
+            "photosID[*]"=>"nullable|exists:photos,id",
             "primary_address" => "required|string|between:0,100",
             "primary_country_id" => "required|exists:countries,id",
             "primary_city_id" => "required|exists:cities,id",

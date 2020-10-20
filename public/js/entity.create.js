@@ -1,54 +1,53 @@
 // Page initializations
 $(function () {
-    $('.ui.dropdown')
-        .dropdown()
-    ;
+    $('.ui.dropdown').dropdown();
+    $('div.tooltip').popup();
     $('#entity_form').form({
         on: 'blur',
         inline: true,
         fields: {
-            entity_type_id: {rules: [{type: 'empty', prompt: 'Please select an organization type'}]},
-            relation: {rules: [{type: 'empty'}]},
+            entity_type_id: { rules: [{ type: 'empty', prompt: 'Please select an organization type' }] },
+            relation: { rules: [{ type: 'empty' }] },
             founding_year: {
-                rules: [{type: 'empty'}, {
+                rules: [{ type: 'empty' }, {
                     type: 'integer[1000..2050]',
                     prompt: 'Please enter a valid year'
                 }]
             },
-            name: {rules: [{type: 'empty'}, {type: 'maxLength[255]'}]},
-            name_additional: {optional: true, rules: [{type: 'maxLength[255]'}]},
-            primary_email: {rules: [{type: 'email', prompt: 'Please enter a valid email'}]},
-            secondary_email: {optional: true, rules: [{type: 'email', prompt: 'Please enter a valid email'}]},
-            phone: {optional: true, rules: [{type: 'maxLength[20]'}, {type: 'integer'}]},
-            fax: {optional: true, rules: [{type: 'maxLength[20]'}, {type: 'integer'}]},
-            entity_link_1: {optional: true, rules: [{type: 'url'}]},
-            entity_link_2: {optional: true, rules: [{type: 'url'}]},
-            entity_link_3: {optional: true, rules: [{type: 'url'}]},
-            entity_link_4: {optional: true, rules: [{type: 'url'}]},
-            entity_link_5: {optional: true, rules: [{type: 'url'}]},
-            primary_address: {rules: [{type: 'empty'}, {type: 'maxLength[100]'}]},
-            primary_country_id: {rules: [{type: 'empty'}]},
-            primary_city_id: {rules: [{type: 'empty'}]},
-            primary_postbox: {optional: true, rules: [{type: 'empty'}, {type: 'maxLength[100]'}]},
-            primary_postal_code: {optional: true, rules: [{type: 'empty'}, {type: 'maxLength[50]'}]},
-            entity_sector_1: {rules: [{type: 'empty'}]},
-            secondary_address: {optional: true, rules: [{type: 'empty'}, {type: 'maxLength[100]'}]},
-            secondary_postbox: {optional: true, rules: [{type: 'empty'}, {type: 'maxLength[100]'}]},
-            secondary_postal_code: {optional: true, rules: [{type: 'empty'}, {type: 'maxLength[50]'}]},
+            name: { rules: [{ type: 'empty' }, { type: 'maxLength[255]' }] },
+            name_additional: { optional: true, rules: [{ type: 'maxLength[255]' }] },
+            primary_email: { rules: [{ type: 'email', prompt: 'Please enter a valid email' }] },
+            secondary_email: { optional: true, rules: [{ type: 'email', prompt: 'Please enter a valid email' }] },
+            phone: { optional: true, rules: [{ type: 'maxLength[20]' }, { type: 'integer' }] },
+            fax: { optional: true, rules: [{ type: 'maxLength[20]' }, { type: 'integer' }] },
+            entity_link_1: { optional: true, rules: [{ type: 'url' }] },
+            entity_link_2: { optional: true, rules: [{ type: 'url' }] },
+            entity_link_3: { optional: true, rules: [{ type: 'url' }] },
+            entity_link_4: { optional: true, rules: [{ type: 'url' }] },
+            entity_link_5: { optional: true, rules: [{ type: 'url' }] },
+            primary_address: { rules: [{ type: 'empty' }, { type: 'maxLength[100]' }] },
+            primary_country_id: { rules: [{ type: 'empty' }] },
+            primary_city_id: { rules: [{ type: 'empty' }] },
+            primary_postbox: { optional: true, rules: [{ type: 'empty' }, { type: 'maxLength[100]' }] },
+            primary_postal_code: { optional: true, rules: [{ type: 'empty' }, { type: 'maxLength[50]' }] },
+            entity_sector_1: { rules: [{ type: 'empty' }] },
+            secondary_address: { optional: true, rules: [{ type: 'empty' }, { type: 'maxLength[100]' }] },
+            secondary_postbox: { optional: true, rules: [{ type: 'empty' }, { type: 'maxLength[100]' }] },
+            secondary_postal_code: { optional: true, rules: [{ type: 'empty' }, { type: 'maxLength[50]' }] },
         }
     });
 });
 
 
-$('input[name="primary_country_id"]').change(function () {
+$(document).on('change', 'input[name="primary_country_id"]', function () {
     update_cities('input[name="primary_country_id"]', '#primary_city_id');
 });
 
-$('input[name="secondary_country_id"]').change(function () {
+$(document).on('change', 'input[name="secondary_country_id"]', function () {
     update_cities('input[name="secondary_country_id"]', '#secondary_city_id');
 });
 
-$('#entity_submit').click(function () {
+$(document).on('click', '#entity_submit', function () {
     if ($('#entity_form').form('is valid')) {
         let web_links = [];
         $('input[name^="entity_link_"]').each(function () {
@@ -57,6 +56,10 @@ $('#entity_submit').click(function () {
                 'url': $(this).val()
             };
             web_links.push(temp);
+        });
+        let photosID = [];
+        $('input[name="photosID[]"]').each(function () {
+            photosID.push($(this).val());
         });
         $.ajax({
             method: 'POST',
@@ -96,6 +99,7 @@ $('#entity_submit').click(function () {
                 turnover: $('input[name="turnover"]').val(),
                 balance_sheet: $('input[name="balance_sheet"]').val(),
                 revenue: $('input[name="revenue"]').val(),
+                photosID: photosID,
                 _method: $('input[name="_method"]').val(),
                 _token: app_token,
             }
@@ -115,10 +119,10 @@ $('#entity_submit').click(function () {
 });
 
 
-$('#logo_upload_icon').click(function () {
+$(document).on('click', '#logo_upload_icon', function () {
     $('#logo_upload_input').trigger('click');
 });
-$('#logo_upload_input').change(function () {
+$(document).on('change', '#logo_upload_input', function () {
     let file = $('input[name="logo"]')[0].files[0];
     if (file != null) {
         let form = new FormData();
