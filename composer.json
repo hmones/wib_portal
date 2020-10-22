@@ -9,10 +9,13 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "babenkoivan/elastic-migrations": "^1.2",
+        "babenkoivan/elastic-scout-driver": "^1.2",
         "fideloper/proxy": "^4.0",
         "fruitcake/laravel-cors": "^2.0",
         "intervention/image": "^2.5",
         "laravel/framework": "^8.0",
+        "laravel/scout": "^8.3",
         "laravel/tinker": "^2.0",
         "league/flysystem-aws-s3-v3": "^1.0",
         "symfony/http-foundation": "^5.0"
