@@ -21,8 +21,12 @@ class CommentFactory extends Factory
      */
     public function definition()
     {
+        $users = \App\Models\User::latest()->take(100)->pluck('id')->toArray();
         return [
-            //
+            'content' => $this->faker->sentence(),
+            'user_id' => $this->faker->randomElement($users),
+            'created_at' => now(),
+            'updated_at' => now()
         ];
     }
 }

@@ -36,7 +36,7 @@ Route::post('/cookie/consent', 'HomeController@cookie')->name('cookie.consent');
 |--------------------------------------------------------------------------
 */
 
-Route::get('/home', 'HomeController@index')->middleware(['auth', 'verified'])->name('home');
+Route::get('/home', 'PostController@index')->middleware(['auth', 'verified'])->name('home');
 
 Route::prefix('profile/entities')->as('profile.entities')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/', 'EntityController@indexUser');
