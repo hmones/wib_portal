@@ -21,10 +21,10 @@
 .messenger-listView{
     background: #fff;
     border: 0px solid #eee;
-    box-shadow: 4px 0 5px -3px #eee;
+    /* box-shadow: 4px 0 5px -3px #eee; */
 }
 .messenger-listView-tabs{
-    border-bottom: 1px solid #eee;
+    /* border-bottom: 1px solid #eee; */
 }
 .messenger-listView-tabs a:hover,
 .messenger-listView-tabs a:focus{
@@ -65,9 +65,9 @@
     color: #333;
 }
 .message-card p{
-    background: #ffffff;
+    background: #f7f7f7;
     color: #656b75;
-    box-shadow: 0px 6px 11px rgba(18, 67, 105, 0.03);
+    /* box-shadow: 0px 6px 11px rgba(18, 67, 105, 0.03); */
 }
 .m-li-divider{
     border-bottom: 1px solid #ebebeb;

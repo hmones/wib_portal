@@ -2,11 +2,13 @@
 @section('title','Profile Settings')
 @section('content')
 <div class="ui container" style="min-height:80vh;">
+    <h1 class="ui blue header"><i class="stop wib bullet icon"></i>{{Auth::user()->name}} Inbox</h1>
+    <div class="ui hidden divider"></div>
     <div class="messenger" style="min-height:80vh;">
         {{-- ----------------------Users/Groups lists side---------------------- --}}
         <div class="messenger-listView" style="border:none !important;">
             {{-- Header and search bar --}}
-            <div class="m-header">
+            <div class="m-header ui form">
                 <nav>
                     <a href="#"><i class="envelope blue icon"></i> <span
                             class="ui blue header messenger-headTitle">Messages</span> </a>
@@ -18,15 +20,18 @@
                     </nav>
                 </nav>
                 {{-- Search input --}}
-                <input type="text" class="messenger-search" placeholder="Search for a member"
-                    style="margin-top:10px;" />
+                <div class="ui icon mini input" style="margin-top:10px;margin-left:38px;">
+                    <input type="text" class="messenger-search" placeholder="Search for a member" />
+                    <i class="search icon"></i>
+                </div>
+
                 {{-- Tabs --}}
-                <div class="messenger-listView-tabs">
+                {{-- <div class="messenger-listView-tabs">
                     <a href="#" @if($route=='user' ) class="active-tab" @endif data-view="users">
                         <i class="user blue icon"></i> People</a>
                     <a href="#" @if($route=='group' ) class="active-tab" @endif data-view="groups">
                         <span class="fas fa-users"></span> Groups</a>
-                </div>
+                </div> --}}
             </div>
             {{-- tabs and lists --}}
             <div class="m-body">
@@ -35,7 +40,7 @@
                 <div class="@if($route == 'user') show @endif messenger-tab app-scroll" data-view="users">
 
                     {{-- Favorites --}}
-                    <p class="messenger-title" style="margin-top:10px;">Favorites</p>
+                    <p class="messenger-title">Favorites</p>
                     <div class="messenger-favorites app-scroll-thin"></div>
 
                     {{-- Saved Messages --}}
@@ -47,15 +52,15 @@
                 </div>
 
                 {{-- ---------------- [ Group Tab ] ---------------- --}}
-                <div class="@if($route == 'group') show @endif messenger-tab app-scroll" data-view="groups">
-                    {{-- items --}}
-                    <p style="text-align: center;color:grey;margin-top:20px;">Soon will be available</p>
-                </div>
+                {{-- <div class="@if($route == 'group') show @endif messenger-tab app-scroll" data-view="groups"> --}}
+                {{-- items --}}
+                {{-- <p style="text-align: center;color:grey;margin-top:20px;">Soon will be available</p> --}}
+                {{-- </div> --}}
 
                 {{-- ---------------- [ Search Tab ] ---------------- --}}
                 <div class="messenger-tab app-scroll" data-view="search">
                     {{-- items --}}
-                    <p class="messenger-title" style="margin-top: 10px;">Search</p>
+                    <p class="messenger-title">Search</p>
                     <div class="search-records">
                         <p class="message-hint"><span>Type to search..</span></p>
                     </div>
@@ -64,7 +69,7 @@
         </div>
 
         {{-- ----------------------Messaging side---------------------- --}}
-        <div class="messenger-messagingView" style="border:none;">
+        <div class="messenger-messagingView" style="border:none;background:none;">
             {{-- header title [conversation name] amd buttons --}}
             <div class="m-header m-header-messaging">
                 <nav>

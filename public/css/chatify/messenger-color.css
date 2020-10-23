@@ -9,7 +9,6 @@
 
     #nprogress .spinner-icon {
         border-top-color: #153e7a !important;
-
         border-left-color: #153e7a !important;
     }
 
@@ -25,7 +24,6 @@
 
     .m-list-active b {
         background: #fff !important;
-
         color: #153e7a !important;
     }
 

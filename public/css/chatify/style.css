@@ -66,7 +66,7 @@ body{
     margin: 10px;
 }
 .messenger-listView .m-body{
-    margin-top: 126px;
+    margin-top: 104px;
 }
 .messenger-messagingView{
 	position: relative;
@@ -90,7 +90,7 @@ body{
 }
 .m-header-messaging{
   background: #fff;
-	box-shadow: 0px 5px 6px rgba(0, 0, 0, 0.06);
+	/* box-shadow: 0px 5px 6px rgba(0, 0, 0, 0.06); */
 }
 .m-header svg{
 	margin: 0px 8px;
@@ -113,7 +113,7 @@ body{
 	width: 100%;
 	margin-top: 10px;
 	background-color: transparent;
-	box-shadow: 0px 5px 6px rgba(0, 0, 0, 0.06);
+	/* box-shadow: 0px 5px 6px rgba(0, 0, 0, 0.06); */
 }
 .messenger-listView-tabs a{
 	width: 100%;
@@ -323,7 +323,7 @@ body{
     padding: 6px 15px;
     padding-bottom: 5px;
     max-width: 80%;
-    border-radius: 20px;
+    border-radius: 8px;
     word-break: break-word;
 }
 .message-card p sub{
