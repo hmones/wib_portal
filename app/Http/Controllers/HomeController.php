@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
-use App\User;
-use App\Entity;
+use App\Models\User;
+use App\Models\Entity;
 
 class HomeController extends Controller
 {

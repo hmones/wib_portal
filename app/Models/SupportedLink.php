@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,6 +10,6 @@ class SupportedLink extends Model
 
     public function links()
     {
-        return $this->hasMany('App\Link', 'type_id');
+        return $this->hasMany('App\Models\Link', 'type_id');
     }
 }

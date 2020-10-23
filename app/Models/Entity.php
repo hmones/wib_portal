@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,67 +13,67 @@ class Entity extends Model
 
     public function type()
     {
-        return $this->belongsTo('App\EntityType', 'entity_type_id');
+        return $this->belongsTo('App\Models\EntityType', 'entity_type_id');
     }
 
     public function approved_by()
     {
-        return $this->belongsTo('App\Admin', 'approved_by');
+        return $this->belongsTo('App\Models\Admin', 'approved_by');
     }
 
     public function users()
     {
-        return $this->belongsToMany('App\User', 'user_entity')->withPivot('relation_type', 'relation_desc', 'relation_active', 'relation_date');
+        return $this->belongsToMany('App\Models\User', 'user_entity')->withPivot('relation_type', 'relation_desc', 'relation_active', 'relation_date');
     }
 
     public function owned_by()
     {
-        return $this->belongsTo('App\User', 'owned_by');
+        return $this->belongsTo('App\Models\User', 'owned_by');
     }
 
     public function sectors()
     {
-        return $this->belongsToMany('App\Sector', 'entity_sector', 'entity_id', 'sector_id');
+        return $this->belongsToMany('App\Models\Sector', 'entity_sector', 'entity_id', 'sector_id');
     }
 
     public function primary_country()
     {
-        return $this->hasOne('App\Country', 'id', 'primary_country_id');
+        return $this->hasOne('App\Models\Country', 'id', 'primary_country_id');
     }
 
     public function secondary_country()
     {
-        return $this->hasOne('App\Country', 'id', 'secondary_country_id');
+        return $this->hasOne('App\Models\Country', 'id', 'secondary_country_id');
     }
 
     public function primary_city()
     {
-        return $this->hasOne('App\City', 'id', 'primary_city_id');
+        return $this->hasOne('App\Models\City', 'id', 'primary_city_id');
     }
 
     public function secondary_city()
     {
-        return $this->hasOne('App\City', 'id', 'secondary_city_id');
+        return $this->hasOne('App\Models\City', 'id', 'secondary_city_id');
     }
 
     public function logo()
     {
-        return $this->morphMany('App\ProfilePicture', 'profileable');
+        return $this->morphMany('App\Models\ProfilePicture', 'profileable');
     }
 
     public function links()
     {
-        return $this->morphMany('App\Link', 'linkable');
+        return $this->morphMany('App\Models\Link', 'linkable');
     }
 
     public function photos()
     {
-        return $this->morphMany('App\Photos', 'photoable');
+        return $this->morphMany('App\Models\Photos', 'photoable');
     }
 
     public function searching_for()
     {
-        return $this->morphMany('App\SearchingForOption', 'searchable');
+        return $this->morphMany('App\Models\SearchingForOption', 'searchable');
     }
 
     public function scopeOwnedby($query, $userID)

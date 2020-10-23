@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Country;
-use App\EntityType;
+use App\Models\Country;
+use App\Models\EntityType;
 use App\Http\Controllers\Controller;
-use App\Sector;
+use App\Models\Sector;
 use Illuminate\Http\Request;
-use App\User;
-use App\Entity;
+use App\Models\User;
+use App\Models\Entity;
 
 class DashboardController extends Controller
 {

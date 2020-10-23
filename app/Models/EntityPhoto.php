@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,7 +10,7 @@ class EntityPhoto extends Model
 
     public function entity()
     {
-        return $this->belongsTo('App\Entity');
+        return $this->belongsTo('App\Models\Entity');
     }
 
 }

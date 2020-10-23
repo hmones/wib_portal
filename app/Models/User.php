@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -52,48 +52,48 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function country()
     {
-        return $this->belongsTo('App\Country', 'country_id');
+        return $this->belongsTo('App\Models\Country', 'country_id');
     }
 
     public function city()
     {
-        return $this->belongsTo('App\City', 'city_id');
+        return $this->belongsTo('App\Models\City', 'city_id');
     }
 
     public function approved_by()
     {
-        return $this->belongsTo('App\Admin', 'approved_by');
+        return $this->belongsTo('App\Models\Admin', 'approved_by');
     }
 
     public function entities()
     {
-        return $this->belongsToMany('App\Entity', 'user_entity', 'user_id', 'entity_id')->withPivot('relation_type', 'relation_desc', 'relation_active', 'relation_date');
+        return $this->belongsToMany('App\Models\Entity', 'user_entity', 'user_id', 'entity_id')->withPivot('relation_type', 'relation_desc', 'relation_active', 'relation_date');
     }
 
     public function sectors()
     {
-        return $this->belongsToMany('App\Sector', 'user_sector', 'user_id', 'sector_id');
+        return $this->belongsToMany('App\Models\Sector', 'user_sector', 'user_id', 'sector_id');
     }
 
 
     public function avatar()
     {
-        return $this->morphMany('App\ProfilePicture', 'profileable');
+        return $this->morphMany('App\Models\ProfilePicture', 'profileable');
     }
 
     public function links()
     {
-        return $this->morphMany('App\Link', 'linkable');
+        return $this->morphMany('App\Models\Link', 'linkable');
     }
 
     public function searching_for()
     {
-        return $this->morphMany('App\SearchingForOption', 'searchable');
+        return $this->morphMany('App\Models\SearchingForOption', 'searchable');
     }
 
     public function owned_entities()
     {
-        return $this->hasMany('App\Entity', 'owned_by');
+        return $this->hasMany('App\Models\Entity', 'owned_by');
     }
 
     public function scopeFilter($query, \Illuminate\Http\Request $request)

@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Country;
-use App\Entity;
-use App\EntityType;
-use App\ProfilePicture;
-use App\Sector;
-use App\SupportedLink;
-use App\User;
+use App\Models\Country;
+use App\Models\Entity;
+use App\Models\EntityType;
+use App\Models\ProfilePicture;
+use App\Models\Sector;
+use App\Models\SupportedLink;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;

@@ -1,9 +1,9 @@
 <?php
 
-use App\Country;
-use App\Entity;
+use App\Models\Country;
+use App\Models\Entity;
 use App\Http\Resources\Country as CountryResource;
-use App\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 

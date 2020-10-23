@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -42,11 +42,11 @@ class Admin extends Authenticatable
 
     public function users()
     {
-        return $this->hasMany('App\User', 'approved_by');
+        return $this->hasMany('App\Models\User', 'approved_by');
     }
 
     public function entities()
     {
-        return $this->hasMany('App\Entity', 'approved_by');
+        return $this->hasMany('App\Models\Entity', 'approved_by');
     }
 }

@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\City;
-use App\Country;
-use App\Entity;
-use App\Jobs\NewMemberNotification;
-use App\Jobs\SendContactEmail;
-use App\ProfilePicture;
-use App\Sector;
-use App\SupportedLink;
-use App\User;
+use App\Models\City;
+use App\Models\Country;
+use App\Models\Entity;
+use App\Models\Jobs\NewMemberNotification;
+use App\Models\Jobs\SendContactEmail;
+use App\Models\ProfilePicture;
+use App\Models\Sector;
+use App\Models\SupportedLink;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,6 +11,6 @@ class EntityType extends Model
 
     public function entities()
     {
-        return $this->hasMany('App\Entity', 'entity_type_id');
+        return $this->hasMany('App\Models\Entity', 'entity_type_id');
     }
 }
