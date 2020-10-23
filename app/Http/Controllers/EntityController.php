@@ -2,18 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Country;
-use App\Models\Entity;
-use App\Models\EntityType;
-use App\Models\ProfilePicture;
-use App\Models\Sector;
-use App\Models\SupportedLink;
-use App\Models\User;
+use App\Models\{Country, Entity, EntityType, ProfilePicture, Sector, SupportedLink, User};
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\{Auth, Redirect, Session};
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 use PhpParser\Builder;
 use function MongoDB\BSON\toJSON;

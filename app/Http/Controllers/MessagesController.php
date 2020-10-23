@@ -4,12 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Response;
-use Chatify\Http\Models\Message;
-use Chatify\Http\Models\Favorite;
+use Illuminate\Support\Facades\{Response,Auth};
+use Chatify\Http\Models\{Message, Favorite};
 use Chatify\Facades\ChatifyMessenger as Chatify;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 

@@ -2,21 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\City;
-use App\Models\Country;
-use App\Models\Entity;
-use App\Models\Jobs\NewMemberNotification;
-use App\Models\Jobs\SendContactEmail;
-use App\Models\ProfilePicture;
-use App\Models\Sector;
-use App\Models\SupportedLink;
-use App\Models\User;
+use App\Models\{City, Country, Entity, ProfilePicture, Sector, SupportedLink, User};
+
+use App\Models\Jobs\{NewMemberNotification,SendContactEmail};
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\{Hash, Auth, Redirect, Session};
 use Illuminate\View\View;
 
 class ProfileController extends Controller

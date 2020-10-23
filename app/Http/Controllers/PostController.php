@@ -14,7 +14,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::with('comments.reactions','comments.user','reactions.user','user')->latest()->paginate(12);
+        
+        return view('home', compact('posts'));
     }
 
     /**

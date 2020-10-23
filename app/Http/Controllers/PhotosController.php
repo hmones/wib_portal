@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Entity;
-use App\Models\Photos;
+use App\Models\{Entity, Photos};
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\{Auth, Storage};
 use Intervention\Image\Facades\Image;
 
 class PhotosController extends Controller
