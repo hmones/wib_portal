@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
@@ -12,9 +14,16 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Post $post)
     {
-        //
+        $comments = $post->comments()->latest()->paginate(3);
+        
+        if($comments->count() > 0){
+            return view('partials.comments.list',compact('comments'));
+        }
+
+        return response('Error',200);
+        
     }
 
     /**
@@ -35,7 +44,16 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'content'=>'required',
+            'commentable_type'=>'required|in:App\Models\Post,App\Models\Comment',
+            'commentable_id'=>'required|exists:posts,id'
+        ]);
+
+        $comment = Comment::create($data);
+
+        return view('partials.comments.comment',compact('comment'));
     }
 
     /**
@@ -80,6 +98,11 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        //
+        if($comment->user->id === Auth::id()){
+            $comment->delete();
+            return response('Comment Deleted Successfully', 200);
+        }
+
+        return response('You\'re not authorized to delete this comment', 401);
     }
 }

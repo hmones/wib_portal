@@ -2,7 +2,7 @@
 @section('title','Profile Settings')
 @section('content')
 <div class="ui container" style="min-height:80vh;">
-    <h1 class="ui blue header"><i class="stop wib bullet icon"></i>{{Auth::user()->name}} Inbox</h1>
+    <h1 class="ui blue header"><i class="stop wib bullet icon"></i>Member Messaging</h1>
     <div class="ui hidden divider"></div>
     <div class="messenger" style="min-height:80vh;">
         {{-- ----------------------Users/Groups lists side---------------------- --}}
@@ -10,8 +10,8 @@
             {{-- Header and search bar --}}
             <div class="m-header ui form">
                 <nav>
-                    <a href="#"><i class="envelope blue icon"></i> <span
-                            class="ui blue header messenger-headTitle">Messages</span> </a>
+                    <a href="#"><i class="inbox blue icon"></i> <span
+                            class="ui blue header messenger-headTitle">Inbox</span> </a>
                     <br />
                     {{-- header buttons --}}
                     <nav class="m-header-right">
@@ -20,7 +20,7 @@
                     </nav>
                 </nav>
                 {{-- Search input --}}
-                <div class="ui icon mini input" style="margin-top:10px;margin-left:38px;">
+                <div class="ui icon input" style="margin-top:10px;margin-left:38px;">
                     <input type="text" class="messenger-search" placeholder="Search for a member" />
                     <i class="search icon"></i>
                 </div>

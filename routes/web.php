@@ -37,6 +37,15 @@ Route::post('/cookie/consent', 'HomeController@cookie')->name('cookie.consent');
 */
 
 Route::get('/home', 'PostController@index')->middleware(['auth', 'verified'])->name('home');
+Route::get('/posts', 'PostController@indexAPI')->middleware(['auth', 'verified'])->name('posts.get.api');
+Route::post('/post', 'PostController@store')->middleware(['auth','verified'])->name('post.store');
+Route::delete('/post/{post}', 'PostController@destroy')->middleware(['auth','verified'])->name('post.destroy');
+Route::post('/reaction', 'ReactionController@store')->middleware(['auth','verified'])->name('reaction.store');
+Route::delete('/reaction/{reaction}', 'ReactionController@destroy')->middleware(['auth','verified'])->name('reaction.destroy');
+
+Route::get('/post/{post}/comments', 'CommentController@index')->middleware(['auth', 'verified'])->name('comments.get.api');
+Route::post('/comment','CommentController@store')->middleware(['auth','verified'])->name('comment.store');
+Route::delete('/comment/{comment}', 'CommentController@destroy')->middleware(['auth','verified'])->name('comment.destroy');
 
 Route::prefix('profile/entities')->as('profile.entities')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/', 'EntityController@indexUser');
