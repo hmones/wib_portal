@@ -52,6 +52,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    protected $dates = ['last_login'];
+
     public function country()
     {
         return $this->belongsTo('App\Models\Country', 'country_id');

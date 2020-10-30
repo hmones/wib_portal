@@ -83,11 +83,18 @@ class MessagesController extends Controller
             }
         }
 
+        $last_seen = $fetch->last_login;
+
+        if(!$last_seen){
+            $last_seen = $fetch->created_at;
+        }
+
         // send the response
         return Response::json([
             'favorite' => $favorite,
             'fetch' => $fetch,
             'user_avatar' => $avatar,
+            'last_seen' => $last_seen->diffForHumans()
         ]);
     }
 

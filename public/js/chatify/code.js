@@ -301,6 +301,7 @@ function IDinfo(id, type) {
                 $('.header-avatar').css('background-image', 'url("' + data.user_avatar + '")');
                 // Show shared and actions
                 $('.messenger-infoView-btns .delete-conversation').show();
+                $('.last.seen.box').html('Last seen ' + data.last_seen);
                 $('.messenger-infoView-shared').show();
                 // fetch messages
                 fetchMessages(id, type);
