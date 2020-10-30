@@ -33,10 +33,10 @@
                 </div>
             </div>
             <div class="field">
-                @include('partials.components.countries',$countries)
+                <x-Countries />
             </div>
             <div class="field">
-                @include('partials.components.sectors',$sectors)
+                <x-Sectors />
             </div>
             <div class="field">
                 <a href="javascript:void(0);" class="ui blue fluid  button" id="create_new_post">Post &nbsp; <i

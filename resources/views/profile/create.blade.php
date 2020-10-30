@@ -157,45 +157,16 @@
                 </div>
                 <h4 class="ui dividing header">Contact Information</h4>
                 <div class="fields">
-                    <div class="four wide required field">
-                        <label for="phone_country_code">Country Code</label>
-                        <div class="ui fluid search selection dropdown">
-                            <input type="hidden" name="phone_country_code">
-                            <i class="dropdown icon"></i>
-                            <div class="default text">Select Country</div>
-                            <div class="menu">
-                                @forelse ($countries as $country)
-                                <div class="item" data-value="{{$country->calling_code}}"><i
-                                        class="{{$country->code}} flag"></i>{{$country->name}}
-                                    (+{{$country->calling_code}})</div>
-                                @empty
-                                <p>No Supported phones currently ...</p>
-                                @endforelse
+                    <x-Countries label="Country Code" class="four wide required" fieldname="phone_country_code"
+                        countrycode=1 />
 
-                            </div>
-                        </div>
-                    </div>
                     <div class="five wide required field">
                         <label for="phone">Phone Number</label>
                         <input type="text" name="phone" placeholder="e.g. 15444444499" maxlength="15">
                     </div>
                 </div>
                 <div class="three fields">
-                    <div class="required field">
-                        <label for="country_id">Country</label>
-                        <div class="ui fluid search selection dropdown">
-                            <input type="hidden" name="country_id">
-                            <i class="dropdown icon"></i>
-                            <div class="default text">Country</div>
-                            <div class="menu">
-                                @forelse ($countries as $country)
-                                <div class="item" data-value="{{$country->id}}">{{$country->name}}</div>
-                                @empty
-                                <p>No Supported countries currently ...</p>
-                                @endforelse
-                            </div>
-                        </div>
-                    </div>
+                    <x-Countries label="Country" class="required" />
                     <div class="required field">
                         <label for="city_id">City, State</label>
                         <div class="ui fluid search selection dropdown" id="city_id">

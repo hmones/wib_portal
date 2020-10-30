@@ -76,33 +76,23 @@
                     </div>
                 </div>
                 <div class="two fields">
-                    @foreach($addresses as $address)
-                    <div class="{{$address=='primary'?'required':''}} field">
-                        <label for="name">Email ({{$address}})</label>
-                        <input type="text" name="{{$address}}_email"
-                            value="@if($address='primary'){{$entity->primary_email??''}}@else{{$entity->secondary_email??''}}@endif">
+
+                    <div class="required field">
+                        <label for="name">Email</label>
+                        <input type="text" name="primary_email" value="{{$entity->primary_email??''}}" />
                     </div>
-                    @endforeach
+                    <div class="field">
+                        <label for="name">Additional email</label>
+                        <input type="text" name="secondary_email" value="{{$entity->secondary_email??''}}" />
+                    </div>
+
                 </div>
             </div>
         </div>
         <h4 class="ui dividing header">Contact Information</h4>
         <div class="three fields">
-            <div class="field">
-                <label for="entity_phone_country_code">Country Code</label>
-                <div class="ui fluid search selection dropdown">
-                    <input type="hidden" name="entity_phone_country_code" value="{{$entity->phone_country_code??''}}">
-                    <i class="dropdown icon"></i>
-                    <div class="default text">Select Country</div>
-                    <div class="menu">
-                        @foreach ($countries as $country)
-                        <div class="item" data-value="{{$country->calling_code}}"><i
-                                class="{{$country->code}} flag"></i>{{$country->name}} (+{{$country->calling_code}})
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
+            <x-Countries countrycode=1 fieldname="entity_phone_country_code" label="Country Code"
+                :value="$entity->phone_country_code" />
             <div class="field">
                 <label for="entity_phone">Phone Number</label>
                 <input type="text" name="entity_phone" placeholder="e.g. 15444444499" maxlength="15"
@@ -128,66 +118,80 @@
             <p>No Supported links available ...</p>
             @endforelse
         </div>
-        @foreach($addresses as $address)
-        <h4 class="ui dividing header">Organization's {{$address}} address</h4>
+
+
+        <h4 class="ui dividing header">Organization's primary address</h4>
         <br>
         <div class="five fields">
-            <div class="{{$address == 'primary'?'required':''}} field">
-                <label for="{{$address}}_address">Address</label>
-                <input type="text" name="{{$address}}_address"
-                    value="@if($address == 'primary'){{$entity->primary_address??''}}@else{{$entity->secondary_address??''}}@endif">
+            <div class="required field">
+                <label for="primary_address">Address</label>
+                <input type="text" name="primary_address" value="{{$entity->primary_address??''}}">
             </div>
-            <div class="{{$address == 'primary'?'required':''}} field">
-                <label for="{{$address}}_country_id">Country</label>
-                <div class="ui fluid search selection dropdown">
-                    <input type="hidden" name="{{$address}}_country_id"
-                        value="@if($address == 'primary'){{$entity->primary_country_id??''}}@else{{$entity->secondary_country_id??''}}@endif">
-                    <i class="dropdown icon"></i>
-                    <div class="default text">Country</div>
-                    <div class="menu">
-                        @foreach ($countries as $country)
-                        <div class="item" data-value="{{$country->id}}">{{$country->name}}</div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-            <div class="{{$address == 'primary'?'required':''}} field">
-                <label for="{{$address}}_city_id">City, State</label>
-                <div class="ui fluid search selection dropdown" id="{{$address}}_city_id">
-                    <input type="hidden" name="{{$address}}_city_id"
-                        value="@if($address == 'primary'){{$entity->primary_city_id??''}}@else{{$entity->secondary_city_id??''}}@endif">
+            <x-Countries fieldname="primary_country_id" label="Country" :value="$entity->primary_country_id"
+                class="required" />
+            <div class="required field">
+                <label for="primary_city_id">City, State</label>
+                <div class="ui fluid search selection dropdown" id="primary_city_id">
+                    <input type="hidden" name="primary_city_id" value="{{$entity->primary_city_id??''}}">
                     <i class="dropdown icon"></i>
                     <div class="default text">City, State</div>
                     <div class="menu">
-                        @if($address=='primary' && $entity->primary_country()->exists())
+                        @if($entity->primary_country()->exists())
                         @foreach($entity->primary_country->cities()->get() as $city)
-                        <div class="item" data-value="{{$city->id}}">{{$city->name}}</div>
-                        @endforeach
-                        @elseif($address == 'secondary' && $entity->secondary_country()->exists())
-                        @foreach($entity->secondary_country->cities()->get() as $city)
-                        <div class="item" data-value="{{$city->id}}">{{$city->name}}</div>
-                        @endforeach
-                        @endif
-
-                        @foreach ($cities as $city)
                         <div class="item" data-value="{{$city->id}}">{{$city->name}}, {{$city->state}}</div>
                         @endforeach
+                        @endif
                     </div>
                 </div>
             </div>
             <div class="field">
-                <label for="{{$address}}_postbox">Post box</label>
-                <input type="text" name="{{$address}}_postbox" placeholder="e.g. AX113Z" maxlength="15"
-                    value="@if($address == 'primary'){{$entity->primary_postbox??''}}@else{{$entity->secondary_postbox??''}}@endif">
+                <label for="primary_postbox">Post box</label>
+                <input type="text" name="primary_postbox" placeholder="e.g. AX113Z" maxlength="15"
+                    value="{{$entity->primary_postbox??''}}">
             </div>
             <div class="field">
-                <label for="{{$address}}_postal_code">Postal Code</label>
-                <input type="text" name="{{$address}}_postal_code" placeholder="e.g. AX113Z" maxlength="15"
-                    @if($address=='primary'
-                    ){{$entity->primary_postal_code??''}}@else{{$entity->secondary_postal_code??''}}@endif>
+                <label for="primary_postal_code">Postal Code</label>
+                <input type="text" name="primary_postal_code" placeholder="e.g. AX113Z" maxlength="15"
+                    {{$entity->primary_postal_code??''}}>
             </div>
         </div>
-        @endforeach
+
+        <h4 class="ui dividing header">Organization's secondary address</h4>
+        <br>
+        <div class="five fields">
+            <div class="field">
+                <label for="secondary_address">Address</label>
+                <input type="text" name="secondary_address" value="{{$entity->secondary_address??''}}">
+            </div>
+            <x-Countries fieldname="secondary_country_id" label="Country" :value="$entity->secondary_country_id" />
+            <div class="field">
+                <label for="secondary_city_id">City, State</label>
+                <div class="ui fluid search selection dropdown" id="secondary_city_id">
+                    <input type="hidden" name="secondary_city_id" value="{{$entity->secondary_city_id??''}}">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">City, State</div>
+                    <div class="menu">
+                        @if($entity->secondary_country()->exists())
+                        @foreach($entity->secondary_country->cities()->get() as $city)
+                        <div class="item" data-value="{{$city->id}}">{{$city->name}}, {{$city->state}}</div>
+                        @endforeach
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label for="secondary_postbox">Post box</label>
+                <input type="text" name="secondary_postbox" placeholder="e.g. AX113Z" maxlength="15"
+                    value="{{$entity->secondary_postbox??''}}">
+            </div>
+            <div class="field">
+                <label for="secondary_postal_code">Postal Code</label>
+                <input type="text" name="secondary_postal_code" placeholder="e.g. AX113Z" maxlength="15"
+                    {{$entity->secondary_postal_code??''}}>
+            </div>
+        </div>
+
+
         <h4 class="ui dividing header">Which field of activity does your organization work in?</h4>
         <div class="three fields">
             @for ($i = 1; $i < 4; $i++) <div class="{{$i==1?'required':''}} field">

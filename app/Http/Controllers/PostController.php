@@ -18,9 +18,8 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::with('comments.reactions','comments.user','reactions.user','user')->latest()->take(12)->get();
-        $countries = Country::all();
         $sectors = Sector::all();
-        return view('home', compact(['posts','countries','sectors']));
+        return view('home', compact(['posts','sectors']));
     }
 
     /**

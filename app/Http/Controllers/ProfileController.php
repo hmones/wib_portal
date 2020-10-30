@@ -26,9 +26,8 @@ class ProfileController extends Controller
         $users = User::with('sectors:id,name', 'country')->with(['avatar'=>function($query){
             $query->where('resolution','300');
         }])->filter($request)->paginate(12);
-        $countries = Country::all();
         $sectors = Sector::all();
-        return view('profile.index', compact(['users', 'countries', 'sectors', 'request']));
+        return view('profile.index', compact(['users', 'sectors', 'request']));
     }
 
 
@@ -39,14 +38,12 @@ class ProfileController extends Controller
      */
     public function create()
     {
-        $countries = Country::all();
         $cities = [];
         $supported_links = SupportedLink::all();
         $sectors = Sector::all();
         return view('profile.create', [
             'activities' => $this->activities,
             'education' => $this->education,
-            'countries' => $countries,
             'cities' => $cities,
             'supported_links' => $supported_links,
             'associations' => $this->associations,
@@ -171,7 +168,6 @@ class ProfileController extends Controller
         if (Auth::id() != $profile->id) {
             return redirect(route('home'));
         }
-        $countries = Country::all();
         $cities = City::all();
         $supported_links = SupportedLink::all();
         $sectors = Sector::all();
@@ -179,7 +175,6 @@ class ProfileController extends Controller
             'user' => $profile,
             'activities' => $this->activities,
             'education' => $this->education,
-            'countries' => $countries,
             'cities' => $cities,
             'supported_links' => $supported_links,
             'associations' => $this->associations,

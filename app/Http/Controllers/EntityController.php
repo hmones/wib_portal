@@ -14,7 +14,6 @@ class EntityController extends Controller
 {
     private $activities = array('Export', 'Import', 'Production', 'Services', 'Trade');
     private $relations = array('Advisory Board Member','Board Member', 'Co-Founder', 'Co-Owner', 'Employee','Founder','Manager','Member' , 'Owner', 'President', 'Professor', 'Student');
-    private $addresses = array('primary', 'secondary');
     private $business_options = array(
         'balance_sheet' => array('<25Mio', '25Mio-50Mio', '50Mio-100Mio', '100Mio-500Mio', '500Mio-1Bil', '1Bil-3Bil', '3Bil-5Bil', '5Bil-10Bil', '>10Bil'),
         'revenue' => array('<25K', '25K-50K', '50K-100K', '100K-500K', '500K-1Mio', '1Mio-3Mio', '3Mio-5Mio', '5Mio-10Mio', '>10Mio'),
@@ -35,9 +34,8 @@ class EntityController extends Controller
         $entities = Entity::with('sectors:id,name', 'primary_country')->with(['logo'=>function($query){
             $query->where('resolution','300');
         }])->filter($request)->paginate(12);
-        $countries = Country::all();
         $sectors = Sector::all();
-        return view('entity.index', compact(['entities', 'countries', 'sectors', 'request']));
+        return view('entity.index', compact(['entities', 'sectors', 'request']));
     }
 
     /**
@@ -47,7 +45,6 @@ class EntityController extends Controller
      */
     public function create()
     {
-        $countries = Country::all();
         $cities = [];
         $supported_links = SupportedLink::all();
         $sectors = Sector::all();
@@ -55,15 +52,14 @@ class EntityController extends Controller
         $entity = new Entity;
         return view('entity.create', [
             'activities' => $this->activities,
-            'countries' => $countries,
             'cities' => $cities,
             'supported_links' => $supported_links,
             'sectors' => $sectors,
             'relations' => $this->relations,
             'entity_types' => $entity_types,
-            'addresses' => $this->addresses,
             'business_options' => $this->business_options,
-            'entity' => $entity
+            'entity' => $entity,
+            'images' => [],
         ]);
     }
 
@@ -193,7 +189,6 @@ class EntityController extends Controller
         if ((!$entity->users()->find(Auth::id())) || ($entity->owned_by != Auth::id())) {
             return redirect(route('home'));
         }
-        $countries = Country::all();
         $cities = [];
         $supported_links = SupportedLink::all();
         $sectors = Sector::all();
@@ -201,13 +196,11 @@ class EntityController extends Controller
         $images = $entity->photos()->latest()->get();
         return view('entity.edit', [
             'activities' => $this->activities,
-            'countries' => $countries,
             'cities' => $cities,
             'supported_links' => $supported_links,
             'sectors' => $sectors,
             'relations' => $this->relations,
             'entity_types' => $entity_types,
-            'addresses' => $this->addresses,
             'business_options' => $this->business_options,
             'entity' => $entity,
             'images' => $images
