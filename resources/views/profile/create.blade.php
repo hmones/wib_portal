@@ -196,80 +196,66 @@
 
                 <h4 class="ui dividing header">Which fields are you currently working in?</h4>
                 <div class="three fields">
-                    @for ($i = 1; $i < 4; $i++) <div class="{{$i==1?'required':''}} field">
-                        <label for="sector_{{$i}}">Field {{$i}}</label>
-                        <div class="ui fluid search selection dropdown">
-                            <input type="hidden" name="sector_{{$i}}">
-                            <i class="dropdown icon"></i>
-                            <div class="default text">Working field {{$i}}</div>
-                            <div class="menu">
-                                @if($i != 1)
-                                <div class="item" data-value="">Not Applicable</div>
-                                @endif
-                                @forelse ($sectors as $sector)
-                                <div class="item" data-value="{{$sector->id}}">{{$sector->name}}</div>
-                                @empty
-                                No Supported fields currently ...
-                                @endforelse
-                            </div>
+                    <x-Sectors class="required" label="Field 1" fieldname="sector_1" default-text="Working Field 1" />
+                    <x-Sectors label="Field 2" fieldname="sector_2" default-text="Working Field 2"
+                        empty-option="Not Applicable" />
+                    <x-Sectors label="Field 3" fieldname="sector_3" default-text="Working Field 3"
+                        empty-option="Not Applicable" />
+                </div>
+                <h4 class="ui dividing header">Which business women association are you member of?</h4>
+                <div class="field">
+                    <div class="ui fluid search selection dropdown">
+                        <input type="hidden" name="business_association_wom">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Business Woman Association</div>
+                        <div class="menu">
+                            <div class="item" data-value="">None</div>
+                            @forelse ($associations as $association)
+                            <div class="item" data-value="{{$association}}">{{$association}}</div>
+                            @empty
+                            <p>No supported women associations currently ...</p>
+                            @endforelse
+                            <div class="item" data-value="Other">Other</div>
                         </div>
-                </div>
-                @endfor
-            </div>
-            <h4 class="ui dividing header">Which business women association are you member of?</h4>
-            <div class="field">
-                <div class="ui fluid search selection dropdown">
-                    <input type="hidden" name="business_association_wom">
-                    <i class="dropdown icon"></i>
-                    <div class="default text">Business Woman Association</div>
-                    <div class="menu">
-                        <div class="item" data-value="">None</div>
-                        @forelse ($associations as $association)
-                        <div class="item" data-value="{{$association}}">{{$association}}</div>
-                        @empty
-                        <p>No supported women associations currently ...</p>
-                        @endforelse
-                        <div class="item" data-value="Other">Other</div>
                     </div>
                 </div>
-            </div>
-            <div class="ui segment">
-                <div class="field">
-                    <div class="ui toggle checkbox">
-                        <input type="checkbox" name="mena_diaspora" tabindex="0" class="hidden">
-                        <label>Are you from the MENA region but living abroad?</label>
+                <div class="ui segment">
+                    <div class="field">
+                        <div class="ui toggle checkbox">
+                            <input type="checkbox" name="mena_diaspora" tabindex="0" class="hidden">
+                            <label>Are you from the MENA region but living abroad?</label>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="ui segment">
-                <div class="field">
-                    <div class="ui toggle checkbox">
-                        <input type="checkbox" name="newsletter" tabindex="0" class="hidden">
-                        <label>Would you like to receive a newsletter from Women in Business about the recent
-                            updates to the platform and updates in the network?</label>
+                <div class="ui segment">
+                    <div class="field">
+                        <div class="ui toggle checkbox">
+                            <input type="checkbox" name="newsletter" tabindex="0" class="hidden">
+                            <label>Would you like to receive a newsletter from Women in Business about the recent
+                                updates to the platform and updates in the network?</label>
+                        </div>
+                    </div>
+                    <div class="required field">
+                        <div class="ui toggle checkbox">
+                            <input type="checkbox" name="gdpr_consent" tabindex="0" class="hidden">
+                            <label>I consent that I have read WiB privacy policy and agree to the <a
+                                    href="https://gpp-wib-staging.frb.io/data-privacy" target="_blank">privacy
+                                    statement</a> and that I would like to share my data with GPP on this
+                                portal</label>
+                        </div>
                     </div>
                 </div>
-                <div class="required field">
-                    <div class="ui toggle checkbox">
-                        <input type="checkbox" name="gdpr_consent" tabindex="0" class="hidden">
-                        <label>I consent that I have read WiB privacy policy and agree to the <a
-                                href="https://gpp-wib-staging.frb.io/data-privacy" target="_blank">privacy
-                                statement</a> and that I would like to share my data with GPP on this
-                            portal</label>
-                    </div>
+                <div class="ui basic segment">
+                    <a href="#" class="ui blue left labeled left floated icon button" onclick="person_step();"><i
+                            class="left angle icon"></i> Back</a>
+                    <a class="ui positive right labeled right floated icon button" id="user_submit">Submit <i
+                            class="checkmark icon"></i></a>
                 </div>
-            </div>
-            <div class="ui basic segment">
-                <a href="#" class="ui blue left labeled left floated icon button" onclick="person_step();"><i
-                        class="left angle icon"></i> Back</a>
-                <a class="ui positive right labeled right floated icon button" id="user_submit">Submit <i
-                        class="checkmark icon"></i></a>
-            </div>
-            <br>
+                <br>
 
+            </div>
+        </form>
     </div>
-    </form>
-</div>
 </div>
 
 <br><br>

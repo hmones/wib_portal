@@ -194,195 +194,185 @@
 
         <h4 class="ui dividing header">Which field of activity does your organization work in?</h4>
         <div class="three fields">
-            @for ($i = 1; $i < 4; $i++) <div class="{{$i==1?'required':''}} field">
-                <label for="entity_sector_{{$i}}">Field {{$i}}</label>
-                <div class="ui fluid search selection dropdown">
-                    <input type="hidden" name="entity_sector_{{$i}}"
-                        value="{{isset($entity->sectors[$i-1]->id) ? $entity->sectors[$i-1]->id: ""}}">
+            <x-sectors label="Field 1" fieldname="entity_sector_1" default-text="Field of activity" class="required"
+                :value="$entity" />
+
+            <x-sectors label="Field 2" fieldname="entity_sector_2" default-text="Field of activity" :value="$entity"
+                offset=1 empty-option="Not applicable" />
+            <x-sectors label="Field 3" fieldname="entity_sector_3" default-text="Field of activity"
+                empty-option="Not applicable" :value="$entity" offset=2 />
+        </div>
+        <h4 class="ui dividing header">About the organization</h4>
+        <div class="three fields">
+            <div class="field">
+                <label for="legal_form">Legal Form</label>
+                <div class="ui selection dropdown">
+                    <input type="hidden" name="legal_form" value="{{$entity->legal_form??''}}">
                     <i class="dropdown icon"></i>
-                    <div class="default text">Field of activity</div>
+                    <div class="default text">Legal form</div>
                     <div class="menu">
-                        @if($i != 1)
-                        <div class="item" data-value=""></div>
-                        @endif
-                        @foreach ($sectors as $sector)
-                        <div class="item" data-value="{{$sector->id}}">{{$sector->name}}</div>
+                        <div class="item" data-value="Public">Public</div>
+                        <div class="item" data-value="Private">Private</div>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label for="activity">Business activity</label>
+                <div class="ui selection dropdown">
+                    <input type="hidden" name="entity_activity" value="{{$entity->activity??''}}">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Business activity</div>
+                    <div class="menu">
+                        @foreach ($activities as $activity)
+                        <div class="item" data-value="{{$activity}}">{{$activity}}</div>
                         @endforeach
                     </div>
                 </div>
-        </div>
-        @endfor
-</div>
-<h4 class="ui dividing header">About the organization</h4>
-<div class="three fields">
-    <div class="field">
-        <label for="legal_form">Legal Form</label>
-        <div class="ui selection dropdown">
-            <input type="hidden" name="legal_form" value="{{$entity->legal_form??''}}">
-            <i class="dropdown icon"></i>
-            <div class="default text">Legal form</div>
-            <div class="menu">
-                <div class="item" data-value="Public">Public</div>
-                <div class="item" data-value="Private">Private</div>
+            </div>
+            <div class="field">
+                <label for="business_type">
+                    Business Type
+                    <div class="ui icon circular small basic grey button tooltip"
+                        data-content="A start up is a company running for up to 2 years, a scale up is a company running up to 5 years, a traditional business is a company that is operational for more than 5 years."
+                        data-variation="basic">
+                        <i class="question blue small icon"></i>
+                    </div>
+                </label>
+                <div class="ui selection dropdown">
+                    <input type="hidden" name="business_type" value="{{$entity->business_type??''}}">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Business Type</div>
+                    <div class="menu">
+                        @foreach($business_options['business_type'] as $option)
+                        <div class="item" data-value="{{$option}}">{{$option}}</div>
+                        @endforeach
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="field">
-        <label for="activity">Business activity</label>
-        <div class="ui selection dropdown">
-            <input type="hidden" name="entity_activity" value="{{$entity->activity??''}}">
-            <i class="dropdown icon"></i>
-            <div class="default text">Business activity</div>
-            <div class="menu">
-                @foreach ($activities as $activity)
-                <div class="item" data-value="{{$activity}}">{{$activity}}</div>
-                @endforeach
+        <div class="three fields">
+            <div class="field">
+                <label for="entity_size">Size of organization (employees)</label>
+                <div class="ui selection dropdown">
+                    <input type="hidden" name="entity_size" value="{{$entity->entity_size??''}}">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Size of organization</div>
+                    <div class="menu">
+                        @foreach($business_options['entity_size'] as $option)
+                        <div class="item" data-value="{{$option}}">{{$option}}</div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label for="employees">Members (for associations)</label>
+                <div class="ui selection dropdown">
+                    <input type="hidden" name="employees" value="{{$entity->employees??''}}">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Number of Members</div>
+                    <div class="menu">
+                        @foreach($business_options['employees'] as $option)
+                        <div class="item" data-value="{{$option}}">{{$option}}</div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label for="students">Students (for universities)</label>
+                <div class="ui selection dropdown">
+                    <input type="hidden" name="students" value="{{$entity->students??''}}">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Number of Students</div>
+                    <div class="menu">
+                        @foreach($business_options['students'] as $option)
+                        <div class="item" data-value="{{$option}}">{{$option}}</div>
+                        @endforeach
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="field">
-        <label for="business_type">
-            Business Type
-            <div class="ui icon circular small basic grey button tooltip"
-                data-content="A start up is a company running for up to 2 years, a scale up is a company running up to 5 years, a traditional business is a company that is operational for more than 5 years."
-                data-variation="basic">
-                <i class="question blue small icon"></i>
+        <h4 class="ui dividing header">Financial Information</h4>
+        <div class="three fields">
+            <div class="field">
+                <label for="turnover">Annual turnover (USD)</label>
+                <div class="ui selection dropdown">
+                    <input type="hidden" name="turnover" value="{{$entity->turn_over??''}}">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Annual turnover</div>
+                    <div class="menu">
+                        @foreach($business_options['turn_over'] as $option)
+                        <div class="item" data-value="{{$option}}">{{$option}}</div>
+                        @endforeach
+                    </div>
+                </div>
             </div>
-        </label>
-        <div class="ui selection dropdown">
-            <input type="hidden" name="business_type" value="{{$entity->business_type??''}}">
-            <i class="dropdown icon"></i>
-            <div class="default text">Business Type</div>
-            <div class="menu">
-                @foreach($business_options['business_type'] as $option)
-                <div class="item" data-value="{{$option}}">{{$option}}</div>
-                @endforeach
+            <div class="field">
+                <label for="balance_sheet">Annual Balance Sheet (USD)</label>
+                <div class="ui selection dropdown">
+                    <input type="hidden" name="balance_sheet" value="{{$entity->balance_sheet??''}}">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Annual Balance Sheet</div>
+                    <div class="menu">
+                        @foreach($business_options['balance_sheet'] as $option)
+                        <div class="item" data-value="{{$option}}">{{$option}}</div>
+                        @endforeach
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
-<div class="three fields">
-    <div class="field">
-        <label for="entity_size">Size of organization (employees)</label>
-        <div class="ui selection dropdown">
-            <input type="hidden" name="entity_size" value="{{$entity->entity_size??''}}">
-            <i class="dropdown icon"></i>
-            <div class="default text">Size of organization</div>
-            <div class="menu">
-                @foreach($business_options['entity_size'] as $option)
-                <div class="item" data-value="{{$option}}">{{$option}}</div>
-                @endforeach
-            </div>
-        </div>
-    </div>
-    <div class="field">
-        <label for="employees">Members (for associations)</label>
-        <div class="ui selection dropdown">
-            <input type="hidden" name="employees" value="{{$entity->employees??''}}">
-            <i class="dropdown icon"></i>
-            <div class="default text">Number of Members</div>
-            <div class="menu">
-                @foreach($business_options['employees'] as $option)
-                <div class="item" data-value="{{$option}}">{{$option}}</div>
-                @endforeach
+            <div class="field">
+                <label for="revenue">Annual Revenue (USD)</label>
+                <div class="ui selection dropdown">
+                    <input type="hidden" name="revenue" value="{{$entity->revenue??''}}">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Annual Revenue</div>
+                    <div class="menu">
+                        @foreach($business_options['revenue'] as $option)
+                        <div class="item" data-value="{{$option}}">{{$option}}</div>
+                        @endforeach
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="field">
-        <label for="students">Students (for universities)</label>
-        <div class="ui selection dropdown">
-            <input type="hidden" name="students" value="{{$entity->students??''}}">
-            <i class="dropdown icon"></i>
-            <div class="default text">Number of Students</div>
-            <div class="menu">
-                @foreach($business_options['students'] as $option)
-                <div class="item" data-value="{{$option}}">{{$option}}</div>
-                @endforeach
+        <h4 class="ui dividing header">Product images:</h4>
+        <div id="photosContainer" class="ui five column stackable grid">
+            <div class="column">
+                <a id="uploadPhotoBtn" href="javascript:void(0);" style="min-height:253px;"
+                    class="ui center aligned centered placeholder raised segment">
+                    <div class="ui center aligned basic segment">
+                        <i id="photosUploadIcon" class="blue upload cloud big icon"></i>
+                    </div>
+                </a>
+                <input type="file" name="photos" id="PhotosUploadInput" style="display: none;" accept="image/*"
+                    multiple />
             </div>
+            @foreach ($images as $photo)
+            <div class='column'>
+                <div class='ui center aligned segment'>
+                    <div class='ui image'>
+                        <img src='{{ $photo->thumbnail }}' />
+                    </div>
+                    </br></br>
+                    <input type='text' placeholder='Add a comment ...' class='field photo comment'
+                        data-id="{{$photo->id}}" value="{{$photo->comment}}" />
+                    <div class='floating ui red circular label'>
+                        <i class='close icon image' data-id='{{$photo->id}}' style='margin-left:0px;'></i>
+                    </div>
+                </div>
+                <input type='hidden' name='photosID[]' value='{{$photo->id}}'>
+            </div>
+            @endforeach
         </div>
-    </div>
-</div>
-<h4 class="ui dividing header">Financial Information</h4>
-<div class="three fields">
-    <div class="field">
-        <label for="turnover">Annual turnover (USD)</label>
-        <div class="ui selection dropdown">
-            <input type="hidden" name="turnover" value="{{$entity->turn_over??''}}">
-            <i class="dropdown icon"></i>
-            <div class="default text">Annual turnover</div>
-            <div class="menu">
-                @foreach($business_options['turn_over'] as $option)
-                <div class="item" data-value="{{$option}}">{{$option}}</div>
-                @endforeach
-            </div>
-        </div>
-    </div>
-    <div class="field">
-        <label for="balance_sheet">Annual Balance Sheet (USD)</label>
-        <div class="ui selection dropdown">
-            <input type="hidden" name="balance_sheet" value="{{$entity->balance_sheet??''}}">
-            <i class="dropdown icon"></i>
-            <div class="default text">Annual Balance Sheet</div>
-            <div class="menu">
-                @foreach($business_options['balance_sheet'] as $option)
-                <div class="item" data-value="{{$option}}">{{$option}}</div>
-                @endforeach
-            </div>
-        </div>
-    </div>
-    <div class="field">
-        <label for="revenue">Annual Revenue (USD)</label>
-        <div class="ui selection dropdown">
-            <input type="hidden" name="revenue" value="{{$entity->revenue??''}}">
-            <i class="dropdown icon"></i>
-            <div class="default text">Annual Revenue</div>
-            <div class="menu">
-                @foreach($business_options['revenue'] as $option)
-                <div class="item" data-value="{{$option}}">{{$option}}</div>
-                @endforeach
-            </div>
-        </div>
-    </div>
-</div>
-<h4 class="ui dividing header">Product images:</h4>
-<div id="photosContainer" class="ui five column stackable grid">
-    <div class="column">
-        <a id="uploadPhotoBtn" href="javascript:void(0);" style="min-height:253px;"
-            class="ui center aligned centered placeholder raised segment">
-            <div class="ui center aligned basic segment">
-                <i id="photosUploadIcon" class="blue upload cloud big icon"></i>
-            </div>
-        </a>
-        <input type="file" name="photos" id="PhotosUploadInput" style="display: none;" accept="image/*" multiple />
-    </div>
-    @foreach ($images as $photo)
-    <div class='column'>
-        <div class='ui center aligned segment'>
-            <div class='ui image'>
-                <img src='{{ $photo->thumbnail }}' />
-            </div>
-            </br></br>
-            <input type='text' placeholder='Add a comment ...' class='field photo comment' data-id="{{$photo->id}}"
-                value="{{$photo->comment}}" />
-            <div class='floating ui red circular label'>
-                <i class='close icon image' data-id='{{$photo->id}}' style='margin-left:0px;'></i>
-            </div>
-        </div>
-        <input type='hidden' name='photosID[]' value='{{$photo->id}}'>
-    </div>
-    @endforeach
-</div>
 
 
 
-<div class="ui right floated basic segment">
-    <a class="ui blue deny button" href="{{route('profile.entities')}}">
-        Cancel
-    </a>
-    <div class="ui positive right labeled icon button" id="entity_submit">
-        Save
-        <i class="checkmark icon"></i>
-    </div>
-</div>
-</form>
+        <div class="ui right floated basic segment">
+            <a class="ui blue deny button" href="{{route('profile.entities')}}">
+                Cancel
+            </a>
+            <div class="ui positive right labeled icon button" id="entity_submit">
+                Save
+                <i class="checkmark icon"></i>
+            </div>
+        </div>
+    </form>
 </div>

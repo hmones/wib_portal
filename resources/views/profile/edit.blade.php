@@ -175,103 +175,92 @@
                 </div>
                 <h4 class="ui dividing header">Which fields are you currently working in?</h4>
                 <div class="three fields">
-                    @for ($i = 1; $i < 4; $i++) <div class="{{$i==1?'required':''}} field">
-                        <label for="sector_{{$i}}">Field {{$i}}</label>
-                        <div class="ui fluid search selection dropdown">
-                            <input type="hidden" name="sector_{{$i}}"
-                                value="{{isset($user->sectors[$i-1]->id) ? $user->sectors[$i-1]->id: ""}}">
-                            <i class="dropdown icon"></i>
-                            <div class="default text">Working field {{$i}}</div>
-                            <div class="menu">
-                                @if($i != 1)
-                                <div class="item" data-value="">Not Applicable</div>
-                                @endif
-                                @forelse ($sectors as $sector)
-                                <div class="item" data-value="{{$sector->id}}">{{$sector->name}}</div>
-                                @empty
-                                No Supported fields currently ...
-                                @endforelse
-                            </div>
+                    <x-Sectors class="required" fieldname="sector_1" label="Field 1" :value="$user" offset=0
+                        default-text="Working Field 1" />
+                    <x-Sectors fieldname="sector_2" label="Field 2" :value="$user" offset=1
+                        default-text="Working Field 2" empty-option="Not applicable" />
+                    <x-Sectors fieldname="sector_3" label="Field 3" :value="$user" offset=2
+                        default-text="Working Field 3" empty-option="Not applicable" />
+
+                </div>
+                <div class="ui basic segment">
+                    <a class="ui positive right labeled right floated icon button"
+                        onclick="$('#user_submit').trigger('click');">Save Changes <i class="checkmark icon"></i></a>
+                </div>
+                <br>
+
+            </div>
+
+            <div id="portal_info_form" style="display:none;">
+                <h4 class="ui dividing header">Which business women association are you member of?</h4>
+                <div class="field">
+                    <div class="ui fluid search selection dropdown">
+                        <input type="hidden" name="business_association_wom"
+                            value="{{$user->business_association_wom}}">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Business Woman Association</div>
+                        <div class="menu">
+                            <div class="item" data-value="">None</div>
+                            @forelse ($associations as $association)
+                            <div class="item" data-value="{{$association}}">{{$association}}</div>
+                            @empty
+                            <p>No supported women associations currently ...</p>
+                            @endforelse
+                            <div class="item" data-value="Other">Other</div>
                         </div>
+                    </div>
                 </div>
-                @endfor
-            </div>
-            <div class="ui basic segment">
-                <a class="ui positive right labeled right floated icon button"
-                    onclick="$('#user_submit').trigger('click');">Save Changes <i class="checkmark icon"></i></a>
-            </div>
-            <br>
+                <div class="ui segment">
+                    <div class="field">
+                        <div class="ui toggle checkbox">
+                            <input type="checkbox" name="mena_diaspora" tabindex="0" class="hidden"
+                                {{$user->mena_diaspora?'checked':''}}>
+                            <label>Are you from the MENA region but living abroad?</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui segment">
+                    <div class="field">
+                        <div class="ui toggle checkbox">
+                            <input type="checkbox" name="newsletter" tabindex="0" class="hidden"
+                                {{$user->mena_diaspora?'checked':''}}>
+                            <label>Would you like to receive a newsletter from Women in Business about the recent
+                                updates to the platform and updates in the network?</label>
+                        </div>
+                    </div>
+                </div>
+                <h4 class="ui dividing header">Account details</h4>
+                <div class="fields">
+                    <div class="field">
+                        <label for="email">Account email</label>
+                        <input disabled type="text" name="email" value="{{$user->email}}">
+                    </div>
+                    <div class="field">
+                        <label for="">Change your email</label>
+                        <button class="ui button" disabled>Enter a new email</button>
+                    </div>
+                </div>
+                <div class="fields">
+                    <div class="field">
+                        <label>Forgot your password?</label>
+                        <a href="{{route('password.request')}}" class="ui basic blue button">Reset Password</a>
+                    </div>
+                    <div class="field">
+                        <label>This action is not reversable</label>
+                        <a onclick="$('.ui.modal').modal({inverted: true}).modal('show');"
+                            class="ui basic red button">Delete
+                            Account</a>
+                    </div>
+                </div>
+                <div class="ui basic segment">
+                    <a class="ui positive right labeled right floated icon button" id="user_submit">Save Changes <i
+                            class="checkmark icon"></i></a>
+                </div>
+                <br>
 
+            </div>
+        </form>
     </div>
-
-    <div id="portal_info_form" style="display:none;">
-        <h4 class="ui dividing header">Which business women association are you member of?</h4>
-        <div class="field">
-            <div class="ui fluid search selection dropdown">
-                <input type="hidden" name="business_association_wom" value="{{$user->business_association_wom}}">
-                <i class="dropdown icon"></i>
-                <div class="default text">Business Woman Association</div>
-                <div class="menu">
-                    <div class="item" data-value="">None</div>
-                    @forelse ($associations as $association)
-                    <div class="item" data-value="{{$association}}">{{$association}}</div>
-                    @empty
-                    <p>No supported women associations currently ...</p>
-                    @endforelse
-                    <div class="item" data-value="Other">Other</div>
-                </div>
-            </div>
-        </div>
-        <div class="ui segment">
-            <div class="field">
-                <div class="ui toggle checkbox">
-                    <input type="checkbox" name="mena_diaspora" tabindex="0" class="hidden"
-                        {{$user->mena_diaspora?'checked':''}}>
-                    <label>Are you from the MENA region but living abroad?</label>
-                </div>
-            </div>
-        </div>
-        <div class="ui segment">
-            <div class="field">
-                <div class="ui toggle checkbox">
-                    <input type="checkbox" name="newsletter" tabindex="0" class="hidden"
-                        {{$user->mena_diaspora?'checked':''}}>
-                    <label>Would you like to receive a newsletter from Women in Business about the recent
-                        updates to the platform and updates in the network?</label>
-                </div>
-            </div>
-        </div>
-        <h4 class="ui dividing header">Account details</h4>
-        <div class="fields">
-            <div class="field">
-                <label for="email">Account email</label>
-                <input disabled type="text" name="email" value="{{$user->email}}">
-            </div>
-            <div class="field">
-                <label for="">Change your email</label>
-                <button class="ui button" disabled>Enter a new email</button>
-            </div>
-        </div>
-        <div class="fields">
-            <div class="field">
-                <label>Forgot your password?</label>
-                <a href="{{route('password.request')}}" class="ui basic blue button">Reset Password</a>
-            </div>
-            <div class="field">
-                <label>This action is not reversable</label>
-                <a onclick="$('.ui.modal').modal({inverted: true}).modal('show');" class="ui basic red button">Delete
-                    Account</a>
-            </div>
-        </div>
-        <div class="ui basic segment">
-            <a class="ui positive right labeled right floated icon button" id="user_submit">Save Changes <i
-                    class="checkmark icon"></i></a>
-        </div>
-        <br>
-
-    </div>
-    </form>
-</div>
 </div>
 <br><br>
 <div class="ui modal">
