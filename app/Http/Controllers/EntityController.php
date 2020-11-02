@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Country, Entity, EntityType, ProfilePicture, Sector, SupportedLink, User};
+use App\Models\{Entity, EntityType, ProfilePicture, SupportedLink, User};
 use Carbon\Carbon;
 use Illuminate\Support\Facades\{Auth, Redirect, Session};
 use Illuminate\Http\Request;
@@ -34,8 +34,7 @@ class EntityController extends Controller
         $entities = Entity::with('sectors:id,name', 'primary_country')->with(['logo'=>function($query){
             $query->where('resolution','300');
         }])->filter($request)->paginate(12);
-        $sectors = Sector::all();
-        return view('entity.index', compact(['entities', 'sectors', 'request']));
+        return view('entity.index', compact(['entities', 'request']));
     }
 
     /**
@@ -47,14 +46,12 @@ class EntityController extends Controller
     {
         $cities = [];
         $supported_links = SupportedLink::all();
-        $sectors = Sector::all();
         $entity_types = EntityType::all();
         $entity = new Entity;
         return view('entity.create', [
             'activities' => $this->activities,
             'cities' => $cities,
             'supported_links' => $supported_links,
-            'sectors' => $sectors,
             'relations' => $this->relations,
             'entity_types' => $entity_types,
             'business_options' => $this->business_options,
@@ -191,14 +188,12 @@ class EntityController extends Controller
         }
         $cities = [];
         $supported_links = SupportedLink::all();
-        $sectors = Sector::all();
         $entity_types = EntityType::all();
         $images = $entity->photos()->latest()->get();
         return view('entity.edit', [
             'activities' => $this->activities,
             'cities' => $cities,
             'supported_links' => $supported_links,
-            'sectors' => $sectors,
             'relations' => $this->relations,
             'entity_types' => $entity_types,
             'business_options' => $this->business_options,

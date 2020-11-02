@@ -112,12 +112,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        if($post->user->id === Auth::id()){
-            $post->delete();
-            return response('Post Deleted Successfully', 200);
-        }
-
-        return response('You\'re not authorized to delete this post', 401);
-        
+        $post->delete();
+        return response('Post Deleted Successfully', 200);
     }
 }

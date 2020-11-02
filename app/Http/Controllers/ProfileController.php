@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{City, Country, Entity, ProfilePicture, Sector, SupportedLink, User};
+use App\Models\{City, Entity, ProfilePicture, Sector, SupportedLink, User};
 
-use App\Models\Jobs\{NewMemberNotification,SendContactEmail};
+use App\Jobs\{NewMemberNotification,SendContactEmail};
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{Hash, Auth, Redirect, Session};
@@ -26,8 +26,7 @@ class ProfileController extends Controller
         $users = User::with('sectors:id,name', 'country')->with(['avatar'=>function($query){
             $query->where('resolution','300');
         }])->filter($request)->paginate(12);
-        $sectors = Sector::all();
-        return view('profile.index', compact(['users', 'sectors', 'request']));
+        return view('profile.index', compact(['users', 'request']));
     }
 
 
@@ -40,14 +39,12 @@ class ProfileController extends Controller
     {
         $cities = [];
         $supported_links = SupportedLink::all();
-        $sectors = Sector::all();
         return view('profile.create', [
             'activities' => $this->activities,
             'education' => $this->education,
             'cities' => $cities,
             'supported_links' => $supported_links,
             'associations' => $this->associations,
-            'sectors' => $sectors,
         ]);
     }
 
@@ -91,18 +88,18 @@ class ProfileController extends Controller
 
         $user->save();
 
-//        Saving profile pictures to the user
-        if ($request->avatar_id) {
-            $thumbnail = ProfilePicture::find($request->avatar_id);
-            if (isset($thumbnail->id)) {
-                $images = ProfilePicture::where('filename', $thumbnail->filename)->get();
-                foreach ($images as $image) {
-                    $user->avatar()->save($image);
+        //        Saving profile pictures to the user
+                if ($request->avatar_id) {
+                    $thumbnail = ProfilePicture::find($request->avatar_id);
+                    if (isset($thumbnail->id)) {
+                        $images = ProfilePicture::where('filename', $thumbnail->filename)->get();
+                        foreach ($images as $image) {
+                            $user->avatar()->save($image);
+                        }
+                    }
                 }
-            }
-        }
 
-//        Removing unused and uploaded profile pictures to a user and to an entity
+        //        Removing unused and uploaded profile pictures to a user and to an entity
         ProfilePictureController::destroyEmpty();
 
 
@@ -165,12 +162,8 @@ class ProfileController extends Controller
      */
     public function edit(User $profile)
     {
-        if (Auth::id() != $profile->id) {
-            return redirect(route('home'));
-        }
         $cities = City::all();
         $supported_links = SupportedLink::all();
-        $sectors = Sector::all();
         return view('profile.edit', [
             'user' => $profile,
             'activities' => $this->activities,
@@ -178,7 +171,6 @@ class ProfileController extends Controller
             'cities' => $cities,
             'supported_links' => $supported_links,
             'associations' => $this->associations,
-            'sectors' => $sectors,
         ]);
     }
 
@@ -191,10 +183,6 @@ class ProfileController extends Controller
      */
     public function update(Request $request, User $profile)
     {
-        if (Auth::id() != $profile->id) {
-            return redirect(route('home'));
-        }
-
         $this->validateInputs();
 
         $profile->update(

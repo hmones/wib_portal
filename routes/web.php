@@ -39,9 +39,9 @@ Route::post('/cookie/consent', 'HomeController@cookie')->name('cookie.consent');
 Route::get('/home', 'PostController@index')->middleware(['auth', 'verified'])->name('home');
 Route::get('/posts', 'PostController@indexAPI')->middleware(['auth', 'verified'])->name('posts.get.api');
 Route::post('/post', 'PostController@store')->middleware(['auth','verified'])->name('post.store');
-Route::delete('/post/{post}', 'PostController@destroy')->middleware(['auth','verified'])->name('post.destroy');
+Route::delete('/post/{post}', 'PostController@destroy')->middleware(['auth','verified','can:delete,post'])->name('post.destroy');
 Route::post('/reaction', 'ReactionController@store')->middleware(['auth','verified'])->name('reaction.store');
-Route::delete('/reaction/{reaction}', 'ReactionController@destroy')->middleware(['auth','verified'])->name('reaction.destroy');
+Route::delete('/reaction/{reaction}', 'ReactionController@destroy')->middleware(['auth','verified','can:delete,reaction'])->name('reaction.destroy');
 
 Route::get('/post/{post}/comments', 'CommentController@index')->middleware(['auth', 'verified'])->name('comments.get.api');
 Route::post('/comment','CommentController@store')->middleware(['auth','verified'])->name('comment.store');
@@ -58,8 +58,11 @@ Route::resource('entity', 'EntityController')->except(['index', 'show'])->middle
 
 Route::post('profile/contact/{profile}', 'ProfileController@contact')->name('profile.contact')->middleware(['auth', 'verified']);
 
-Route::resource('profile', 'ProfileController')->except(['create', 'store'])->middleware('auth');
-
+Route::get('/profile', 'ProfileController@index')->name('profile.index')->middleware('auth');
+Route::get('/profile/{profile}', 'ProfileController@show')->name('profile.show')->middleware('auth');
+Route::get('/profile/{profile}/edit', 'ProfileController@edit')->name('profile.edit')->middleware(['auth','can:update,profile']);
+Route::put('/profile/{profile}', 'ProfileController@update')->name('profile.update')->middleware(['auth','can:update,profile']);
+Route::delete('/profile/{profile}', 'ProfileController@destroy')->name('profile.destroy')->middleware(['auth','can:delete,profile']);
 
 
 Route::get('/entities/search', 'EntityController@search')->middleware(['auth', 'verified']);
