@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Entity, Photos};
+use App\Models\{Entity, Photo};
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\{Auth, Storage};
 use Intervention\Image\Facades\Image;
 
-class PhotosController extends Controller
+class PhotoController extends Controller
 {
     const PATH_300 = "wib_uploads/photos/300x300/";
     const PATH_ORIGINAL = 'wib_uploads/photos/original/';
@@ -30,7 +30,7 @@ class PhotosController extends Controller
             $original = Image::make($image)->encode($extension);
             $storage_path_o = self::PATH_ORIGINAL . $filename;
             Storage::disk('s3')->put($storage_path_o, (string)$original, 'public');
-            $photo = Photos::create([
+            $photo = Photo::create([
                 'url' => Storage::url($storage_path_o),
                 'thumbnail' => Storage::url($storage_path_thumb),
                 'filename' => $filename
@@ -43,7 +43,7 @@ class PhotosController extends Controller
         return $savedImages;
     }
 
-    public function destroy(Photos $photo)
+    public function destroy(Photo $photo)
     {
         // Delete both original and thumbnail files of S3
         Storage::disk('s3')->delete([
@@ -56,7 +56,7 @@ class PhotosController extends Controller
         return response('Deleted Successfully','200');
     }
 
-    public function update(Request $request, Photos $photo)
+    public function update(Request $request, Photo $photo)
     {
         $request->validate([
             'comment' => 'required'

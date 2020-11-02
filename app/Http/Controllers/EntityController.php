@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Entity, EntityType, ProfilePicture, SupportedLink, User};
+use App\Models\{Photo, Entity, EntityType, ProfilePicture, SupportedLink, User};
 use Carbon\Carbon;
 use Illuminate\Support\Facades\{Auth, Redirect, Session};
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use PhpParser\Builder;
-use function MongoDB\BSON\toJSON;
 
 class EntityController extends Controller
 {
@@ -149,7 +147,7 @@ class EntityController extends Controller
         
         if(isset($request->photosID)){
             foreach ($request->photosID as $photoID) {
-                $photo = \App\Photos::find($photoID);
+                $photo = Photo::find($photoID);
                 if($photo){
                     $entity->photos()->save($photo);
                 }
@@ -183,9 +181,6 @@ class EntityController extends Controller
      */
     public function edit(Entity $entity)
     {
-        if ((!$entity->users()->find(Auth::id())) || ($entity->owned_by != Auth::id())) {
-            return redirect(route('home'));
-        }
         $cities = [];
         $supported_links = SupportedLink::all();
         $entity_types = EntityType::all();
@@ -305,7 +300,7 @@ class EntityController extends Controller
 
         if(isset($request->photosID)){
             foreach ($request->photosID as $photoID) {
-                $photo = \App\Photos::find($photoID);
+                $photo = Photo::find($photoID);
                 if($photo){
                     $entity->photos()->save($photo);
                 }

@@ -7,10 +7,10 @@
             <a>{{$comment->user->name}}</a> commented
             <div class="date">
                 {{$comment->created_at->diffForHumans()}}
-                @if($comment->user_id === Auth::id())
+                @can('delete', $comment)
                 &nbsp;&nbsp; <a class="delete comment btn" data-comment-id="{{$comment->id}}"
                     href="javascript:void(0);">delete</a>
-                @endif
+                @endcan
             </div>
         </div>
         <div class="extra text">

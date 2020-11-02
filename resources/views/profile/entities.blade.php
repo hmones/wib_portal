@@ -16,7 +16,6 @@
         @forelse($owned_entities as $entity)
         <tr>
             <td>
-
                 @if($entity->logo()->exists())
                 <img class="ui tiny circular centered image" src="{{$entity->logo()->thumbnail()->url}}"
                     alt="{{$entity->name}}">

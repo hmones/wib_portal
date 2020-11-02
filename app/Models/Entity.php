@@ -71,7 +71,7 @@ class Entity extends Model
 
     public function photos()
     {
-        return $this->morphMany('App\Models\Photos', 'photoable');
+        return $this->morphMany('App\Models\Photo', 'photoable');
     }
 
     public function searching_for()

@@ -22,7 +22,9 @@ Route::post('profile', 'ProfileController@store')->name('profile.store');
 
 Route::resource('profilepicture', 'ProfilePictureController')->except(['index','create','edit','show','update']);
 
-Route::resource('photos', 'PhotosController')->except(['index','create','edit','show'])->middleware(['auth', 'verified']);
+Route::post('/photos', 'PhotoController@store')->name('photos.store')->middleware(['auth', 'verified']);
+Route::put('/photos/{photo}', 'PhotoController@update')->name('photos.update')->middleware(['auth', 'verified']);
+Route::delete('/photos/{photo}', 'PhotoController@destroy')->name('photos.destroy')->middleware(['auth', 'verified']);
 
 Route::get('/country/{id}', function ($id) {
     return new CountryResource(Country::findOrFail($id));
@@ -45,7 +47,7 @@ Route::delete('/reaction/{reaction}', 'ReactionController@destroy')->middleware(
 
 Route::get('/post/{post}/comments', 'CommentController@index')->middleware(['auth', 'verified'])->name('comments.get.api');
 Route::post('/comment','CommentController@store')->middleware(['auth','verified'])->name('comment.store');
-Route::delete('/comment/{comment}', 'CommentController@destroy')->middleware(['auth','verified'])->name('comment.destroy');
+Route::delete('/comment/{comment}', 'CommentController@destroy')->middleware(['auth','verified','can:delete,comment'])->name('comment.destroy');
 
 Route::prefix('profile/entities')->as('profile.entities')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/', 'EntityController@indexUser');
@@ -53,7 +55,11 @@ Route::prefix('profile/entities')->as('profile.entities')->middleware(['auth', '
     Route::post('/{entity}/disassociate', 'EntityController@disassociateEntity')->name('.disassociate');
 });
 
-Route::resource('entity', 'EntityController')->except(['index', 'show'])->middleware(['auth', 'verified']);
+Route::get('/entity/create', 'EntityController@create')->name('entity.create')->middleware(['auth', 'verified']);
+Route::post('/entity', 'EntityController@store')->name('entity.store')->middleware(['auth', 'verified']);
+Route::get('/entity/{entity}/edit', 'EntityController@edit')->name('entity.edit')->middleware(['auth', 'verified','can:update,entity']);
+Route::put('/entity/{entity}', 'EntityController@update')->name('entity.update')->middleware(['auth', 'verified','can:update,entity']);
+Route::delete('/entity/{entity}', 'EntityController@destroy')->name('entity.destroy')->middleware(['auth', 'verified', 'can:delete,entity']);
 
 
 Route::post('profile/contact/{profile}', 'ProfileController@contact')->name('profile.contact')->middleware(['auth', 'verified']);
@@ -100,10 +106,6 @@ Route::namespace('Admin')->prefix('/admin')->name('admin.')->group(function () {
         Route::post('/password/reset','ResetPasswordController@reset')->name('password.update');
     });
 });
-
-// Route::post('/images/{entity}', 'PhotosController@store')->name('image.upload');
-
-// Route::delete('/images/{entity}/{photo}', 'PhotosController@destroy')->name('images.delete');
 
 Route::resource('entityType', 'EntityTypeController')->except(['index', 'create', 'show', 'edit'])->middleware('auth:admin');
 
