@@ -25,7 +25,7 @@ class ProfileController extends Controller
     {
         $users = User::with('sectors:id,name', 'country')->with(['avatar'=>function($query){
             $query->where('resolution','300');
-        }])->filter($request)->paginate(12);
+        }])->filter($request)->paginate(20);
         return view('profile.index', compact(['users', 'request']));
     }
 
@@ -287,23 +287,20 @@ class ProfileController extends Controller
      */
     public function destroy(User $profile)
     {
-        if (Auth::id() === $profile->id) {
-            if ($profile->avatar()->exists()) {
-                ProfilePictureController::destroy($profile->avatar()->original()->id);
-            }
-            if ($profile->links()->exists()) {
-                $profile->links()->delete();
-            }
-            if ($profile->sectors()->exists()) {
-                $profile->sectors()->detach();
-            }
-            Entity::ownedby(Auth::id())->update(['owned_by' => null]);
-            $profile->entities()->detach();
-            $profile->delete();
-            Session::flash('success', $profile->name . ' has been successfully removed from the platform');
-        } else {
-            Session::flash('error', 'You do not have permission to perform this operation!');
+        if ($profile->avatar()->exists()) {
+            ProfilePictureController::destroy($profile->avatar()->original()->id);
         }
+        if ($profile->links()->exists()) {
+            $profile->links()->delete();
+        }
+        if ($profile->sectors()->exists()) {
+            $profile->sectors()->detach();
+        }
+        Entity::ownedby(Auth::id())->update(['owned_by' => null]);
+        $profile->entities()->detach();
+        $profile->delete();
+        Session::flash('success', $profile->name . ' has been successfully removed from the platform');
+        
         return \redirect(route('profile.show', ['profile' => Auth::user()]));
     }
 

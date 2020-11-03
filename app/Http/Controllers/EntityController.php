@@ -31,7 +31,7 @@ class EntityController extends Controller
     {
         $entities = Entity::with('sectors:id,name', 'primary_country')->with(['logo'=>function($query){
             $query->where('resolution','300');
-        }])->filter($request)->paginate(12);
+        }])->filter($request)->paginate(20);
         return view('entity.index', compact(['entities', 'request']));
     }
 
@@ -324,22 +324,20 @@ class EntityController extends Controller
      */
     public function destroy(Entity $entity)
     {
-        if (Auth::id() === $entity->owned_by) {
-            if ($entity->logo()->exists()) {
-                ProfilePictureController::destroy($entity->logo()->original()->id);
-            }
-            if ($entity->links()->exists()) {
-                $entity->links()->delete();
-            }
-            if ($entity->sectors()->exists()) {
-                $entity->sectors()->detach();
-            }
-            $entity->users()->detach();
-            $entity->delete();
-            Session::flash('success', $entity->name . ' has been successfully removed from the platform');
-        } else {
-            Session::flash('error', 'To remove ' . $entity->name . ' please send us an email at info@womeninbusiness-mena.com including the name of the organization you would like to remove!');
+        
+        if ($entity->logo()->exists()) {
+            ProfilePictureController::destroy($entity->logo()->original()->id);
         }
+        if ($entity->links()->exists()) {
+            $entity->links()->delete();
+        }
+        if ($entity->sectors()->exists()) {
+            $entity->sectors()->detach();
+        }
+        $entity->users()->detach();
+        $entity->delete();
+        Session::flash('success', $entity->name . ' has been successfully removed from the platform');
+        
         return \redirect(route('profile.entities'));
     }
 
