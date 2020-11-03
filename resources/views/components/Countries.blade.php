@@ -3,7 +3,7 @@
     <label for="{{$fieldname ? $fieldname:'country_id'}}">{{$label}}</label>
     @endif
     <div class="ui fluid {{$dropdownCss}} search selection dropdown">
-        <input type="hidden" name="{{$fieldname ? $fieldname:'country_id'}}" value={{$value?$value:$countryList}} />
+        <input type="hidden" name="{{$fieldname ? $fieldname:'country_id'}}" value="{{$value?$value:$countryList}}" />
         <i class="dropdown icon"></i>
         <div class="default text"><i class="map marker alternate icon"></i>Country</div>
         <div class="menu">

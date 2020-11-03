@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'EntityController@index')->name('entity.index');
+Route::get('/entities', 'EntityController@indexApi')->name('entities.get.api');
 
 Route::get('profile/create', 'ProfileController@create')->name('profile.create');
 
@@ -65,6 +66,7 @@ Route::delete('/entity/{entity}', 'EntityController@destroy')->name('entity.dest
 Route::post('profile/contact/{profile}', 'ProfileController@contact')->name('profile.contact')->middleware(['auth', 'verified']);
 
 Route::get('/profile', 'ProfileController@index')->name('profile.index')->middleware('auth');
+Route::get('/profiles', 'ProfileController@indexApi')->middleware(['auth', 'verified'])->name('profiles.get.api');
 Route::get('/profile/{profile}', 'ProfileController@show')->name('profile.show')->middleware('auth');
 Route::get('/profile/{profile}/edit', 'ProfileController@edit')->name('profile.edit')->middleware(['auth','can:update,profile']);
 Route::put('/profile/{profile}', 'ProfileController@update')->name('profile.update')->middleware(['auth','can:update,profile']);

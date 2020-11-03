@@ -26,7 +26,22 @@ class ProfileController extends Controller
         $users = User::with('sectors:id,name', 'country')->with(['avatar'=>function($query){
             $query->where('resolution','300');
         }])->filter($request)->paginate(20);
+        
         return view('profile.index', compact(['users', 'request']));
+        
+    }
+
+    /**
+     * Display a listing of the resource via api.
+     *
+     * @return View
+     */
+    public function indexApi(Request $request)
+    {
+        $users = User::with('sectors:id,name', 'country')->with(['avatar'=>function($query){
+            $query->where('resolution','300');
+        }])->filter($request)->paginate(20);
+        return view('partials.profile.list', compact(['users', 'request']));
     }
 
 

@@ -36,6 +36,19 @@ class EntityController extends Controller
     }
 
     /**
+     * Display a listing of the resource through api.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function indexApi(Request $request)
+    {
+        $entities = Entity::with('sectors:id,name', 'primary_country')->with(['logo'=>function($query){
+            $query->where('resolution','300');
+        }])->filter($request)->paginate(20);
+        return view('partials.entity.list', compact(['entities', 'request']));
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\View\View

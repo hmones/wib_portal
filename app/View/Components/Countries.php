@@ -49,7 +49,7 @@ class Countries extends Component
 
     public function countryList()
     {
-        if(isset(request()->countries))
+        if(request()->has('countries'))
         {
             return implode(', ', request()->countries);
         }

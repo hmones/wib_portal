@@ -1,9 +1,9 @@
-<form action="{{$route}}" method="GET" class="ui form">
+<form action="{{$route}}" method="GET" class="ui form" id="filter_form">
     <div class="ui middle aligned centered center aligned stackable padded grid">
         <div class="grey column" style="border-radius: 5px;">
             @csrf
             <div class="fields" style="margin:0;">
-                <x-Countries class="seven wide" dropdown-css="multiple" fieldname="countries[]" />
+                <x-Countries class="seven wide" fieldname="countries[]" dropdown-css="multiple" />
                 <x-Sectors class="seven wide" fieldname="sectors[]" dropdown-css="multiple" />
                 <div class="two wide field">
                     <button class="ui right labeled grey icon button" type="submit"><i
