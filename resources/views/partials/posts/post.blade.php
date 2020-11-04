@@ -1,4 +1,4 @@
-<div class="ui raised padded segment" id="post_{{$post->id}}">
+<div class="ui padded segment" id="post_{{$post->id}}">
     @if ($post->user->id === Auth::id())
     <div class="floating ui circular red label" style="padding-left:3px !important;"><i class="delete icon"
             data-post-id="{{$post->id}}"></i></div>

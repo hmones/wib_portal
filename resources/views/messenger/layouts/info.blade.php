@@ -1,6 +1,6 @@
 {{-- user info and avatar --}}
 <div class="avatar av-l"></div>
-<p class="info-name">{{ config('chatify.name') }}</p>
+<p class="info-name">{{ config('messenger.name') }}</p>
 <div class="last seen box" style="color: grey;"></div>
 <div class="messenger-infoView-btns">
     {{-- <a href="#" class="default"><i class="fas fa-camera"></i> default</a> --}}

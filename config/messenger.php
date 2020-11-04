@@ -12,7 +12,7 @@ return [
     |
     */
 
-    'name' => env('CHATIFY_NAME', 'Women in Business Messenger'),
+    'name' => env('MESSENGER_NAME', 'Women in Business Messenger'),
 
     /*
     |--------------------------------------------------------------------------
@@ -25,7 +25,7 @@ return [
     | e.g. : app.test/chatify
     */
 
-    'path' => env('CHATIFY_PATH', 'messenger'),
+    'path' => env('MESSENGER_PATH', 'messenger'),
 
     /*
     |--------------------------------------------------------------------------
@@ -37,7 +37,7 @@ return [
     |
     */
 
-    'middleware' => env('CHATIFY_MIDDLEWARE', 'auth'),
+    'middleware' => env('MESSENGER_MIDDLEWARE', 'auth'),
 
     /*
     |--------------------------------------------------------------------------
@@ -107,5 +107,5 @@ return [
     | By default: Chatify\Http\Controllers
     |
     */
-    'namespace' => env('CHATIFY_ROUTES_NAMESPACE', 'App\Http\Controllers'),
+    'namespace' => env('MESSENGER_ROUTES_NAMESPACE', 'App\Http\Controllers'),
 ];

@@ -18,7 +18,7 @@ body{
 }
 
 /*green background RGBA*/
-.successBG-rgba{background: rgba(54, 180, 36, 0.76) !important;}
+.successBG-rgba{background: rgb(21, 62, 122) !important;}
 
 /* app scroll*/
 .app-scroll::-webkit-scrollbar{
@@ -369,7 +369,8 @@ body{
 .messenger-sendCard form{
 	width: 100%;
 	display: inline-flex;
-	margin: 0;
+  margin: 0;
+  border: 13px solid #f7f7f7;
 }
 .messenger-sendCard input[type=file]{
 	display: none;
@@ -401,7 +402,7 @@ body{
 	font-size: 14px;
 	width: 100%;
     border: none;
-    padding: 10px 0px;
+    padding: 10px;
     outline: none;
     resize: none;
     background: transparent;
