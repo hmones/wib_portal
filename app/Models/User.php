@@ -7,11 +7,14 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Scout\Searchable;
+use ElasticScoutDriverPlus\CustomSearch;
+use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
+use App\Search\UserSearchQueryBuilder;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
-    use Searchable;
+    use Searchable, CustomSearch;
     use HasFactory;
 
     /**
@@ -30,9 +33,15 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return [
             'name' => $this->name,
-            'email' => $this->email,
         ];
     }
+
+    public static function searchForm(): SearchRequestBuilder
+    {
+        return new SearchRequestBuilder(new static(), new UserSearchQueryBuilder());
+    }
+
+
 
     /**
      * The attributes that should be hidden for arrays.

@@ -33,6 +33,8 @@ Route::get('/country/{id}', function ($id) {
 
 Route::post('/cookie/consent', 'HomeController@cookie')->name('cookie.consent');
 
+Route::get('/search','SearchController@index')->name('web.search');
+
 /*
 |--------------------------------------------------------------------------
 | User Routes

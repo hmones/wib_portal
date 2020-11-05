@@ -4,10 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
+use ElasticScoutDriverPlus\CustomSearch;
+use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
+use App\Search\PostSearchQueryBuilder;
 
 class Post extends Model
 {
     use HasFactory;
+    use Searchable, CustomSearch;
 
     protected $guarded = [];
 
@@ -29,5 +34,17 @@ class Post extends Model
 
     public function country(){
         return $this->belongsTo('\App\Models\Country','country_id');
+    }
+
+    public function toSearchableArray()
+    {
+        return [
+            'content' => $this->content,
+        ];
+    }
+
+    public static function searchForm(): SearchRequestBuilder
+    {
+        return new SearchRequestBuilder(new static(), new PostSearchQueryBuilder());
     }
 }

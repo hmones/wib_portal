@@ -4,10 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Laravel\Scout\Searchable;
+use ElasticScoutDriverPlus\CustomSearch;
+use App\Search\EntitySearchQueryBuilder;
+use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
 
 class Entity extends Model
 {
     use HasFactory;
+    use Searchable, CustomSearch;
     
     protected $table = 'entities';
 
@@ -96,6 +101,19 @@ class Entity extends Model
         }
         $query->latest();
         return $query;
+    }
+
+    public function toSearchableArray()
+    {
+        return [
+            'name' => $this->name,
+            'name_additional' => $this->name_additional,
+        ];
+    }
+
+    public static function searchForm(): SearchRequestBuilder
+    {
+        return new SearchRequestBuilder(new static(), new EntitySearchQueryBuilder());
     }
 
 

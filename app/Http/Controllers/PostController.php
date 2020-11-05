@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Country;
 use App\Models\Post;
 use App\Models\Sector;
 use Illuminate\Http\Request;
@@ -15,9 +14,13 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::with('comments.reactions','comments.user','reactions.user','user')->latest()->take(12)->get();
+        if($request->has('id')){
+            $posts = Post::where('id',$request->get('id'))->get();
+        }else{
+            $posts = Post::with('comments.reactions','comments.user','reactions.user','user')->latest()->take(12)->get();
+        }
         $sectors = Sector::all();
         return view('home', compact(['posts','sectors']));
     }

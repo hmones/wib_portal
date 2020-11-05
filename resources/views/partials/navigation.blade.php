@@ -6,6 +6,7 @@
                         style="margin-top: 20px;padding-left:0;"></a>
                 <div class="right item">
                     @auth('web')
+                    @include('partials.search')
                     <a href="{{route('profile.index')}}" class="{{Request::path() === 'profile' ? 'active':''}} item">
                         MEMBERS
                     </a>

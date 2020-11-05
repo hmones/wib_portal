@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "962f65a9b09ad36a30343df3a1f1cae9",
+    "content-hash": "f2bd88303b711a785232b7ebec66dcf9",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -370,6 +370,67 @@
                 "scout"
             ],
             "time": "2020-07-11T07:35:09+00:00"
+        },
+        {
+            "name": "babenkoivan/elastic-scout-driver-plus",
+            "version": "v1.11.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/babenkoivan/elastic-scout-driver-plus.git",
+                "reference": "6ecd271f11bc801f50a53e09683fcaf6b254437d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/babenkoivan/elastic-scout-driver-plus/zipball/6ecd271f11bc801f50a53e09683fcaf6b254437d",
+                "reference": "6ecd271f11bc801f50a53e09683fcaf6b254437d",
+                "shasum": ""
+            },
+            "require": {
+                "babenkoivan/elastic-adapter": "^1.7.1",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "babenkoivan/elastic-migrations": "^1.0",
+                "babenkoivan/elastic-scout-driver": "^1.0",
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "laravel/scout": "^8.0",
+                "orchestra/testbench": "^5.2",
+                "phpstan/phpstan": "^0.12.32",
+                "phpunit/phpunit": "^8.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "ElasticScoutDriverPlus\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ElasticScoutDriverPlus\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ivan Babenko",
+                    "email": "babenko.i.a@gmail.com"
+                }
+            ],
+            "description": "Extension for Elastic Scout Driver",
+            "keywords": [
+                "driver",
+                "elastic",
+                "elasticsearch",
+                "laravel",
+                "php",
+                "scout"
+            ],
+            "time": "2020-10-12T22:07:24+00:00"
         },
         {
             "name": "brick/math",
@@ -8394,5 +8455,6 @@
     "platform": {
         "php": "^7.2"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }

@@ -22,20 +22,24 @@
         observeChanges: true,
         // load content on bottom edge visible
         onBottomVisible: function() {
-            //Ajax call to get new posts
-            $.ajax({
-                method: 'GET',
-                url: posts_url,
-                data: {
-                    page: curr_posts_page,
-                    _token: app_token,
-                }
-            }).done(function (message) {
-                if(message != 'Error'){
-                    curr_posts_page++;
-                    $(message).hide().appendTo('#extra_posts').fadeIn(500);
-                }
-            });
+            var regex = new RegExp("id=.*$");
+            var idParameter = window.location.search.substring(1);
+            if(!regex.test(idParameter)){
+                //Ajax call to get new posts
+                $.ajax({
+                    method: 'GET',
+                    url: posts_url,
+                    data: {
+                        page: curr_posts_page,
+                        _token: app_token,
+                    }
+                }).done(function (message) {
+                    if(message != 'Error'){
+                        curr_posts_page++;
+                        $(message).hide().appendTo('#extra_posts').fadeIn(500);
+                    }
+                });
+            }
         }
     });
     // Displaying more comments
