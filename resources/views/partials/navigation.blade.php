@@ -15,7 +15,7 @@
                     </a>
                     <div class="ui dropdown item" style="border-bottom: none!important;top:-7px;font-weight:normal;">
                         <div class="text">
-                            @include('partials.components.avatar', ['user'=>Auth::user()])
+                            @include('partials.components.avatar', ['user'=>Auth::user(), 'type'=>'user'])
                             {{Auth::user()->name}}
                         </div>
                         <i class="dropdown icon"></i>

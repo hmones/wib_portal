@@ -1,15 +1,15 @@
 <div class="column">
     <a href="{{route('profile.show', $user->id)}}" class="profilebox">
         <img class="profileimage" src="
-            @isset($user->avatar()->first()->url)
-                {{$user->avatar()->first()->url}}
+            @if($user->image)
+                {{$user->image}}
             @else
                 @if($user->gender === 'Male')
                 {{asset('images/male_avatar.jpg')}}
                 @else
                 {{asset('images/female_avatar.jpg')}}
                 @endif
-            @endisset
+            @endif
             " alt="{{$user->name}}'s avatar">
         @if($user->approved_at)
         <i class="circular inverted teal check small icon" style="

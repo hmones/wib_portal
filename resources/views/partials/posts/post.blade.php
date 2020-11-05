@@ -6,7 +6,7 @@
     <div class="ui stackable grid">
         <div class="six wide column ui list">
             <div class="item">
-                @include('partials.components.avatar',['user'=>$post->user])
+                @include('partials.components.avatar',['user'=>$post->user, 'type' => 'user'])
                 <div class="content">
                     <a class="header" href="javascript:void(0)">{{$post->user->name}}</a>
                     <div class="description">{{$post->created_at->diffForHumans()}}</div>

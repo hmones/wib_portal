@@ -1,6 +1,6 @@
 <div class="event ui comment" data-id="{{$comment->id}}">
     <div class="label">
-        @include('partials.components.avatar', ['user'=>$comment->user])
+        @include('partials.components.avatar', ['user'=>$comment->user, 'type' => 'user'])
     </div>
     <div class="content">
         <div class="summary">

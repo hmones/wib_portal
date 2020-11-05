@@ -52,13 +52,7 @@
             <div class="ui relaxed divided list">
                 @forelse($user->entities as $entity)
                 <div class="item">
-                    <img class="ui avatar image" src="
-                            @if($entity->logo()->exists())
-                            {{$entity->logo()->smallthumbnail()->url}}
-                            @else
-                            {{asset('images/logo_avatar.png')}}
-                            @endif
-                                " />
+                    @include('partials.components.avatar',['entity' => $entity, 'type' => 'entity'])
                     <div class="middle aligned content">
                         <a href="{{route('entity.show',$entity)}}"
                             class="header">{{\Illuminate\Support\Str::limit($entity->name, 30,$end='..')}}</a>

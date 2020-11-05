@@ -87,17 +87,7 @@
             <div class="ui very relaxed divided list">
                 @forelse($entity->users as $user)
                 <div class="item">
-                    <img class="ui avatar image" src="
-                            @if($user->avatar()->exists())
-                            {{$user->avatar()->smallthumbnail()->url}}
-                            @else
-                            @if($user->gender === 'Male')
-                            {{asset('images/male_avatar.jpg')}}
-                            @else
-                            {{asset('images/female_avatar.jpg')}}
-                            @endif
-                            @endif
-                                ">
+                    @include('partials.components.avatar', ['user' => $user, 'type' => 'user'])
                     <div class="middle aligned content">
                         <a href="{{route('profile.show',$user)}}"
                             class="header">{{\Illuminate\Support\Str::limit($user->name, 30,$end='..')}}</a>
