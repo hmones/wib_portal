@@ -64,11 +64,6 @@ class Entity extends Model
         return $this->hasOne('App\Models\City', 'id', 'secondary_city_id');
     }
 
-    public function logo()
-    {
-        return $this->morphMany('App\Models\ProfilePicture', 'profileable');
-    }
-
     public function links()
     {
         return $this->morphMany('App\Models\Link', 'linkable');

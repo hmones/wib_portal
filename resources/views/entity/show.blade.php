@@ -14,8 +14,8 @@
     <div class="ui stackable middle aligned grid">
         <div class="three wide column">
             <img class="ui circular small image" src="
-                @if($entity->logo()->exists())
-                {{$entity->logo()->thumbnail()->url}}
+                @if($entity->image)
+                {{$entity->image}}
                 @else
                 {{asset('images/logo_avatar.png')}}
                 @endif

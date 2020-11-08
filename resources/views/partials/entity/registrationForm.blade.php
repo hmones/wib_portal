@@ -3,7 +3,10 @@
     <div class="ui hidden message" id="form_errors"></div>
     <form id="entity_form" action="" method="POST" enctype="multipart/form-data">
         @csrf
-        @isset($entity->id)@method('PUT')@endisset
+        @isset($entity->id)
+        @method('PUT')
+        @endisset
+        <input type="hidden" name="entity[network]" value="wib" />
         <div class="ui stackable grid">
             <div class="five wide column">
                 <div class="ui medium image">
@@ -11,28 +14,25 @@
                         <h4 class="ui header">Organization logo</h4>
                         <label for="logo">
                             <a href="#" id="logo_upload_icon">
-                                @if($entity->logo()->exists())
-                                <img class='ui circular centered small image'
-                                    src='{{$entity->logo()->thumbnail()->url}}' alt="{{$entity->name}}">
+                                @if($entity->image)
+                                <img class='ui circular centered small image' src='{{$entity->image}}'
+                                    alt="{{$entity->name}}">
                                 @else
                                 <i class="circular inverted grey image huge icon"></i>
                                 @endif
                             </a>
                         </label>
-                        <div class=""><small>Image size 300px x 300px</small></div>
-                        <input type="file" name="logo" style="display: none;" id="logo_upload_input">
-                        <input type="hidden"
-                            value="{{isset($entity->logo()->thumbnail()->id)?$entity->logo()->thumbnail()->id:''}}"
-                            name="logo_id">
+                        <div class="image description"><small>Image size 300px x 300px</small></div>
+                        <input type="file" name="entity[image]" style="display: none;" id="logo_upload_input">
                     </div>
                 </div>
             </div>
             <div class="eleven wide column ui form">
                 <div class="two fields">
                     <div class="required field">
-                        <label for="entity_type_id">Type of Organization</label>
+                        <label for="entity[entity_type_id]">Type of Organization</label>
                         <div class="ui fluid search selection dropdown">
-                            <input type="hidden" name="entity_type_id" value="{{$entity->entity_type_id??''}}">
+                            <input type="hidden" name="entity[entity_type_id]" value="{{$entity->entity_type_id??''}}">
                             <i class="dropdown icon"></i>
                             <div class="default text">Type of organizaiton</div>
                             <div class="menu">
@@ -44,10 +44,10 @@
                         </div>
                     </div>
                     <div class="required field">
-                        <label for="relation">Your relation to the organization</label>
+                        <label for="users[relation]">Your relation to the organization</label>
                         <div class="ui fluid search selection dropdown @error('relation') error @enderror">
-                            <input required type="hidden" name="relation"
-                                value="{{isset($entity->id)?$entity->users()->find(Auth::id())->pivot->relation_type:''}}">
+                            <input required type="hidden" name="users[relation]"
+                                value="@if($entity->users()->find(Auth::id())){{$entity->users()->find(Auth::id())->pivot->relation_type}}@endif">
                             <i class="dropdown icon"></i>
                             <div class="default text">Your relation to the organization..</div>
                             <div class="menu">
@@ -60,30 +60,30 @@
                     </div>
                 </div>
                 <div class="three fields">
-                    <div class="required field">
-                        <label for="name">Name of Organization</label>
-                        <input type="text" name="name" value="{{$entity->name??''}}">
+                    <div class="required {{isset($entity->name)?'disabled':''}} field">
+                        <label for="entity[name]">Name of Organization</label>
+                        <input type="text" name="entity[name]" value="{{$entity->name??''}}">
                     </div>
                     <div class="field">
-                        <label for="name_additional">Additional name</label>
-                        <input type="text" name="name_additional" placeholder="Additional organizaitonal name"
+                        <label for="entity[name_additional]">Additional name</label>
+                        <input type="text" name="entity[name_additional]" placeholder="Additional organizaitonal name"
                             value="{{$entity->name_additional??''}}">
                     </div>
                     <div class="required field">
-                        <label for="founding_year">Founding Year</label>
-                        <input type="text" required name="founding_year" placeholder="e.g. 1980" maxlength="4"
+                        <label for="entity[founding_year]">Founding Year</label>
+                        <input type="text" required name="entity[founding_year]" placeholder="e.g. 1980" maxlength="4"
                             value="{{$entity->founding_year??''}}">
                     </div>
                 </div>
                 <div class="two fields">
 
                     <div class="required field">
-                        <label for="name">Email</label>
-                        <input type="text" name="primary_email" value="{{$entity->primary_email??''}}" />
+                        <label for="entity[primary_email]">Email</label>
+                        <input type="text" name="entity[primary_email]" value="{{$entity->primary_email??''}}" />
                     </div>
                     <div class="field">
-                        <label for="name">Additional email</label>
-                        <input type="text" name="secondary_email" value="{{$entity->secondary_email??''}}" />
+                        <label for="entity[secondary_email]">Additional email</label>
+                        <input type="text" name="entity[secondary_email]" value="{{$entity->secondary_email??''}}" />
                     </div>
 
                 </div>
@@ -91,16 +91,16 @@
         </div>
         <h4 class="ui dividing header">Contact Information</h4>
         <div class="three fields">
-            <x-Countries countrycode=1 fieldname="entity_phone_country_code" label="Country Code"
+            <x-Countries countrycode=1 fieldname="entity[phone_country_code]" label="Country Code"
                 :value="$entity->phone_country_code" />
             <div class="field">
-                <label for="entity_phone">Phone Number</label>
-                <input type="text" name="entity_phone" placeholder="e.g. 15444444499" maxlength="15"
+                <label for="entity[phone]">Phone Number</label>
+                <input type="text" name="entity[phone]" placeholder="e.g. 15444444499" maxlength="15"
                     value="{{$entity->phone??''}}">
             </div>
             <div class="field">
-                <label for="fax">Fax</label>
-                <input type="text" name="fax" placeholder="e.g. 15444444499" maxlength="15"
+                <label for="entity[fax]">Fax</label>
+                <input type="text" name="entity[fax]" placeholder="e.g. 15444444499" maxlength="15"
                     value="{{$entity->fax??''}}">
             </div>
         </div>
@@ -109,8 +109,9 @@
             <div class="field">
                 <div class="ui left icon input">
                     <input type="text" placeholder="{{$link->name}} Link" data-type="{{$link->id}}"
-                        name="entity_link_{{$link->id}}"
-                        value="{{isset($entity->links()->where('type_id',$link->id)->first()->url)?$entity->links()->where('type_id',$link->id)->first()->url:''}}">
+                        name="links[{{$loop->index}}][url]"
+                        value="{{isset($entity->links()->where('type_id',$link->id)->first()->url)?$entity->links()->where('type_id',$link->id)->first()->url:''}}" />
+                    <input type="hidden" name="links[{{$loop->index}}][type_id]" value="{{$link->id}}">
                     <i class="{{ $link->icon }} icon"></i>
                 </div>
             </div>
@@ -121,18 +122,18 @@
 
 
         <h4 class="ui dividing header">Organization's primary address</h4>
-        <br>
+        <br />
         <div class="five fields">
             <div class="required field">
-                <label for="primary_address">Address</label>
-                <input type="text" name="primary_address" value="{{$entity->primary_address??''}}">
+                <label for="entity[primary_address]">Address</label>
+                <input type="text" name="entity[primary_address]" value="{{$entity->primary_address??''}}">
             </div>
-            <x-Countries fieldname="primary_country_id" label="Country" :value="$entity->primary_country_id"
+            <x-Countries fieldname="entity[primary_country_id]" label="Country" :value="$entity->primary_country_id"
                 class="required" />
             <div class="required field">
-                <label for="primary_city_id">City, State</label>
+                <label for="entity[primary_city_id]">City, State</label>
                 <div class="ui fluid search selection dropdown" id="primary_city_id">
-                    <input type="hidden" name="primary_city_id" value="{{$entity->primary_city_id??''}}">
+                    <input type="hidden" name="entity[primary_city_id]" value="{{$entity->primary_city_id??''}}">
                     <i class="dropdown icon"></i>
                     <div class="default text">City, State</div>
                     <div class="menu">
@@ -145,14 +146,14 @@
                 </div>
             </div>
             <div class="field">
-                <label for="primary_postbox">Post box</label>
-                <input type="text" name="primary_postbox" placeholder="e.g. AX113Z" maxlength="15"
+                <label for="entity[primary_postbox]">Post box</label>
+                <input type="text" name="entity[primary_postbox]" placeholder="e.g. AX113Z" maxlength="15"
                     value="{{$entity->primary_postbox??''}}">
             </div>
             <div class="field">
-                <label for="primary_postal_code">Postal Code</label>
-                <input type="text" name="primary_postal_code" placeholder="e.g. AX113Z" maxlength="15"
-                    {{$entity->primary_postal_code??''}}>
+                <label for="entity[primary_postal_code]">Postal Code</label>
+                <input type="text" name="entity[primary_postal_code]" placeholder="e.g. AX113Z" maxlength="15"
+                    value="{{$entity->primary_postal_code??''}}">
             </div>
         </div>
 
@@ -160,14 +161,15 @@
         <br>
         <div class="five fields">
             <div class="field">
-                <label for="secondary_address">Address</label>
-                <input type="text" name="secondary_address" value="{{$entity->secondary_address??''}}">
+                <label for="entity[secondary_address]">Address</label>
+                <input type="text" name="entity[secondary_address]" value="{{$entity->secondary_address??''}}">
             </div>
-            <x-Countries fieldname="secondary_country_id" label="Country" :value="$entity->secondary_country_id" />
+            <x-Countries fieldname="entity[secondary_country_id]" label="Country"
+                :value="$entity->secondary_country_id" />
             <div class="field">
-                <label for="secondary_city_id">City, State</label>
+                <label for="entity[secondary_city_id]">City, State</label>
                 <div class="ui fluid search selection dropdown" id="secondary_city_id">
-                    <input type="hidden" name="secondary_city_id" value="{{$entity->secondary_city_id??''}}">
+                    <input type="hidden" name="entity[secondary_city_id]" value="{{$entity->secondary_city_id??''}}">
                     <i class="dropdown icon"></i>
                     <div class="default text">City, State</div>
                     <div class="menu">
@@ -180,34 +182,33 @@
                 </div>
             </div>
             <div class="field">
-                <label for="secondary_postbox">Post box</label>
-                <input type="text" name="secondary_postbox" placeholder="e.g. AX113Z" maxlength="15"
-                    value="{{$entity->secondary_postbox??''}}">
+                <label for="entity[secondary_postbox]">Post box</label>
+                <input type="text" name="entity[secondary_postbox]" placeholder="e.g. AX113Z" maxlength="15"
+                    value="{{$entity->secondary_postbox??''}}" />
             </div>
             <div class="field">
-                <label for="secondary_postal_code">Postal Code</label>
-                <input type="text" name="secondary_postal_code" placeholder="e.g. AX113Z" maxlength="15"
-                    {{$entity->secondary_postal_code??''}}>
+                <label for="entity[secondary_postal_code]">Postal Code</label>
+                <input type="text" name="entity[secondary_postal_code]" placeholder="e.g. AX113Z" maxlength="15"
+                    value="{{$entity->secondary_postal_code??''}}" />
             </div>
         </div>
 
 
         <h4 class="ui dividing header">Which field of activity does your organization work in?</h4>
         <div class="three fields">
-            <x-sectors label="Field 1" fieldname="entity_sector_1" default-text="Field of activity" class="required"
-                :value="$entity" />
-
-            <x-sectors label="Field 2" fieldname="entity_sector_2" default-text="Field of activity" :value="$entity"
-                offset=1 empty-option="Not applicable" />
-            <x-sectors label="Field 3" fieldname="entity_sector_3" default-text="Field of activity"
-                empty-option="Not applicable" :value="$entity" offset=2 />
+            <x-sectors label="Field 1" fieldname="sectors[][sector_id]" default-text="Field of activity"
+                class="required" value="{!!isset($entity->sectors[0]->id)?$entity->sectors[0]->id:''!!}" />
+            <x-sectors label="Field 2" fieldname="sectors[][sector_id]" default-text="Field of activity"
+                value="{!!isset($entity->sectors[1]->id)?$entity->sectors[1]->id:''!!}" empty-option="Not applicable" />
+            <x-sectors label="Field 3" fieldname="sectors[][sector_id]" default-text="Field of activity"
+                empty-option="Not applicable" value="{!!isset($entity->sectors[2]->id)?$entity->sectors[2]->id:''!!}" />
         </div>
         <h4 class="ui dividing header">About the organization</h4>
         <div class="three fields">
             <div class="field">
-                <label for="legal_form">Legal Form</label>
+                <label for="entity[legal_form]">Legal Form</label>
                 <div class="ui selection dropdown">
-                    <input type="hidden" name="legal_form" value="{{$entity->legal_form??''}}">
+                    <input type="hidden" name="entity[legal_form]" value="{{$entity->legal_form??''}}">
                     <i class="dropdown icon"></i>
                     <div class="default text">Legal form</div>
                     <div class="menu">
@@ -217,9 +218,9 @@
                 </div>
             </div>
             <div class="field">
-                <label for="activity">Business activity</label>
+                <label for="entity[activity]">Business activity</label>
                 <div class="ui selection dropdown">
-                    <input type="hidden" name="entity_activity" value="{{$entity->activity??''}}">
+                    <input type="hidden" name="entity[activity]" value="{{$entity->activity??''}}">
                     <i class="dropdown icon"></i>
                     <div class="default text">Business activity</div>
                     <div class="menu">
@@ -230,16 +231,16 @@
                 </div>
             </div>
             <div class="field">
-                <label for="business_type">
+                <label for="entity[business_type]">
                     Business Type
-                    <div class="ui icon circular small basic grey button tooltip"
+                    <span class="ui tooltip"
                         data-content="A start up is a company running for up to 2 years, a scale up is a company running up to 5 years, a traditional business is a company that is operational for more than 5 years."
                         data-variation="basic">
-                        <i class="question blue small icon"></i>
-                    </div>
+                        <i class="question blue circular small icon"></i>
+                    </span>
                 </label>
                 <div class="ui selection dropdown">
-                    <input type="hidden" name="business_type" value="{{$entity->business_type??''}}">
+                    <input type="hidden" name="entity[business_type]" value="{{$entity->business_type??''}}">
                     <i class="dropdown icon"></i>
                     <div class="default text">Business Type</div>
                     <div class="menu">
@@ -252,9 +253,9 @@
         </div>
         <div class="three fields">
             <div class="field">
-                <label for="entity_size">Size of organization (employees)</label>
+                <label for="entity[entity_size]">Size of organization (employees)</label>
                 <div class="ui selection dropdown">
-                    <input type="hidden" name="entity_size" value="{{$entity->entity_size??''}}">
+                    <input type="hidden" name="entity[entity_size]" value="{{$entity->entity_size??''}}">
                     <i class="dropdown icon"></i>
                     <div class="default text">Size of organization</div>
                     <div class="menu">
@@ -265,9 +266,9 @@
                 </div>
             </div>
             <div class="field">
-                <label for="employees">Members (for associations)</label>
+                <label for="entity[employees]">Members (for associations)</label>
                 <div class="ui selection dropdown">
-                    <input type="hidden" name="employees" value="{{$entity->employees??''}}">
+                    <input type="hidden" name="entity[employees]" value="{{$entity->employees??''}}">
                     <i class="dropdown icon"></i>
                     <div class="default text">Number of Members</div>
                     <div class="menu">
@@ -278,9 +279,9 @@
                 </div>
             </div>
             <div class="field">
-                <label for="students">Students (for universities)</label>
+                <label for="entity[students]">Students (for universities)</label>
                 <div class="ui selection dropdown">
-                    <input type="hidden" name="students" value="{{$entity->students??''}}">
+                    <input type="hidden" name="entity[students]" value="{{$entity->students??''}}">
                     <i class="dropdown icon"></i>
                     <div class="default text">Number of Students</div>
                     <div class="menu">
@@ -294,9 +295,9 @@
         <h4 class="ui dividing header">Financial Information</h4>
         <div class="three fields">
             <div class="field">
-                <label for="turnover">Annual turnover (USD)</label>
+                <label for="entity[turn_over]">Annual turnover (USD)</label>
                 <div class="ui selection dropdown">
-                    <input type="hidden" name="turnover" value="{{$entity->turn_over??''}}">
+                    <input type="hidden" name="entity[turn_over]" value="{{$entity->turn_over??''}}">
                     <i class="dropdown icon"></i>
                     <div class="default text">Annual turnover</div>
                     <div class="menu">
@@ -307,9 +308,9 @@
                 </div>
             </div>
             <div class="field">
-                <label for="balance_sheet">Annual Balance Sheet (USD)</label>
+                <label for="entity[balance_sheet]">Annual Balance Sheet (USD)</label>
                 <div class="ui selection dropdown">
-                    <input type="hidden" name="balance_sheet" value="{{$entity->balance_sheet??''}}">
+                    <input type="hidden" name="entity[balance_sheet]" value="{{$entity->balance_sheet??''}}">
                     <i class="dropdown icon"></i>
                     <div class="default text">Annual Balance Sheet</div>
                     <div class="menu">
@@ -320,9 +321,9 @@
                 </div>
             </div>
             <div class="field">
-                <label for="revenue">Annual Revenue (USD)</label>
+                <label for="entity[revenue]">Annual Revenue (USD)</label>
                 <div class="ui selection dropdown">
-                    <input type="hidden" name="revenue" value="{{$entity->revenue??''}}">
+                    <input type="hidden" name="entity[revenue]" value="{{$entity->revenue??''}}">
                     <i class="dropdown icon"></i>
                     <div class="default text">Annual Revenue</div>
                     <div class="menu">

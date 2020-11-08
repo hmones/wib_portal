@@ -16,9 +16,8 @@
         @forelse($owned_entities as $entity)
         <tr>
             <td>
-                @if($entity->logo()->exists())
-                <img class="ui tiny circular centered image" src="{{$entity->logo()->thumbnail()->url}}"
-                    alt="{{$entity->name}}">
+                @if($entity->image)
+                <img class="ui tiny circular centered image" src="{{$entity->image}}" alt="{{$entity->name}}">
                 @else
                 <i class="circular grey inverted image big icon"></i>
                 @endif
@@ -65,9 +64,8 @@
         @forelse($other_entities as $entity)
         <tr>
             <td>
-                @if($entity->logo()->exists())
-                <img class="ui tiny circular centered image" src="{{$entity->logo()->thumbnail()->url}}"
-                    alt="{{$entity->name}}">
+                @if($entity->image)
+                <img class="ui tiny circular centered image" src="{{$entity->image}}" alt="{{$entity->name}}">
                 @else
                 <i class="circular grey inverted image big icon"></i>
                 @endif

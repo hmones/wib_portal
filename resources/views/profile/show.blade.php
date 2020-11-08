@@ -14,8 +14,8 @@
     <div class="ui stackable middle aligned stackable grid" id="userInfoHeader">
         <div class="three wide column">
             <img class="ui circular small image" src="
-                    @isset($user->avatar()->first()->url)
-                    {{$user->avatar()->first()->url}}
+                    @if($user->image)
+                    {{$user->image}}
                     @else
                         @if($user->gender === 'Male')
                         {{asset('images/male_avatar.jpg')}}

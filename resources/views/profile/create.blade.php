@@ -29,7 +29,6 @@
         <form action="{{route('profile.store')}}" class="ui form" method="POST" enctype="multipart/form-data"
             id="user_form">
             @csrf
-            @method('POST')
             <div id="personal_info_form" style="">
                 <h4 class="ui dividing header">Personal Information</h4>
                 <div class="ui stackable grid">
@@ -41,17 +40,17 @@
                                     <i class="circular inverted grey user huge icon"></i>
                                 </a>
                             </label>
-                            <div class=""><small>Image size 300px x 300px</small></div>
-                            <input type="file" name="avatar" style="display: none;" id="avatar_upload_input">
-                            <input type="hidden" value="{{old('avatar_id')}}" name="avatar_id">
+                            <div class="image description"><small>Image size 300px x 300px</small></div>
+                            <input type="file" name="user[image]" accept="image/*" style="display: none;"
+                                id="avatar_upload_input" value="{{old('user.image')}}">
                         </div>
                     </div>
                     <div class="twelve wide column">
                         <div class="fields">
                             <div class="required field">
-                                <label for="title">Title</label>
+                                <label for="user[title]">Title</label>
                                 <div class="ui selection dropdown">
-                                    <input type="hidden" name="title">
+                                    <input type="hidden" name="user[title]" value="{{old('user.title')}}">
                                     <div class="default text">Title</div>
                                     <i class="dropdown icon"></i>
                                     <div class="menu">
@@ -71,43 +70,47 @@
                                 </div>
                             </div>
                             <div class="fifteen wide required field">
-                                <label for="name">Full Name</label>
-                                <input type="text" name="name" placeholder="Full Name">
+                                <label for="user[name]">Full Name</label>
+                                <input type="text" name="user[name]" placeholder="Full Name"
+                                    value="{{old('user.name')}}" />
                             </div>
                         </div>
                         <div class="four fields">
                             <div class="required field">
-                                <label for="email">Email</label>
-                                <input required type="text" name="email" placeholder="Email e.g. example@example.com">
+                                <label for="user[email]">Email</label>
+                                <input required type="text" name="user[email]"
+                                    placeholder="Email e.g. example@example.com" value="{{old('user.email')}}">
                             </div>
                             <div class="required field">
-                                <label for="email_confirm">Confirm Email</label>
-                                <input required type="text" name="email_confirm"
-                                    placeholder="Confirm your email address">
+                                <label for="user[email_confirmation]">Confirm Email</label>
+                                <input required type="text" name="user[email_confirmation]"
+                                    placeholder="Confirm your email address" value="{{old('user.email_confirmation')}}">
                             </div>
                             <div class="required field">
-                                <label for="email">Password</label>
-                                <input required type="password" name="password" placeholder="Your portal password">
+                                <label for="user[password]">Password</label>
+                                <input required type="password" name="user[password]" placeholder="Your portal password"
+                                    value="{{old('user.password')}}">
                             </div>
                             <div class="required field">
-                                <label for="email_confirm">Confirm Password</label>
-                                <input required type="password" name="password_confirm"
-                                    placeholder="Confirm your password">
+                                <label for="user[password_confirmation]">Confirm Password</label>
+                                <input required type="password" name="user[password_confirmation]"
+                                    placeholder="Confirm your password" value="{{old('user.password_confirmation')}}" />
                             </div>
 
                         </div>
                     </div>
                 </div>
 
-                <div class="five fields">
+                <div class=" five fields">
                     <div class="seven wide field">
-                        <label for="bio">Profile</label>
-                        <textarea rows="2" name="bio" placeholder="Max. 2500 charachters"></textarea>
+                        <label for="user[bio]">Profile</label>
+                        <textarea rows="2" name="user[bio]"
+                            placeholder="Max. 2500 charachters">{{old('user.bio')}}</textarea>
                     </div>
                     <div class="required field">
-                        <label for="education">Educational Level</label>
+                        <label for="user[education]">Educational Level</label>
                         <div class="ui fluid search selection dropdown">
-                            <input type="hidden" name="education">
+                            <input type="hidden" name="user[education]" value="{{old('user.education')}}" />
                             <i class="dropdown icon"></i>
                             <div class="default text">Education</div>
                             <div class="menu">
@@ -120,9 +123,9 @@
                         </div>
                     </div>
                     <div class="required field">
-                        <label for="gender">Gender</label>
+                        <label for="user[gender]">Gender</label>
                         <div class="ui selection dropdown">
-                            <input type="hidden" name="gender">
+                            <input type="hidden" name="user[gender]" value="{{old('user.gender')}}" />
                             <div class="default text">Gender</div>
                             <i class="dropdown icon"></i>
                             <div class="menu">
@@ -136,8 +139,9 @@
                         </div>
                     </div>
                     <div class="required field">
-                        <label for="birth_year">Birth Year</label>
-                        <input type="text" name="birth_year" placeholder="e.g. 1980" maxlength="4">
+                        <label for="user[birth_year]">Birth Year</label>
+                        <input type="text" name="user[birth_year]" placeholder="e.g. 1980" maxlength="4"
+                            value="{{old('user.birth_year')}}" />
                     </div>
 
                 </div>
@@ -147,7 +151,8 @@
                     <div class="field">
                         <div class="ui left icon input">
                             <input type="text" placeholder="{{$link->name}} Link" data-type="{{$link->id}}"
-                                name="link_{{$link->id}}">
+                                name="links[{{$loop->index}}][url]" value="{{old('links.'.$loop->index.'.url')}}" />
+                            <input type="hidden" name="links[{{$loop->index}}][type_id]" value="{{$link->id}}">
                             <i class="{{ $link->icon }} icon"></i>
                         </div>
                     </div>
@@ -157,20 +162,22 @@
                 </div>
                 <h4 class="ui dividing header">Contact Information</h4>
                 <div class="fields">
-                    <x-Countries label="Country Code" class="four wide required" fieldname="phone_country_code"
-                        countrycode=1 />
+                    <x-Countries label="Country Code" class="four wide required" fieldname="user[phone_country_code]"
+                        countrycode=1 value="{!! old('user.phone_country_code') !!}" />
 
                     <div class="five wide required field">
                         <label for="phone">Phone Number</label>
-                        <input type="text" name="phone" placeholder="e.g. 15444444499" maxlength="15">
+                        <input type="text" name="user[phone]" placeholder="e.g. 15444444499" maxlength="15"
+                            value="{{old('user.phone')}}">
                     </div>
                 </div>
                 <div class="three fields">
-                    <x-Countries label="Country" class="required" />
+                    <x-Countries label="Country" class="required" fieldname="user[country_id]"
+                        value="{!! old('user.country_id') !!}" />
                     <div class="required field">
-                        <label for="city_id">City, State</label>
+                        <label for="user[city_id]">City, State</label>
                         <div class="ui fluid search selection dropdown" id="city_id">
-                            <input type="hidden" name="city_id">
+                            <input type="hidden" name="user[city_id]" value="{{old('user.city_id')}}">
                             <i class="dropdown icon"></i>
                             <div class="default text">City, State</div>
                             <div class="menu">
@@ -179,8 +186,9 @@
                         </div>
                     </div>
                     <div class="field">
-                        <label for="phone">Postal Code</label>
-                        <input type="text" name="postal_code" placeholder="e.g. AX113Z" maxlength="15">
+                        <label for="user[postal_code]">Postal Code</label>
+                        <input type="text" name="user[postal_code]" placeholder="e.g. AX113Z" maxlength="15"
+                            value="{{old('user.postal_code')}}">
                     </div>
                 </div>
                 <div class="ui basic segment">
@@ -196,16 +204,18 @@
 
                 <h4 class="ui dividing header">Which fields are you currently working in?</h4>
                 <div class="three fields">
-                    <x-Sectors class="required" label="Field 1" fieldname="sector_1" default-text="Working Field 1" />
-                    <x-Sectors label="Field 2" fieldname="sector_2" default-text="Working Field 2"
-                        empty-option="Not Applicable" />
-                    <x-Sectors label="Field 3" fieldname="sector_3" default-text="Working Field 3"
-                        empty-option="Not Applicable" />
+                    <x-Sectors class="required" label="Field 1" fieldname="sectors[][sector_id]"
+                        default-text="Working Field 1" value="{!! old('sectors.0.sector_id') !!}" />
+                    <x-Sectors label="Field 2" fieldname="sectors[][sector_id]" default-text="Working Field 2"
+                        empty-option="Not Applicable" value="{!! old('sectors.1.sector_id') !!}" />
+                    <x-Sectors label="Field 3" fieldname="sectors[][sector_id]" default-text="Working Field 3"
+                        empty-option="Not Applicable" value="{!! old('sectors.2.sector_id') !!}" />
                 </div>
                 <h4 class="ui dividing header">Which business women association are you member of?</h4>
                 <div class="field">
                     <div class="ui fluid search selection dropdown">
-                        <input type="hidden" name="business_association_wom">
+                        <input type="hidden" name="user[business_association_wom]"
+                            value="{{old('user.business_association_wom')}}" />
                         <i class="dropdown icon"></i>
                         <div class="default text">Business Woman Association</div>
                         <div class="menu">
@@ -222,7 +232,8 @@
                 <div class="ui segment">
                     <div class="field">
                         <div class="ui toggle checkbox">
-                            <input type="checkbox" name="mena_diaspora" tabindex="0" class="hidden">
+                            <input type="checkbox" name="user[mena_diaspora]" tabindex="0" class="hidden"
+                                {{old('user.mena_diaspora')?'checked':''}} value="1" />
                             <label>Are you from the MENA region but living abroad?</label>
                         </div>
                     </div>
@@ -230,14 +241,17 @@
                 <div class="ui segment">
                     <div class="field">
                         <div class="ui toggle checkbox">
-                            <input type="checkbox" name="newsletter" tabindex="0" class="hidden">
-                            <label>Would you like to receive a newsletter from Women in Business about the recent
+                            <input type="checkbox" name="user[newsletter]" tabindex="0" class="hidden"
+                                {{old('user.newsletter')?'checked':''}} value="1" />
+                            <label>Would you like to receive a newsletter from Women in Business about the
+                                recent
                                 updates to the platform and updates in the network?</label>
                         </div>
                     </div>
                     <div class="required field">
                         <div class="ui toggle checkbox">
-                            <input type="checkbox" name="gdpr_consent" tabindex="0" class="hidden">
+                            <input type="checkbox" name="user[gdpr_consent]" tabindex="0" class="hidden"
+                                {{old('user.gdpr_consent')?'checked':''}} value="1" />
                             <label>I consent that I have read WiB privacy policy and agree to the <a
                                     href="https://gpp-wib-staging.frb.io/data-privacy" target="_blank">privacy
                                     statement</a> and that I would like to share my data with GPP on this
@@ -248,8 +262,8 @@
                 <div class="ui basic segment">
                     <a href="#" class="ui blue left labeled left floated icon button" onclick="person_step();"><i
                             class="left angle icon"></i> Back</a>
-                    <a class="ui positive right labeled right floated icon button" id="user_submit">Submit <i
-                            class="checkmark icon"></i></a>
+                    <a class="ui positive right labeled right floated icon button" id="user_submit">Submit
+                        <i class="checkmark icon"></i></a>
                 </div>
                 <br>
 
@@ -266,10 +280,11 @@
 @section('scripts')
 <script>
     let app_url = "{{url('/')}}";
-        let profile_store_url = "{{route('profile.store')}}";
-        let profile_picture_store_url = "{{route('profilepicture.store')}}";
-        let login_url = "{{route('login')}}";
-        let app_token = "{{Session::token()}}";
+    let profile_store_url = "{{route('profile.store')}}";
+    let profile_picture_store_url = "{{route('profilepicture.store')}}";
+    let login_url = "{{route('login')}}";
+    let app_token = "{{Session::token()}}";
+    let city_id = "{{old('user.city_id')}}";
 </script>
 <script src="{{asset('js/profile.create.js')}}" type="application/javascript"></script>
 @endsection

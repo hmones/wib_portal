@@ -3,8 +3,7 @@
     <label for="{{$fieldname ? $fieldname:'sector_id'}}">{{$label}}</label>
     @endif
     <div class="ui fluid search {{$dropdownCss}} selection dropdown">
-        <input type="hidden" name="{{$fieldname ? $fieldname:'sector_id'}}"
-            value="{{isset($value->sectors[$offset]->id) ? $value->sectors[$offset]->id: $sectorList}}" />
+        <input type="hidden" name="{{$fieldname ? $fieldname:'sector_id'}}" value="{{$value ? $value: $sectorList}}" />
         <i class="dropdown icon"></i>
         <div class="default text"><i class="map signs icon"></i> {{$defaultText ? $defaultText:'Field'}}</div>
         <div class="menu">

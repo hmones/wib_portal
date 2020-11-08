@@ -32,8 +32,7 @@
             {{-- <div class="avatar av-m" 
         style="background-image: url('{{ asset('/storage/'.config('chatify.user_avatar.folder').'/'.$user->avatar) }}');">
             </div> --}}
-            <div class="avatar av-m"
-                style="@if($user->avatar()->exists())background-image: url('{{ $user->avatar()->first()->url }}');@endif">
+            <div class="avatar av-m" style="@if($user->image)background-image: url('{{ $user->image }}');@endif">
             </div>
         </td>
         {{-- center side --}}
@@ -73,8 +72,7 @@
     <tr data-action="0">
         {{-- Avatar side --}}
         <td>
-            <div class="avatar av-m"
-                style="@if($user->avatar()->exists())background-image: url('{{ $user->avatar()->first()->url }}');@endif">
+            <div class="avatar av-m" style="@if($user->image)background-image: url('{{ $user->image }}');@endif">
             </div>
         </td>
         {{-- center side --}}

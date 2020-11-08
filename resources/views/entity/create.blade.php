@@ -13,11 +13,11 @@
 @section('scripts')
 <script>
     let app_url = "{{url('/')}}";
-        let entity_store_url = "{{route('entity.store')}}";
-        let entities_url = "{{route('profile.entities')}}";
-        let profile_picture_store_url = "{{route('profilepicture.store')}}";
-        let app_token = "{{Session::token()}}";
-        let photos_store_url = "{{route('photos.store')}}";
+    let entity_store_url = "{{route('entity.store')}}";
+    let entities_url = "{{route('profile.entities')}}";
+    let profile_picture_store_url = "{{route('profilepicture.store')}}";
+    let app_token = "{{Session::token()}}";
+    let photos_store_url = "{{route('photos.store')}}";
 </script>
 <script src="{{asset('js/entity.create.js')}}" type="application/javascript"></script>
 <script src="{{asset('js/entity.upload.photos.js')}}"></script>

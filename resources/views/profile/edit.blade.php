@@ -38,27 +38,25 @@
                             <h4 class="ui header">Profile Picture</h4>
                             <label for="avatar">
                                 <a href="#" id="avatar_upload_icon">
-                                    @if($user->avatar()->exists())
-                                    <img class='ui circular centered small image'
-                                        src='{{$user->avatar()->thumbnail()->url}}' alt="{{$user->name}}">
+                                    @if($user->image)
+                                    <img class='ui circular centered small image' style='height:150px;'
+                                        src='{{$user->image}}' />
                                     @else
                                     <i class="circular inverted grey user huge icon"></i>
                                     @endif
                                 </a>
                             </label>
-                            <div class=""><small>Image size 300px x 300px</small></div>
-                            <input type="file" name="avatar" style="display: none;" id="avatar_upload_input">
-                            <input type="hidden"
-                                value="{{$user->avatar()->exists()?$user->avatar()->thumbnail()->id:''}}"
-                                name="avatar_id">
+                            <div class="image description"><small>Image size 300px x 300px</small></div>
+                            <input type="file" name="user[image]" accept="image/*" style="display: none;"
+                                id="avatar_upload_input">
                         </div>
                     </div>
                     <div class="twelve wide column">
                         <div class="fields">
                             <div class="required field">
-                                <label for="title">Title</label>
+                                <label for="user[title]">Title</label>
                                 <div class="ui selection dropdown">
-                                    <input type="hidden" name="title" value="{{$user->title}}">
+                                    <input type="hidden" name="user[title]" value="{{$user->title}}">
                                     <div class="default text">Title</div>
                                     <i class="dropdown icon"></i>
                                     <div class="menu">
@@ -78,13 +76,13 @@
                                 </div>
                             </div>
                             <div class="required field">
-                                <label for="name">Full Name</label>
-                                <input type="text" name="name" value="{{$user->name}}" placeholder="Full Name">
+                                <label for="user[name]">Full Name</label>
+                                <input type="text" name="user[name]" value="{{$user->name}}" placeholder="Full Name">
                             </div>
                             <div class="required field">
-                                <label for="gender">Gender</label>
+                                <label for="user[gender]">Gender</label>
                                 <div class="ui selection dropdown">
-                                    <input type="hidden" name="gender" value="{{$user->gender}}">
+                                    <input type="hidden" name="user[gender]" value="{{$user->gender}}">
                                     <div class="default text">Gender</div>
                                     <i class="dropdown icon"></i>
                                     <div class="menu">
@@ -98,16 +96,16 @@
                                 </div>
                             </div>
                             <div class="required field">
-                                <label for="birth_year">Birth Year</label>
-                                <input type="text" name="birth_year" value="{{$user->birth_year}}"
+                                <label for="user[birth_year]">Birth Year</label>
+                                <input type="text" name="user[birth_year]" value="{{$user->birth_year}}"
                                     placeholder="e.g. 1980" maxlength="4">
                             </div>
                         </div>
                         <div class="fields">
                             <div class="required four wide field">
-                                <label for="education">Educational Level</label>
+                                <label for="user[education]">Educational Level</label>
                                 <div class="ui fluid search selection dropdown">
-                                    <input type="hidden" name="education" value="{{$user->education}}">
+                                    <input type="hidden" name="user[education]" value="{{$user->education}}">
                                     <i class="dropdown icon"></i>
                                     <div class="default text">Education</div>
                                     <div class="menu">
@@ -120,8 +118,8 @@
                                 </div>
                             </div>
                             <div class="twelve wide field">
-                                <label for="bio">Profile</label>
-                                <textarea rows="2" name="bio"
+                                <label for="user[bio]">Profile</label>
+                                <textarea rows="2" name="user[bio]"
                                     placeholder="Max. 2500 charachters">{{$user->bio}}</textarea>
                             </div>
                         </div>
@@ -133,8 +131,9 @@
                     <div class="field">
                         <div class="ui left icon input">
                             <input type="text" placeholder="{{$link->name}} Link" data-type="{{$link->id}}"
-                                name="link_{{$link->id}}"
-                                value="{{isset($user->links()->where('type_id',$link->id)->first()->url)?$user->links()->where('type_id',$link->id)->first()->url:''}}">
+                                name="links[{{$loop->index}}][url]"
+                                value="{{isset($user->links()->where('type_id',$link->id)->first()->url)?$user->links()->where('type_id',$link->id)->first()->url:''}}" />
+                            <input type="hidden" name="links[{{$loop->index}}][type_id]" value="{{$link->id}}">
                             <i class="{{ $link->icon }} icon"></i>
                         </div>
                     </div>
@@ -144,20 +143,21 @@
                 </div>
                 <h4 class="ui dividing header">Contact Information</h4>
                 <div class="fields">
-                    <x-Countries label="Country Code" class="four wide required" fieldname="phone_country_code"
+                    <x-Countries label="Country Code" class="four wide required" fieldname="user[phone_country_code]"
                         countrycode=1 :value="$user->phone_country_code" />
                     <div class="twelve wide required field">
-                        <label for="phone">Phone Number</label>
-                        <input type="text" name="phone" placeholder="e.g. 15444444499" maxlength="15"
+                        <label for="user[phone]">Phone Number</label>
+                        <input type="text" name="user[phone]" placeholder="e.g. 15444444499" maxlength="15"
                             value="{{$user->phone}}">
                     </div>
                 </div>
                 <div class="three fields">
-                    <x-Countries label="Country" class="required" :value="$user->country_id" />
+                    <x-Countries label="Country" class="required" :value="$user->country_id"
+                        fieldname="user[country_id]" />
                     <div class="required field">
-                        <label for="city_id">City, State</label>
+                        <label for="user[city_id]">City, State</label>
                         <div class="ui fluid search selection dropdown" id="city_id">
-                            <input type="hidden" name="city_id" value="{{$user->city_id}}">
+                            <input type="hidden" name="user[city_id]" value="{{$user->city_id}}">
                             <i class="dropdown icon"></i>
                             <div class="default text">City, State</div>
                             <div class="menu">
@@ -168,35 +168,41 @@
                         </div>
                     </div>
                     <div class="field">
-                        <label for="phone">Postal Code</label>
-                        <input type="text" name="postal_code" placeholder="e.g. AX113Z" maxlength="15"
+                        <label for="user[postal_code]">Postal Code</label>
+                        <input type="text" name="user[postal_code]" placeholder="e.g. AX113Z" maxlength="15"
                             value="{{$user->postal_code}}">
                     </div>
                 </div>
                 <h4 class="ui dividing header">Which fields are you currently working in?</h4>
                 <div class="three fields">
-                    <x-Sectors class="required" fieldname="sector_1" label="Field 1" :value="$user" offset=0
+                    <x-Sectors class="required" fieldname="sectors[][sector_id]" label="Field 1"
+                        value="{!!isset($user->sectors[0]->id)?$user->sectors[0]->id:''!!}"
                         default-text="Working Field 1" />
-                    <x-Sectors fieldname="sector_2" label="Field 2" :value="$user" offset=1
+                    <x-Sectors fieldname="sectors[][sector_id]" label="Field 2"
+                        value="{!!isset($user->sectors[1]->id)?$user->sectors[1]->id:''!!}"
                         default-text="Working Field 2" empty-option="Not applicable" />
-                    <x-Sectors fieldname="sector_3" label="Field 3" :value="$user" offset=2
+                    <x-Sectors fieldname="sectors[][sector_id]" label="Field 3"
+                        value="{!!isset($user->sectors[2]->id)?$user->sectors[2]->id:''!!}"
                         default-text="Working Field 3" empty-option="Not applicable" />
 
                 </div>
                 <div class="ui basic segment">
                     <a class="ui positive right labeled right floated icon button"
-                        onclick="$('#user_submit').trigger('click');">Save Changes <i class="checkmark icon"></i></a>
+                        onclick="$('#user_submit').trigger('click');">
+                        Save Changes
+                        <i class="checkmark icon"></i>
+                    </a>
                 </div>
-                <br>
+                <br />
 
             </div>
 
             <div id="portal_info_form" style="display:none;">
-                <h4 class="ui dividing header">Which business women association are you member of?</h4>
+                <h4 class="ui dividing header"> Which business women association are you member of?</h4>
                 <div class="field">
                     <div class="ui fluid search selection dropdown">
-                        <input type="hidden" name="business_association_wom"
-                            value="{{$user->business_association_wom}}">
+                        <input type="hidden" name="user[business_association_wom]"
+                            value="{{$user->business_association_wom}}" />
                         <i class="dropdown icon"></i>
                         <div class="default text">Business Woman Association</div>
                         <div class="menu">
@@ -213,8 +219,8 @@
                 <div class="ui segment">
                     <div class="field">
                         <div class="ui toggle checkbox">
-                            <input type="checkbox" name="mena_diaspora" tabindex="0" class="hidden"
-                                {{$user->mena_diaspora?'checked':''}}>
+                            <input type="checkbox" name="user[mena_diaspora]" tabindex="0" class="hidden"
+                                {{$user->mena_diaspora?'checked':''}} value=1 />
                             <label>Are you from the MENA region but living abroad?</label>
                         </div>
                     </div>
@@ -222,8 +228,8 @@
                 <div class="ui segment">
                     <div class="field">
                         <div class="ui toggle checkbox">
-                            <input type="checkbox" name="newsletter" tabindex="0" class="hidden"
-                                {{$user->mena_diaspora?'checked':''}}>
+                            <input type="checkbox" name="user[newsletter]" tabindex="0" class="hidden"
+                                {{$user->mena_diaspora?'checked':''}} value=1 />
                             <label>Would you like to receive a newsletter from Women in Business about the recent
                                 updates to the platform and updates in the network?</label>
                         </div>
@@ -232,8 +238,8 @@
                 <h4 class="ui dividing header">Account details</h4>
                 <div class="fields">
                     <div class="field">
-                        <label for="email">Account email</label>
-                        <input disabled type="text" name="email" value="{{$user->email}}">
+                        <label for="user[email]">Account email</label>
+                        <input disabled type="text" name="user[email]" value="{{$user->email}}">
                     </div>
                     <div class="field">
                         <label for="">Change your email</label>
@@ -289,10 +295,11 @@
 @section('scripts')
 <script type="application/javascript">
     let app_url = "{{url('/')}}";
-        let profile_store_url = "{{route('profile.update',['profile'=>$user])}}";
-        let profile_picture_store_url = "{{route('profilepicture.store')}}";
-        let login_url = "{{route('profile.edit',['profile'=>$user])}}";
-        let app_token = "{{Session::token()}}";
+    let profile_store_url = "{{route('profile.update',['profile'=>$user])}}";
+    let profile_picture_store_url = "{{route('profilepicture.store')}}";
+    let login_url = "{{route('profile.edit',['profile'=>$user])}}";
+    let app_token = "{{Session::token()}}";
+    let city_id = "{{$user->city_id}}"
 </script>
 <script src="{{asset('js/profile.create.js')}}" type="application/javascript"></script>
 @endsection

@@ -26,7 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name', 'email', 'password', 'gender', 'birth_year', 'title', 'phone_country_code', 'phone',
         'postal_code', 'sphere', 'activity', 'business_association_wom', 'gdpr_consent', 'newsletter',
         'mena_diaspora', 'education', 'network', 'bio', 'city_id', 'country_id', 'approved_at', 'approved_by',
-        'last_login'
+        'last_login', 'image'
     ];
 
     public function toSearchableArray()
@@ -86,12 +86,6 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sectors()
     {
         return $this->belongsToMany('App\Models\Sector', 'user_sector', 'user_id', 'sector_id');
-    }
-
-
-    public function avatar()
-    {
-        return $this->morphMany('App\Models\ProfilePicture', 'profileable');
     }
 
     public function links()

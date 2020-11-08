@@ -78,8 +78,8 @@ class MessagesController extends Controller
         // User data
         if ($request['type'] == 'user') {
             $fetch = User::where('id', $request['id'])->first();
-            if($fetch->avatar()->exists()){
-                $avatar = $fetch->avatar()->first()->url;
+            if($fetch->image){
+                $avatar = $fetch->image;
             }
         }
 
@@ -259,7 +259,7 @@ class MessagesController extends Controller
             foreach ($users as $user) {
                 if ($user->id != Auth::user()->id) {
                     // Get user data
-                    $userCollection = User::with('avatar')->where('id', $user->id)->first();
+                    $userCollection = User::where('id', $user->id)->first();
                     $contacts .= Messenger::getContactItem($request['messenger_id'], $userCollection);
                 }
             }
