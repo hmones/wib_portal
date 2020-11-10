@@ -125,13 +125,11 @@ class ProfileController extends Controller
      */
     public function edit(User $profile)
     {
-        $cities = City::all();
         $supported_links = SupportedLink::all();
         return view('profile.edit', [
             'user' => $profile,
             'activities' => $this->activities,
             'education' => $this->education,
-            'cities' => $cities,
             'supported_links' => $supported_links,
             'associations' => $this->associations,
         ]);
@@ -148,7 +146,7 @@ class ProfileController extends Controller
     {
 
         $data = $request->validated();
-        
+               
         if($request->file('user.image')){
             $storage->destroy($profile->image);
             $data['user']['image'] = $storage->store($data['user']['image']);

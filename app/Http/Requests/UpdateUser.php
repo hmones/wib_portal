@@ -69,6 +69,10 @@ class UpdateUser extends FormRequest
             'user.business_association_wom' => 'nullable|in:ABWA,BWE21,CNFCE,LLWB,SEVE,EBRD,Other',
             'user.newsletter' => 'nullable|boolean',
             'user.mena_diaspora' => 'nullable|boolean',
+            'user.notify_user' => 'nullable|boolean',
+            'user.notify_comment' => 'nullable|boolean',
+            'user.notify_post' => 'nullable|boolean',
+            'user.notify_message' => 'nullable|boolean',
         ];
     }
 }

@@ -184,7 +184,6 @@
                     <x-Sectors fieldname="sectors[][sector_id]" label="Field 3"
                         value="{!!isset($user->sectors[2]->id)?$user->sectors[2]->id:''!!}"
                         default-text="Working Field 3" empty-option="Not applicable" />
-
                 </div>
                 <div class="ui basic segment">
                     <a class="ui positive right labeled right floated icon button"
@@ -232,6 +231,57 @@
                                 {{$user->mena_diaspora?'checked':''}} value=1 />
                             <label>Would you like to receive a newsletter from Women in Business about the recent
                                 updates to the platform and updates in the network?</label>
+                        </div>
+                    </div>
+                </div>
+                <h4 class="ui dividing header">Email Notifications</h4>
+                <div class="four fields">
+                    <div class="field">
+                        <label for="user[notify_comment]">Comments on my posts</label>
+                        <div class="ui selection dropdown">
+                            <input type="hidden" name="user[notify_comment]" value="{{$user->notify_comment}}" />
+                            <i class="dropdown icon"></i>
+                            <div class="default text">Get notified?</div>
+                            <div class="menu">
+                                <div class="item" data-value="1"><i class="check green icon"></i> Yes</div>
+                                <div class="item" data-value="0"><i class="close red icon"></i>No</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="user[notify_message]">New message</label>
+                        <div class="ui selection dropdown">
+                            <input type="hidden" name="user[notify_message]" value="{{$user->notify_message}}" />
+                            <i class="dropdown icon"></i>
+                            <div class="default text">Get notified?</div>
+                            <div class="menu">
+                                <div class="item" data-value="1"><i class="check green icon"></i> Yes</div>
+                                <div class="item" data-value="0"><i class="close red icon"></i>No</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="user[notify_post]">New post in my field</label>
+                        <div class="ui selection dropdown">
+                            <input type="hidden" name="user[notify_post]" value="{{$user->notify_post}}" />
+                            <i class="dropdown icon"></i>
+                            <div class="default text">Get notified?</div>
+                            <div class="menu">
+                                <div class="item" data-value="1"><i class="check green icon"></i> Yes</div>
+                                <div class="item" data-value="0"><i class="close red icon"></i>No</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="user[notify_user]">New user in my field</label>
+                        <div class="ui selection dropdown">
+                            <input type="hidden" name="user[notify_user]" value="{{$user->notify_user}}" />
+                            <i class="dropdown icon"></i>
+                            <div class="default text">Get notified?</div>
+                            <div class="menu">
+                                <div class="item" data-value="1"><i class="check green icon"></i> Yes</div>
+                                <div class="item" data-value="0"><i class="close red icon"></i>No</div>
+                            </div>
                         </div>
                     </div>
                 </div>
