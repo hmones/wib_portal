@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Comment;
-use App\Models\Post;
+use App\Models\{Comment, Post, User};
+use App\Notifications\CommentPublished;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -50,9 +50,13 @@ class CommentController extends Controller
             'commentable_type'=>'required|in:App\Models\Post,App\Models\Comment',
             'commentable_id'=>'required|exists:posts,id'
         ]);
-
+        
+        $post =  Post::find($data['commentable_id']);
+        
         $comment = Comment::create($data);
-
+        
+        $post->user->notify(new CommentPublished($post, $comment));
+        
         return view('partials.comments.comment',compact('comment'));
     }
 
