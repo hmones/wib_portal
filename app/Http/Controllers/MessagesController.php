@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\{Response,Auth};
+use Illuminate\Support\Facades\{Response,Auth, Log};
 use App\Models\{Message, Favorite};
 use App\Facades\Messenger as Messenger;
 use App\Models\User;
+use App\Notifications\MessageSent;
 use Illuminate\Support\Str;
 
 
@@ -171,7 +172,14 @@ class MessagesController extends Controller
                 'to_id' => $request['id'],
                 'message' => Messenger::messageCard($messageData, 'default')
             ]);
+            
+            //Sending notifications to user
+            $receiver = User::findOrFail($request['id']);
+            if($receiver){
+                $receiver->notify(new MessageSent(Message::find($messageID)));
+            }
         }
+
 
         // send the response
         return Response::json([
