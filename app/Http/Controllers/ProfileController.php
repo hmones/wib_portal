@@ -2,18 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{City, Entity, Sector, SupportedLink, User};
+use App\Models\{Entity, SupportedLink, User};
 use App\Http\Requests\{StoreUser, UpdateUser};
-use App\Jobs\{NewMemberNotification,SendContactEmail};
 use App\Notifications\MemberRegistered;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{Hash, Auth, Redirect, Session};
 use Illuminate\View\View;
-use Illuminate\Support\Facades\Storage;
 use App\Repositories\FileStorage;
 use Illuminate\Database\Eloquent\Builder;
-use Intervention\Image\Facades\Image;
 
 class ProfileController extends Controller
 {
@@ -172,22 +169,6 @@ class ProfileController extends Controller
 
         $request->session()->flash('success', 'Your data was updated successfully!');
         return response()->redirectTo('/profile/'.$profile->id.'/edit');
-    }
-
-    /**
-     * Contact the specified resource via email.
-     *
-     * @param \App\User $profile
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function contact(User $profile)
-    {
-        $auth_user = Auth::user();
-
-        SendContactEmail::dispatch($profile, $auth_user);
-
-        Session::flash('success', "The user has been contacted successfully!");
-        return Redirect::back();
     }
 
     /**
