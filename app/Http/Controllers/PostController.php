@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Sector;
+use App\Models\User;
+use App\Notifications\PostPublished;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -62,14 +65,24 @@ class PostController extends Controller
     {
         $data = $request->validate([
             'content' => 'required',
-            'post_type' => 'nullable',
-            'country_id' => 'nullable|exists:countries,id',
-            'sector_id' => 'nullable|exists:sectors,id',
+            'post_type' => 'exclude_if:post_type,null|nullable',
+            'country_id' => 'exclude_if:coutnry_id,null|nullable|exists:countries,id',
+            'sector_id' => 'exclude_if:sector_id,null|nullable|exists:sectors,id',
             'user_id'=> 'required|integer|size:'.Auth::id()
         ]);
 
         $post = Post::create($data);
 
+        if(isset($data['sector_id'])){
+            $sector = $data['sector_id'];
+            $related_users = User::whereHas('sectors', function(Builder $query) use ($sector){
+                $query->where('id',$sector);
+            })->where('notify_post', 1)->get();
+            $related_users->each(function($related_user) use ($post){
+                $related_user->notify(new PostPublished($post));
+            });
+        }
+        
         return view('partials.posts.post',compact('post'));
     }
 
