@@ -13,4 +13,8 @@ View comment
 <hr style="border-color:#e9e9e9;">
 Thanks,<br>
 {{ config('app.name') }}
+<br><br>
+<hr style="border-color:white;">
+<small>If you would like to stop receiving similar notifications <a
+        href="{{url('/')}}/profile/{{$post->user->id}}/edit">click here</a></small>
 @endcomponent
