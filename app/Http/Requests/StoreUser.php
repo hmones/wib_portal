@@ -69,7 +69,7 @@ class StoreUser extends FormRequest
             'user.country_id' => 'required|exists:countries,id',
             'user.city_id' => 'required|exists:cities,id',
             'user.postal_code' => 'nullable|alpha_num|between:0,50',
-            'sectors.*.sector_id' => 'nullable|exists:sectors,id',
+            'sectors.*.sector_id' => 'exclude_if:sectors.*.sector_id,null|nullable|exists:sectors,id',
             'user.business_association_wom' => 'nullable|in:ABWA,BWE21,CNFCE,LLWB,SEVE,EBRD,Other',
             'user.gdpr_consent' => 'required|boolean',
             'user.newsletter' => 'nullable|boolean',
