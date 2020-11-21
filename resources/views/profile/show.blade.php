@@ -85,11 +85,11 @@
                 @if($association)
                 <a href="{{route('entity.show', $association)}}">
                     <img class="ui avatar image" src="
-                                @isset($association->logo->first()->url)
-                                {{$association->logo->first()->url}}
+                                @if($association->image)
+                                {{$association->image}}
                                 @else
                                 {{asset('images/logo_avatar.png')}}
-                                @endisset
+                                @endif
                                     ">
                     {{$association->name}}
                 </a>
