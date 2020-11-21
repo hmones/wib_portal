@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{City, Entity, SupportedLink, User};
+use App\Models\{City, Entity, Sector, SupportedLink, User};
 use App\Http\Requests\{StoreUser, UpdateUser};
 use App\Jobs\{NewMemberNotification,SendContactEmail};
+use App\Notifications\MemberRegistered;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{Hash, Auth, Redirect, Session};
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
 use App\Repositories\FileStorage;
+use Illuminate\Database\Eloquent\Builder;
 use Intervention\Image\Facades\Image;
 
 class ProfileController extends Controller
@@ -81,13 +83,20 @@ class ProfileController extends Controller
         
         $user = User::create($data['user']);
 
-        $user->sectors()->attach($data['sectors']);
+        $sectors = $data['sectors'];
+        $user->sectors()->attach($sectors);
 
         if(isset($data['links'])){
             $user->links()->createMany($data['links']);
         }
 
-        NewMemberNotification::dispatch($user);
+        $related_users = User::whereHas('sectors', function(Builder $query) use ($sectors){
+            $query->whereIn('id', $sectors);
+        })->where('notify_user', 1)->get();
+        
+        $related_users->each(function($related_user) use ($user){
+            $related_user->notify(new MemberRegistered($user));
+        });
 
         $request->session()->flash('success', 'User was created successfully!');
 
@@ -106,9 +115,7 @@ class ProfileController extends Controller
 
         $association = false;
         if (isset($user->business_association_wom)){
-            $association = Entity::with(['logo'=>function($query){
-                $query->where('resolution','180')->limit(1);
-            }])->where('name', $user->business_association_wom)->first();
+            $association = Entity::where('name', $user->business_association_wom)->first();
         }
 
         return view('profile.show', [
