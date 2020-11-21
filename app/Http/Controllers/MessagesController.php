@@ -53,7 +53,10 @@ class MessagesController extends Controller
         $route = (in_array(\Request::route()->getName(), ['user', config('messenger.path')]))
             ? 'user'
             : \Request::route()->getName();
-
+        
+        // delete user notifications for new messages
+        Auth::user()->unreadNotifications->where('type','App\Notifications\MessageSent')->markAsRead();
+        
         // prepare id
         return view('messenger.pages.app', [
             'id' => ($id == null) ? 0 : $route . '_' . $id,

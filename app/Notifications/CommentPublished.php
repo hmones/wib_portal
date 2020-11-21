@@ -71,6 +71,7 @@ class CommentPublished extends Notification implements ShouldQueue
         return [
             'post_id' => $this->post->id,
             'comment_author' => $this->comment->user->name,
+            'comment_author_img' => $this->comment->user->image,
             'comment_date' => $this->comment->created_at
         ];
     }

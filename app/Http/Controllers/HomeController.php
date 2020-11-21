@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\{Redirect, Auth};
 use App\Models\{User, Entity};
 
 class HomeController extends Controller
@@ -39,5 +39,18 @@ class HomeController extends Controller
                 break;
         }
         return Redirect::back();
+    }
+
+    public function notifications(Request $request)
+    {
+        if($request->has('unread')){
+            Auth::user()->unreadNotifications
+                        ->where('type','!=','App\Notifications\MessageSent')
+                        ->markAsRead();
+        }
+        $notifications = Auth::user()->notifications
+                                     ->where('type','!=','App\Notifications\MessageSent')
+                                     ->take(50);
+        return view('notifications', compact('notifications'));
     }
 }

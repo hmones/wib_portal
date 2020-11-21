@@ -13,18 +13,47 @@
                     <a href="{{route('entity.index')}}" class="{{Request::path() === 'entity' ? 'active':''}} item">
                         ORGANIZATIONS
                     </a>
-                    <div class="ui dropdown item" style="border-bottom: none!important;top:-7px;font-weight:normal;">
-                        <div class="text">
-                            @include('partials.components.avatar', ['user'=>Auth::user(), 'type'=>'user'])
-                            {{Auth::user()->name}}
-                        </div>
+                    <a href="#">
+                        <i class="icons">
+                            <i class="circular inverted blue bell icon"></i>
+                            @if(Auth::user()->unreadNotifications()->where('type','!=','App\Notifications\MessageSent')->count())
+                            <i class="top right corner inverted circular red big menuNotification icon">
+                                <span>
+                                    {{Auth::user()->unreadNotifications()->where('type','!=','App\Notifications\MessageSent')->count()}}
+                                </span>
+                            </i>
+                            @endif
+                        </i>
+                    </a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="{{route('messenger')}}">
+                        <i class="icons">
+                            <i class="circular inverted blue envelope icon"></i>
+                            @if(Auth::user()->unreadNotifications()->where('type','App\Notifications\MessageSent')->count())
+                            <i class="top right corner inverted circular red big menuNotification icon">
+                                <span>
+                                    {{Auth::user()->unreadNotifications()->where('type','App\Notifications\MessageSent')->count()}}
+                                </span>
+                            </i>
+                            @endif
+                        </i>
+                    </a>
+                    <div class="ui dropdown account item">
+
+                        @include('partials.components.avatar', [
+                        'user'=>Auth::user(),
+                        'type'=>'user',
+                        'classes' => 'big',
+                        'styles' => 'margin-right:0px;width:37px;'
+                        ])
+
                         <i class="dropdown icon"></i>
                         <div class="menu" id="desktopMenu">
-                            <a href="{{route('profile.entities')}}" class="item">
-                                <i class="university blue icon"></i> Organizations
-                            </a>
                             <a href="{{route('profile.edit',['profile'=>Auth::user()])}}" class="item">
-                                <i class="cog blue icon"></i> Profile Settings
+                                <i class="user blue icon"></i> My Account
+                            </a>
+                            <a href="{{route('profile.entities')}}" class="item">
+                                <i class="university blue icon"></i> My Organizations
                             </a>
                             <div class="ui blue inverted item" style="background: none !important;">
                                 <form method="post" action="{{route('logout')}}">
