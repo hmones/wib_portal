@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\{Auth, Redirect, Session};
 use App\Repositories\FileStorage;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use App\Http\Requests\{StoreEntity, UpdateEntity};
+use App\Http\Requests\{StoreEntity, UpdateEntity, FilterEntity};
 
 class EntityController extends Controller
 {
@@ -26,23 +26,25 @@ class EntityController extends Controller
 
     /**
      * Display a listing of the resource.
-     *
+     * @param FilterEntity $request
      * @return \Illuminate\View\View
      */
-    public function index(Request $request)
+    public function index(FilterEntity $request)
     {
-        $entities = Entity::with('sectors:id,name', 'primary_country')->filter($request)->paginate(20);
+        $filter = $request->validated();
+        $entities = Entity::with('sectors:id,name', 'primary_country')->filter($filter)->paginate(20);
         return view('entity.index', compact(['entities', 'request']));
     }
 
     /**
      * Display a listing of the resource through api.
-     *
+     * @param FilterEntity $request
      * @return \Illuminate\View\View
      */
-    public function indexApi(Request $request)
+    public function indexApi(FilterEntity $request)
     {
-        $entities = Entity::with('sectors:id,name', 'primary_country')->filter($request)->paginate(20);
+        $filter = $request->validated();
+        $entities = Entity::with('sectors:id,name', 'primary_country')->filter($filter)->paginate(20);
         return view('partials.entity.list', compact(['entities', 'request']));
     }
 

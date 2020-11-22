@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\{Entity, SupportedLink, User};
-use App\Http\Requests\{StoreUser, UpdateUser};
+use App\Http\Requests\{StoreUser, UpdateUser, FilterUser};
 use App\Notifications\MemberRegistered;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -21,18 +21,12 @@ class ProfileController extends Controller
 
     /**
      * Display a listing of the resource.
-     *
+     * @param FilterUser $request
      * @return View
      */
-    public function index(Request $request)
+    public function index(FilterUser $request)
     {
-        $filter = $request->validate([
-            'countries' => 'exclude_if:countries,null|nullable',
-            'sectors' => 'exclude_if:sectors,null|nullable',
-            'last_login' => 'exclude_if:last_login,null|nullable|in:asc,desc',
-            'name' => 'exclude_if:name,null|nullable|in:asc,desc',
-            'is_verified' => 'exclude_if:is_verified,null|nullable|in:0,1'
-        ]);
+        $filter = $request->validated();
         
         $users = User::with('sectors:id,name', 'country')->filter($filter)->paginate(20); 
         
@@ -42,11 +36,13 @@ class ProfileController extends Controller
 
     /**
      * Display a listing of the resource via api.
-     *
+     * @param FilterUser $request
      * @return View
      */
-    public function indexApi(Request $request)
+    public function indexApi(FilterUser $request)
     {
+        $filter = $request->validated();
+
         $users = User::with('sectors:id,name', 'country')->filter($request)->paginate(20);
         return view('partials.profile.list', compact(['users', 'request']));
     }
@@ -59,12 +55,11 @@ class ProfileController extends Controller
      */
     public function create()
     {
-        $cities = [];
         $supported_links = SupportedLink::all();
         return view('profile.create', [
             'activities' => $this->activities,
             'education' => $this->education,
-            'cities' => $cities,
+            'cities' => [],
             'supported_links' => $supported_links,
             'associations' => $this->associations,
         ]);
@@ -73,7 +68,7 @@ class ProfileController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param StoreUser $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(StoreUser $request, FileStorage $storage)
@@ -150,7 +145,7 @@ class ProfileController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param UpdateUser $request
      * @param \App\User $user
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */

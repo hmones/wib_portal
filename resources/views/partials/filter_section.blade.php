@@ -32,7 +32,7 @@
                         <i class="dropdown icon"></i>
                         <div class="default text">Sort by name</div>
                         <div class="menu">
-                            <div class="item" data-value="">Unsorted</div>
+                            <div class="item" data-value="">Names unsorted</div>
                             <div class="item" data-value="asc">Assending order (A-Z)</div>
                             <div class="item" data-value="desc">Descending order (Z-A)</div>
                         </div>
