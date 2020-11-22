@@ -1,4 +1,4 @@
-<div class="ui segment">
+<div class="ui basic inverted grey segment" style="border-radius:10px;">
     <form method="POST" action="{{route('post.store')}}" class="ui form">
         @csrf
         <textarea name="content" placeholder="I'm looking for ...." cols="30" rows="2" class="fluid field"></textarea>

@@ -7,12 +7,22 @@
                 <div class="right item">
                     @auth('web')
                     @include('partials.search')
-                    <a href="{{route('profile.index')}}" class="{{Request::path() === 'profile' ? 'active':''}} item">
-                        MEMBERS
-                    </a>
-                    <a href="{{route('entity.index')}}" class="{{Request::path() === 'entity' ? 'active':''}} item">
-                        ORGANIZATIONS
-                    </a>
+                    <div class="ui dropdown account item" style="margin-bottom: -4px !important;margin-right: 10px;">
+                        <i class="globe blue icon"></i> NETWORK
+                        <div class="menu">
+                            <a href="{{route('profile.index')}}" class="item">
+                                <i class="users blue icon"></i> PEOPLE
+                            </a>
+                            <a href="{{route('entity.index')}}?type=business" class="item">
+                                <i class="handshake blue icon"></i> COMPANIES
+                            </a>
+                            <a href="{{route('entity.index')}}?type=organization" class="item">
+                                <i class="university blue icon"></i> ORGANIZATIONS
+                            </a>
+
+                        </div>
+                    </div>
+
                     <a href="#">
                         <i class="icons">
                             <i class="circular inverted blue bell icon"></i>
