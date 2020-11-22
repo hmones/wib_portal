@@ -23,7 +23,7 @@
                         </div>
                     </div>
 
-                    <a href="#">
+                    <a href="{{route('notifications')}}">
                         <i class="icons">
                             <i class="circular inverted blue bell icon"></i>
                             @if(Auth::user()->unreadNotifications()->where('type','!=','App\Notifications\MessageSent')->count())
