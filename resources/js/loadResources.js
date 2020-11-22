@@ -12,13 +12,25 @@ $(main_container).visibility({
             page: curr_page,
             _token: app_token,
         };
-        var countries = $('input[name="countries[]"]').val();
-        var sectors = $('input[name="sectors[]"]').val()
+        var countries = $('input[name="countries"]').val();
+        var sectors = $('input[name="sectors"]').val();
+        var is_verified = $('input[name="is_verified"][checked]').val();
+        var last_login = $('input[name="last_login"][checked]').val();
+        var name = $('input[name="name"]').val();
         if (countries != "") {
             data['countries'] = countries;
         }
         if (sectors != "") {
             data['sectors'] = sectors;
+        }
+        if (is_verified != "") {
+            data['is_verified'] = is_verified;
+        }
+        if (last_login != "") {
+            data['last_login'] = last_login;
+        }
+        if (name != "") {
+            data['name'] = name;
         }
         //Ajax call to get new posts
         $.ajax({
