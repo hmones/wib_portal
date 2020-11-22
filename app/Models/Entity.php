@@ -103,8 +103,7 @@ class Entity extends Model
             $query->orderBy('name', $data['name']);
         }
         if (isset($data['type'])) {
-            $is_business = ($data['type'] == 'business');
-            if($is_business){
+            if($data['type'] == 'business'){
                 $query->whereHas('type', function($q){
                     $q->where('name','Business');
                 });
