@@ -45,7 +45,7 @@
                         @endisset
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" style="padding-top:0px;">
                     <div class="two wide column">
                         <i class="at blue icon"></i>
                     </div>
@@ -54,6 +54,21 @@
                         <a href="{{$entity->primary_email??'#'}}">{{$entity->primary_email}}</a>
                         @else
                         No email available
+                        @endisset
+                    </div>
+                </div>
+                <div class="row" style="padding-top:0px;">
+                    <div class="two wide column">
+                        <i class="shopping cart blue icon"></i>
+                    </div>
+                    <div class="fourteen wide column">
+                        @isset($entity->ecommerce_link)
+                        <a href="{{$entity->ecommerce_link??'#'}}">Store</a>
+                        <div class="ui star rating" data-rating="{{floor($entity->ecommerce_rating)}}"
+                            data-max-rating="5">
+                        </div>
+                        @else
+                        No store available
                         @endisset
                     </div>
                 </div>
@@ -125,7 +140,7 @@
             <div class="ui grey message">
                 @foreach($entity->sectors as $sector)
                 <div>
-                    <!--                             <i class="{{$sector->icon}} blue icon"></i> -->
+                    <!-- <i class="{{$sector->icon}} blue icon"></i> -->
                     {{$sector->name}}
                 </div>
                 @endforeach
@@ -187,3 +202,11 @@
 <br><br><br>
 
 @endsection
+
+@push('additional_scripts')
+<script>
+    $(function(){
+        $('.ui.rating').rating('disable');
+    });
+</script>
+@endpush

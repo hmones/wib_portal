@@ -334,6 +334,17 @@
                 </div>
             </div>
         </div>
+        <h4 class="ui dividing header">E-Commerce</h4>
+        <div class="two fields">
+            <div class="field">
+                <label for="entity[ecommerce_link]">e-Commerce Link</label>
+                <input type="text" name="entity[ecommerce_link]" value="{{$entity->ecommerce_link??''}}" />
+            </div>
+            <div class="field">
+                <label for="entity[ecommerce_rating]">Store rating (0.0 - 5.0)</label>
+                <input type="text" name="entity[ecommerce_rating]" value="{{$entity->ecommerce_rating??''}}" />
+            </div>
+        </div>
         <h4 class="ui dividing header">Product images:</h4>
         <div id="photosContainer" class="ui five column stackable grid">
             <div class="column">

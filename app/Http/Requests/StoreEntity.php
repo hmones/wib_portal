@@ -105,6 +105,8 @@ class StoreEntity extends FormRequest
             "entity.balance_sheet" => "nullable|in:<25Mio,25Mio-50Mio,50Mio-100Mio,100Mio-500Mio,500Mio-1Bil,1Bil-3Bil,3Bil-5Bil,5Bil-10Bil,>10Bil",
             "entity.revenue" => "nullable|in:<25K,25K-50K,50K-100K,100K-500K,500K-1Mio,1Mio-3Mio,3Mio-5Mio,5Mio-10Mio,>10Mio",
             "entity.network" => "required|in:wib",
+            "entity.ecommerce_link" => "nullable|url",
+            "entity.ecommerce_rating" => "nullable|numeric|between:0.00,5.00",
             "users.relation" => "required",
             "photosID.*" => "exclude_if:photosID.*,null|nullable|exists:photos,id"
         ];
