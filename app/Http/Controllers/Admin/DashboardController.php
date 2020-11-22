@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Country;
 use App\Models\EntityType;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\{FilterEntity, FilterUser};
 use App\Models\Sector;
-use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Entity;
 
@@ -34,13 +33,15 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function indexUsers(){
-        $users = User::latest('updated_at')->paginate(12);
-        return view('admin.users', compact('users'));
+    public function indexUsers(FilterUser $request){
+        $filter = $request->validated();
+        $users = User::where('name','like',$request->input('query').'%')->filter($filter)->paginate(12);
+        return view('admin.users', compact(['users','request']));
     }
 
-    public function indexEntities(){
-        $entities = Entity::latest('updated_at')->paginate(12);
-        return view('admin.entities', compact('entities'));
+    public function indexEntities(FilterEntity $request){
+        $filter = $request->validated();
+        $entities = Entity::where('name','like', $request->input('query').'%')->filter($filter)->paginate(12);
+        return view('admin.entities', compact(['entities','request']));
     }
 }

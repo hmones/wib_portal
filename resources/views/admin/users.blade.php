@@ -1,17 +1,29 @@
 @extends('layouts.auth')
 
 @section('content')
-    <style>
-        .ui.grey.label{
-            color: black !important;
-        }
-    </style>
-    <br><br>
-    <div class="ui centered container">
-        <h3 class="ui blue header"> <i class="stop wib bullet icon"></i> Registered members</h3>
-        <div class="ui basic segment">
-            <table class="ui celled stackable table">
-                <thead>
+<style>
+    .ui.grey.label {
+        color: black !important;
+    }
+</style>
+<br><br>
+<div class="ui centered container">
+    <h3 class="ui blue header"> <i class="stop wib bullet icon"></i> Registered members</h3>
+    <h4 class="ui dividing header"> Search records</h4>
+    <div class="ui inverted grey segment">
+        <form action="{{route('admin.users')}}" method="GET" class="ui form">
+            @csrf
+            <div class="ui icon input fluid field">
+                <input type="text" name="query" value="{{request()->has('query')?request()->input('query'):''}}" />
+                <i class="inverted circular search link blue icon"></i>
+            </div>
+        </form>
+    </div>
+    <h4 class="ui dividing header" style="margin-bottom: 0px;">Filter records</h4>
+    @include('partials.filter_section', ['route' => route('admin.users'), 'recent_online' => true])
+    <div class="ui basic segment">
+        <table class="ui celled stackable table">
+            <thead>
                 <tr>
                     <th>User</th>
                     <th>Email</th>
@@ -21,86 +33,91 @@
                     <th>Actions</th>
                     <th>Verify</th>
                 </tr>
-                </thead>
-                <tbody>
+            </thead>
+            <tbody>
                 @forelse ($users as $user)
-                    <tr>
-                        <td>
-                            <h4 class="ui image header">
-                                @if($user->avatar()->exists())
-                                    <img src="{{$user->avatar()->thumbnail()->url}}" class="ui circular image" alt="{{$user->name}}'s avatar">
-                                @else
-                                    <i class="circular inverted grey user small icon"></i>
-                                @endif
-                                <div class="content">
-                                    {{\Illuminate\Support\Str::limit($user->name, 22,$end='..')}}
-                                    <div class="sub header">{{ $user->entities()->exists() ? \Illuminate\Support\Str::limit($user->entities->first()->name, 27,$end='..'):'No organization'}}
-                                    </div>
+                <tr>
+                    <td>
+                        <h4 class="ui image header">
+                            @if($user->image)
+                            <img src="{{$user->image}}" class="ui circular image" alt="{{$user->name}}'s avatar">
+                            @else
+                            <i class="circular inverted grey user small icon"></i>
+                            @endif
+                            <div class="content">
+                                {{\Illuminate\Support\Str::limit($user->name, 22,$end='..')}}
+                                <div class="sub header">
+                                    {{ $user->entities()->exists() ? \Illuminate\Support\Str::limit($user->entities->first()->name, 27,$end='..'):'No organization'}}
                                 </div>
-                            </h4></td>
-                        <td>
-                            <a href="mailto:{{$user->email}}">{{$user->email}}</a>
-                        </td>
-                        <td>
-                            {{$user->country()->exists()? $user->country->name:'None'}}
-                        </td>
-                        <td>
-                            {{$user->city()->exists()? $user->city->name:'None'}}
-                        </td>
-                        <td>
-                            {{$user->created_at->diffForHumans()}}
-                        </td>
-                        <td class="center aligned">
-                            <a href="#" onclick="handleViewUser(event, {{$user->id}});"><i class="eye blue icon"></i></a>
-                            <a href="#" onclick="handleDeleteUser(event, {{$user->id}});"><i class="trash red icon"></i></a>
-                        </td>
-                        <td>
-                            <div class="ui toggle checkbox">
-                                <input class="verify user checkbox" type="checkbox" data-value="{{$user->id}}" {{$user->approved_at?'checked':''}}>
                             </div>
-                        </td>
-                    </tr>
+                        </h4>
+                    </td>
+                    <td>
+                        <a href="mailto:{{$user->email}}">{{$user->email}}</a>
+                    </td>
+                    <td>
+                        {{$user->country()->exists()? $user->country->name:'None'}}
+                    </td>
+                    <td>
+                        {{$user->city()->exists()? $user->city->name:'None'}}
+                    </td>
+                    <td>
+                        {{$user->created_at->diffForHumans()}}
+                    </td>
+                    <td class="center aligned">
+                        <a href="#" onclick="handleViewUser(event, {{$user->id}});"><i class="eye blue icon"></i></a>
+                        <a href="#" onclick="handleDeleteUser(event, {{$user->id}});"><i class="trash red icon"></i></a>
+                    </td>
+                    <td>
+                        <div class="ui toggle checkbox">
+                            <input class="verify user checkbox" type="checkbox" data-value="{{$user->id}}"
+                                {{$user->approved_at?'checked':''}}>
+                        </div>
+                    </td>
+                </tr>
                 @empty
-                    <tr>
-                        <td colspan="4"><p>No users registered currently!</p></td>
-                    </tr>
+                <tr>
+                    <td colspan="4">
+                        <p>No users registered currently!</p>
+                    </td>
+                </tr>
                 @endforelse
-                </tbody>
-            </table>
-        </div>
+            </tbody>
+        </table>
     </div>
-    <br><br><br>
-    <div class="ui centered grid">
-        <div class="ui centered basic segment">
-            {{ $users->appends($_GET)->links('vendor.pagination.semantic-ui') }}
-        </div>
+</div>
+<br><br><br>
+<div class="ui centered grid">
+    <div class="ui centered basic segment">
+        {{ $users->appends($_GET)->links('vendor.pagination.semantic-ui') }}
     </div>
-    <br><br>
-    <br><br><br>
-    <div class="ui small modal">
-        <div class="ui header">User Information</div>
-        <div class="ui padded basic segment">
-            <div class="user information ui three column stackable grid">
+</div>
+<br><br>
+<br><br><br>
+<div class="ui small modal">
+    <div class="ui header">User Information</div>
+    <div class="ui padded basic segment">
+        <div class="user information ui three column stackable grid">
 
-            </div>
-        </div>
-        <div class="ui actions">
-            <div class="ui right floated red button" onclick="$('.ui.small.modal').modal('hide');">Close</div>
-            <br><br>
         </div>
     </div>
-    <form id="user_delete_form" action="" method="POST">
-        @csrf
-        @method('DELETE')
-    </form>
-    <form id="user_verify_form" action="" method="POST">
-        @csrf
-    </form>
+    <div class="ui actions">
+        <div class="ui right floated red button" onclick="$('.ui.small.modal').modal('hide');">Close</div>
+        <br><br>
+    </div>
+</div>
+<form id="user_delete_form" action="" method="POST">
+    @csrf
+    @method('DELETE')
+</form>
+<form id="user_verify_form" action="" method="POST">
+    @csrf
+</form>
 @endsection
 
 @section('scripts')
-    <script>
-        $('.ui.checkbox').checkbox();
+<script>
+    $('.ui.checkbox').checkbox();
         $('.ui.small.modal').modal();
         function handleViewUser(e, id){
             e.preventDefault();
@@ -130,5 +147,8 @@
             var url = '/admin/api/profile/'+$(this).attr('data-value');
             $('#user_verify_form').attr('action',url).submit();
         });
-    </script>
+        $(function(){
+            $('#filter_form').show();
+        });
+</script>
 @endsection

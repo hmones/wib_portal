@@ -1,17 +1,29 @@
 @extends('layouts.auth')
 
 @section('content')
-    <style>
-        .ui.grey.label{
-            color: black !important;
-        }
-    </style>
-    <br><br>
-    <div class="ui centered container">
-        <h3 class="ui blue header"> <i class="stop wib bullet icon"></i> Registered Entities</h3>
-        <div class="ui basic segment">
-            <table class="ui celled stackable table">
-                <thead>
+<style>
+    .ui.grey.label {
+        color: black !important;
+    }
+</style>
+<br><br>
+<div class="ui centered container">
+    <h3 class="ui blue header"> <i class="stop wib bullet icon"></i> Registered Entities</h3>
+    <h4 class="ui dividing header"> Search records</h4>
+    <div class="ui inverted grey segment">
+        <form action="{{route('admin.entities')}}" method="GET" class="ui form">
+            @csrf
+            <div class="ui icon input fluid field">
+                <input type="text" name="query" value="{{request()->has('query')?request()->input('query'):''}}" />
+                <i class="inverted circular search link blue icon"></i>
+            </div>
+        </form>
+    </div>
+    <h4 class="ui dividing header" style="margin-bottom: 0px;">Filter records</h4>
+    @include('partials.filter_section', ['route' => route('admin.entities'), 'recent_online' => false])
+    <div class="ui basic segment">
+        <table class="ui celled stackable table">
+            <thead>
                 <tr>
                     <th>Name</th>
                     <th>Email</th>
@@ -21,93 +33,101 @@
                     <th>Actions</th>
                     <th>Verify</th>
                 </tr>
-                </thead>
-                <tbody>
+            </thead>
+            <tbody>
                 @forelse ($entities as $entity)
-                    <tr>
-                        <td>
-                            <h4 class="ui image header">
-                                @if($entity->logo()->exists())
-                                    <img src="{{$entity->logo()->thumbnail()->url}}" class="ui circular image" alt="{{$entity->name}}'s avatar">
-                                @else
-                                    <i class="circular inverted grey image small icon"></i>
-                                @endif
-                                <div class="content">
-                                    {{\Illuminate\Support\Str::limit($entity->name, 27,$end='..')}}
-                                    <br>
-                                    <div class="sub header">
-                                        @if($entity->owned_by()->first())
-                                            {{\Illuminate\Support\Str::limit($entity->owned_by()->first()->name, 27,$end='..')}}
-                                        @else
-                                            No owner
-                                        @endisset
-                                    </div>
+                <tr>
+                    <td>
+                        <h4 class="ui image header">
+                            @if($entity->image)
+                            <img src="{{$entity->image}}" class="ui circular image" alt="{{$entity->name}}'s avatar">
+                            @else
+                            <i class="circular inverted grey image small icon"></i>
+                            @endif
+                            <div class="content">
+                                {{\Illuminate\Support\Str::limit($entity->name, 27,$end='..')}}
+                                <br>
+                                <div class="sub header">
+                                    @if($entity->owned_by()->first())
+                                    {{\Illuminate\Support\Str::limit($entity->owned_by()->first()->name, 27,$end='..')}}
+                                    @else
+                                    No owner
+                                    @endisset
                                 </div>
-
-                            </h4>
-                        </td>
-                        <td>
-                            <a href="mailto:{{$entity->primary_email}}">{{$entity->primary_email}}</a>
-                        </td>
-                        <td>
-                            {{$entity->primary_country()->exists() ? $entity->primary_country->name:'None'}}
-                        </td>
-                        <td>
-                            {{$entity->primary_city()->exists() ? $entity->primary_city->name:'None'}}
-                        </td>
-                        <td>
-                            {{$entity->created_at->diffForHumans()}}
-                        </td>
-                        <td class="center aligned">
-                            <a href="#" onclick="handleViewEntity(event, {{$entity->id}});"><i class="eye blue icon"></i></a>
-                            <a href="#" onclick="handleDeleteEntity(event, {{$entity->id}});"><i class="trash red icon"></i></a>
-                        </td>
-                        <td>
-                            <div class="ui toggle checkbox">
-                                <input class="verify entity checkbox" type="checkbox" data-value="{{$entity->id}}" {{$entity->approved_at?'checked':''}}>
                             </div>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="4"><p>No entities registered currently!</p></td>
-                    </tr>
-                @endforelse
-                    </tbody>
-                    </table>
-    </div>
-    </div>
-    <br><br><br>
-    <div class="ui centered grid">
-        <div class="ui centered basic segment">
-            {{ $entities->appends($_GET)->links('vendor.pagination.semantic-ui') }}
-        </div>
-    </div>
-    <br><br>
-    <div class="ui small modal">
-        <div class="ui header">Entity Information</div>
-        <div class="ui padded basic segment">
-            <div class="entity information ui three column stackable grid">
 
-            </div>
-        </div>
-        <div class="ui actions">
-            <div class="ui right floated red button" onclick="$('.ui.small.modal').modal('hide');">Close</div>
-            <br><br>
+                        </h4>
+                    </td>
+                    <td>
+                        <a href="mailto:{{$entity->primary_email}}">{{$entity->primary_email}}</a>
+                    </td>
+                    <td>
+                        {{$entity->primary_country()->exists() ? $entity->primary_country->name:'None'}}
+                    </td>
+                    <td>
+                        {{$entity->primary_city()->exists() ? $entity->primary_city->name:'None'}}
+                    </td>
+                    <td>
+                        {{$entity->created_at->diffForHumans()}}
+                    </td>
+                    <td class="center aligned">
+                        <a href="#" onclick="handleViewEntity(event, {{$entity->id}});"><i
+                                class="eye blue icon"></i></a>
+                        <a href="#" onclick="handleDeleteEntity(event, {{$entity->id}});"><i
+                                class="trash red icon"></i></a>
+                    </td>
+                    <td>
+                        <div class="ui toggle checkbox">
+                            <input class="verify entity checkbox" type="checkbox" data-value="{{$entity->id}}"
+                                {{$entity->approved_at?'checked':''}}>
+                        </div>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="4">
+                        <p>No entities registered currently!</p>
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+</div>
+<br><br><br>
+<div class="ui centered grid">
+    <div class="ui centered basic segment">
+        {{ $entities->appends($_GET)->links('vendor.pagination.semantic-ui') }}
+    </div>
+</div>
+<br><br>
+<div class="ui small modal">
+    <div class="ui header">Entity Information</div>
+    <div class="ui padded basic segment">
+        <div class="entity information ui three column stackable grid">
+
         </div>
     </div>
-    <form id="entity_delete_form" action="" method="POST">
-        @csrf
-        @method('DELETE')
-    </form>
-    <form id="entity_verify_form" action="" method="POST">
-        @csrf
-    </form>
+    <div class="ui actions">
+        <div class="ui right floated red button" onclick="$('.ui.small.modal').modal('hide');">Close</div>
+        <br><br>
+    </div>
+</div>
+<form id="entity_delete_form" action="" method="POST">
+    @csrf
+    @method('DELETE')
+</form>
+<form id="entity_verify_form" action="" method="POST">
+    @csrf
+</form>
 @endsection
 
 @section('scripts')
-    <script>
-        $('.ui.checkbox').checkbox();
+<script>
+    $(function(){
+            $('#filter_form').show();
+        });
+    $('.ui.checkbox').checkbox();
         $('.ui.small.modal').modal();
         function handleViewEntity(e, id){
             e.preventDefault();
@@ -137,5 +157,5 @@
             var url = '/admin/api/entity/'+$(this).attr('data-value');
             $('#entity_verify_form').attr('action',url).submit();
         });
-    </script>
+</script>
 @endsection
