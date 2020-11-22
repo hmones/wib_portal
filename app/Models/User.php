@@ -103,17 +103,27 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany('App\Models\Entity', 'owned_by');
     }
 
-    public function scopeFilter($query, \Illuminate\Http\Request $request)
+    public function scopeFilter($query, $data)
     {
-        if (isset($request->countries[0])) {
-            $query->whereIn('country_id', explode(",",$request->countries[0]));
+        if (isset($data['countries'])) {
+            $countries = explode(",",$data['countries']);
+            $query->whereIn('country_id', $countries);
         }
-        if (isset($request->sectors[0])) {
-            $query->whereHas('sectors', function ($q) use ($request) {
-                $q->whereIn('id', explode(",",$request->sectors[0]));
+        if (isset($data['sectors'])) {
+            $sectors = explode(',',$data['sectors']);
+            $query->whereHas('sectors', function ($q) use ($sectors) {
+                $q->whereIn('id', $sectors);
             });
         }
-        $query->latest();
+        if (isset($data['is_verified'])) {
+            $query->whereNotNull('approved_at');
+        }
+        if (isset($data['last_login'])){
+            $query->orderBy('last_login', $data['last_login']);
+        }
+        if (isset($data['name'])) {
+            $query->orderBy('name', $data['name']);
+        }
         return $query;
     }
 }

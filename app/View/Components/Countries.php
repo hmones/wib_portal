@@ -51,7 +51,7 @@ class Countries extends Component
     {
         if(request()->has('countries'))
         {
-            return implode(', ', request()->countries);
+            return request()->countries;
         }
 
         return '';

@@ -56,7 +56,7 @@ class Sectors extends Component
     {
         if(isset(request()->sectors))
         {
-            return implode(', ', request()->sectors);
+            return request()->sectors;
         }
 
         return '';

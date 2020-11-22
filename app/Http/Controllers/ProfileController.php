@@ -26,7 +26,15 @@ class ProfileController extends Controller
      */
     public function index(Request $request)
     {
-        $users = User::with('sectors:id,name', 'country')->filter($request)->paginate(20);
+        $filter = $request->validate([
+            'countries' => 'exclude_if:countries,null|nullable',
+            'sectors' => 'exclude_if:sectors,null|nullable',
+            'last_login' => 'exclude_if:last_login,null|nullable|in:asc,desc',
+            'name' => 'exclude_if:name,null|nullable|in:asc,desc',
+            'is_verified' => 'exclude_if:is_verified,null|nullable|in:0,1'
+        ]);
+        
+        $users = User::with('sectors:id,name', 'country')->filter($filter)->paginate(20); 
         
         return view('profile.index', compact(['users', 'request']));
         
