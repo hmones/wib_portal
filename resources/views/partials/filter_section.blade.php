@@ -25,8 +25,21 @@
                         <label>Sort by recently online</label>
                     </div>
                 </div>
+                @else
+                <div class="four wide field">
+                    <div class="ui selection dropdown">
+                        <input type="hidden" name="type" value={{request('type',null)}}>
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Filter types</div>
+                        <div class="menu">
+                            <div class="item" data-value="">All types</div>
+                            <div class="item" data-value="business">Businesses</div>
+                            <div class="item" data-value="organization">Organizations</div>
+                        </div>
+                    </div>
+                </div>
                 @endif
-                <div class="{{$recent_online?'six':'eight'}} wide field">
+                <div class="six wide field">
                     <div class="ui selection dropdown">
                         <input type="hidden" name="name" value={{request('name',null)}}>
                         <i class="dropdown icon"></i>
@@ -38,7 +51,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="{{$recent_online?'two':'four'}} wide field">
+                <div class="two wide field">
                     <button class="ui blue fluid button" type="submit"><i class="send icon"></i></button>
                 </div>
             </div>

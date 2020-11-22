@@ -102,6 +102,18 @@ class Entity extends Model
         if (isset($data['name'])) {
             $query->orderBy('name', $data['name']);
         }
+        if (isset($data['type'])) {
+            $is_business = ($data['type'] == 'business');
+            if($is_business){
+                $query->whereHas('type', function($q){
+                    $q->where('name','Business');
+                });
+            }else{
+                $query->whereHas('type', function($q){
+                    $q->where('name','!=','Business');
+                });
+            }
+        }
         return $query;
     }
 
