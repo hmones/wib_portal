@@ -22,7 +22,12 @@
 
                         </div>
                     </div>
-
+                    <a href="{{route('home')}}">
+                        <i class="icons">
+                            <i class="circular inverted blue home icon"></i>
+                        </i>
+                    </a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
                     <a href="{{route('notifications')}}">
                         <i class="icons">
                             <i class="circular inverted blue bell icon"></i>
@@ -109,13 +114,52 @@
         <div class="ui four column centered grid">
             <div class="center aligned sixteen wide column">
                 <div class="ui divided very relaxed list">
-
-                    <div class="item"><a href="/profile">MEMBERS</a> </div>
-                    <div class="item"><a href="/entity">ORGANIZATIONS</a></div>
-
-                    <div class="item"><a href="{{route('profile.edit',['profile'=>Auth::user()])}}">Profile Settings</a>
+                    <div class="item">
+                        <a href="{{route('home')}}">
+                            <i class="icons">
+                                <i class="circular inverted blue home icon"></i>
+                            </i>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="{{route('notifications')}}">
+                            <i class="icons">
+                                <i class="circular inverted blue bell icon"></i>
+                                @if(Auth::user()->unreadNotifications()->where('type','!=','App\Notifications\MessageSent')->count())
+                                <i class="top right corner inverted circular red big menuNotification icon">
+                                    <span>
+                                        {{Auth::user()->unreadNotifications()->where('type','!=','App\Notifications\MessageSent')->count()}}
+                                    </span>
+                                </i>
+                                @endif
+                            </i>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="{{route('messenger')}}">
+                            <i class="icons">
+                                <i class="circular inverted blue envelope icon"></i>
+                                @if(Auth::user()->unreadNotifications()->where('type','App\Notifications\MessageSent')->count())
+                                <i class="top right corner inverted circular red big menuNotification icon">
+                                    <span>
+                                        {{Auth::user()->unreadNotifications()->where('type','App\Notifications\MessageSent')->count()}}
+                                    </span>
+                                </i>
+                                @endif
+                            </i>
+                        </a>
                     </div>
-                    <div class="item"><a href="{{route('profile.entities')}}">Register Organization</a></div>
+                    @include('partials.search')
+                    <a href="{{route('profile.index')}}" class="item">
+                        PEOPLE
+                    </a>
+                    <a href="{{route('entity.index')}}?type=business" class="item">
+                        COMPANIES
+                    </a>
+                    <a href="{{route('entity.index')}}?type=organization" class="item">
+                        ORGANIZATIONS
+                    </a>
+                    <div class="item"><a href="{{route('profile.edit',['profile'=>Auth::user()])}}">MY ACCOUNT</a>
+                    </div>
+                    <div class="item"><a href="{{route('profile.entities')}}">MY ORGANIZATIONS</a></div>
                     <br>
                     <div class="ui blue inverted " style="background: none !important;">
                         <form method="post" action="{{route('logout')}}">
