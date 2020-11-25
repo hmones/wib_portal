@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Sector;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\{Redirect,Session};
+use Illuminate\Support\Facades\{Cache, Redirect,Session};
 
 class SectorController extends Controller
 {
@@ -37,27 +37,19 @@ class SectorController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate([
-            "sector_create_name" => "required|string",
-            "sector_create_icon" => "required|string"
+        $data = $request->validate([
+            "name" => "required|string|unique:App\Models\Sector,name",
+            "icon" => "required|string"
         ]);
+        
+        Sector::create($data);
 
-        $sector = Sector::firstOrNew(
-            ['name' => $request->sector_create_name],
-            [
-                "name" => $request->sector_create_name,
-                "icon" => $request->sector_create_icon,
-                "created_at" => Carbon::now(),
-                "updated_at" => Carbon::now(),
-            ]
-        );
-
-        if (isset($sector->id)) {
-            $request->session()->flash('error', 'Sector already existed before!');
-        }else{
-            $sector->save();
-            $request->session()->flash('success', 'Sector was saved successfully!');
-        }
+        Cache::forget('sectors');
+        Cache::rememberForever('sectors',function(){
+            return Sector::all();
+        });
+        
+        $request->session()->flash('success', 'Sector was saved successfully!');
 
         return Redirect::route('admin.options');
     }

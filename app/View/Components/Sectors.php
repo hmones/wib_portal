@@ -4,6 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 use App\Models\Sector;
+use Illuminate\Support\Facades\Cache;
 
 class Sectors extends Component
 {
@@ -49,7 +50,9 @@ class Sectors extends Component
 
     public function sectors()
     {
-        return Sector::all();
+        return Cache::rememberForever('sectors', function () {
+            return Sector::all();
+        });
     }
 
     public function sectorList()

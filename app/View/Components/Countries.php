@@ -5,6 +5,7 @@ namespace App\View\Components;
 use Illuminate\View\Component;
 use App\Models\Country;
 use phpDocumentor\Reflection\Types\Null_;
+use Illuminate\Support\Facades\Cache;
 
 class Countries extends Component
 {
@@ -44,7 +45,9 @@ class Countries extends Component
 
     public function countries()
     {
-        return Country::all();
+        return Cache::rememberForever('countries', function () {
+            return Country::all();
+        });
     }
 
     public function countryList()
