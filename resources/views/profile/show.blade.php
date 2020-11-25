@@ -35,14 +35,10 @@
             @endforeach
         </div>
         <div class="seven wide column">
-            <form action="{{route('profile.contact', ['profile'=>$user])}}" method="POST">
-                @csrf
-                <button type="submit" class="ui right floated right labeled top aligned teal icon big button"
-                    id="contactUser">
-                    <i class="envelope icon"></i>
-                    Contact
-                </button>
-            </form>
+            <a href="{{route('messenger')}}" class="ui right floated right labeled top aligned basic teal icon button">
+                <i class="send icon"></i>
+                Message User
+            </a>
         </div>
     </div>
     <br><br><br><br>
