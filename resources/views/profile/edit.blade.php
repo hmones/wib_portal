@@ -3,7 +3,15 @@
 @section('content')
 <div class="ui centered container">
     <div class="ui padded basic segment" style="padding-right: 0;padding-left: 0;">
-        <h1 class="ui blue header"><i class="stop wib bullet icon"></i>Profile settings</h1>
+        <div class="ui right floated center aligned basic segment" style="width: 25%;margin-top:25px;">
+            <span style="position: absolute;font-size: .9375em;font-weight: 700;left: -122px;">Profile Completion</span>
+            <div class="ui active blue progress" data-percent="{{$user->data_percent}}">
+                <div class="bar">
+                    <div class="progress"></div>
+                </div>
+            </div>
+        </div>
+        <h1 class="ui blue header"><i class="stop wib bullet icon"></i>My Account</h1>
         <br>
         <div class="ui fluid stackable steps">
             <div class="active step" id="personal_info">
@@ -350,6 +358,7 @@
     let login_url = "{{route('profile.edit',['profile'=>$user])}}";
     let app_token = "{{Session::token()}}";
     let city_id = "{{$user->city_id}}"
+    $(function(){$('.ui.progress').progress();});
 </script>
 <script src="{{asset('js/profile.create.js')}}" type="application/javascript"></script>
 @endsection

@@ -27,6 +27,7 @@
                 <tr>
                     <th>User</th>
                     <th>Email</th>
+                    <th>Completion</th>
                     <th>Country</th>
                     <th>City</th>
                     <th>Created</th>
@@ -54,6 +55,9 @@
                     </td>
                     <td>
                         <a href="mailto:{{$user->email}}">{{$user->email}}</a>
+                    </td>
+                    <td>
+                        {{$user->data_percent}}%
                     </td>
                     <td>
                         {{$user->country()->exists()? $user->country->name:'None'}}

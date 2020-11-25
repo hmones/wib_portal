@@ -35,13 +35,13 @@ class DashboardController extends Controller
 
     public function indexUsers(FilterUser $request){
         $filter = $request->validated();
-        $users = User::where('name','like',$request->input('query').'%')->filter($filter)->paginate(12);
+        $users = User::where('name','like',$request->input('query').'%')->filter($filter)->paginate(20);
         return view('admin.users', compact(['users','request']));
     }
 
     public function indexEntities(FilterEntity $request){
         $filter = $request->validated();
-        $entities = Entity::where('name','like', $request->input('query').'%')->filter($filter)->paginate(12);
+        $entities = Entity::where('name','like', $request->input('query').'%')->filter($filter)->paginate(20);
         return view('admin.entities', compact(['entities','request']));
     }
 }

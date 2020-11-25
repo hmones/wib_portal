@@ -6,10 +6,10 @@ use App\Models\{Entity, SupportedLink, User};
 use App\Http\Requests\{StoreUser, UpdateUser, FilterUser};
 use App\Notifications\MemberRegistered;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{Hash, Auth, Redirect, Session};
 use Illuminate\View\View;
 use App\Repositories\FileStorage;
+use App\Repositories\ProfileHelper;
 use Illuminate\Database\Eloquent\Builder;
 
 class ProfileController extends Controller
@@ -17,7 +17,6 @@ class ProfileController extends Controller
     private $activities = array('Export', 'Import', 'Production', 'Services', 'Trade');
     private $education = array('Highschool', 'Bachelor', 'Master', 'Doctorate');
     private $associations = array('ABWA', 'BWE21', 'CNFCE', 'EBRD', 'LLWB', 'SEVE');
-    const PATH_300 = "wib_uploads/profile_pictures/300x300/";
 
     /**
      * Display a listing of the resource.
@@ -98,6 +97,10 @@ class ProfileController extends Controller
             $related_user->notify(new MemberRegistered($user));
         });
 
+        //Update profile completion
+        $helper = new ProfileHelper($user);
+        $helper->calculate_store_percentage();
+
         $request->session()->flash('success', 'User was created successfully!');
 
         return response()->redirectTo('/login');    
@@ -115,7 +118,9 @@ class ProfileController extends Controller
 
         $association = false;
         if (isset($user->business_association_wom)){
-            $association = Entity::where('name', $user->business_association_wom)->first();
+            $association = Entity::select('name','name_additional','image','id')->where('name', $user->business_association_wom)
+                                ->orWhere('name_additional', $user->business_association_wom)
+                                ->first();
         }
 
         return view('profile.show', [
@@ -169,6 +174,10 @@ class ProfileController extends Controller
         if(isset($data['links'])){
             $profile->links()->createMany($data['links']);
         }
+
+        //Update profile completion
+        $helper = new ProfileHelper($profile);
+        $helper->calculate_store_percentage();
 
         $request->session()->flash('success', 'Your data was updated successfully!');
         return response()->redirectTo('/profile/'.$profile->id.'/edit');
