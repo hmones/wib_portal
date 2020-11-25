@@ -65,7 +65,7 @@ Route::put('/entity/{entity}', 'EntityController@update')->name('entity.update')
 Route::delete('/entity/{entity}', 'EntityController@destroy')->name('entity.destroy')->middleware(['auth', 'verified', 'can:delete,entity']);
 
 
-Route::post('profile/contact/{profile}', 'ProfileController@contact')->name('profile.contact')->middleware(['auth', 'verified']);
+Route::get('notifications', 'HomeController@notifications')->name('notifications')->middleware(['auth', 'verified']);
 
 Route::get('/profile', 'ProfileController@index')->name('profile.index')->middleware('auth');
 Route::get('/profiles', 'ProfileController@indexApi')->middleware(['auth', 'verified'])->name('profiles.get.api');
