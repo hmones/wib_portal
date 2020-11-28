@@ -107,7 +107,7 @@ class EntityController extends Controller
 
         $request->session()->flash('success', 'Organization was added successfully!');
 
-        return response()->redirectTo('/entity/create');
+        return response()->redirectTo('/profile/entities');
     }
 
     /**
@@ -183,7 +183,7 @@ class EntityController extends Controller
 
         $request->session()->flash('success', 'Organization details were updated successfully!');
 
-        return response()->redirectTo('/entity/'.$entity->id.'/edit');
+        return response()->redirectTo('/profile/entities');
     }
 
     /**
@@ -288,11 +288,8 @@ class EntityController extends Controller
         return response()->json($response);
     }
 
-    public function destroyAdmin(Entity $entity){
+    public function destroyAdmin(Entity $entity, FileStorage $storage){
 
-        if ($entity->logo()->exists()) {
-            ProfilePictureController::destroy($entity->logo()->original()->id);
-        }
         if ($entity->links()->exists()) {
             $entity->links()->delete();
         }
@@ -300,6 +297,8 @@ class EntityController extends Controller
             $entity->sectors()->detach();
         }
         $entity->users()->detach();
+        $storage->destroy($entity->image);
+
         $entity->delete();
         Session::flash('success', $entity->name . ' has been successfully removed from the platform');
 

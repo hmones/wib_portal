@@ -206,7 +206,7 @@ class ProfileController extends Controller
         return \redirect(route('profile.show', ['profile' => Auth::user()]));
     }
 
-    public function destroyAdmin(User $profile)
+    public function destroyAdmin(User $profile, FileStorage $storage)
     {
         if ($profile->links()->exists()) {
             $profile->links()->delete();
@@ -214,6 +214,7 @@ class ProfileController extends Controller
         if ($profile->sectors()->exists()) {
             $profile->sectors()->detach();
         }
+        $storage->destroy($profile->image);
         Entity::ownedby(Auth::id())->update(['owned_by' => null]);
         $profile->entities()->detach();
         $profile->delete();

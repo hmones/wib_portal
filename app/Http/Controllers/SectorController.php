@@ -38,11 +38,14 @@ class SectorController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            "name" => "required|string|unique:App\Models\Sector,name",
-            "icon" => "required|string"
+            "sector_create_name" => "required|string|unique:App\Models\Sector,name",
+            "sector_create_icon" => "required|string"
         ]);
         
-        Sector::create($data);
+        Sector::create([
+            'name' => $data['sector_create_name'],
+            'icon' => $data['sector_create_icon']
+        ]);
 
         Cache::forget('sectors');
         Cache::rememberForever('sectors',function(){
