@@ -2,8 +2,8 @@
 @section('title','Profile Settings')
 @section('content')
 <div class="ui centered container">
-    <div class="ui padded basic segment" style="padding-right: 0;padding-left: 0;">
-        <div class="ui right floated center aligned basic segment" style="width: 25%;margin-top:25px;">
+    <div class="ui padded basic segment" style="padding: 0px;">
+        <div class="ui right floated center aligned basic segment" style="width: 25%;margin-top:-7px;">
             <span style="position: absolute;font-size: .9375em;font-weight: 700;left: -122px;">Profile Completion</span>
             <div class="ui active blue progress" data-percent="{{$user->data_percent}}">
                 <div class="bar">

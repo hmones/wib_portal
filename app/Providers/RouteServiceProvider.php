@@ -46,9 +46,77 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->mapApiRoutes();
 
+        $this->mapPublicRoutes();
+
+        $this->mapUserRoutes();
+
+        $this->mapAdminRoutes();
+
+        $this->mapAuthAdminRoutes();
+
         $this->mapWebRoutes();
 
-        //
+        
+    }
+
+    /**
+     * Define the "public" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapPublicRoutes()
+    {
+        Route::middleware('web')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/public.php'));
+    }
+
+    /**
+     * Define the "user" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapUserRoutes()
+    {
+        Route::middleware(['web','auth','verified'])
+             ->namespace($this->namespace)
+             ->group(base_path('routes/user.php'));
+    }
+
+    /**
+     * Define the "admin" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapAdminRoutes()
+    {
+        Route::middleware(['web', 'auth:admin'])
+             ->namespace($this->namespace)
+             ->prefix('/admin')
+             ->name('admin.')
+             ->group(base_path('routes/admin.php'));
+    }
+
+    /**
+     * Define the "authadmin" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapAuthAdminRoutes()
+    {
+        Route::middleware('web')
+             ->namespace($this->namespace . '\Admin\Auth')
+             ->prefix('/admin')
+             ->name('admin.')
+             ->group(base_path('routes/authadmin.php'));
     }
 
     /**
