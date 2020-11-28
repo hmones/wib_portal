@@ -1,4 +1,4 @@
-<div class="ui padded segment" id="post_{{$post->id}}">
+<div class="ui padded raised segment" id="post_{{$post->id}}">
     @if ($post->user->id === Auth::id())
     <div class="floating ui circular red label" style="padding-left:3px !important;"><i class="delete icon"
             data-post-id="{{$post->id}}"></i></div>
@@ -8,7 +8,8 @@
             <div class="item">
                 @include('partials.components.avatar',['user'=>$post->user, 'type' => 'user'])
                 <div class="content">
-                    <a class="header" href="javascript:void(0)">{{$post->user->name}}</a>
+                    <a class="header"
+                        href="{{route('profile.show',['profile'=>$post->user])}}">{{$post->user->name}}</a>
                     <div class="description">{{$post->created_at->diffForHumans()}}</div>
                 </div>
             </div>
@@ -49,7 +50,7 @@
                 'type'=>'App\Models\Post'])
             </div>
             <div class="right floated right aligned column">
-                <a href="#"> <i class="paper plane teal icon"></i> Message member</a>
+                <a href="{{route('messenger')}}"> <i class="paper plane teal icon"></i> Send Message</a>
             </div>
         </div>
     </div>
