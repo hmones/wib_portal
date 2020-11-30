@@ -14,8 +14,8 @@ class AddThumbnailToPhotos extends Migration
     public function up()
     {
         Schema::table('photos', function (Blueprint $table) {
-            $table->string('thumbnail')->after('url');
-            $table->string('filename')->after('thumbnail');
+            $table->string('thumbnail')->after('url')->nullable();
+            $table->string('filename')->after('thumbnail')->nullable();
         });
     }
 
