@@ -4,7 +4,7 @@
     </div>
     <div class="content">
         <div class="summary">
-            <a href="{{route('profile.show',['profile'=>$comment->user])}}">{{$comment->user->name}}</a> commented
+            <a href="{{$comment->user->path}}">{{$comment->user->name}}</a> commented
             <div class="date">
                 {{$comment->created_at->diffForHumans()}}
                 @can('delete', $comment)

@@ -1,5 +1,5 @@
 <div class="column">
-    <a href="{{route('entity.show',$entity)}}" class="profilebox">
+    <a href="{{$entity->path}}" class="profilebox">
         <img class="profileimage" src="
             @if($entity->image)
             {{$entity->image}}
@@ -18,7 +18,7 @@
             @isset($entity->sectors->first()->name)
             <p>{{strtoupper($entity->sectors->first()->name)}}</p>
             @endisset
-            <h2>{{\Illuminate\Support\Str::limit($entity->name, 14,$end='..')}}</h2>
+            <h2>{{Str::limit($entity->name, 14,$end='..')}}</h2>
             @isset($entity->primary_country->name)
             <b>{{strtoupper($entity->primary_country->name)}}</b>
             @endisset

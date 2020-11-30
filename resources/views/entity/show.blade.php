@@ -7,7 +7,7 @@
         <h2 class="ui blue header breadcrumb">
             <a class="section" href="{{route('entity.index')}}">Organizations</a>
             <i class="right angle icon divider"></i>
-            <a class="active section" href="{{route('entity.show', $entity)}}">{{$entity->name}}</a>
+            <a class="active section" href="{{$entity->path}}">{{$entity->name}}</a>
         </h2>
     </div>
     <br><br><br>
@@ -104,8 +104,7 @@
                 <div class="item">
                     @include('partials.components.avatar', ['user' => $user, 'type' => 'user'])
                     <div class="middle aligned content">
-                        <a href="{{route('profile.show',$user)}}"
-                            class="header">{{\Illuminate\Support\Str::limit($user->name, 30,$end='..')}}</a>
+                        <a href="{{$user->path}}" class="header">{{Str::limit($user->name, 30,$end='..')}}</a>
                         <div class="description">{{$user->pivot->relation_type}}</div>
                     </div>
                 </div>

@@ -8,6 +8,7 @@ use Laravel\Scout\Searchable;
 use ElasticScoutDriverPlus\CustomSearch;
 use App\Search\EntitySearchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
+use Illuminate\Support\Str;
 
 class Entity extends Model
 {
@@ -79,6 +80,12 @@ class Entity extends Model
         return $this->morphMany('App\Models\SearchingForOption', 'searchable');
     }
 
+    public function getPathAttribute()
+    {
+        $path = url('/') . '/entity/' . $this->id . '-' . Str::slug($this->name);
+        return $path;
+    }
+
     public function scopeOwnedby($query, $userID)
     {
         $query->where('owned_by', $userID);
@@ -115,6 +122,7 @@ class Entity extends Model
         }
         return $query;
     }
+    
 
     public function toSearchableArray()
     {

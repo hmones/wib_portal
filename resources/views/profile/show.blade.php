@@ -7,7 +7,7 @@
         <h2 class="ui blue header breadcrumb">
             <a class="section" href="{{route('profile.index')}}">Members</a>
             <i class="right angle icon divider"></i>
-            <a class="active section" href="{{route('profile.show', $user)}}">{{$user->name}}</a>
+            <a class="active section" href="{{$user->path}}">{{$user->name}}</a>
         </h2>
     </div>
     <br><br><br>
@@ -50,8 +50,7 @@
                 <div class="item">
                     @include('partials.components.avatar',['entity' => $entity, 'type' => 'entity'])
                     <div class="middle aligned content">
-                        <a href="{{route('entity.show',$entity)}}"
-                            class="header">{{\Illuminate\Support\Str::limit($entity->name, 30,$end='..')}}</a>
+                        <a href="{{$entity->path}}" class="header">{{Str::limit($entity->name, 30,$end='..')}}</a>
                         <div class="description">{{$entity->pivot->relation_type}}</div>
                     </div>
                 </div>
@@ -79,7 +78,7 @@
             <h4 class="ui blue header"><i class="stop wib bullet icon"></i>Women Association</h4>
             <div class="ui grey message">
                 @if($association)
-                <a href="{{route('entity.show', $association)}}">
+                <a href="{{$association->path}}">
                     <img class="ui avatar image" src="
                                 @if($association->image)
                                 {{$association->image}}

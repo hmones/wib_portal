@@ -8,8 +8,7 @@
             <div class="item">
                 @include('partials.components.avatar',['user'=>$post->user, 'type' => 'user'])
                 <div class="content">
-                    <a class="header"
-                        href="{{route('profile.show',['profile'=>$post->user])}}">{{$post->user->name}}</a>
+                    <a class="header" href="{{$post->user->path}}">{{$post->user->name}}</a>
                     <div class="description">{{$post->created_at->diffForHumans()}}</div>
                 </div>
             </div>

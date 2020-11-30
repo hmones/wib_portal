@@ -36,7 +36,7 @@ Route::get('notifications', 'HomeController@notifications')->name('notifications
 
 Route::get('/profile', 'ProfileController@index')->name('profile.index');
 Route::get('/profiles', 'ProfileController@indexApi')->name('profiles.get.api');
-Route::get('/profile/{profile}', 'ProfileController@show')->name('profile.show');
+Route::get('/profile/{profile}-{slug}', 'ProfileController@show')->name('profile.show');
 Route::get('/profile/{profile}/edit', 'ProfileController@edit')->name('profile.edit')->middleware('can:update,profile');
 Route::put('/profile/{profile}', 'ProfileController@update')->name('profile.update')->middleware('can:update,profile');
 Route::delete('/profile/{profile}', 'ProfileController@destroy')->name('profile.destroy')->middleware('can:delete,profile');

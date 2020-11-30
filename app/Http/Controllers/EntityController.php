@@ -116,7 +116,7 @@ class EntityController extends Controller
      * @param \App\Entity $entity
      * @return \Illuminate\View\View
      */
-    public function show(Entity $entity)
+    public function show(Entity $entity, $slug)
     {
         return view('entity.show', compact('entity'));
     }

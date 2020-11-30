@@ -1,5 +1,5 @@
 <div class="column">
-    <a href="{{route('profile.show', $user->id)}}" class="profilebox">
+    <a href="{{$user->path}}" class="profilebox">
         <img class="profileimage" src="
             @if($user->image)
                 {{$user->image}}

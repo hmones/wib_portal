@@ -112,19 +112,19 @@ class ProfileController extends Controller
      * @param \App\User $profile
      * @return View
      */
-    public function show($profile)
+    public function show(User $profile, string $slug = null)
     {
-        $user = User::with('sectors:name,icon', 'country', 'entities')->findOrFail($profile);
+        $profile->load('sectors:name,icon', 'country', 'entities');
 
         $association = false;
-        if (isset($user->business_association_wom)){
-            $association = Entity::select('name','name_additional','image','id')->where('name', $user->business_association_wom)
-                                ->orWhere('name_additional', $user->business_association_wom)
+        if (isset($profile->business_association_wom)){
+            $association = Entity::select('name','name_additional','image','id')->where('name', $profile->business_association_wom)
+                                ->orWhere('name_additional', $profile->business_association_wom)
                                 ->first();
         }
 
         return view('profile.show', [
-            'user' => $user,
+            'user' => $profile,
             'association' => $association
         ]);
     }

@@ -13,18 +13,18 @@
             </div>
             <div class="content">
                 <div class="summary">
-                    <a href="{{route('profile.show',$user->id)}}">{{$user->name}}</a>
+                    <a href="{{$user->path}}">{{$user->name}}</a>
                 </div>
                 <div class="extra text">
                     {{$user->country->name}}
                     @if($user->owned_entities->first())
-                    , <a href="{{route('entity.show',$user->owned_entities->first()->id)}}">
+                    , <a href="{{$user->owned_entities->first()->path}}">
                         {{$user->owned_entities->first()->name}}
                     </a>
                     @endif
                 </div>
                 <div class="meta">
-                    <a class="like" href="{{route('profile.show',$user->id)}}">
+                    <a class="like" href="{{$user->path}}">
                         <i class="right double arrow icon"></i> Visit
                     </a>
                 </div>
@@ -44,7 +44,7 @@
             </div>
             <div class="content">
                 <div class="summary">
-                    <a href="{{route('entity.show', $entity->id)}}">
+                    <a href="{{$entity->path}}">
                         {{$entity->name}} {{$entity->name_additional? ', '.$entity->name_additional:''}}
                     </a>
                     <div class="date">
@@ -55,7 +55,7 @@
                     {{$entity->type->name}}, {{$entity->primary_country->name}}
                 </div>
                 <div class="meta">
-                    <a class="like" href="{{route('entity.show', $entity->id)}}">
+                    <a class="like" href="{{$entity->path}}">
                         <i class="right double arrow icon"></i> Visit
                         </href=>
                 </div>

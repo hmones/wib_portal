@@ -10,6 +10,7 @@ use Laravel\Scout\Searchable;
 use ElasticScoutDriverPlus\CustomSearch;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
 use App\Search\UserSearchQueryBuilder;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -101,6 +102,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function owned_entities()
     {
         return $this->hasMany('App\Models\Entity', 'owned_by');
+    }
+
+    public function getPathAttribute()
+    {
+        return url('/') . '/profile/' . $this->id . '-' . Str::slug($this->name);
     }
 
     public function scopeFilter($query, $data)
