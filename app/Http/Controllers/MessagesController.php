@@ -98,7 +98,8 @@ class MessagesController extends Controller
             'favorite' => $favorite,
             'fetch' => $fetch,
             'user_avatar' => $avatar,
-            'last_seen' => $last_seen->diffForHumans()
+            'last_seen' => $last_seen->diffForHumans(),
+            'path' => $fetch->path
         ]);
     }
 
