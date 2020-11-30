@@ -30,9 +30,8 @@
                 {{isset($entity->users()->where('id',Auth::id())->first()->pivot->relation_type)?$entity->users()->where('id',Auth::id())->first()->pivot->relation_type:'No relationship'}}
             </td>
             <td>
-                <a href="{{route('entity.edit',['entity'=>$entity])}}" class="ui basic blue button"> <i
-                        class="pencil icon"></i> Edit</a>
-                <a data-text="{{$entity->id}}" class="ui basic red button delete entity"> <i class="trash icon"></i>
+                <a href="{{$entity->path . '/edit'}}" class="ui basic blue button"> <i class="pencil icon"></i> Edit</a>
+                <a data-text="{{$entity->path}}" class="ui basic red button delete entity"> <i class="trash icon"></i>
                     Remove</a>
             </td>
         </tr>
@@ -146,9 +145,8 @@
             }
         });
         $('.ui.basic.red.button.delete.entity').click(function () {
-            let deleted_entity = $(this).attr('data-text');
-            if (deleted_entity !== '') {
-                let delete_url = '/entity/' + deleted_entity;
+            let delete_url = $(this).attr('data-text');
+            if (delete_url !== '') {
                 $('#entity_delete').attr('action', delete_url).submit();
             }
         });

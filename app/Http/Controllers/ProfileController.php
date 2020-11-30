@@ -135,7 +135,7 @@ class ProfileController extends Controller
      * @param \App\User $profile
      * @return View|\Illuminate\Routing\Redirector
      */
-    public function edit(User $profile)
+    public function edit(User $profile, string $slug)
     {
         $supported_links = SupportedLink::all();
         return view('profile.edit', [
@@ -154,7 +154,7 @@ class ProfileController extends Controller
      * @param \App\User $user
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(UpdateUser $request, User $profile, FileStorage $storage)
+    public function update(UpdateUser $request, User $profile, FileStorage $storage, string $slug)
     {
 
         $data = $request->validated();
@@ -180,7 +180,7 @@ class ProfileController extends Controller
         $helper->calculate_store_percentage();
 
         $request->session()->flash('success', 'Your data was updated successfully!');
-        return response()->redirectTo('/profile/'.$profile->id.'/edit');
+        return response()->redirectTo($profile->path.'/edit');
     }
 
     /**
@@ -189,7 +189,7 @@ class ProfileController extends Controller
      * @param \App\User $profile
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy(User $profile, FileStorage $storage)
+    public function destroy(User $profile, FileStorage $storage, string $slug)
     {
         if ($profile->links()->exists()) {
             $profile->links()->delete();

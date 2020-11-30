@@ -64,7 +64,7 @@
 
                         <i class="dropdown icon"></i>
                         <div class="menu" id="desktopMenu">
-                            <a href="{{route('profile.edit',['profile'=>Auth::user()])}}" class="item">
+                            <a href="{{Auth::user()->path . '/edit'}}" class="item">
                                 <i class="user blue icon"></i> My Account
                             </a>
                             <a href="{{route('profile.entities')}}" class="item">
@@ -157,7 +157,7 @@
                     <a href="{{route('entity.index')}}?type=organization" class="item">
                         ORGANIZATIONS
                     </a>
-                    <div class="item"><a href="{{route('profile.edit',['profile'=>Auth::user()])}}">MY ACCOUNT</a>
+                    <div class="item"><a href="{{Auth::user()->path . '/edit'}}">MY ACCOUNT</a>
                     </div>
                     <div class="item"><a href="{{route('profile.entities')}}">MY ORGANIZATIONS</a></div>
                     <br>

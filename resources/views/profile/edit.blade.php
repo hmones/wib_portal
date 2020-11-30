@@ -34,8 +34,7 @@
 <div class="ui centered container">
     <div class="ui hidden message" id="flash_message"></div>
     <div class="ui padded segment">
-        <form action="{{route('profile.update',['profile'=>$user])}}" class="ui form" method="POST"
-            enctype="multipart/form-data" id="user_form">
+        <form action="{{$user->path}}" class="ui form" method="POST" enctype="multipart/form-data" id="user_form">
             @csrf
             @method('PUT')
             <div id="personal_info_form" style="">
@@ -338,7 +337,7 @@
         </div>
     </div>
     <div class="actions">
-        <form action="{{route('profile.destroy',['profile'=>Auth::user()])}}" method="POST">
+        <form action="{{Auth::user()->path}}" method="POST">
             @csrf
             @method('DELETE')
             <a class="ui blue button" onclick="$('.ui.modal').modal('hide');">No</a>
@@ -353,9 +352,9 @@
 @section('scripts')
 <script type="application/javascript">
     let app_url = "{{url('/')}}";
-    let profile_store_url = "{{route('profile.update',['profile'=>$user])}}";
+    let profile_store_url = "{{$user->path}}";
     let profile_picture_store_url = "{{route('profilepicture.store')}}";
-    let login_url = "{{route('profile.edit',['profile'=>$user])}}";
+    let login_url = "{{$user->path . '/edit'}}";
     let app_token = "{{Session::token()}}";
     let city_id = "{{$user->city_id}}"
     $(function(){$('.ui.progress').progress();});

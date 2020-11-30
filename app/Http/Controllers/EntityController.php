@@ -128,7 +128,7 @@ class EntityController extends Controller
      * @param \App\Entity $entity
      * @return \Illuminate\Http\RedirectResponse|View
      */
-    public function edit(Entity $entity)
+    public function edit(Entity $entity, string $slug)
     {
         $cities = [];
         $supported_links = SupportedLink::all();
@@ -153,7 +153,7 @@ class EntityController extends Controller
      * @param \App\Entity $entity
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateEntity $request, Entity $entity, FileStorage $storage)
+    public function update(UpdateEntity $request, Entity $entity, FileStorage $storage, string $slug)
     {
         $data = $request->validated();
 
@@ -193,7 +193,7 @@ class EntityController extends Controller
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception
      */
-    public function destroy(Entity $entity, FileStorage $storage)
+    public function destroy(Entity $entity, FileStorage $storage, string $slug)
     {
         
         if ($entity->links()->exists()) {
