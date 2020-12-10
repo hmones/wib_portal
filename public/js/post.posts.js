@@ -106,6 +106,7 @@ $(document).on('submit', '.ui.form.create.comment', function (e) {
             _token: form.find('input[name=_token]').val(),
         }
     }).done(function (message) {
+        form.siblings('.ui.feed.old.comments').find('span').remove();
         $(message).hide().prependTo('.new.comments[data-post-id=' + form.find('input[name=commentable_id]').val() + ']').fadeIn(1000);
     });
     form.removeClass('loading').trigger('reset');

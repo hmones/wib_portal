@@ -9,7 +9,7 @@
         @foreach ($users as $user)
         <div class="ui segment event" style="padding:20px;">
             <div class="label">
-                <i class="user outline blue icon"></i>
+                @include('partials.components.avatar', ['type'=>'user','user'=>$user, 'styles'=>'margin-top:17px;'])
             </div>
             <div class="content">
                 <div class="summary">
@@ -40,7 +40,8 @@
         @foreach ($entities as $entity)
         <div class="ui segment event" style="padding:20px;">
             <div class="label">
-                <i class="university blue icon"></i>
+                @include('partials.components.avatar', ['type'=>'entity','entity'=>$entity,
+                'styles'=>'margin-top:17px;'])
             </div>
             <div class="content">
                 <div class="summary">
@@ -57,7 +58,7 @@
                 <div class="meta">
                     <a class="like" href="{{$entity->path}}">
                         <i class="right double arrow icon"></i> Visit
-                        </href=>
+                    </a>
                 </div>
             </div>
         </div>
@@ -70,11 +71,12 @@
         @foreach ($posts as $post)
         <div class="ui segment event" style="padding:20px;">
             <div class="label">
-                <i class="file outline blue icon"></i>
+                @include('partials.components.avatar', ['type'=>'user','user'=>$post->user,
+                'styles'=>'margin-top:17px;'])
             </div>
             <div class="content">
                 <div class="summary">
-                    By <a href="{{route('profile.show', $post->user->id)}}">{{$post->user->name}}</a>
+                    By <a href="{{$post->user->path}}">{{$post->user->name}}</a>
                     <div class="date">
                         {{$post->created_at->diffForHumans()}}
                     </div>

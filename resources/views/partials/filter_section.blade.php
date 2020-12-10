@@ -32,8 +32,8 @@
                         <i class="dropdown icon"></i>
                         <div class="default text">Filter types</div>
                         <div class="menu">
-                            <div class="item" data-value="">All types</div>
-                            <div class="item" data-value="business">Businesses</div>
+                            <div class="item" data-value="">Select type ...</div>
+                            <div class="item" data-value="business">Companies</div>
                             <div class="item" data-value="organization">Organizations</div>
                         </div>
                     </div>
@@ -45,7 +45,7 @@
                         <i class="dropdown icon"></i>
                         <div class="default text">Sort by name</div>
                         <div class="menu">
-                            <div class="item" data-value="">Names unsorted</div>
+                            <div class="item" data-value="">Order by name ...</div>
                             <div class="item" data-value="asc">Assending order (A-Z)</div>
                             <div class="item" data-value="desc">Descending order (Z-A)</div>
                         </div>

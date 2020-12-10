@@ -9,7 +9,7 @@
                     @include('partials.search')
                     <div class="ui dropdown account item" style="margin-bottom: -4px !important;margin-right: 10px;">
                         <i class="globe blue icon"></i> NETWORK
-                        <div class="menu">
+                        <div class="menu network">
                             <a href="{{route('profile.index')}}" class="item">
                                 <i class="users blue icon"></i> PEOPLE
                             </a>
@@ -68,7 +68,7 @@
                                 <i class="user blue icon"></i> My Account
                             </a>
                             <a href="{{route('profile.entities')}}" class="item">
-                                <i class="university blue icon"></i> My Organizations
+                                <i class="university blue icon"></i> My Business
                             </a>
                             <div class="ui blue inverted item" style="background: none !important;">
                                 <form method="post" action="{{route('logout')}}">

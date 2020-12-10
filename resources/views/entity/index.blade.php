@@ -9,7 +9,15 @@
             <span style="color:#1a4d99">Filter</span>
         </a>
     </div>
-    <h1 class="ui blue header"><i class="stop wib bullet icon"></i>Registered Businesses and Organizations</h1>
+    <h1 class="ui blue header"><i class="stop wib bullet icon"></i>
+        @if(request()->get('type') === 'organization')
+        Organizations in the Network
+        @elseif(request()->get('type') === 'business')
+        Companies in the Network
+        @else
+        Companies and Organizations in the Network
+        @endif
+    </h1>
     @include('partials.filter_section', ['route' => route('entity.index'), 'recent_online' => false])
     <br>
     <div class="ui four column stackable grid" id="entities_list">

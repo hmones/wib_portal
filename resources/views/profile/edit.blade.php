@@ -33,7 +33,7 @@
 </div>
 <div class="ui centered container">
     <div class="ui hidden message" id="flash_message"></div>
-    <div class="ui padded segment">
+    <div class="ui padded basic segment">
         <form action="{{$user->path}}" class="ui form" method="POST" enctype="multipart/form-data" id="user_form">
             @csrf
             @method('PUT')
@@ -192,13 +192,12 @@
                         value="{!!isset($user->sectors[2]->id)?$user->sectors[2]->id:''!!}"
                         default-text="Working Field 3" empty-option="Not applicable" />
                 </div>
-                <div class="ui basic segment">
-                    <a class="ui positive right labeled right floated icon button"
-                        onclick="$('#user_submit').trigger('click');">
-                        Save Changes
-                        <i class="checkmark icon"></i>
-                    </a>
-                </div>
+                <div class="ui hidden divider"></div>
+                <a class="ui positive right labeled icon button" onclick="$('#user_submit').trigger('click');">
+                    Save Changes
+                    <i class="checkmark icon"></i>
+                </a>
+
                 <br />
 
             </div>
@@ -222,7 +221,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="ui segment">
+                <div class="ui basic segment">
                     <div class="field">
                         <div class="ui toggle checkbox">
                             <input type="checkbox" name="user[mena_diaspora]" tabindex="0" class="hidden"
@@ -231,7 +230,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="ui segment">
+                <div class="ui basic segment">
                     <div class="field">
                         <div class="ui toggle checkbox">
                             <input type="checkbox" name="user[newsletter]" tabindex="0" class="hidden"
@@ -315,10 +314,9 @@
                             Account</a>
                     </div>
                 </div>
-                <div class="ui basic segment">
-                    <a class="ui positive right labeled right floated icon button" id="user_submit">Save Changes <i
-                            class="checkmark icon"></i></a>
-                </div>
+                <div class="ui hidden divider"></div>
+                <a class="ui positive right labeled icon button" id="user_submit">Save Changes <i
+                        class="checkmark icon"></i></a>
                 <br>
 
             </div>

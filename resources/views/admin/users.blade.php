@@ -25,14 +25,14 @@
         <table class="ui celled stackable table">
             <thead>
                 <tr>
-                    <th>User</th>
-                    <th>Email</th>
-                    <th>Completion</th>
-                    <th>Country</th>
-                    <th>City</th>
-                    <th>Created</th>
-                    <th>Actions</th>
-                    <th>Verify</th>
+                    <th class="five wide">User</th>
+                    <th class="three wide">Email</th>
+                    <th class="one wide">Completion</th>
+                    <th class="one wide">Country</th>
+                    <th class="one wide">City</th>
+                    <th class="two wide">Created</th>
+                    <th class="one wide">Actions</th>
+                    <th class="one wide">Verify</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,15 +40,20 @@
                 <tr>
                     <td>
                         <h4 class="ui image header">
-                            @if($user->image)
-                            <img src="{{$user->image}}" class="ui circular image" alt="{{$user->name}}'s avatar">
-                            @else
-                            <i class="circular inverted grey user small icon"></i>
-                            @endif
+                            @include('partials.components.avatar', ['type'=>'user','user'=>$user])
                             <div class="content">
-                                {{\Illuminate\Support\Str::limit($user->name, 22,$end='..')}}
-                                <div class="sub header">
-                                    {{ $user->entities()->exists() ? \Illuminate\Support\Str::limit($user->entities->first()->name, 27,$end='..'):'No organization'}}
+                                <a href="{{$user->path}}" class="tooltip" data-content="{{$user->name}}">
+                                    {{Str::of($user->name)->lower()->ucfirst()->limit(13,$end='..')}}
+                                </a>
+                                <div class="sub header tooltip"
+                                    data-content="{{optional($user->entities->first())->name}}">
+                                    @if($user->entities()->exists())
+                                    <a href="{{optional($user->entities->first())->path}}">
+                                        {{Str::of($user->entities->first()->name)->lower()->ucfirst()->limit(13,$end='..')}}
+                                    </a>
+                                    @else
+                                    No organization
+                                    @endif
                                 </div>
                             </div>
                         </h4>
@@ -153,6 +158,7 @@
         });
         $(function(){
             $('#filter_form').show();
+            $('.tooltip').popup();
         });
 </script>
 @endsection

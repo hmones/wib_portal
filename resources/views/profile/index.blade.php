@@ -8,7 +8,7 @@
             <i class="filter teal icon"></i><span style="color:#1a4d99">Filter</span>
         </a>
     </div>
-    <h1 class="ui blue header"><i class="stop wib bullet icon"></i>Registered members</h1>
+    <h1 class="ui blue header"><i class="stop wib bullet icon"></i>Members in the Network</h1>
     @include('partials.filter_section', ['route' => route('profile.index'), 'recent_online' => true])
     <br>
     <div class="ui four column stackable grid" id="profiles_list">

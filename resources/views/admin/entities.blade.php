@@ -25,13 +25,13 @@
         <table class="ui celled stackable table">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Country</th>
-                    <th>City</th>
-                    <th>Created</th>
-                    <th>Actions</th>
-                    <th>Verify</th>
+                    <th class="four wide">Name</th>
+                    <th class="three wide">Email</th>
+                    <th class="one wide">Country</th>
+                    <th class="one wide">City</th>
+                    <th class="two wide">Created</th>
+                    <th class="one wide">Actions</th>
+                    <th class="one wide">Verify</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,17 +39,18 @@
                 <tr>
                     <td>
                         <h4 class="ui image header">
-                            @if($entity->image)
-                            <img src="{{$entity->image}}" class="ui circular image" alt="{{$entity->name}}'s avatar">
-                            @else
-                            <i class="circular inverted grey image small icon"></i>
-                            @endif
+                            @include('partials.components.avatar', ['type'=>'entity','entity'=>$entity])
                             <div class="content">
-                                {{\Illuminate\Support\Str::limit($entity->name, 27,$end='..')}}
+                                <a class="tooltip" href="{{$entity->path}}" data-content="{{$entity->name}}">
+                                    {{Str::of($entity->name)->lower()->ucfirst()->limit(15,$end='..')}}
+                                </a>
                                 <br>
                                 <div class="sub header">
                                     @if($entity->owned_by()->first())
-                                    {{\Illuminate\Support\Str::limit($entity->owned_by()->first()->name, 27,$end='..')}}
+                                    <a href="{{$entity->owned_by()->first()->path}}" class="tooltip"
+                                        data-content="{{$entity->owned_by()->first()->name}}">
+                                        {{Str::of($entity->owned_by()->first()->name)->lower()->ucfirst()->limit(15,$end='..')}}
+                                    </a>
                                     @else
                                     No owner
                                     @endisset
@@ -105,7 +106,51 @@
     <div class="ui header">Entity Information</div>
     <div class="ui padded basic segment">
         <div class="entity information ui three column stackable grid">
-
+            <div class="column"><strong>Name </strong></br></br>
+                <div class="ui grey large label" id="modal_name"></div>
+            </div>
+            <div class="column"><strong>Founding year </strong></br></br>
+                <div class="ui grey large label" id="modal_year"></div>
+            </div>
+            <div class="column"><strong>Primary Address </strong></br></br>
+                <div class="ui grey large label" id="modal_primary_address"></div>
+            </div>
+            <div class="column"><strong>Entity created at </strong></br></br>
+                <div class="ui grey large label" id="modal_created_at"></div>
+            </div>
+            <div class="column"><strong>Information updated at </strong></br></br>
+                <div class="ui grey large label" id="modal_updated_at"></div>
+            </div>
+            <div class="column"><strong>Primary Email </strong></br></br>
+                <div class="ui grey large label" id="modal_primary_email"></div>
+            </div>
+            <div class="column"><strong>Secondary Email </strong></br></br>
+                <div class="ui grey large label" id="modal_secondary_email"></div>
+            </div>
+            <div class="column"><strong>Phone </strong></br></br>
+                <div class="ui grey large label" id="modal_phone"></div>
+            </div>
+            <div class="column"><strong>Entity size </strong></br></br>
+                <div class="ui grey large label" id="modal_size"></div>
+            </div>
+            <div class="column"><strong>Business Type </strong></br></br>
+                <div class="ui grey large label" id="modal_type"></div>
+            </div>
+            <div class="column"><strong>Turn Over </strong></br></br>
+                <div class="ui grey large label" id="modal_turnover"></div>
+            </div>
+            <div class="column"><strong>Balance Sheet </strong></br></br>
+                <div class="ui grey large label" id="modal_balance"></div>
+            </div>
+            <div class="column"><strong>Revenue </strong></br></br>
+                <div class="ui grey large label" id="modal_revenue"></div>
+            </div>
+            <div class="column"><strong>Members (for associations) </strong></br></br>
+                <div class="ui grey large label" id="modal_members"></div>
+            </div>
+            <div class="column"><strong>Students </strong></br></br>
+                <div class="ui grey large label" id="modal_students"></div>
+            </div>
         </div>
     </div>
     <div class="ui actions">
@@ -126,6 +171,7 @@
 <script>
     $(function(){
             $('#filter_form').show();
+            $('.tooltip').popup();
         });
     $('.ui.checkbox').checkbox();
         $('.ui.small.modal').modal();
@@ -139,8 +185,31 @@
                 url: url,
             }).done(function (msg) {
                 if (msg['id'] === id) {
-                    var html = '<div class="column"><strong>Name </strong></br></br><div class="ui grey large label">'+msg['name']+', '+msg['additional_name']+'</div></div><div class="column"><strong>Founding year </strong></br></br><div class="ui grey large label">'+msg['founding_year']+'</div></div><div class="column"><strong>Primary Address </strong></br></br><div class="ui grey large label">'+msg['primary_address']+'</div></div><div class="column"><strong>Entity created at </strong></br></br><div class="ui grey large label">'+msg['created_at']+'</div></div><div class="column"><strong>Information updated at </strong></br></br><div class="ui grey large label">'+msg['updated_at']+'</div></div>'+'<div class="column"><strong>Primary Email </strong></br></br><div class="ui grey large label">'+msg['primary_email']+'</div></div><div class="column"><strong>Secondary Email </strong></br></br><div class="ui grey large label">'+msg['secondary_email']+'</div></div><div class="column"><strong>Phone </strong></br></br><div class="ui grey large label">+'+msg['phone_country_code']+msg['phone']+'</div></div><div class="column"><strong>Entity size </strong></br></br><div class="ui grey large label">'+msg['entity_size']+'</div></div><div class="column"><strong>Business Type </strong></br></br><div class="ui grey large label">'+msg['business_type']+'</div></div><div class="column"><strong>Turn Over </strong></br></br><div class="ui grey large label">+'+msg['turn_over']+msg['phone']+'</div></div><div class="column"><strong>Balance Sheet </strong></br></br><div class="ui grey large label">'+msg['balance_sheet']+'</div></div><div class="column"><strong>Revenue </strong></br></br><div class="ui grey large label">'+msg['revenue']+'</div></div><div class="column"><strong>Members (for associations) </strong></br></br><div class="ui grey large label">'+msg['employees']+'</div></div><div class="column"><strong>Students </strong></br></br><div class="ui grey large label">'+msg['students']+'</div></div>';
-                    $('.entity.information').html(html);
+                    var created_at = new Date(msg['created_at']);
+                    var updated_at = new Date(msg['updated_at']);
+                    $('#modal_name').html(msg['name']+', '+msg['additional_name']);
+                    $('#modal_year').html(msg['founding_year']);
+                    $('#modal_primary_address').html(msg['primary_address']);
+                    $('#modal_created_at').html(created_at.toDateString());
+                    $('#modal_updated_at').html(updated_at.toDateString());
+                    $('#modal_primary_email').html(msg['primary_email']);
+                    if(msg['secondary_email']){
+                        $('#modal_secondary_email').html(msg['secondary_email']);
+                    }else{
+                        $('#modal_secondary_email').html('Empty');
+                    }
+                    if(msg['phone']){
+                        $('#modal_phone').html('+'+msg['phone_country_code']+msg['phone']);
+                    }else{
+                        $('#modal_phone').html('Empty');
+                    }
+                    $('#modal_size').html(msg['entity_size']);
+                    $('#modal_type').html(msg['business_type']);
+                    $('#modal_turnover').html(msg['turn_over']);
+                    $('#modal_balance').html(msg['balance_sheet']);
+                    $('#modal_revenue').html(msg['revenue']);
+                    $('#modal_members').html(msg['employees']);
+                    $('#modal_students').html(msg['students']);
                     $('.ui.small.modal').modal('show');
 
                 } else {

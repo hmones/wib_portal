@@ -17,18 +17,16 @@
         <div class="ten wide column">
             <div class="ui basic right aligned segment" style="padding-top:0px;">
                 @if($post->post_type)
-                Looking for <i class="yellow lightbulb icon" style="margin-right: 0px;"></i> <a
-                    href="#">{{$post->post_type}}</a>
+                Looking for <i class="yellow lightbulb icon" style="margin-right: 0px;"></i> {{$post->post_type}}
                 @endif
                 @isset($post->country)
                 in
-                <i class="map marker alternate red icon" style="margin-right: 0px;"></i><a
-                    href="#">{{$post->country->name}}</a>
+                <i class="map marker alternate red icon" style="margin-right: 0px;"></i>{{$post->country->name}}
                 @endisset
                 @isset($post->sector)
                 for
                 <i class="{{$post->sector->icon}} blue icon" style="margin-right: 0px;"></i>
-                <a href="#">{{$post->sector->name}}</a>
+                {{$post->sector->name}}
                 @endisset
             </div>
         </div>
