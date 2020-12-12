@@ -107,7 +107,47 @@
     <div class="ui header">User Information</div>
     <div class="ui padded basic segment">
         <div class="user information ui three column stackable grid">
-
+            <div class="column"><strong>Name </strong></br></br>
+                <div class="ui grey small message" id="modal_name"></div>
+            </div>
+            <div class="column"><strong>Gender </strong></br></br>
+                <div class="ui grey small message" id="modal_gender"></div>
+            </div>
+            <div class="column"><strong>Birth Year </strong></br></br>
+                <div class="ui grey small message" id="modal_birth_year"></div>
+            </div>
+            <div class="column"><strong>Account created at </strong></br></br>
+                <div class="ui grey small message" id="modal_created_at"></div>
+            </div>
+            <div class="column"><strong>Information updated at </strong></br></br>
+                <div class="ui grey small message" id="modal_updated_at"></div>
+            </div>
+            <div class="column"><strong>Email </strong></br></br>
+                <div class="ui grey small message" id="modal_email"></div>
+            </div>
+            <div class="column"><strong>Email verified at</strong></br></br>
+                <div class="ui grey small message" id="modal_email_verified_at"></div>
+            </div>
+            <div class="column"><strong>Education </strong></br></br>
+                <div class="ui grey small message" id="modal_education"></div>
+            </div>
+            <div class="column"><strong>Mena Diaspora </strong></br></br>
+                <div class="ui grey small message" id="modal_mena_diaspora"></div>
+            </div>
+            <div class="column"><strong>Association </strong></br></br>
+                <div class="ui grey small message" id="modal_business_association_wom"></div>
+            </div>
+            <div class="column"><strong>Phone Number </strong></br></br>
+                <div class="ui grey small message" id="modal_phone"></div>
+            </div>
+            <div class="column"><strong>Subscribed to Newsletter? </strong></br></br>
+                <div class="ui grey small message" id="modal_newsletter"></div>
+            </div>
+        </div>
+        <div class="ui stackable grid">
+            <div class="column"><strong>Bio </strong></br></br>
+                <div class="ui grey small message" id="modal_bio"></div>
+            </div>
         </div>
     </div>
     <div class="ui actions">
@@ -138,8 +178,21 @@
                 url: url,
             }).done(function (msg) {
                 if (msg['id'] === id) {
-                    var html = '<div class="column"><strong>Name </strong></br></br><div class="ui grey large label">'+msg['title']+', '+msg['name']+'</div></div><div class="column"><strong>Gender </strong></br></br><div class="ui grey large label">'+msg['gender']+'</div></div><div class="column"><strong>Birth Year </strong></br></br><div class="ui grey large label">'+msg['birth_year']+'</div></div><div class="column"><strong>Account created at </strong></br></br><div class="ui grey large label">'+msg['created_at']+'</div></div><div class="column"><strong>Information updated at </strong></br></br><div class="ui grey large label">'+msg['updated_at']+'</div></div>'+'<div class="column"><strong>Email </strong></br></br><div class="ui grey large label">'+msg['email']+'</div></div><div class="column"><strong>Email verified at </strong></br></br><div class="ui grey large label">'+msg['email_verified_at']+'</div></div><div class="column"><strong>Education </strong></br></br><div class="ui grey large label">'+msg['education']+'</div></div><div class="column"><strong>Mena Diaspora </strong></br></br><div class="ui grey large label">'+msg['mena_diaspora']+'</div></div><div class="column"><strong>Association </strong></br></br><div class="ui grey large label">'+msg['business_association_wom']+'</div></div><div class="column"><strong>Phone Number </strong></br></br><div class="ui grey large label">+'+msg['phone_country_code']+msg['phone']+'</div></div><div class="column"><strong>Subscribed to Newsletter </strong></br></br><div class="ui grey large label">'+msg['newsletter']+'</div></div><div class="column"><strong>Profile </strong></br></br><div class="ui grey large label">'+msg['bio']+'</div></div>';
-                    $('.user.information    ').html(html);
+                    msg['created_at'] = new Date(msg['created_at']).toDateString();
+                    msg['updated_at'] = new Date(msg['updated_at']).toDateString();
+                    msg['email_verified_at'] = new Date(msg['email_verified_at']).toDateString();
+                    msg['newsletter'] = ((msg['newsletter'] < 1) ? 'No' : 'Yes');
+                    msg['mena_diaspora'] = ((msg['mena_diaspora'] < 1) ? 'No' : 'Yes');
+                    msg['phone'] = ((msg['phone'] != null) ? ('+('+msg['phone_country_code']+') '+msg['phone']) : null);
+                    function fill_modal(key, index) {
+                        if(msg[key]){
+                            $('#modal_'+key).html(msg[key]);
+                        }else{
+                            $('#modal_'+key).html('None');
+                        }
+                        return true;
+                    }
+                    Object.keys(msg).map(fill_modal);
                     $('.ui.small.modal').modal('show');
 
                 } else {
