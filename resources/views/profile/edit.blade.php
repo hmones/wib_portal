@@ -351,7 +351,6 @@
 <script type="application/javascript">
     let app_url = "{{url('/')}}";
     let profile_store_url = "{{$user->path}}";
-    let profile_picture_store_url = "{{route('profilepicture.store')}}";
     let login_url = "{{$user->path . '/edit'}}";
     let app_token = "{{Session::token()}}";
     let city_id = "{{$user->city_id}}"
