@@ -281,7 +281,6 @@
 <script>
     let app_url = "{{url('/')}}";
     let profile_store_url = "{{route('profile.store')}}";
-    let profile_picture_store_url = "{{route('profilepicture.store')}}";
     let login_url = "{{route('login')}}";
     let app_token = "{{Session::token()}}";
     let city_id = "{{old('user.city_id')}}";
