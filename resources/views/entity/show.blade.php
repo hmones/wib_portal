@@ -99,7 +99,7 @@
         <div class="five wide column">
             <h4 class="ui blue header"><i class="stop wib bullet icon"></i>Members</h4>
             @auth
-            <div class="ui very relaxed divided list">
+            <div class="ui very relaxed list">
                 @forelse($entity->users as $user)
                 <div class="item">
                     @include('partials.components.avatar', ['user' => $user, 'type' => 'user'])
@@ -136,7 +136,7 @@
         </div>
         <div class="five wide column">
             <h4 class="ui blue header"><i class="stop wib bullet icon"></i>Fields of Activity</h4>
-            <div class="ui grey message">
+            <div class="ui segment">
                 @foreach($entity->sectors as $sector)
                 <div>
                     <!-- <i class="{{$sector->icon}} blue icon"></i> -->
@@ -146,7 +146,7 @@
             </div>
 
             <h4 class="ui blue header"><i class="stop wib bullet icon"></i>Business Activity</h4>
-            <div class="ui grey message">
+            <div class="ui segment">
                 @if($entity->activity)
                 {{$entity->activity}}
                 @else
@@ -156,7 +156,7 @@
         </div>
         <div class="five wide column">
             <h4 class="ui blue header"><i class="stop wib bullet icon"></i>Locations</h4>
-            <div class="ui grey message">
+            <div class="ui segment">
                 {{$entity->primary_address}} <br> {{$entity->primary_city->name}}
                 <br>{{$entity->primary_country->name}}
             </div>

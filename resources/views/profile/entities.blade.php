@@ -36,15 +36,15 @@
             </td>
         </tr>
         @empty
-        <tr>
-            <td colspan="4">You have no organization registered</td>
-        </tr>
+            <tr>
+                <td colspan="4">You have no organization registered</td>
+            </tr>
         @endforelse
-        <tr class="ui inverted grey table">
+        <tr class="ui table">
             <td colspan="4">
                 <div class="ui basic centered center aligned basic segment">
-                    <a class="ui teal basic button" href="{{route('entity.create')}}"> <i class="plus icon"></i>
-                        Register an organization</a>
+                    <a class="ui teal large button" href="{{route('entity.create')}}"> <i class="tasks icon"></i>
+                        Register a new organization</a>
                 </div>
             </td>
         </tr>
@@ -52,47 +52,51 @@
     <br><br>
     <h1 class="ui blue header"><i class="stop wib bullet icon"></i>Other Companies and Organizations</h1>
     <br>
-    <table class="ui middle aligned centered center aligned very basic table">
+    <table class="ui middle aligned centered very basic table">
         <thead>
-            <tr>
-                <th class="center aligned ui blue header" colspan="2">Organization name</th>
-                <th class="center aligned ui blue header">Relationship to the organization</th>
-                <th class="center aligned ui blue header">Actions</th>
-            </tr>
+        <tr>
+            <th class="ui blue header">Logo</th>
+            <th class="ui blue header">Organization name</th>
+            <th class="ui blue header">Relationship to the organization</th>
+            <th class="ui blue header">Actions</th>
+        </tr>
         </thead>
         @forelse($other_entities as $entity)
-        <tr>
-            <td>
-                @if($entity->image)
-                <img class="ui tiny circular centered image" src="{{$entity->image}}" alt="{{$entity->name}}">
-                @else
-                <i class="circular grey inverted image big icon"></i>
-                @endif
-            </td>
-            <td>
-                {{$entity->name}}
-            </td>
-            <td>
-                {{isset($entity->users()->find(Auth::id())->pivot->relation_type)?$entity->users()->find(Auth::id())->pivot->relation_type:'No relationship'}}
-            </td>
-            <td>
-                <a data-text="{{$entity->id}}" class="ui basic red button disassociate entity"> <i
-                        class="trash icon"></i> Remove</a>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @if($entity->image)
+                        <img class="ui tiny circular image" src="{{$entity->image}}" alt="{{$entity->name}}">
+                    @else
+                        <i class="circular grey inverted image big icon"></i>
+                    @endif
+                </td>
+                <td>
+                    {{$entity->name}}
+                </td>
+                <td>
+                    {{isset($entity->users()->find(Auth::id())->pivot->relation_type)?$entity->users()->find(Auth::id())->pivot->relation_type:'No relationship'}}
+                </td>
+                <td>
+                    <a data-text="{{$entity->id}}" class="ui fluid basic red button disassociate entity"> <i
+                                class="trash icon"></i> Remove</a>
+                </td>
+            </tr>
         @empty
-        <tr>
-            <td colspan="4">You have no organization registered</td>
-        </tr>
+            <tr>
+                <td colspan="4">You have no organization registered</td>
+            </tr>
         @endforelse
-        <tr class="ui inverted grey table">
+        <tr>
             <form id="entity_associate_form" action="{{route('profile.entities.associate',['profile'=> Auth::user()])}}"
-                method="POST">
+                  method="POST">
                 @csrf
-                <td colspan="2">
+                <td>
+                    <i class="circular grey inverted image big icon"></i>
+                </td>
+                <td>
                     <div class="required field">
                         <div id="entity_search_dropdown"
-                            class="ui fluid search selection dropdown entity_search_dropdown @error('other_entity_name') error @enderror">
+                             class="ui fluid search selection dropdown entity_search_dropdown @error('other_entity_name') error @enderror">
                             <input required type="hidden" name="other_entity_name">
                             <i class="search icon" style="padding-top:10px;"></i>
                             <div class="default text">Search for a registered organization</div>
@@ -118,7 +122,7 @@
                     </div>
                 </td>
                 <td>
-                    <button type="submit" class="ui teal button"><i class="plus icon"></i> Add</button>
+                    <button type="submit" class="ui teal fluid button"><i class="tasks icon"></i> Add</button>
                 </td>
             </form>
         </tr>

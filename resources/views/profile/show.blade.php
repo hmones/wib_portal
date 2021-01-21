@@ -31,11 +31,12 @@
                 {{$user->name}}</h1>
             <p>{{strtoupper($user->country->name)}}</p>
             @foreach($user->links as $link)
-            <a href="{{$link->url}}"> <i class="circular blue {{$link->type->icon}} icon"></i> </a>
+                <a href="{{$link->url}}"> <i class="circular blue {{$link->type->icon}} icon"></i> </a>
             @endforeach
         </div>
         <div class="seven wide column">
-            <a href="{{route('messenger')}}" class="ui right floated right labeled top aligned basic teal icon button">
+            <a href="{{route('messenger')}}"
+               class="ui right floated right labeled top aligned basic teal icon big button">
                 <i class="send icon"></i>
                 Message User
             </a>
@@ -45,7 +46,7 @@
     <div class="ui stackable grid">
         <div class="five wide column">
             <h4 class="ui blue header"><i class="stop wib bullet icon"></i>User's Organizations</h4>
-            <div class="ui relaxed divided list">
+            <div class="ui relaxed list">
                 @forelse($user->entities as $entity)
                 <div class="item">
                     @include('partials.components.avatar',['entity' => $entity, 'type' => 'entity'])
@@ -64,7 +65,7 @@
         </div>
         <div class="seven wide column">
             <h4 class="ui blue header"><i class="stop wib bullet icon"></i>Profile</h4>
-            <div class="ui grey message">
+            <div class="ui segment">
                 @if($user->bio)
                 {{$user->bio}}
                 @else
@@ -76,7 +77,7 @@
         </div>
         <div class="four wide column">
             <h4 class="ui blue header"><i class="stop wib bullet icon"></i>Women Association</h4>
-            <div class="ui grey message">
+            <div class="ui segment">
                 @if($association)
                 <a href="{{$association->path}}">
                     <img class="ui avatar image" src="
@@ -94,7 +95,7 @@
             </div>
 
             <h4 class="ui blue header"><i class="stop wib bullet icon"></i>Field of work</h4>
-            <div class="ui grey message">
+            <div class="ui segment">
                 @foreach($user->sectors as $sector)
                 <div>
                     <i class="{{$sector->icon}} blue icon"></i> {{$sector->name}}

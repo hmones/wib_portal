@@ -5,23 +5,23 @@
         <div class="grey column" style="border-radius: 5px;">
             @csrf
             <div class="fields" style="margin:0px;">
-                <x-Countries class="eight wide" fieldname="countries" dropdown-css="multiple" />
-                <x-Sectors class="eight wide" fieldname="sectors" dropdown-css="multiple" />
+                <x-Countries class="eight wide" fieldname="countries" dropdown-css="multiple"/>
+                <x-Sectors class="eight wide" fieldname="sectors" dropdown-css="multiple"/>
             </div>
-            <br />
+            <br/>
             <div class="fields" style="margin:0px;">
                 <div class="four wide field">
-                    <div class="ui toggle checkbox">
+                    <div class="ui slider checkbox" style="padding-top: 0.5em;">
                         <input type="checkbox" name="is_verified" value="1"
-                            {{request('is_verified',false)?'checked':''}}>
+                                {{request('is_verified',false)?'checked':''}}>
                         <label>Show only verified</label>
                     </div>
                 </div>
                 @if($recent_online)
-                <div class="four wide field">
-                    <div class="ui toggle checkbox">
-                        <input type="checkbox" name="last_login" value="desc"
-                            {{request('last_login',false)?'checked':''}}>
+                    <div class="four wide field">
+                        <div class="ui slider checkbox" style="padding-top: 0.5em;">
+                            <input type="checkbox" name="last_login" value="desc"
+                                    {{request('last_login',false)?'checked':''}}>
                         <label>Sort by recently online</label>
                     </div>
                 </div>

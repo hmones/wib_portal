@@ -13,7 +13,7 @@
                 @endcan
             </div>
         </div>
-        <div class="extra text">
+        <div class="extra text wib_comment">
             {{$comment->content}}
         </div>
         <div class="meta">

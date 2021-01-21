@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Country;
 use App\Http\Resources\Country as CountryResource;
+use App\Models\Country;
 use Illuminate\Support\Facades\Route;
 
 
@@ -12,7 +12,7 @@ Route::get('profile/create', 'ProfileController@create')->name('profile.create')
 
 Route::post('profile', 'ProfileController@store')->name('profile.store');
 
-Route::resource('profilepicture', 'ProfilePictureController')->except(['index','create','edit','show','update']);
+//Route::resource('profilepicture', 'ProfilePictureController')->except(['index','create','edit','show','update']);
 
 Route::get('/country/{id}', function ($id) {
     return new CountryResource(Country::findOrFail($id));

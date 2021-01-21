@@ -1,8 +1,4 @@
 <div class="ui padded raised segment" id="post_{{$post->id}}">
-    @if ($post->user->id === Auth::id())
-    <div class="floating ui circular red label" style="padding-left:3px !important;"><i class="delete icon"
-            data-post-id="{{$post->id}}"></i></div>
-    @endif
     <div class="ui stackable grid">
         <div class="six wide column ui list">
             <div class="item">
@@ -14,50 +10,70 @@
             </div>
         </div>
         @if ($post->post_type or isset($post->country) or isset($post->sector))
-        <div class="ten wide column">
-            <div class="ui basic right aligned segment" style="padding-top:0px;">
-                @if($post->post_type)
-                Looking for <i class="yellow lightbulb icon" style="margin-right: 0px;"></i> {{$post->post_type}}
-                @endif
-                @isset($post->country)
-                in
-                <i class="map marker alternate red icon" style="margin-right: 0px;"></i>{{$post->country->name}}
-                @endisset
-                @isset($post->sector)
-                for
-                <i class="{{$post->sector->icon}} blue icon" style="margin-right: 0px;"></i>
-                {{$post->sector->name}}
-                @endisset
+            <div class="ten wide column">
+                <div class="ui basic right aligned segment" style="padding-top:0px;">
+                <span style="border-bottom: 2px">
+                    <i class="comments teal icon"></i>
+                    <span style="color:#666666">
+                        @if($post->post_type)
+                            Looking for {{$post->post_type}}
+                        @endif
+                        @isset($post->country)
+                            in {{$post->country->name}}
+                        @endisset
+                        @isset($post->sector)
+                            in {{$post->sector->name}}
+                        @endisset
+                    </span>
+                    @if ($post->user->id === Auth::id())
+                        <span style="padding-left:20px;">
+                        <a class="ui label"><i class="trash icon" style="margin-right:0px"
+                                               data-post-id="{{$post->id}}"></i></a>
+                    </span>
+                    @endif
+                </span>
+
+                </div>
             </div>
-        </div>
         @endif
     </div>
-    <div class="ui basic segment" style="margin-top:0px;">
+    <div class="ui basic segment wib post content">
         {{$post->content}}
         @if($post->image)
-        <div class="ui divider"></div>
-        <img class="ui image" src="{{$post->image}}" alt="">
+            <div class="ui divider"></div>
+            <img class="ui image" src="{{$post->image}}" alt="">
         @endif
     </div>
-    <div class="ui divider"></div>
-    <div class="ui stackable grid">
+    <div class="ui stackable grid wib post engagement section">
         <div class="four column row">
-            <div class="left floated column">
+            <div class="left floated middle aligned column" style="opacity:0.8;padding-left:2em;">
+                <i class="blue thumbs up icon"></i>
+                <span class="likes count">
+                     {{$post->reactions->count()}}
+                </span>
+                likes
+                &nbsp;
+                <i class="orange comment icon"></i>
+                <span class="comments count">
+                    {{$post->comments->count()}}
+                </span>
+                comments
+            </div>
+            <div class="right floated ten wide right aligned column column">
                 @include('partials.likes.show',['reactions' => $post->reactions, 'id'=>$post->id,
                 'type'=>'App\Models\Post'])
-            </div>
-            <div class="right floated right aligned column">
-                <a href="{{route('messenger')}}"> <i class="paper plane teal icon"></i> Send Message</a>
+                <a href="{{route('messenger')}}" class="ui basic teal mini button"> <i
+                            class="paper plane teal icon"></i> Message</a>
             </div>
         </div>
     </div>
-    <div class="ui divider"></div>
     @include('partials.comments.new', ['id'=>$post->id,'type'=>'App\Models\Post'])
+    <br/>
     <div class="ui feed new comments" data-post-id="{{$post->id}}"></div>
     @include('partials.comments.list', ['comments' => $post->comments->take(3)])
     <div class="extra comments" data-post-id="{{$post->id}}"></div>
     @if ($post->comments->count()>3)
-    <div class="ui basic segment">
+        <div class="ui basic segment">
         <a class="load_more_comments_btn" href="javascript:void(0);" data-post-id="{{$post->id}}" data-page="1"
             data->Load more
             comments ...</a>

@@ -73,7 +73,7 @@ $(document).on('click', '#create_new_post', function () {
     $(this).closest('form').removeClass('loading').trigger('reset');
 });
 //Deleting posts
-$(document).on('click', '.delete.icon', function () {
+$(document).on('click', '.trash.icon', function () {
     var post_id = $(this).attr('data-post-id');
     //Ajax call to get new posts
     $.ajax({
@@ -132,7 +132,8 @@ $(document).on('click', 'a.thumbs.up.button', function () {
     var id = element.attr('data-id');
     var reaction_id = element.attr('data-reaction-id');
     var user_id = element.attr('data-user-id');
-    var reactions = parseInt(element.children('span').html());
+    var reactions_element = element.parent().siblings('div.left.floated.column').children('span.likes.count');
+    var reactions = parseInt(reactions_element.html());
     if (reaction_id != 0) {
         $.ajax({
             method: 'POST',
@@ -143,7 +144,8 @@ $(document).on('click', 'a.thumbs.up.button', function () {
             }
         }).done(function (message) {
             reactions--;
-            element.attr('data-reaction-id', 0).css('color', '#999999').children('span').html(reactions--);
+            element.attr('data-reaction-id', 0).removeClass('teal');
+            reactions_element.html(reactions--);
         });
     } else {
         $.ajax({
@@ -158,7 +160,8 @@ $(document).on('click', 'a.thumbs.up.button', function () {
             }
         }).done(function (message) {
             reactions++;
-            element.attr('data-reaction-id', message.id).css('color', '#4183c4').children('span').html(reactions++);
+            element.attr('data-reaction-id', message.id).addClass('teal');
+            reactions_element.html(reactions++);
         });
     }
 });

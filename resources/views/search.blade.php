@@ -7,7 +7,7 @@
     <h3 class="ui blue header"><i class="right angle blue icon"></i>Members</h3>
     <div class="ui large feed">
         @foreach ($users as $user)
-        <div class="ui segment event" style="padding:20px;">
+        <div class="ui segment event" style="padding:20px;margin-top:20px;">
             <div class="label">
                 @include('partials.components.avatar', ['type'=>'user','user'=>$user, 'styles'=>'margin-top:17px;'])
             </div>
@@ -38,10 +38,10 @@
     <h3 class="ui blue header"><i class="right angle blue icon"></i>Companies</h3>
     <div class="ui large feed">
         @foreach ($entities as $entity)
-        <div class="ui segment event" style="padding:20px;">
-            <div class="label">
-                @include('partials.components.avatar', ['type'=>'entity','entity'=>$entity,
-                'styles'=>'margin-top:17px;'])
+            <div class="ui segment event" style="padding:20px;margin-top:20px;">
+                <div class="label">
+                    @include('partials.components.avatar', ['type'=>'entity','entity'=>$entity,
+                    'styles'=>'margin-top:17px;'])
             </div>
             <div class="content">
                 <div class="summary">
@@ -69,10 +69,10 @@
     <h3 class="ui blue header"><i class="right angle blue icon"></i>Posts</h3>
     <div class="ui large feed">
         @foreach ($posts as $post)
-        <div class="ui segment event" style="padding:20px;">
-            <div class="label">
-                @include('partials.components.avatar', ['type'=>'user','user'=>$post->user,
-                'styles'=>'margin-top:17px;'])
+            <div class="ui segment event" style="padding:20px;margin-top:20px;">
+                <div class="label">
+                    @include('partials.components.avatar', ['type'=>'user','user'=>$post->user,
+                    'styles'=>'margin-top:17px;'])
             </div>
             <div class="content">
                 <div class="summary">

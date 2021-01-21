@@ -1,21 +1,29 @@
-<form class="ui form" method="POST" action="{{$url == 'user'? '/login':route('admin.')}}">
+<form class="ui form" method="POST" action="{{$url == 'user'? route('login'):route('admin.')}}">
     @csrf
     <div class="ui blue header">Login</div>
     <div class="ui divider"></div>
-    <div class="field">
+    <div class="@error('email') error @enderror field">
         <input
-            class="form-control"
-            name="email"
-            placeholder="Email"
-            type="email"/>
+                class="form-control"
+                id="email"
+                name="email"
+                placeholder="Email"
+                value="{{old('email')}}"
+                required
+                autocomplete="email"
+                autofocus
+                type="email"/>
     </div>
 
-    <div class="field">
+    <div class="@error('password') error @enderror field">
         <input
-            class="form-control"
-            name="password"
-            placeholder="Password"
-            type="password"/>
+                id="password"
+                class="form-control"
+                name="password"
+                placeholder="Password"
+                required
+                autocomplete="current-password"
+                type="password"/>
     </div>
     <a href="{{route('password.request')}}">Forgot password?</a>
     <br><br>
