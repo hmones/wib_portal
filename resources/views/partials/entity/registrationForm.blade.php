@@ -3,11 +3,10 @@
     <div class="ui hidden message" id="form_errors"></div>
     <form id="entity_form" action="" method="POST" enctype="multipart/form-data">
         @csrf
-        @isset($entity)
-            @method('PUT')
-        @else
-            @method('POST')
+        @isset($entity->id)
+        @method('PUT')
         @endisset
+        <input type="hidden" name="entity[network]" value="wib" />
         <div class="ui stackable grid">
             <div class="five wide column">
                 <div class="ui medium image">
@@ -15,216 +14,201 @@
                         <h4 class="ui header">Organization logo</h4>
                         <label for="logo">
                             <a href="#" id="logo_upload_icon">
-                                @isset($entity)
-                                    @if($entity->logo()->exists())
-                                        <img class='ui circular centered small image'
-                                             src='{{$entity->logo()->thumbnail()->url}}' alt="{{$entity->name}}">
-                                    @else
-                                        <i class="circular inverted grey image huge icon"></i>
-                                    @endif
+                                @if($entity->image)
+                                <img class='ui circular centered small image' src='{{$entity->image}}'
+                                    alt="{{$entity->name}}">
                                 @else
-                                    <i class="circular inverted grey image huge icon"></i>
-                                @endisset
+                                <i class="circular inverted grey image huge icon"></i>
+                                @endif
                             </a>
                         </label>
-                        <div class=""><small>Image size 300px x 300px</small></div>
-                        <input type="file" name="logo" style="display: none;" id="logo_upload_input">
-                        <input type="hidden"
-                               value="@isset($entity){{isset($entity->logo()->thumbnail()->id)?$entity->logo()->thumbnail()->id:''}}@endisset"
-                               name="logo_id">
+                        <div class="image description"><small>Image size 300px x 300px</small></div>
+                        <input type="file" name="entity[image]" style="display: none;" id="logo_upload_input">
                     </div>
                 </div>
             </div>
             <div class="eleven wide column ui form">
                 <div class="two fields">
                     <div class="required field">
-                        <label for="entity_type_id">Type of Organization</label>
+                        <label for="entity[entity_type_id]">Type of Organization</label>
                         <div class="ui fluid search selection dropdown">
-                            <input type="hidden" name="entity_type_id" value="{{$entity->entity_type_id??''}}">
+                            <input type="hidden" name="entity[entity_type_id]" value="{{$entity->entity_type_id??''}}">
                             <i class="dropdown icon"></i>
                             <div class="default text">Type of organizaiton</div>
                             <div class="menu">
                                 @foreach ($entity_types as $entity_type)
-                                    <div class="item" data-value="{{$entity_type->id}}">{{$entity_type->name}}</div>
+                                <div class="item" data-value="{{$entity_type->id}}">{{$entity_type->name}}</div>
                                 @endforeach
                             </div>
 
                         </div>
                     </div>
                     <div class="required field">
-                        <label for="relation">Your relation to the organization</label>
+                        <label for="users[relation]">Your relation to the organization</label>
                         <div class="ui fluid search selection dropdown @error('relation') error @enderror">
-                            <input required type="hidden" name="relation"
-                                   value="{{isset($entity)?$entity->users()->find(Auth::id())->pivot->relation_type:''}}">
+                            <input required type="hidden" name="users[relation]"
+                                value="@if($entity->users()->find(Auth::id())){{$entity->users()->find(Auth::id())->pivot->relation_type}}@endif">
                             <i class="dropdown icon"></i>
                             <div class="default text">Your relation to the organization..</div>
                             <div class="menu">
                                 <div class="item">Select relationship</div>
                                 @foreach ($relations as $relation)
-                                    <div class="item" data-value="{{$relation}}">{{$relation}}</div>
+                                <div class="item" data-value="{{$relation}}">{{$relation}}</div>
                                 @endforeach
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="three fields">
-                    <div class="required field">
-                        <label for="name">Name of Organization</label>
-                        <input type="text" name="name" value="{{$entity->name??''}}">
+                    <div class="required {{isset($entity->name)?'disabled':''}} field">
+                        <label for="entity[name]">Name of Organization</label>
+                        <input type="text" name="entity[name]" value="{{$entity->name??''}}">
                     </div>
                     <div class="field">
-                        <label for="name_additional">Additional name</label>
-                        <input type="text" name="name_additional" placeholder="Additional organizaitonal name"
-                               value="{{$entity->name_additional??''}}">
+                        <label for="entity[name_additional]">Additional name</label>
+                        <input type="text" name="entity[name_additional]" placeholder="Additional organizaitonal name"
+                            value="{{$entity->name_additional??''}}">
                     </div>
                     <div class="required field">
-                        <label for="founding_year">Founding Year</label>
-                        <input type="text" required name="founding_year" placeholder="e.g. 1980" maxlength="4"
-                               value="{{$entity->founding_year??''}}">
+                        <label for="entity[founding_year]">Founding Year</label>
+                        <input type="text" required name="entity[founding_year]" placeholder="e.g. 1980" maxlength="4"
+                            value="{{$entity->founding_year??''}}">
                     </div>
                 </div>
                 <div class="two fields">
-                    @foreach($addresses as $address)
-                        <div class="{{$address=='primary'?'required':''}} field">
-                            <label for="name">Email ({{$address}})</label>
-                            <input type="text" name="{{$address}}_email"
-                                   value="@if($address='primary'){{$entity->primary_email??''}}@else{{$entity->secondary_email??''}}@endif">
-                        </div>
-                    @endforeach
+
+                    <div class="required field">
+                        <label for="entity[primary_email]">Email</label>
+                        <input type="text" name="entity[primary_email]" value="{{$entity->primary_email??''}}" />
+                    </div>
+                    <div class="field">
+                        <label for="entity[secondary_email]">Additional email</label>
+                        <input type="text" name="entity[secondary_email]" value="{{$entity->secondary_email??''}}" />
+                    </div>
+
                 </div>
             </div>
         </div>
         <h4 class="ui dividing header">Contact Information</h4>
         <div class="three fields">
+            <x-Countries countrycode=1 fieldname="entity[phone_country_code]" label="Country Code"
+                :value="$entity->phone_country_code" />
             <div class="field">
-                <label for="entity_phone_country_code">Country Code</label>
-                <div class="ui fluid search selection dropdown">
-                    <input type="hidden" name="entity_phone_country_code" value="{{$entity->phone_country_code??''}}">
-                    <i class="dropdown icon"></i>
-                    <div class="default text">Select Country</div>
-                    <div class="menu">
-                        @foreach ($countries as $country)
-                            <div class="item" data-value="{{$country->calling_code}}"><i
-                                    class="{{$country->code}} flag"></i>{{$country->name}} (+{{$country->calling_code}})
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
+                <label for="entity[phone]">Phone Number</label>
+                <input type="text" name="entity[phone]" placeholder="e.g. 15444444499" maxlength="15"
+                    value="{{$entity->phone??''}}">
             </div>
             <div class="field">
-                <label for="entity_phone">Phone Number</label>
-                <input type="text" name="entity_phone" placeholder="e.g. 15444444499" maxlength="15"
-                       value="{{$entity->phone??''}}">
-            </div>
-            <div class="field">
-                <label for="fax">Fax</label>
-                <input type="text" name="fax" placeholder="e.g. 15444444499" maxlength="15"
-                       value="{{$entity->fax??''}}">
+                <label for="entity[fax]">Fax</label>
+                <input type="text" name="entity[fax]" placeholder="e.g. 15444444499" maxlength="15"
+                    value="{{$entity->fax??''}}">
             </div>
         </div>
         <div class="four fields">
             @forelse ($supported_links as $link)
-                <div class="field">
-                    <div class="ui left icon input">
-                        <input type="text" placeholder="{{$link->name}} Link" data-type="{{$link->id}}"
-                               name="entity_link_{{$link->id}}"
-                               @isset($entity)value="{{isset($entity->links()->where('type_id',$link->id)->first()->url)?$entity->links()->where('type_id',$link->id)->first()->url:''}}"@endisset>
-                        <i class="{{ $link->icon }} icon"></i>
-                    </div>
-                </div>
-            @empty
-                <p>No Supported links available ...</p>
-            @endforelse
-        </div>
-        @foreach($addresses as $address)
-            <h4 class="ui dividing header">Organization's {{$address}} address</h4>
-            <br>
-            <div class="five fields">
-                <div class="{{$address == 'primary'?'required':''}} field">
-                    <label for="{{$address}}_address">Address</label>
-                    <input type="text" name="{{$address}}_address"
-                           value="@if($address == 'primary'){{$entity->primary_address??''}}@else{{$entity->secondary_address??''}}@endif">
-                </div>
-                <div class="{{$address == 'primary'?'required':''}} field">
-                    <label for="{{$address}}_country_id">Country</label>
-                    <div class="ui fluid search selection dropdown">
-                        <input type="hidden" name="{{$address}}_country_id"
-                               value="@if($address == 'primary'){{$entity->primary_country_id??''}}@else{{$entity->secondary_country_id??''}}@endif">
-                        <i class="dropdown icon"></i>
-                        <div class="default text">Country</div>
-                        <div class="menu">
-                            @foreach ($countries as $country)
-                                <div class="item" data-value="{{$country->id}}">{{$country->name}}</div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-                <div class="{{$address == 'primary'?'required':''}} field">
-                    <label for="{{$address}}_city_id">City, State</label>
-                    <div class="ui fluid search selection dropdown" id="{{$address}}_city_id">
-                        <input type="hidden" name="{{$address}}_city_id"
-                               value="@if($address == 'primary'){{$entity->primary_city_id??''}}@else{{$entity->secondary_city_id??''}}@endif">
-                        <i class="dropdown icon"></i>
-                        <div class="default text">City, State</div>
-                        <div class="menu">
-                            @isset($entity)
-                                @if($address=='primary' && $entity->primary_country()->exists())
-                                    @foreach($entity->primary_country->cities()->get() as $city)
-                                        <div class="item" data-value="{{$city->id}}">{{$city->name}}</div>
-                                    @endforeach
-                                @elseif($address == 'secondary' && $entity->secondary_country()->exists())
-                                    @foreach($entity->secondary_country->cities()->get() as $city)
-                                        <div class="item" data-value="{{$city->id}}">{{$city->name}}</div>
-                                    @endforeach
-                                @endif
-                            @else
-                                @foreach ($cities as $city)
-                                    <div class="item" data-value="{{$city->id}}">{{$city->name}}, {{$city->state}}</div>
-                                @endforeach
-                            @endisset
-                        </div>
-                    </div>
-                </div>
-                <div class="field">
-                    <label for="{{$address}}_postbox">Post box</label>
-                    <input type="text" name="{{$address}}_postbox" placeholder="e.g. AX113Z" maxlength="15"
-                           value="@if($address == 'primary'){{$entity->primary_postbox??''}}@else{{$entity->secondary_postbox??''}}@endif">
-                </div>
-                <div class="field">
-                    <label for="{{$address}}_postal_code">Postal Code</label>
-                    <input type="text" name="{{$address}}_postal_code" placeholder="e.g. AX113Z"
-                           maxlength="15" @if($address == 'primary'){{$entity->primary_postal_code??''}}@else{{$entity->secondary_postal_code??''}}@endif>
+            <div class="field">
+                <div class="ui left icon input">
+                    <input type="text" placeholder="{{$link->name}} Link" data-type="{{$link->id}}"
+                        name="links[{{$loop->index}}][url]"
+                        value="{{isset($entity->links()->where('type_id',$link->id)->first()->url)?$entity->links()->where('type_id',$link->id)->first()->url:''}}" />
+                    <input type="hidden" name="links[{{$loop->index}}][type_id]" value="{{$link->id}}">
+                    <i class="{{ $link->icon }} icon"></i>
                 </div>
             </div>
-        @endforeach
-        <h4 class="ui dividing header">Which field of activity does your organization work in?</h4>
-        <div class="three fields">
-            @for ($i = 1; $i < 4; $i++)
-                <div class="{{$i==1?'required':''}} field">
-                    <label for="entity_sector_{{$i}}">Field {{$i}}</label>
-                    <div class="ui fluid search selection dropdown">
-                        <input type="hidden" name="entity_sector_{{$i}}"
-                               @isset($entity)value="{{isset($entity->sectors[$i-1]->id) ? $entity->sectors[$i-1]->id: ""}}"@endisset>
-                        <i class="dropdown icon"></i>
-                        <div class="default text">Field of activity</div>
-                        <div class="menu">
-                            @if($i != 1)
-                                <div class="item" data-value=""></div>
-                            @endif
-                            @foreach ($sectors as $sector)
-                                <div class="item" data-value="{{$sector->id}}">{{$sector->name}}</div>
-                            @endforeach
-                        </div>
+            @empty
+            <p>No Supported links available ...</p>
+            @endforelse
+        </div>
+
+
+        <h4 class="ui dividing header">Organization's primary address</h4>
+        <br />
+        <div class="five fields">
+            <div class="required field">
+                <label for="entity[primary_address]">Address</label>
+                <input type="text" name="entity[primary_address]" value="{{$entity->primary_address??''}}">
+            </div>
+            <x-Countries fieldname="entity[primary_country_id]" label="Country" :value="$entity->primary_country_id"
+                class="required" />
+            <div class="required field">
+                <label for="entity[primary_city_id]">City, State</label>
+                <div class="ui fluid search selection dropdown" id="primary_city_id">
+                    <input type="hidden" name="entity[primary_city_id]" value="{{$entity->primary_city_id??''}}">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">City, State</div>
+                    <div class="menu">
+                        @if($entity->primary_country()->exists())
+                        @foreach($entity->primary_country->cities()->get() as $city)
+                        <div class="item" data-value="{{$city->id}}">{{$city->name}}, {{$city->state}}</div>
+                        @endforeach
+                        @endif
                     </div>
                 </div>
-            @endfor
+            </div>
+            <div class="field">
+                <label for="entity[primary_postbox]">Post box</label>
+                <input type="text" name="entity[primary_postbox]" placeholder="e.g. AX113Z" maxlength="15"
+                    value="{{$entity->primary_postbox??''}}">
+            </div>
+            <div class="field">
+                <label for="entity[primary_postal_code]">Postal Code</label>
+                <input type="text" name="entity[primary_postal_code]" placeholder="e.g. AX113Z" maxlength="15"
+                    value="{{$entity->primary_postal_code??''}}">
+            </div>
+        </div>
+
+        <h4 class="ui dividing header">Organization's secondary address</h4>
+        <br>
+        <div class="five fields">
+            <div class="field">
+                <label for="entity[secondary_address]">Address</label>
+                <input type="text" name="entity[secondary_address]" value="{{$entity->secondary_address??''}}">
+            </div>
+            <x-Countries fieldname="entity[secondary_country_id]" label="Country"
+                :value="$entity->secondary_country_id" />
+            <div class="field">
+                <label for="entity[secondary_city_id]">City, State</label>
+                <div class="ui fluid search selection dropdown" id="secondary_city_id">
+                    <input type="hidden" name="entity[secondary_city_id]" value="{{$entity->secondary_city_id??''}}">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">City, State</div>
+                    <div class="menu">
+                        @if($entity->secondary_country()->exists())
+                        @foreach($entity->secondary_country->cities()->get() as $city)
+                        <div class="item" data-value="{{$city->id}}">{{$city->name}}, {{$city->state}}</div>
+                        @endforeach
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label for="entity[secondary_postbox]">Post box</label>
+                <input type="text" name="entity[secondary_postbox]" placeholder="e.g. AX113Z" maxlength="15"
+                    value="{{$entity->secondary_postbox??''}}" />
+            </div>
+            <div class="field">
+                <label for="entity[secondary_postal_code]">Postal Code</label>
+                <input type="text" name="entity[secondary_postal_code]" placeholder="e.g. AX113Z" maxlength="15"
+                    value="{{$entity->secondary_postal_code??''}}" />
+            </div>
+        </div>
+
+
+        <h4 class="ui dividing header">Which field of activity does your organization work in?</h4>
+        <div class="three fields">
+            <x-sectors label="Field 1" fieldname="sectors[][sector_id]" default-text="Field of activity"
+                class="required" value="{!!isset($entity->sectors[0]->id)?$entity->sectors[0]->id:''!!}" />
+            <x-sectors label="Field 2" fieldname="sectors[][sector_id]" default-text="Field of activity"
+                value="{!!isset($entity->sectors[1]->id)?$entity->sectors[1]->id:''!!}" empty-option="Not applicable" />
+            <x-sectors label="Field 3" fieldname="sectors[][sector_id]" default-text="Field of activity"
+                empty-option="Not applicable" value="{!!isset($entity->sectors[2]->id)?$entity->sectors[2]->id:''!!}" />
         </div>
         <h4 class="ui dividing header">About the organization</h4>
         <div class="three fields">
             <div class="field">
-                <label for="legal_form">Legal Form</label>
+                <label for="entity[legal_form]">Legal Form</label>
                 <div class="ui selection dropdown">
-                    <input type="hidden" name="legal_form" value="{{$entity->legal_form??''}}">
+                    <input type="hidden" name="entity[legal_form]" value="{{$entity->legal_form??''}}">
                     <i class="dropdown icon"></i>
                     <div class="default text">Legal form</div>
                     <div class="menu">
@@ -234,32 +218,34 @@
                 </div>
             </div>
             <div class="field">
-                <label for="activity">Business activity</label>
+                <label for="entity[activity]">Business activity</label>
                 <div class="ui selection dropdown">
-                    <input type="hidden" name="entity_activity" value="{{$entity->activity??''}}">
+                    <input type="hidden" name="entity[activity]" value="{{$entity->activity??''}}">
                     <i class="dropdown icon"></i>
                     <div class="default text">Business activity</div>
                     <div class="menu">
                         @foreach ($activities as $activity)
-                            <div class="item" data-value="{{$activity}}">{{$activity}}</div>
+                        <div class="item" data-value="{{$activity}}">{{$activity}}</div>
                         @endforeach
                     </div>
                 </div>
             </div>
             <div class="field">
-                <label for="business_type">
-                Business Type 
-                    <div class="ui icon circular small basic grey button tooltip" data-content="A start up is a company running for up to 2 years, a scale up is a company running up to 5 years, a traditional business is a company that is operational for more than 5 years." data-variation="basic">
-                        <i class="question blue small icon"></i>
-                    </div>
+                <label for="entity[business_type]">
+                    Business Type
+                    <span class="ui tooltip"
+                        data-content="A start up is a company running for up to 2 years, a scale up is a company running up to 5 years, a traditional business is a company that is operational for more than 5 years."
+                        data-variation="basic">
+                        <i class="question blue circular small icon"></i>
+                    </span>
                 </label>
                 <div class="ui selection dropdown">
-                    <input type="hidden" name="business_type" value="{{$entity->business_type??''}}">
+                    <input type="hidden" name="entity[business_type]" value="{{$entity->business_type??''}}">
                     <i class="dropdown icon"></i>
                     <div class="default text">Business Type</div>
                     <div class="menu">
                         @foreach($business_options['business_type'] as $option)
-                            <div class="item" data-value="{{$option}}">{{$option}}</div>
+                        <div class="item" data-value="{{$option}}">{{$option}}</div>
                         @endforeach
                     </div>
                 </div>
@@ -267,40 +253,40 @@
         </div>
         <div class="three fields">
             <div class="field">
-                <label for="entity_size">Size of organization (employees)</label>
+                <label for="entity[entity_size]">Size of organization (employees)</label>
                 <div class="ui selection dropdown">
-                    <input type="hidden" name="entity_size" value="{{$entity->entity_size??''}}">
+                    <input type="hidden" name="entity[entity_size]" value="{{$entity->entity_size??''}}">
                     <i class="dropdown icon"></i>
                     <div class="default text">Size of organization</div>
                     <div class="menu">
                         @foreach($business_options['entity_size'] as $option)
-                            <div class="item" data-value="{{$option}}">{{$option}}</div>
+                        <div class="item" data-value="{{$option}}">{{$option}}</div>
                         @endforeach
                     </div>
                 </div>
             </div>
             <div class="field">
-                <label for="employees">Members (for associations)</label>
+                <label for="entity[employees]">Members (for associations)</label>
                 <div class="ui selection dropdown">
-                    <input type="hidden" name="employees" value="{{$entity->employees??''}}">
+                    <input type="hidden" name="entity[employees]" value="{{$entity->employees??''}}">
                     <i class="dropdown icon"></i>
                     <div class="default text">Number of Members</div>
                     <div class="menu">
                         @foreach($business_options['employees'] as $option)
-                            <div class="item" data-value="{{$option}}">{{$option}}</div>
+                        <div class="item" data-value="{{$option}}">{{$option}}</div>
                         @endforeach
                     </div>
                 </div>
             </div>
             <div class="field">
-                <label for="students">Students (for universities)</label>
+                <label for="entity[students]">Students (for universities)</label>
                 <div class="ui selection dropdown">
-                    <input type="hidden" name="students" value="{{$entity->students??''}}">
+                    <input type="hidden" name="entity[students]" value="{{$entity->students??''}}">
                     <i class="dropdown icon"></i>
                     <div class="default text">Number of Students</div>
                     <div class="menu">
                         @foreach($business_options['students'] as $option)
-                            <div class="item" data-value="{{$option}}">{{$option}}</div>
+                        <div class="item" data-value="{{$option}}">{{$option}}</div>
                         @endforeach
                     </div>
                 </div>
@@ -309,90 +295,88 @@
         <h4 class="ui dividing header">Financial Information</h4>
         <div class="three fields">
             <div class="field">
-                <label for="turnover">Annual turnover (USD)</label>
+                <label for="entity[turn_over]">Annual turnover (USD)</label>
                 <div class="ui selection dropdown">
-                    <input type="hidden" name="turnover" value="{{$entity->turn_over??''}}">
+                    <input type="hidden" name="entity[turn_over]" value="{{$entity->turn_over??''}}">
                     <i class="dropdown icon"></i>
                     <div class="default text">Annual turnover</div>
                     <div class="menu">
                         @foreach($business_options['turn_over'] as $option)
-                            <div class="item" data-value="{{$option}}">{{$option}}</div>
+                        <div class="item" data-value="{{$option}}">{{$option}}</div>
                         @endforeach
                     </div>
                 </div>
             </div>
             <div class="field">
-                <label for="balance_sheet">Annual Balance Sheet (USD)</label>
+                <label for="entity[balance_sheet]">Annual Balance Sheet (USD)</label>
                 <div class="ui selection dropdown">
-                    <input type="hidden" name="balance_sheet" value="{{$entity->balance_sheet??''}}">
+                    <input type="hidden" name="entity[balance_sheet]" value="{{$entity->balance_sheet??''}}">
                     <i class="dropdown icon"></i>
                     <div class="default text">Annual Balance Sheet</div>
                     <div class="menu">
                         @foreach($business_options['balance_sheet'] as $option)
-                            <div class="item" data-value="{{$option}}">{{$option}}</div>
+                        <div class="item" data-value="{{$option}}">{{$option}}</div>
                         @endforeach
                     </div>
                 </div>
             </div>
             <div class="field">
-                <label for="revenue">Annual Revenue (USD)</label>
+                <label for="entity[revenue]">Annual Revenue (USD)</label>
                 <div class="ui selection dropdown">
-                    <input type="hidden" name="revenue" value="{{$entity->revenue??''}}">
+                    <input type="hidden" name="entity[revenue]" value="{{$entity->revenue??''}}">
                     <i class="dropdown icon"></i>
                     <div class="default text">Annual Revenue</div>
                     <div class="menu">
                         @foreach($business_options['revenue'] as $option)
-                            <div class="item" data-value="{{$option}}">{{$option}}</div>
+                        <div class="item" data-value="{{$option}}">{{$option}}</div>
                         @endforeach
                     </div>
                 </div>
             </div>
         </div>
-        @isset($entity)
-            <h4 class="ui dividing header">Product images:</h4>
-            <div class="ui fluid basic segment" id="ImageUpload">
-                <form id="uploadPhotos" action="{{route('image.upload', ['entity'=>$entity])}}" method="POST"
-                      enctype="multipart/form-data">
-                    <div class="ui middle aligned four column centered grid">
-                        <div onclick="upload_images();" class="row" id="styledUploader">
-                            <div class="ui basic center aligned segment sixteen wide column">
-                                <i class="upload big blue icon"></i>
-                                <br><br>
-                                Click here to select product photos to upload
-                            </div>
-                        </div>
+        <h4 class="ui dividing header">E-Commerce</h4>
+        <div class="two fields">
+            <div class="field">
+                <label for="entity[ecommerce_link]">e-Commerce Link</label>
+                <input type="text" name="entity[ecommerce_link]" value="{{$entity->ecommerce_link??''}}" />
+            </div>
+            <div class="field">
+                <label for="entity[ecommerce_rating]">Store rating (0.0 - 5.0)</label>
+                <input type="text" name="entity[ecommerce_rating]" value="{{$entity->ecommerce_rating??''}}" />
+            </div>
+        </div>
+        <h4 class="ui dividing header">Product images:</h4>
+        <div id="photosContainer" class="ui five column stackable grid">
+            <div class="column">
+                <a id="uploadPhotoBtn" href="javascript:void(0);" style="min-height:253px;"
+                    class="ui center aligned centered placeholder raised segment">
+                    <div class="ui center aligned basic segment">
+                        <i id="photosUploadIcon" class="blue upload cloud big icon"></i>
+                    </div>
+                </a>
+                <input type="file" name="photos" id="PhotosUploadInput" style="display: none;" accept="image/*"
+                    multiple />
+            </div>
+            @foreach ($images as $photo)
+            <div class='column'>
+                <div class='ui center aligned segment'>
+                    <div class='ui image'>
+                        <img src='{{ $photo->thumbnail }}' />
+                    </div>
+                    </br></br>
+                    <input type='text' placeholder='Add a comment ...' class='field photo comment'
+                        data-id="{{$photo->id}}" value="{{$photo->comment}}" />
+                    <div class='floating ui red circular label'>
+                        <i class='close icon image' data-id='{{$photo->id}}' style='margin-left:0px;'></i>
+                    </div>
+                </div>
+                <input type='hidden' name='photosID[]' value='{{$photo->id}}'>
+            </div>
+            @endforeach
+        </div>
 
-                    </div>
-                </form>
-                <form id="uploadPhotos" action="{{route('image.upload', ['entity'=>$entity])}}" method="POST"
-                      enctype="multipart/form-data">
-                    @csrf
-                    <input style="display: none;" id="photoSelection" type="file" name="file[]" multiple>
-                    <br><br>
-                </form>
-            </div>
-            <br>
-            <div class="ui stackable five column centered grid">
-                @forelse($images as $image)
-                    <div class="column">
-                        <form method="POST" action="{{route('images.delete',['entity'=>$entity,'photo'=>$image])}}">
-                            @method('DELETE')
-                            @csrf
-                            <div class="ui rounded image">
-                                <button type="submit" class="ui red right corner label">
-                                    <i class="close icon" style="top: -0.7em;"></i>
-                                </button>
-                                <img src="{{$image->thumbnail}}" class="ui image" alt="">
-                            </div>
-                        </form>
-                    </div>
-                @empty
-                    <div class="ten wide center aligned centered column">
-                        <i class="info circle teal icon"></i> No product images to display
-                    </div>
-                @endforelse
-            </div>
-        @endisset
+
+
         <div class="ui right floated basic segment">
             <a class="ui blue deny button" href="{{route('profile.entities')}}">
                 Cancel

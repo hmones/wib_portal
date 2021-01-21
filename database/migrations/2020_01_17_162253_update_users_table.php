@@ -15,8 +15,8 @@ class UpdateUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->char('title',20)->after('id')->nullable();
-            $table->char('gender',30);
-            $table->unsignedSmallInteger('birth_year');
+            $table->char('gender',30)->default('Female');
+            $table->unsignedSmallInteger('birth_year')->default(1960);
             $table->longText('bio')->nullable();
             $table->unsignedSmallInteger('phone_country_code')->nullable();
             $table->char('phone',20)->nullable();

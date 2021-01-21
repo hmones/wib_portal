@@ -1,43 +1,21 @@
 @extends('layouts.default')
-
+@section('title', 'Home Page')
 @section('content')
     <div class="ui container">
-        <div class="ui four column stackable grid">
-            <div class="ui row">
-                <h1 class="ui blue header"><i class="stop wib bullet icon"></i>Registered members</h1>
-            </div>
-
-            @forelse($users as $user)
-                @include('partials.profile_card', $user)
-            @empty
-                <div class="ui centered center aligned header"><i class="info circle teal icon"></i>No registered
-                    members to display
-                </div>
-            @endforelse
-            <div class="ui row"></div>
-            <div class="ui centered row">
-                <a href="{{route('profile.index')}}" class="ui right labeled icon teal big button"> <i
-                        class="right angle icon"></i> Show more</a>
-            </div>
-            <div class="ui row"></div>
-            <div class="ui row">
-                <h1 class="ui blue header"><i class="stop wib bullet icon"></i>Registered Businesses and Organizations
-                </h1>
-            </div>
-            @forelse($entities as $entity)
-                @include('partials.entity.card', $entity)
-            @empty
-                <div class="ui centered center aligned header"><i class="info circle teal icon"></i> No businesses or
-                    organizations to display
-                </div>
-            @endforelse
-            <div class="ui row"></div>
-            <div class="ui centered row">
-                <a href="{{route('entity.index')}}" class="ui right labeled icon teal big button"> <i
-                   class="right angle icon"></i> Show more</a>
-            </div>
-        </div>
-        <br><br>
-        <br>
+        <h1 class="ui blue header"><i class="stop wib bullet icon"></i>Member Space</h1>
+        @include('partials.posts.new')
     </div>
+    <br/>
+    <div class="ui container" id="posts_container">
+        <div id="new_posts"></div>
+        @include('partials.posts.list', $posts)
+        <div id="extra_posts"></div>
+    </div>
+@endsection
+@section('scripts')
+    <script>
+        var posts_url = "{{route('posts.get.api')}}";
+        var app_token = "{{Session::token()}}";
+    </script>
+    <script src="{{asset('js/post.posts.js')}}" type="application/javascript"></script>
 @endsection
