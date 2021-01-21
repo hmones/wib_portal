@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\{FilterUser, StoreUser, UpdateUser};
 use App\Models\{Entity, SupportedLink, User};
-use App\Http\Requests\{StoreUser, UpdateUser, FilterUser};
 use App\Notifications\MemberRegistered;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\{Hash, Auth, Redirect, Session};
-use Illuminate\View\View;
 use App\Repositories\FileStorage;
 use App\Repositories\ProfileHelper;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\{Auth, Hash, Redirect, Session};
 
 class ProfileController extends Controller
 {
@@ -18,26 +17,16 @@ class ProfileController extends Controller
     private $education = array('Highschool', 'Bachelor', 'Master', 'Doctorate');
     private $associations = array('ABWA', 'BWE21', 'CNFCE', 'EBRD', 'LLWB', 'SEVE');
 
-    /**
-     * Display a listing of the resource.
-     * @param FilterUser $request
-     * @return View
-     */
     public function index(FilterUser $request)
     {
         $filter = $request->validated();
-        
-        $users = User::with('sectors:id,name', 'country')->filter($filter)->paginate(20); 
-        
+
+        $users = User::with('sectors:id,name', 'country')->filter($filter)->paginate(20);
+
         return view('profile.index', compact(['users', 'request']));
-        
+
     }
 
-    /**
-     * Display a listing of the resource via api.
-     * @param FilterUser $request
-     * @return View
-     */
     public function indexApi(FilterUser $request)
     {
         $filter = $request->validated();
@@ -47,11 +36,6 @@ class ProfileController extends Controller
     }
 
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return View
-     */
     public function create()
     {
         $supported_links = SupportedLink::all();
@@ -64,22 +48,16 @@ class ProfileController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param StoreUser $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function store(StoreUser $request, FileStorage $storage)
     {
         $data = $request->validated();
 
-        $data['user']['password'] = Hash::make($request->user['password']); 
+        $data['user']['password'] = Hash::make($request->user['password']);
 
         if($request->file('user.image')){
             $data['user']['image'] = $storage->store($data['user']['image']);
         }
-        
+
         $user = User::create($data['user']);
 
         $sectors = $data['sectors'];
@@ -92,7 +70,7 @@ class ProfileController extends Controller
         $related_users = User::whereHas('sectors', function(Builder $query) use ($sectors){
             $query->whereIn('id', $sectors);
         })->where('notify_user', 1)->get();
-        
+
         $related_users->each(function($related_user) use ($user){
             $related_user->notify(new MemberRegistered($user));
         });
@@ -103,15 +81,9 @@ class ProfileController extends Controller
 
         $request->session()->flash('success', 'User was created successfully!');
 
-        return response()->redirectTo('/login');    
+        return response()->redirectTo('/login');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\User $profile
-     * @return View
-     */
     public function show(User $profile, string $slug = null)
     {
         $profile->load('sectors:name,icon', 'country', 'entities');
@@ -119,8 +91,8 @@ class ProfileController extends Controller
         $association = false;
         if (isset($profile->business_association_wom)){
             $association = Entity::select('name','name_additional','image','id')->where('name', $profile->business_association_wom)
-                                ->orWhere('name_additional', $profile->business_association_wom)
-                                ->first();
+                ->orWhere('name_additional', $profile->business_association_wom)
+                ->first();
         }
 
         return view('profile.show', [
@@ -129,12 +101,6 @@ class ProfileController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\User $profile
-     * @return View|\Illuminate\Routing\Redirector
-     */
     public function edit(User $profile, string $slug)
     {
         $supported_links = SupportedLink::all();
@@ -147,18 +113,11 @@ class ProfileController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param UpdateUser $request
-     * @param \App\User $user
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
     public function update(UpdateUser $request, User $profile, FileStorage $storage, string $slug)
     {
 
         $data = $request->validated();
-               
+
         if($request->file('user.image')){
             $storage->destroy($profile->image);
             $data['user']['image'] = $storage->store($data['user']['image']);
@@ -183,12 +142,6 @@ class ProfileController extends Controller
         return response()->redirectTo($profile->path.'/edit');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\User $profile
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
     public function destroy(User $profile, FileStorage $storage, string $slug)
     {
         if ($profile->links()->exists()) {
@@ -200,9 +153,13 @@ class ProfileController extends Controller
         $storage->destroy($profile->image);
         Entity::ownedby(Auth::id())->update(['owned_by' => null]);
         $profile->entities()->detach();
+        $profile->owned_entities()->delete();
+        $profile->posts()->delete();
+        $profile->comments()->delete();
+        $profile->reactions()->delete();
         $profile->delete();
         Session::flash('success', $profile->name . ' has been successfully removed from the platform');
-        
+
         return \redirect(route('profile.show', ['profile' => Auth::user()]));
     }
 

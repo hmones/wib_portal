@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Search\UserSearchQueryBuilder;
+use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
+use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Scout\Searchable;
-use ElasticScoutDriverPlus\CustomSearch;
-use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
-use App\Search\UserSearchQueryBuilder;
 use Illuminate\Support\Str;
+use Laravel\Scout\Searchable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -18,11 +18,6 @@ class User extends Authenticatable implements MustVerifyEmail
     use Searchable, CustomSearch;
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name', 'email', 'password', 'gender', 'birth_year', 'title', 'phone_country_code', 'phone',
         'postal_code', 'sphere', 'activity', 'business_association_wom', 'gdpr_consent', 'newsletter',
@@ -42,22 +37,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return new SearchRequestBuilder(new static(), new UserSearchQueryBuilder());
     }
 
-
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password', 'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
@@ -87,6 +70,21 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sectors()
     {
         return $this->belongsToMany('App\Models\Sector', 'user_sector', 'user_id', 'sector_id');
+    }
+
+    public function posts()
+    {
+        return $this->hasMany('App\Models\Post');
+    }
+
+    public function reactions()
+    {
+        return $this->hasMany('App\Models\Reaction');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Models\Comment');
     }
 
     public function links()
