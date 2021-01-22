@@ -46,7 +46,13 @@
     </div>
     <div class="ui stackable grid wib post engagement section">
         <div class="four column row">
-            <div class="left floated middle aligned column" style="opacity:0.8;padding-left:2em;">
+            <div class="left floated middle aligned column" style="opacity:0.8;padding-left:1em;">
+                @include('partials.likes.show',['reactions' => $post->reactions, 'id'=>$post->id,
+                'type'=>'App\Models\Post'])
+                <a href="{{route('messenger')}}" class="ui basic teal mini button"> <i
+                            class="paper plane teal icon"></i> Message</a>
+            </div>
+            <div class="right floated ten wide right aligned column column">
                 <i class="blue thumbs up icon"></i>
                 <span class="likes count">
                      {{$post->reactions->count()}}
@@ -58,12 +64,6 @@
                     {{$post->comments->count()}}
                 </span>
                 comments
-            </div>
-            <div class="right floated ten wide right aligned column column">
-                @include('partials.likes.show',['reactions' => $post->reactions, 'id'=>$post->id,
-                'type'=>'App\Models\Post'])
-                <a href="{{route('messenger')}}" class="ui basic teal mini button"> <i
-                            class="paper plane teal icon"></i> Message</a>
             </div>
         </div>
     </div>

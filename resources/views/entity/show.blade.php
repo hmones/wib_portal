@@ -136,17 +136,16 @@
         </div>
         <div class="five wide column">
             <h4 class="ui blue header"><i class="stop wib bullet icon"></i>Fields of Activity</h4>
-            <div class="ui segment">
+            <div class="ui left-bordered basic segment">
                 @foreach($entity->sectors as $sector)
                 <div>
-                    <!-- <i class="{{$sector->icon}} blue icon"></i> -->
                     {{$sector->name}}
                 </div>
                 @endforeach
             </div>
 
             <h4 class="ui blue header"><i class="stop wib bullet icon"></i>Business Activity</h4>
-            <div class="ui segment">
+            <div class="ui left-bordered basic segment">
                 @if($entity->activity)
                 {{$entity->activity}}
                 @else
@@ -156,7 +155,7 @@
         </div>
         <div class="five wide column">
             <h4 class="ui blue header"><i class="stop wib bullet icon"></i>Locations</h4>
-            <div class="ui segment">
+            <div class="ui left-bordered basic segment">
                 {{$entity->primary_address}} <br> {{$entity->primary_city->name}}
                 <br>{{$entity->primary_country->name}}
             </div>

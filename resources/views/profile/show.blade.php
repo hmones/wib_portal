@@ -36,7 +36,7 @@
         </div>
         <div class="seven wide column">
             <a href="{{route('messenger')}}"
-               class="ui right floated right labeled top aligned basic teal icon big button">
+               class="ui right floated right labeled top aligned basic teal icon large button">
                 <i class="send icon"></i>
                 Message User
             </a>
@@ -65,11 +65,11 @@
         </div>
         <div class="seven wide column">
             <h4 class="ui blue header"><i class="stop wib bullet icon"></i>Profile</h4>
-            <div class="ui segment">
+            <div class="ui left-bordered basic segment">
                 @if($user->bio)
                 {{$user->bio}}
                 @else
-                <i class="info circle teal icon"></i> No information to show!
+                    No information to show!
                 @endif
             </div>
 
@@ -77,7 +77,7 @@
         </div>
         <div class="four wide column">
             <h4 class="ui blue header"><i class="stop wib bullet icon"></i>Women Association</h4>
-            <div class="ui segment">
+            <div class="ui left-bordered basic segment">
                 @if($association)
                 <a href="{{$association->path}}">
                     <img class="ui avatar image" src="
@@ -95,10 +95,10 @@
             </div>
 
             <h4 class="ui blue header"><i class="stop wib bullet icon"></i>Field of work</h4>
-            <div class="ui segment">
+            <div class="ui left-bordered basic segment">
                 @foreach($user->sectors as $sector)
                 <div>
-                    <i class="{{$sector->icon}} blue icon"></i> {{$sector->name}}
+                    {{$sector->name}}
                 </div>
                 @endforeach
             </div>
