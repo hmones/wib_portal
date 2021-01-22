@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Photo, Entity, EntityType, SupportedLink};
-use Carbon\Carbon;
-use Illuminate\Support\Facades\{Auth, Redirect, Session};
+use App\Http\Requests\{FilterEntity, StoreEntity, UpdateEntity};
+use App\Models\{Entity, EntityType, Photo, SupportedLink};
 use App\Repositories\FileStorage;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
-use App\Http\Requests\{StoreEntity, UpdateEntity, FilterEntity};
+use Illuminate\Support\Facades\{Auth, Redirect, Session};
 
 class EntityController extends Controller
 {
     private $activities = array('Export', 'Import', 'Production', 'Services', 'Trade');
-    private $relations = array('Advisory Board Member','Board Member', 'Co-Founder', 'Co-Owner', 'Employee','Founder','Manager','Member' , 'Owner', 'President', 'Professor', 'Student');
+    private $relations = array('Advisory Board Member', 'Board Member', 'Co-Founder', 'Co-Owner', 'Employee', 'Founder', 'Manager', 'Member', 'Owner', 'President', 'Professor', 'Student');
     private $business_options = array(
         'balance_sheet' => array('<25Mio', '25Mio-50Mio', '50Mio-100Mio', '100Mio-500Mio', '500Mio-1Bil', '1Bil-3Bil', '3Bil-5Bil', '5Bil-10Bil', '>10Bil'),
         'revenue' => array('<25K', '25K-50K', '50K-100K', '100K-500K', '500K-1Mio', '1Mio-3Mio', '3Mio-5Mio', '5Mio-10Mio', '>10Mio'),
@@ -24,11 +23,6 @@ class EntityController extends Controller
         'students' => array('<200', '201-500', '501-1000', '1001-5000', '5001-10000', '10001-20000', '20001-50000', '50001-100000', '>100000'),
     );
 
-    /**
-     * Display a listing of the resource.
-     * @param FilterEntity $request
-     * @return \Illuminate\View\View
-     */
     public function index(FilterEntity $request)
     {
         $filter = $request->validated();
@@ -36,11 +30,6 @@ class EntityController extends Controller
         return view('entity.index', compact(['entities', 'request']));
     }
 
-    /**
-     * Display a listing of the resource through api.
-     * @param FilterEntity $request
-     * @return \Illuminate\View\View
-     */
     public function indexApi(FilterEntity $request)
     {
         $filter = $request->validated();
@@ -48,11 +37,6 @@ class EntityController extends Controller
         return view('partials.entity.list', compact(['entities', 'request']));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\View\View
-     */
     public function create()
     {
         $cities = [];
@@ -71,36 +55,30 @@ class EntityController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\EntityRequest  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function store(StoreEntity $request, FileStorage $storage)
     {
         $data = $request->validated();
 
         $data['entity']['owned_by'] = Auth::id();
 
-        if($request->file('entity.image')){
+        if ($request->file('entity.image')) {
             $data['entity']['image'] = $storage->store($data['entity']['image']);
         }
-        
+
         $entity = Entity::create($data['entity']);
 
         $entity->users()->attach(Auth::id(), ['relation_type' => $data['users']['relation'], 'relation_active' => 1]);
 
         $entity->sectors()->attach($data['sectors']);
-        
-        if(isset($data['links'])){
+
+        if (isset($data['links'])) {
             $entity->links()->createMany($data['links']);
         }
-        
-        
-        if(isset($data['photosID'])){
+
+
+        if (isset($data['photosID'])) {
             $photos = Photo::whereIn('id', $data['photosID'])->get();
-            if($photos){
+            if ($photos) {
                 $entity->photos()->saveMany($photos);
             }
         }
@@ -110,24 +88,11 @@ class EntityController extends Controller
         return response()->redirectTo('/profile/entities');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\Entity $entity
-     * @return \Illuminate\View\View
-     */
     public function show(Entity $entity, $slug)
     {
         return view('entity.show', compact('entity'));
     }
 
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Entity $entity
-     * @return \Illuminate\Http\RedirectResponse|View
-     */
     public function edit(Entity $entity, string $slug)
     {
         $cities = [];
@@ -146,18 +111,11 @@ class EntityController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \App\Http\Requests\UpdateEntity $request
-     * @param \App\Entity $entity
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function update(UpdateEntity $request, Entity $entity, FileStorage $storage, string $slug)
     {
         $data = $request->validated();
 
-        if($request->file('entity.image')){
+        if ($request->file('entity.image')) {
             $storage->destroy($entity->image);
             $data['entity']['image'] = $storage->store($data['entity']['image']);
         }
@@ -170,13 +128,13 @@ class EntityController extends Controller
         $entity->sectors()->attach($data['sectors']);
 
         $entity->links()->delete();
-        if(isset($data['links'])){
+        if (isset($data['links'])) {
             $entity->links()->createMany($data['links']);
         }
-        
-        if(isset($data['photosID'])){
+
+        if (isset($data['photosID'])) {
             $photos = Photo::whereIn('id', $data['photosID'])->get();
-            if($photos){
+            if ($photos) {
                 $entity->photos()->saveMany($photos);
             }
         }
@@ -186,28 +144,12 @@ class EntityController extends Controller
         return response()->redirectTo('/profile/entities');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Entity $entity
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     * @throws \Exception
-     */
     public function destroy(Entity $entity, FileStorage $storage, string $slug)
     {
-        
-        if ($entity->links()->exists()) {
-            $entity->links()->delete();
-        }
-        if ($entity->sectors()->exists()) {
-            $entity->sectors()->detach();
-        }
-        $storage->destroy($entity->image);
-        $entity->users()->detach();
         $entity->delete();
         Session::flash('success', $entity->name . ' has been successfully removed from the platform');
-        
-        return \redirect(route('profile.entities'));
+
+        return redirect(route('profile.entities'));
     }
 
     /**
@@ -227,14 +169,9 @@ class EntityController extends Controller
 
         $request->session()->flash('success', 'Organizations were updated successfully!');
 
-        return \redirect(route('profile.entities'));
+        return redirect(route('profile.entities'));
     }
 
-    /**
-     * Associate the specified entity to a particular user.
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
     public function disassociateEntity(Entity $entity)
     {
         if ($entity->users()->find(Auth::id()) && ($entity->owned_by != Auth::id())) {
@@ -247,14 +184,9 @@ class EntityController extends Controller
 
         }
 
-        return \redirect(route('profile.entities'));
+        return redirect(route('profile.entities'));
     }
 
-    /**
-     * Display the specified resources for a particular user.
-     *
-     * @return \Illuminate\View\View
-     */
     public function indexUser()
     {
         $user = Auth::user();
@@ -272,11 +204,6 @@ class EntityController extends Controller
         ]);
     }
 
-    /**
-     * Search entities and return a list of entities that matches the search criteria .
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function search(Request $request)
     {
         $query = '%' . $request->get('query') . '%';
@@ -285,36 +212,28 @@ class EntityController extends Controller
             'success' => true,
             'results' => $entities,
         );
+
         return response()->json($response);
     }
 
-    public function destroyAdmin(Entity $entity, FileStorage $storage){
-
-        if ($entity->links()->exists()) {
-            $entity->links()->delete();
-        }
-        if ($entity->sectors()->exists()) {
-            $entity->sectors()->detach();
-        }
-        $entity->users()->detach();
-        $storage->destroy($entity->image);
-
+    public function destroyAdmin(Entity $entity, FileStorage $storage)
+    {
         $entity->delete();
         Session::flash('success', $entity->name . ' has been successfully removed from the platform');
 
         return Redirect::back();
     }
 
-    public function verify(Entity $entity){
-
+    public function verify(Entity $entity)
+    {
         $admin = Auth::id();
 
-        if($entity->approved_at != null){
+        if ($entity->approved_at != null) {
             $entity->update([
                 'approved_at' => null,
                 'approved_by' => $admin
             ]);
-        }else{
+        } else {
             $entity->update([
                 'approved_at' => Carbon::now(),
                 'approved_by' => $admin

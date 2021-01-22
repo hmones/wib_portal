@@ -31,7 +31,7 @@ class ProfileController extends Controller
     {
         $filter = $request->validated();
 
-        $users = User::with('sectors:id,name', 'country')->filter($request)->paginate(20);
+        $users = User::with('sectors:id,name', 'country')->filter($filter)->paginate(20);
         return view('partials.profile.list', compact(['users', 'request']));
     }
 
@@ -54,7 +54,7 @@ class ProfileController extends Controller
 
         $data['user']['password'] = Hash::make($request->user['password']);
 
-        if($request->file('user.image')){
+        if ($request->file('user.image')) {
             $data['user']['image'] = $storage->store($data['user']['image']);
         }
 
@@ -63,21 +63,17 @@ class ProfileController extends Controller
         $sectors = $data['sectors'];
         $user->sectors()->attach($sectors);
 
-        if(isset($data['links'])){
+        if (isset($data['links'])) {
             $user->links()->createMany($data['links']);
         }
 
-        $related_users = User::whereHas('sectors', function(Builder $query) use ($sectors){
+        $related_users = User::whereHas('sectors', function (Builder $query) use ($sectors) {
             $query->whereIn('id', $sectors);
         })->where('notify_user', 1)->get();
 
-        $related_users->each(function($related_user) use ($user){
+        $related_users->each(function ($related_user) use ($user) {
             $related_user->notify(new MemberRegistered($user));
         });
-
-        //Update profile completion
-        $helper = new ProfileHelper($user);
-        $helper->calculate_store_percentage();
 
         $request->session()->flash('success', 'User was created successfully!');
 
@@ -89,8 +85,8 @@ class ProfileController extends Controller
         $profile->load('sectors:name,icon', 'country', 'entities');
 
         $association = false;
-        if (isset($profile->business_association_wom)){
-            $association = Entity::select('name','name_additional','image','id')->where('name', $profile->business_association_wom)
+        if (isset($profile->business_association_wom)) {
+            $association = Entity::select('name', 'name_additional', 'image', 'id')->where('name', $profile->business_association_wom)
                 ->orWhere('name_additional', $profile->business_association_wom)
                 ->first();
         }
@@ -118,7 +114,7 @@ class ProfileController extends Controller
 
         $data = $request->validated();
 
-        if($request->file('user.image')){
+        if ($request->file('user.image')) {
             $storage->destroy($profile->image);
             $data['user']['image'] = $storage->store($data['user']['image']);
         }
@@ -130,72 +126,43 @@ class ProfileController extends Controller
 
         $profile->sectors()->attach($data['sectors']);
 
-        if(isset($data['links'])){
+        if (isset($data['links'])) {
             $profile->links()->createMany($data['links']);
         }
 
-        //Update profile completion
         $helper = new ProfileHelper($profile);
         $helper->calculate_store_percentage();
-
         $request->session()->flash('success', 'Your data was updated successfully!');
-        return response()->redirectTo($profile->path.'/edit');
+
+        return Redirect::to($profile->path . '/edit');
     }
 
-    public function destroy(User $profile, FileStorage $storage, string $slug)
+    public function destroy(User $profile, string $slug)
     {
-        if ($profile->links()->exists()) {
-            $profile->links()->delete();
-        }
-        if ($profile->sectors()->exists()) {
-            $profile->sectors()->detach();
-        }
-        $storage->destroy($profile->image);
-        Entity::ownedby(Auth::id())->update(['owned_by' => null]);
-        $profile->entities()->detach();
-        $profile->owned_entities()->delete();
-        $profile->posts()->delete();
-        $profile->comments()->delete();
-        $profile->reactions()->delete();
         $profile->delete();
         Session::flash('success', $profile->name . ' has been successfully removed from the platform');
 
-        return \redirect(route('profile.show', ['profile' => Auth::user()]));
+        return Redirect::to(route('login'));
     }
 
-    public function destroyAdmin(User $profile, FileStorage $storage)
+    public function destroyAdmin(User $profile)
     {
-        if ($profile->links()->exists()) {
-            $profile->links()->delete();
-        }
-        if ($profile->sectors()->exists()) {
-            $profile->sectors()->detach();
-        }
-        $storage->destroy($profile->image);
-        Entity::ownedby(Auth::id())->update(['owned_by' => null]);
-        $profile->entities()->detach();
         $profile->delete();
         Session::flash('success', $profile->name . ' has been successfully removed from the platform');
 
         return Redirect::back();
     }
 
-    public function verify(User $profile){
+    public function verify(User $profile)
+    {
 
         $admin = Auth::id();
+        $approved_at = $profile->approved_at ? Carbon::now() : null;
 
-        if($profile->approved_at != null){
-            $profile->update([
-                'approved_at' => null,
-                'approved_by' => $admin
-            ]);
-        }else{
-            $profile->update([
-                'approved_at' => Carbon::now(),
-                'approved_by' => $admin
-            ]);
-        }
-        $profile->save();
+        $profile->update([
+            'approved_at' => $approved_at,
+            'approved_by' => $admin
+        ]);
 
         Session::flash('success', 'Verification updated successfully');
 

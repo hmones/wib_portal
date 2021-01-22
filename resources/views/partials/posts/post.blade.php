@@ -9,33 +9,33 @@
                 </div>
             </div>
         </div>
-        @if ($post->post_type or isset($post->country) or isset($post->sector))
-            <div class="ten wide column">
-                <div class="ui basic right aligned segment" style="padding-top:0px;">
+
+        <div class="ten wide column">
+            <div class="ui basic right aligned segment" style="padding-top:0px;">
                 <span style="border-bottom: 2px">
-                    <i class="comments teal icon"></i>
-                    <span style="color:#666666">
+                     @if ($post->post_type or isset($post->country) or isset($post->sector))
+                        <i class="comments teal icon"></i>
+                        <span style="color:#666666">
                         @if($post->post_type)
-                            Looking for {{$post->post_type}}
-                        @endif
-                        @isset($post->country)
-                            in {{$post->country->name}}
-                        @endisset
-                        @isset($post->sector)
-                            in {{$post->sector->name}}
-                        @endisset
+                                Looking for {{$post->post_type}}
+                            @endif
+                            @isset($post->country)
+                                in {{$post->country->name}}
+                            @endisset
+                            @isset($post->sector)
+                                in {{$post->sector->name}}
+                            @endisset
                     </span>
-                    @if ($post->user->id === Auth::id())
+                    @endif
+                    @if ($post->user_id === Auth::id())
                         <span style="padding-left:20px;">
                         <a class="ui label"><i class="trash icon" style="margin-right:0px"
                                                data-post-id="{{$post->id}}"></i></a>
                     </span>
                     @endif
                 </span>
-
-                </div>
             </div>
-        @endif
+        </div>
     </div>
     <div class="ui basic segment wib post content">
         {{$post->content}}
@@ -74,9 +74,9 @@
     <div class="extra comments" data-post-id="{{$post->id}}"></div>
     @if ($post->comments->count()>3)
         <div class="ui basic segment">
-        <a class="load_more_comments_btn" href="javascript:void(0);" data-post-id="{{$post->id}}" data-page="1"
-            data->Load more
-            comments ...</a>
-    </div>
+            <a class="load_more_comments_btn" href="javascript:void(0);" data-post-id="{{$post->id}}" data-page="1"
+               data->Load more
+                comments ...</a>
+        </div>
     @endif
 </div>
