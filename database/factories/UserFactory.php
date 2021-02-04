@@ -3,10 +3,11 @@
 namespace Database\Factories;
 
 
+use App\Models\City;
+use App\Models\Country;
 use App\Models\User;
-use Faker\Generator as Faker;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class UserFactory extends Factory
 {
@@ -24,7 +25,6 @@ class UserFactory extends Factory
      */
     public function definition()
     {
-        $faker = new Faker;
         return [
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
@@ -36,8 +36,8 @@ class UserFactory extends Factory
             "gender" => $this->faker->randomElement($array = array('Male', 'Female')),
             "phone_country_code" => 20,
             "phone" => $this->faker->numberBetween($min = 100000000, $max = 999999999),
-            "country_id" => $this->faker->numberBetween($min = 1, $max = 232),
-            "city_id" => $this->faker->numberBetween($min = 1, $max = 12958),
+            "country_id" => optional(Country::where('name', 'Egypt')->first())->id,
+            "city_id" => optional(City::where('name', 'Cairo')->first())->id,
             "postal_code" => $this->faker->postcode,
             "business_association_wom" => $this->faker->randomElement($array = array('ABWA', 'BWE21', 'CNFCE', 'LLWB', 'SEVE', 'Other')),
             "gdpr_consent" => true,

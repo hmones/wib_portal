@@ -20,5 +20,9 @@ Route::get('/country/{id}', function ($id) {
 
 Route::post('/cookie/consent', 'HomeController@cookie')->name('cookie.consent');
 
-Route::get('/search','SearchController@index')->name('web.search');
+Route::get('/search', 'SearchController@index')->name('web.search');
+
+Route::get('/debug-sentry', function () {
+    throw new Exception('Sentry exception test!');
+});
 

@@ -139,7 +139,7 @@ class ProfileController extends Controller
 
     public function destroy(User $profile, string $slug)
     {
-        $profile->delete();
+        User::destroy($profile);
         Session::flash('success', $profile->name . ' has been successfully removed from the platform');
 
         return Redirect::to(route('login'));
@@ -147,7 +147,7 @@ class ProfileController extends Controller
 
     public function destroyAdmin(User $profile)
     {
-        $profile->delete();
+        User::destroy($profile);
         Session::flash('success', $profile->name . ' has been successfully removed from the platform');
 
         return Redirect::back();
@@ -155,7 +155,6 @@ class ProfileController extends Controller
 
     public function verify(User $profile)
     {
-
         $admin = Auth::id();
         $approved_at = $profile->approved_at ? Carbon::now() : null;
 

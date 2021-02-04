@@ -24,6 +24,18 @@ class User extends Authenticatable implements MustVerifyEmail
         'mena_diaspora', 'education', 'network', 'bio', 'city_id', 'country_id', 'approved_at', 'approved_by',
         'last_login', 'image', 'notify_message', 'notify_post', 'notify_user', 'notify_comment',
     ];
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+    protected $dates = ['last_login'];
+
+    public static function searchForm(): SearchRequestBuilder
+    {
+        return new SearchRequestBuilder(new static(), new UserSearchQueryBuilder());
+    }
 
     public function toSearchableArray()
     {
@@ -31,21 +43,6 @@ class User extends Authenticatable implements MustVerifyEmail
             'name' => $this->name,
         ];
     }
-
-    public static function searchForm(): SearchRequestBuilder
-    {
-        return new SearchRequestBuilder(new static(), new UserSearchQueryBuilder());
-    }
-
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
-
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
-    protected $dates = ['last_login'];
 
     public function country()
     {
@@ -110,11 +107,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function scopeFilter($query, $data)
     {
         if (isset($data['countries'])) {
-            $countries = explode(",",$data['countries']);
+            $countries = explode(",", $data['countries']);
             $query->whereIn('country_id', $countries);
         }
         if (isset($data['sectors'])) {
-            $sectors = explode(',',$data['sectors']);
+            $sectors = explode(',', $data['sectors']);
             $query->whereHas('sectors', function ($q) use ($sectors) {
                 $q->whereIn('id', $sectors);
             });
@@ -122,7 +119,7 @@ class User extends Authenticatable implements MustVerifyEmail
         if (isset($data['is_verified'])) {
             $query->whereNotNull('approved_at');
         }
-        if (isset($data['last_login'])){
+        if (isset($data['last_login'])) {
             $query->orderBy('last_login', $data['last_login']);
         }
         if (isset($data['name'])) {
