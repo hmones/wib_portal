@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Comment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -21,8 +22,8 @@ class DeleteComment implements ShouldQueue
 
     public function handle()
     {
-        $this->comment->update(['active' => 1]);
         $this->comment->reactions()->delete();
         $this->comment->delete();
+        Comment::where('active', 0)->withoutGlobalScopes()->delete();
     }
 }

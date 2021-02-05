@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Message;
+use App\Models\User;
 use App\Repositories\FileStorage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -25,10 +26,6 @@ class DeleteUser implements ShouldQueue
 
     public function handle()
     {
-        $this->user->update(['active' => 0]);
-        $this->user->posts()->update(['active' => 0]);
-        $this->user->comments()->update(['active' => 0]);
-
         if ($this->user->links()->exists()) {
             $this->user->links()->delete();
         }
@@ -51,5 +48,6 @@ class DeleteUser implements ShouldQueue
         Message::where('from_id', $this->user->id)->orWhere('to_id', $this->user->id)->delete();
 
         $this->user->delete();
+        User::where('active', 0)->withoutGlobalScopes()->delete();
     }
 }
