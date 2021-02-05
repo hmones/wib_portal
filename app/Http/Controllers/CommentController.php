@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\DeleteComment;
 use App\Models\{Comment, Post};
 use Illuminate\Http\Request;
 
@@ -35,7 +36,9 @@ class CommentController extends Controller
 
     public function destroy(Comment $comment)
     {
-        $comment->delete();
+        $comment->update(['active' => 0]);
+        dispatch(new DeleteComment($comment));
+
         return response('Comment Deleted Successfully', 200);
     }
 }

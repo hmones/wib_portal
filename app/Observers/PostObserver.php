@@ -17,9 +17,4 @@ class PostObserver
             })->where('notify_post', 1)->get()->each->notify(new PostPublished($post));
         }
     }
-
-    public function deleted(Post $post)
-    {
-        $post->comments()->delete();
-    }
 }

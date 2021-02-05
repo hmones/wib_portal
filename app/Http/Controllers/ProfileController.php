@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\{FilterUser, StoreUser, UpdateUser};
+use App\Jobs\DeleteUser;
 use App\Models\{Entity, SupportedLink, User};
 use App\Notifications\MemberRegistered;
 use App\Repositories\FileStorage;
-use App\Repositories\ProfileHelper;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\{Auth, Hash, Redirect, Session};
@@ -75,6 +75,8 @@ class ProfileController extends Controller
             $related_user->notify(new MemberRegistered($user));
         });
 
+        dispatch(new \App\Jobs\UpdateUser($user));
+
         $request->session()->flash('success', 'User was created successfully!');
 
         return response()->redirectTo('/login');
@@ -130,8 +132,7 @@ class ProfileController extends Controller
             $profile->links()->createMany($data['links']);
         }
 
-        $helper = new ProfileHelper($profile);
-        $helper->calculate_store_percentage();
+        dispatch(new \App\Jobs\UpdateUser($profile));
         $request->session()->flash('success', 'Your data was updated successfully!');
 
         return Redirect::to($profile->path . '/edit');
@@ -139,7 +140,10 @@ class ProfileController extends Controller
 
     public function destroy(User $profile, string $slug)
     {
-        User::destroy($profile);
+        $profile->update(['active' => 0]);
+        $profile->posts()->update(['active' => 0]);
+        $profile->comments()->update(['active' => 0]);
+        dispatch(new DeleteUser($profile));
         Session::flash('success', $profile->name . ' has been successfully removed from the platform');
 
         return Redirect::to(route('login'));
@@ -147,7 +151,10 @@ class ProfileController extends Controller
 
     public function destroyAdmin(User $profile)
     {
-        User::destroy($profile);
+        $profile->update(['active' => 0]);
+        $profile->posts()->update(['active' => 0]);
+        $profile->comments()->update(['active' => 0]);
+        dispatch(new DeleteUser($profile));
         Session::flash('success', $profile->name . ' has been successfully removed from the platform');
 
         return Redirect::back();

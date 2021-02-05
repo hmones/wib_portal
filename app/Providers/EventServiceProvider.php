@@ -5,7 +5,6 @@ namespace App\Providers;
 use App\Models\Comment;
 use App\Models\Entity;
 use App\Models\Post;
-use App\Models\User;
 use App\Observers\CommentObserver;
 use App\Observers\EntityObserver;
 use App\Observers\PostObserver;
@@ -25,7 +24,6 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();
-        User::observe(UserObserver::class);
         Entity::observe(EntityObserver::class);
         Post::observe(PostObserver::class);
         Comment::observe(CommentObserver::class);

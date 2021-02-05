@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\DeletePost;
 use App\Models\Post;
 use App\Models\Sector;
 use Illuminate\Http\Request;
@@ -49,7 +50,10 @@ class PostController extends Controller
 
     public function destroy(Post $post)
     {
-        $post->delete();
+        $post->update(['active' => 0]);
+        $post->comments()->update(['active' => 0]);
+        dispatch(new DeletePost($post));
+
         return response('Post Deleted Successfully', 200);
     }
 }

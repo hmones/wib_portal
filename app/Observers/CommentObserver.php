@@ -13,9 +13,4 @@ class CommentObserver
         $post = Post::find($comment->commentable_id);
         $post->user->notify(new CommentPublished($comment->commentable, $comment));
     }
-
-    public function deleted(Comment $comment)
-    {
-        $comment->reactions()->delete();
-    }
 }

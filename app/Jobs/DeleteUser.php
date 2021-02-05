@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Message;
 use App\Models\User;
 use App\Repositories\FileStorage;
 use Illuminate\Bus\Queueable;
@@ -34,8 +35,18 @@ class DeleteUser implements ShouldQueue
         $this->user->entities()->detach();
         $this->user->owned_entities()->update(['owned_by' => null]);
         $this->fileStorage->destroy($this->user->image);
-        $this->user->posts()->delete();
-        $this->user->comments()->delete();
         $this->user->reactions()->delete();
+
+        foreach ($this->user->posts()->withoutGlobalScopes()->get() as $post) {
+            dispatch(new DeletePost($post));
+        }
+
+        foreach ($this->user->comments()->withoutGlobalScopes()->get() as $comment) {
+            dispatch(new DeleteComment($comment));
+        }
+
+        Message::where('from_id', $this->user->id)->orWhere('to_id', $this->user->id)->delete();
+
+        User::destroy($this->user->id);
     }
 }

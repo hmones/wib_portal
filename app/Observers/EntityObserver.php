@@ -7,7 +7,7 @@ use App\Repositories\FileStorage;
 
 class EntityObserver
 {
-    public function deleted(Entity $entity)
+    public function deleting(Entity $entity)
     {
         if ($entity->links()->exists()) {
             $entity->links()->delete();

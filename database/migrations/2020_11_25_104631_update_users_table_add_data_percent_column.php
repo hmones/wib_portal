@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use App\Models\User;
 
 class UpdateUsersTableAddDataPercentColumn extends Migration
 {
@@ -18,7 +18,7 @@ class UpdateUsersTableAddDataPercentColumn extends Migration
             $table->float('data_percent')->default(0);
         });
 
-        $users = User::all();
+        $users = DB::table('users')->get();
 
         $users->each(function ($user) {
             $helper = new App\Repositories\ProfileHelper($user);

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\ActiveScope;
 use App\Search\UserSearchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
 use ElasticScoutDriverPlus\CustomSearch;
@@ -19,22 +20,32 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasFactory;
 
     protected $fillable = [
-        'name', 'email', 'password', 'gender', 'birth_year', 'title', 'phone_country_code', 'phone',
+        'name', 'email', 'active', 'password', 'gender', 'birth_year', 'title', 'phone_country_code', 'phone',
         'postal_code', 'sphere', 'activity', 'business_association_wom', 'gdpr_consent', 'newsletter',
         'mena_diaspora', 'education', 'network', 'bio', 'city_id', 'country_id', 'approved_at', 'approved_by',
         'last_login', 'image', 'notify_message', 'notify_post', 'notify_user', 'notify_comment',
     ];
+
     protected $hidden = [
         'password', 'remember_token',
     ];
+
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
     protected $dates = ['last_login'];
 
     public static function searchForm(): SearchRequestBuilder
     {
         return new SearchRequestBuilder(new static(), new UserSearchQueryBuilder());
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new ActiveScope);
     }
 
     public function toSearchableArray()
