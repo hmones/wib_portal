@@ -52,7 +52,7 @@ class PostController extends Controller
     {
         $post->update(['active' => 0]);
         $post->comments()->update(['active' => 0]);
-        dispatch(new DeletePost($post));
+        DeletePost::dispatch($post);
 
         return response('Post Deleted Successfully', 200);
     }

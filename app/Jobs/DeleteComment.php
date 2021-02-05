@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Models\Comment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -15,14 +14,15 @@ class DeleteComment implements ShouldQueue
 
     protected $comment;
 
-    public function __construct(Comment $comment)
+    public function __construct($comment)
     {
         $this->comment = $comment;
     }
 
     public function handle()
     {
+        $this->comment->update(['active' => 1]);
         $this->comment->reactions()->delete();
-        Comment::destroy($this->comment->id);
+        $this->comment->delete();
     }
 }

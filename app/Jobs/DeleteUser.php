@@ -3,7 +3,6 @@
 namespace App\Jobs;
 
 use App\Models\Message;
-use App\Models\User;
 use App\Repositories\FileStorage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -18,7 +17,7 @@ class DeleteUser implements ShouldQueue
     protected $user;
     protected $fileStorage;
 
-    public function __construct(User $user)
+    public function __construct($user)
     {
         $this->user = $user;
         $this->fileStorage = new FileStorage();
@@ -26,6 +25,10 @@ class DeleteUser implements ShouldQueue
 
     public function handle()
     {
+        $this->user->update(['active' => 0]);
+        $this->user->posts()->update(['active' => 0]);
+        $this->user->comments()->update(['active' => 0]);
+
         if ($this->user->links()->exists()) {
             $this->user->links()->delete();
         }
@@ -37,16 +40,16 @@ class DeleteUser implements ShouldQueue
         $this->fileStorage->destroy($this->user->image);
         $this->user->reactions()->delete();
 
-        foreach ($this->user->posts()->withoutGlobalScopes()->get() as $post) {
-            dispatch(new DeletePost($post));
+        foreach ($this->user->comments()->withoutGlobalScopes()->get() as $comment) {
+            DeleteComment::dispatch($comment);
         }
 
-        foreach ($this->user->comments()->withoutGlobalScopes()->get() as $comment) {
-            dispatch(new DeleteComment($comment));
+        foreach ($this->user->posts()->withoutGlobalScopes()->get() as $post) {
+            DeletePost::dispatch($post);
         }
 
         Message::where('from_id', $this->user->id)->orWhere('to_id', $this->user->id)->delete();
 
-        User::destroy($this->user->id);
+        $this->user->delete();
     }
 }

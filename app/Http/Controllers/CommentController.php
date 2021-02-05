@@ -37,7 +37,7 @@ class CommentController extends Controller
     public function destroy(Comment $comment)
     {
         $comment->update(['active' => 0]);
-        dispatch(new DeleteComment($comment));
+        DeleteComment::dispatch($comment);
 
         return response('Comment Deleted Successfully', 200);
     }
