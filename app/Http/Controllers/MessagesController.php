@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\{Response,Auth, Log};
-use App\Models\{Message, Favorite};
 use App\Facades\Messenger as Messenger;
+use App\Models\{Favorite, Message};
 use App\Models\User;
 use App\Notifications\MessageSent;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\{Auth, Response};
 use Illuminate\Support\Str;
 
 
@@ -53,10 +53,10 @@ class MessagesController extends Controller
         $route = (in_array(\Request::route()->getName(), ['user', config('messenger.path')]))
             ? 'user'
             : \Request::route()->getName();
-        
+
         // delete user notifications for new messages
         Auth::user()->unreadNotifications->where('type','App\Notifications\MessageSent')->markAsRead();
-        
+
         // prepare id
         return view('messenger.pages.app', [
             'id' => ($id == null) ? 0 : $route . '_' . $id,
@@ -78,7 +78,7 @@ class MessagesController extends Controller
         // Favorite
         $favorite = Messenger::inFavorite($request['id']);
         $avatar = asset('images/female_avatar.jpg');
-        
+
         // User data
         if ($request['type'] == 'user') {
             $fetch = User::where('id', $request['id'])->first();
@@ -176,7 +176,7 @@ class MessagesController extends Controller
                 'to_id' => $request['id'],
                 'message' => Messenger::messageCard($messageData, 'default')
             ]);
-            
+
             //Sending notifications to user
             $receiver = User::findOrFail($request['id']);
             if($receiver){
@@ -478,20 +478,10 @@ class MessagesController extends Controller
         ], 200);
     }
 
-    /**
-     * Set user's active status
-     *
-     * @param Request $request
-     * @return void
-     */
     public function setActiveStatus(Request $request)
     {
-        $update = $request['status'] > 0
-            ? User::where('id', $request['user_id'])->update(['active_status' => 1])
-            : User::where('id', $request['user_id'])->update(['active_status' => 0]);
-        // send the response
         return Response::json([
-            'status' => $update,
+            'status' => 1,
         ], 200);
     }
 }

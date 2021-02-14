@@ -26,14 +26,14 @@ class EntityController extends Controller
     public function index(FilterEntity $request)
     {
         $filter = $request->validated();
-        $entities = Entity::with('sectors:id,name', 'primary_country')->filter($filter)->paginate(20);
+        $entities = Entity::with('sectors:id,name', 'primary_country')->filter($filter)->orderBy('image', 'desc')->paginate(20);
         return view('entity.index', compact(['entities', 'request']));
     }
 
     public function indexApi(FilterEntity $request)
     {
         $filter = $request->validated();
-        $entities = Entity::with('sectors:id,name', 'primary_country')->filter($filter)->paginate(20);
+        $entities = Entity::with('sectors:id,name', 'primary_country')->filter($filter)->orderBy('image', 'desc')->paginate(20);
         return view('partials.entity.list', compact(['entities', 'request']));
     }
 

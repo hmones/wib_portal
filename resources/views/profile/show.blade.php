@@ -16,17 +16,17 @@
             <img class="ui circular small image" src="
                     @if($user->image)
                     {{$user->image}}
-                    @else
-                        @if($user->gender === 'Male')
-                        {{asset('images/male_avatar.jpg')}}
-                        @else
-                        {{asset('images/female_avatar.jpg')}}
-                        @endif
-                    @endisset
-                    " alt="{{$user->name}}'s avatar" />
+            @else
+            @if($user->gender === 'Male')
+            {{asset('images/male_avatar.jpg')}}
+            @else
+            {{asset('images/female_avatar.jpg')}}
+            @endif
+            @endisset
+                    " alt="{{$user->name}}'s avatar"/>
         </div>
         <div class="six wide column">
-            <p>{{strtoupper($user->sectors->first()->name)}}</p>
+            <p>{{strtoupper(optional($user->sectors->first())->name)}}</p>
             <h1 style="margin: 0px !important;" class="ui blue header" id="userNameTitle">{{$user->title}}
                 {{$user->name}}</h1>
             <p>{{strtoupper($user->country->name)}}</p>
