@@ -21,7 +21,7 @@ class ProfileController extends Controller
     {
         $filter = $request->validated();
 
-        $users = User::with('sectors:id,name', 'country')->filter($filter)->paginate(20);
+        $users = User::with('sectors:id,name', 'country')->filter($filter)->orderBy('image', 'desc')->paginate(20);
 
         return view('profile.index', compact(['users', 'request']));
 
@@ -31,7 +31,7 @@ class ProfileController extends Controller
     {
         $filter = $request->validated();
 
-        $users = User::with('sectors:id,name', 'country')->filter($filter)->paginate(20);
+        $users = User::with('sectors:id,name', 'country')->filter($filter)->orderBy('image', 'desc')->paginate(20);
         return view('partials.profile.list', compact(['users', 'request']));
     }
 
