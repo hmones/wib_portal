@@ -142,6 +142,7 @@ services:
           - http_proxy
           - https_proxy
           - no_proxy
+      restart: unless-stopped
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
         - ./php-worker/supervisord.d:/etc/supervisord.d
@@ -224,6 +225,7 @@ services:
           - http_proxy
           - https_proxy
           - no_proxy
+      restart: unless-stopped
       volumes:
         - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
@@ -314,6 +316,7 @@ services:
           - http_proxy
           - https_proxy
           - no_proxy
+      restart: unless-stopped
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
         - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
@@ -395,6 +398,7 @@ services:
         context: ./mysql
         args:
           - MYSQL_VERSION=${MYSQL_VERSION}
+      restart: unless-stopped
       environment:
         - MYSQL_DATABASE=${MYSQL_DATABASE}
         - MYSQL_USER=${MYSQL_USER}
@@ -547,6 +551,7 @@ services:
 ### Redis ################################################
     redis:
       build: ./redis
+      restart: unless-stopped
       volumes:
         - ${DATA_PATH_HOST}/redis:/data
       ports:
@@ -557,6 +562,7 @@ services:
 ### Redis Cluster ##########################################
     redis-cluster:
       build: ./redis-cluster
+      restart: unless-stopped
       ports:
         - "${REDIS_CLUSTER_PORT_RANGE}:7000-7005"
       networks:
@@ -774,8 +780,11 @@ services:
 ### ElasticSearch ########################################
     elasticsearch:
       build: ./elasticsearch
+      restart: unless-stopped
       volumes:
         - elasticsearch:/usr/share/elasticsearch/data
+        - /run/docker.sock:/run/docker.sock
+        - /usr/bin/docker:/usr/bin/docker
       environment:
         - cluster.name=laradock-cluster
         - node.name=laradock-node
