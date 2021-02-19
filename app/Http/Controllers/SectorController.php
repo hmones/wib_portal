@@ -3,89 +3,39 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sector;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\{Cache, Redirect,Session};
+use Illuminate\Support\Facades\{Cache, Redirect, Session};
+use Sentry;
 
 class SectorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    public function create()
-    {
-
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function store(Request $request)
     {
         $data = $request->validate([
             "sector_create_name" => "required|string|unique:App\Models\Sector,name",
             "sector_create_icon" => "required|string"
         ]);
-        
+
         Sector::create([
             'name' => $data['sector_create_name'],
             'icon' => $data['sector_create_icon']
         ]);
 
-        Cache::forget('sectors');
-        Cache::rememberForever('sectors',function(){
-            return Sector::all();
-        });
-        
+        try {
+            Cache::forget('sectors');
+            Cache::rememberForever('sectors', function () {
+                return Sector::all();
+            });
+        } catch (\Throwable $exception) {
+            Sentry\captureException($exception);
+        }
+
+
         $request->session()->flash('success', 'Sector was saved successfully!');
 
         return Redirect::route('admin.options');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Sector  $sector
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Sector $sector)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Sector  $sector
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Sector $sector)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Sector  $sector
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function update(Request $request, Sector $sector)
     {
         request()->validate([
@@ -104,12 +54,6 @@ class SectorController extends Controller
         return Redirect::route('admin.options');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Sector  $sector
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function destroy(Sector $sector)
     {
         $sector->delete();

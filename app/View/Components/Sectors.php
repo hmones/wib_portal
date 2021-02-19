@@ -2,9 +2,10 @@
 
 namespace App\View\Components;
 
-use Illuminate\View\Component;
 use App\Models\Sector;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\View\Component;
+use Sentry;
 
 class Sectors extends Component
 {
@@ -21,13 +22,13 @@ class Sectors extends Component
     public $offset;
 
     public $dropdownCss;
-    
+
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($label=null,$fieldname=null,$defaultText=null,$emptyOption=null,$value=null,$offset=0,$dropdownCss="")
+    public function __construct($label = null, $fieldname = null, $defaultText = null, $emptyOption = null, $value = null, $offset = 0, $dropdownCss = "")
     {
         $this->label = $label;
         $this->fieldname = $fieldname;
@@ -50,15 +51,21 @@ class Sectors extends Component
 
     public function sectors()
     {
-        return Cache::rememberForever('sectors', function () {
-            return Sector::all();
-        });
+        try {
+            $sectors = Cache::rememberForever('sectors', function () {
+                return Sector::all();
+            });
+        } catch (\Throwable $exception) {
+            Sentry\captureException($exception);
+            $sectors = Sector::all();
+        }
+
+        return $sectors;
     }
 
     public function sectorList()
     {
-        if(isset(request()->sectors))
-        {
+        if (isset(request()->sectors)) {
             return request()->sectors;
         }
 
