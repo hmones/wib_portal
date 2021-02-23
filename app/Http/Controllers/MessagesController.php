@@ -6,6 +6,7 @@ use App\Facades\Messenger as Messenger;
 use App\Models\{Favorite, Message};
 use App\Models\User;
 use App\Notifications\MessageSent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\{Auth, Response};
@@ -246,33 +247,21 @@ class MessagesController extends Controller
         ], 200);
     }
 
-    /**
-     * Get contacts list
-     *
-     * @param Request $request
-     * @return JSON response
-     */
     public function getContacts(Request $request)
     {
         // get all users that received/sent message from/to [Auth user]
-        $users = Message::join('users',  function ($join) {
-            $join->on('messages.from_id', '=', 'users.id')
-                ->orOn('messages.to_id', '=', 'users.id');
-        })
-            ->where('messages.from_id', Auth::user()->id)
-            ->orWhere('messages.to_id', Auth::user()->id)
-            ->orderBy('messages.created_at', 'desc')
-            ->get()
-            ->unique('id');
+        $users = User::whereHas('receivedMessages', function (Builder $query) {
+            $query->where('from_id', auth()->id());
+        })->orWhereHas('sentMessages', function (Builder $query) {
+            $query->where('to_id', auth()->id());
+        })->get();
 
         if ($users->count() > 0) {
             // fetch contacts
             $contacts = null;
             foreach ($users as $user) {
-                if ($user->id != Auth::user()->id) {
-                    // Get user data
-                    $userCollection = User::where('id', $user->id)->first();
-                    $contacts .= Messenger::getContactItem($request['messenger_id'], $userCollection);
+                if ($user->id !== auth()->id()) {
+                    $contacts .= Messenger::getContactItem($request['messenger_id'], $user);
                 }
             }
         }

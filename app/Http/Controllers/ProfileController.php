@@ -143,6 +143,8 @@ class ProfileController extends Controller
         $profile->update(['active' => 0]);
         $profile->posts()->update(['active' => 0]);
         $profile->comments()->update(['active' => 0]);
+        $profile->sentMessages()->delete();
+        $profile->receivedMessages()->delete();
         DeleteUser::dispatch($profile);
         Session::flash('success', $profile->name . ' has been successfully removed from the platform');
 
@@ -154,6 +156,8 @@ class ProfileController extends Controller
         $profile->update(['active' => 0]);
         $profile->posts()->update(['active' => 0]);
         $profile->comments()->update(['active' => 0]);
+        $profile->sentMessages()->delete();
+        $profile->receivedMessages()->delete();
         DeleteUser::dispatch($profile);
         Session::flash('success', $profile->name . ' has been successfully removed from the platform');
 

@@ -2,11 +2,12 @@
 
 namespace App\Messenger;
 
-use App\Models\Message;
 use App\Models\Favorite;
-use Pusher\Pusher;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Message;
+use App\Models\User;
 use Exception;
+use Illuminate\Support\Facades\Auth;
+use Pusher\Pusher;
 
 class Messenger
 {
@@ -216,14 +217,13 @@ class Messenger
      * (e.g. User data, Last message, Unseen Counter...)
      *
      * @param int $messenger_id
-     * @param Collection $user
-     * @return void
+     * @param User $user
+     * @return string
      */
-    public function getContactItem($messenger_id, $user){
-        // get last message
+    public function getContactItem($messenger_id, User $user)
+    {
         $lastMessage = self::getLastMessageQuery($user->id);
 
-        // Get Unseen messages counter
         $unseenCounter = self::countUnseenMessages($user->id);
 
         return view('Messenger::layouts.listItem', [
@@ -231,7 +231,7 @@ class Messenger
             'user' => $user,
             'lastMessage' => $lastMessage,
             'unseenCounter' => $unseenCounter,
-            'type'=>'user',
+            'type' => 'user',
             'id' => $messenger_id,
         ])->render();
     }
