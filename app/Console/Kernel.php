@@ -19,6 +19,10 @@ class Kernel extends ConsoleKernel
             DB::table('posts')->where('active', 0)->delete();
             DB::table('comments')->where('active', 0)->delete();
         })->daily();
+
+        $schedule->command('scout:import "App\Models\User"')->daily();
+        $schedule->command('scout:import "App\Models\Post"')->daily();
+        $schedule->command('scout:import "App\Models\Entity"')->daily();
     }
 
     protected function commands()
