@@ -4,14 +4,9 @@
 
 ## About Women in Business Portal
 
-The portal is a web application designed as a networking platform for business women in the MENA region. The platform utilizes various technologies in it's stack. The list of technologies are as follows:
+The portal is a web application designed as a networking platform for business women in the MENA region. The platform is built using:
 
-- php 7.4
-- Nginx 1.17.8
-- MYSQL 8.0
-- Docker [(Laradock)](https://laradock.io/)
-- [Laravel 6.x](https://laravel.com/docs/6.x)
-- JQuery 3.1
+- [Laravel 8.x](https://laravel.com/docs/8.x)
 - [Semantic UI 2.4](https://semantic-ui.com/)
 
 
