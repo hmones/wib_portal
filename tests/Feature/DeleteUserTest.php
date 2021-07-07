@@ -13,7 +13,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class deleteUserTest extends TestCase
+class DeleteUserTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -25,15 +25,15 @@ class deleteUserTest extends TestCase
         $user = User::factory()->create();
         $user2 = User::factory()->create();
         Entity::factory()->count(9)->create([
-            'entity_type_id' => $entityType->id,
+            'entity_type_id'     => $entityType->id,
             'primary_country_id' => $country->id,
-            'primary_city_id' => $city->id
+            'primary_city_id'    => $city->id
         ]);
         $entity = Entity::factory()->create([
-            'owned_by' => $user->id,
-            'entity_type_id' => $entityType->id,
+            'owned_by'           => $user->id,
+            'entity_type_id'     => $entityType->id,
             'primary_country_id' => $country->id,
-            'primary_city_id' => $city->id
+            'primary_city_id'    => $city->id
         ]);
 
         $user->entities()->attach($entity->id, ['relation_type' => 'Owner', 'relation_active' => 1]);
