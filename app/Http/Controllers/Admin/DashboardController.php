@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\EntitiesExport;
 use App\Exports\UsersExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\{FilterEntity, FilterUser};
@@ -48,8 +49,10 @@ class DashboardController extends Controller
 
     public function indexEntities(FilterEntity $request)
     {
-        $filter = $request->validated();
-        $entities = Entity::where('name', 'like', $request->input('query') . '%')->filter($filter)->paginate(20);
-        return view('admin.entities', compact(['entities', 'request']));
+        $entities = Entity::where('name', 'like', $request->input('query') . '%')->filter($request->validated());
+
+        return $request->export === 'xlsx'
+            ? Excel::download(new EntitiesExport($entities->get()), 'entities.xlsx')
+            : view('admin.entities', ['entities' => $entities->paginate(20), 'request' => $request->validated()]);
     }
 }
