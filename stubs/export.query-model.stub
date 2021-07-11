@@ -1,0 +1,14 @@
+<?php
+
+namespace DummyNamespace;
+
+use DummyFullModelClass;
+use Maatwebsite\Excel\Concerns\FromQuery;
+
+class DummyClass implements FromQuery
+{
+    public function query()
+    {
+        return DummyModelClass::query();
+    }
+}

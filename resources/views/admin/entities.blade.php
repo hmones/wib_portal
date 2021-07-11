@@ -1,41 +1,46 @@
 @extends('layouts.auth')
 
 @section('content')
-<style>
-    .ui.grey.label {
-        color: black !important;
-    }
-</style>
-<br><br>
-<div class="ui centered container">
-    <h3 class="ui blue header"> <i class="stop wib bullet icon"></i> Registered Entities</h3>
-    <h4 class="ui dividing header"> Search records</h4>
-    <div class="ui inverted grey segment">
-        <form action="{{route('admin.entities')}}" method="GET" class="ui form">
-            @csrf
-            <div class="ui icon input fluid field">
-                <input type="text" name="query" value="{{request()->has('query')?request()->input('query'):''}}" />
-                <i class="inverted circular search link blue icon"></i>
-            </div>
-        </form>
-    </div>
-    <h4 class="ui dividing header" style="margin-bottom: 0px;">Filter records</h4>
-    @include('partials.filter_section', ['route' => route('admin.entities'), 'recent_online' => false])
-    <div class="ui basic segment">
+    <style>
+        .ui.grey.label {
+            color: black !important;
+        }
+    </style>
+    <div class="ui centered container">
+        <h2 class="ui left floated blue header">
+            Registered Entities
+        </h2>
+        <br/><br>
+        <h4 class="ui dividing header"> Search records</h4>
+        <div class="ui inverted grey segment">
+            <form action="{{route('admin.entities')}}" method="GET" class="ui form">
+                @csrf
+                <div class="ui icon input fluid field">
+                    <input type="text" name="query" value="{{request()->has('query')?request()->input('query'):''}}"/>
+                    <i class="inverted circular search link blue icon"></i>
+                </div>
+            </form>
+        </div>
+        <h4 class="ui dividing header" style="margin-bottom: 0px;">Filter records</h4>
+        @include('partials.filter_section', ['route' => route('admin.entities'), 'recent_online' => false])
+        <a href="{{route('admin.entities', ['export' => 'xlsx'])}}" class="ui right floated green button">
+            Download Data &nbsp;&nbsp;<i class="download icon"></i>
+        </a>
+        <br><br>
         <table class="ui celled stackable table">
             <thead>
-                <tr>
-                    <th class="four wide">Name</th>
-                    <th class="three wide">Email</th>
-                    <th class="one wide">Country</th>
-                    <th class="one wide">City</th>
-                    <th class="two wide">Created</th>
-                    <th class="one wide">Actions</th>
-                    <th class="one wide">Verify</th>
-                </tr>
+            <tr>
+                <th class="four wide">Name</th>
+                <th class="three wide">Email</th>
+                <th class="one wide">Country</th>
+                <th class="one wide">City</th>
+                <th class="two wide">Created</th>
+                <th class="one wide">Actions</th>
+                <th class="one wide">Verify</th>
+            </tr>
             </thead>
             <tbody>
-                @forelse ($entities as $entity)
+            @forelse ($entities as $entity)
                 <tr>
                     <td>
                         <h4 class="ui image header">
@@ -47,12 +52,12 @@
                                 <br>
                                 <div class="sub header">
                                     @if($entity->owned_by()->first())
-                                    <a href="{{$entity->owned_by()->first()->path}}" class="tooltip"
-                                        data-content="{{$entity->owned_by()->first()->name}}">
-                                        {{Str::of($entity->owned_by()->first()->name)->lower()->ucfirst()->limit(15,$end='..')}}
-                                    </a>
+                                        <a href="{{$entity->owned_by()->first()->path}}" class="tooltip"
+                                           data-content="{{$entity->owned_by()->first()->name}}">
+                                            {{Str::of($entity->owned_by()->first()->name)->lower()->ucfirst()->limit(15,$end='..')}}
+                                        </a>
                                     @else
-                                    No owner
+                                        No owner
                                     @endisset
                                 </div>
                             </div>
@@ -84,101 +89,102 @@
                         </div>
                     </td>
                 </tr>
-                @empty
+            @empty
                 <tr>
                     <td colspan="4">
                         <p>No entities registered currently!</p>
                     </td>
                 </tr>
-                @endforelse
+            @endforelse
             </tbody>
         </table>
+
     </div>
-</div>
-<br><br><br>
-<div class="ui centered grid">
-    <div class="ui centered basic segment">
-        {{ $entities->appends($_GET)->links('vendor.pagination.semantic-ui') }}
-    </div>
-</div>
-<br><br>
-<div class="ui small modal">
-    <div class="ui header">Entity Information</div>
-    <div class="ui padded basic segment">
-        <div class="entity information ui three column stackable grid">
-            <div class="column"><strong>Name </strong></br></br>
-                <div class="ui grey small message" id="modal_name"></div>
-            </div>
-            <div class="column"><strong>Founding year </strong></br></br>
-                <div class="ui grey small message" id="modal_founding_year"></div>
-            </div>
-            <div class="column"><strong>Primary Address </strong></br></br>
-                <div class="ui grey small message" id="modal_primary_address"></div>
-            </div>
-            <div class="column"><strong>Entity created at </strong></br></br>
-                <div class="ui grey small message" id="modal_created_at"></div>
-            </div>
-            <div class="column"><strong>Information updated at </strong></br></br>
-                <div class="ui grey small message" id="modal_updated_at"></div>
-            </div>
-            <div class="column"><strong>Primary Email </strong></br></br>
-                <div class="ui grey small message" id="modal_primary_email"></div>
-            </div>
-            <div class="column"><strong>Secondary Email </strong></br></br>
-                <div class="ui grey small message" id="modal_secondary_email"></div>
-            </div>
-            <div class="column"><strong>Phone </strong></br></br>
-                <div class="ui grey small message" id="modal_phone"></div>
-            </div>
-            <div class="column"><strong>Entity size </strong></br></br>
-                <div class="ui grey small message" id="modal_entity_size"></div>
-            </div>
-            <div class="column"><strong>Business Type </strong></br></br>
-                <div class="ui grey small message" id="modal_business_type"></div>
-            </div>
-            <div class="column"><strong>Turn Over </strong></br></br>
-                <div class="ui grey small message" id="modal_turn_over"></div>
-            </div>
-            <div class="column"><strong>Balance Sheet </strong></br></br>
-                <div class="ui grey small message" id="modal_balance_sheet"></div>
-            </div>
-            <div class="column"><strong>Revenue </strong></br></br>
-                <div class="ui grey small message" id="modal_revenue"></div>
-            </div>
-            <div class="column"><strong>Members (for associations) </strong></br></br>
-                <div class="ui grey small message" id="modal_employees"></div>
-            </div>
-            <div class="column"><strong>Students </strong></br></br>
-                <div class="ui grey small message" id="modal_students"></div>
-            </div>
+    <br><br><br>
+    <div class="ui centered grid">
+        <div class="ui centered basic segment">
+            {{ $entities->appends($_GET)->links('vendor.pagination.semantic-ui') }}
         </div>
     </div>
-    <div class="ui actions">
-        <div class="ui right floated red button" onclick="$('.ui.small.modal').modal('hide');">Close</div>
-        <br><br>
+    <br><br>
+    <div class="ui small modal">
+        <div class="ui header">Entity Information</div>
+        <div class="ui padded basic segment">
+            <div class="entity information ui three column stackable grid">
+                <div class="column"><strong>Name </strong></br></br>
+                    <div class="ui grey small message" id="modal_name"></div>
+                </div>
+                <div class="column"><strong>Founding year </strong></br></br>
+                    <div class="ui grey small message" id="modal_founding_year"></div>
+                </div>
+                <div class="column"><strong>Primary Address </strong></br></br>
+                    <div class="ui grey small message" id="modal_primary_address"></div>
+                </div>
+                <div class="column"><strong>Entity created at </strong></br></br>
+                    <div class="ui grey small message" id="modal_created_at"></div>
+                </div>
+                <div class="column"><strong>Information updated at </strong></br></br>
+                    <div class="ui grey small message" id="modal_updated_at"></div>
+                </div>
+                <div class="column"><strong>Primary Email </strong></br></br>
+                    <div class="ui grey small message" id="modal_primary_email"></div>
+                </div>
+                <div class="column"><strong>Secondary Email </strong></br></br>
+                    <div class="ui grey small message" id="modal_secondary_email"></div>
+                </div>
+                <div class="column"><strong>Phone </strong></br></br>
+                    <div class="ui grey small message" id="modal_phone"></div>
+                </div>
+                <div class="column"><strong>Entity size </strong></br></br>
+                    <div class="ui grey small message" id="modal_entity_size"></div>
+                </div>
+                <div class="column"><strong>Business Type </strong></br></br>
+                    <div class="ui grey small message" id="modal_business_type"></div>
+                </div>
+                <div class="column"><strong>Turn Over </strong></br></br>
+                    <div class="ui grey small message" id="modal_turn_over"></div>
+                </div>
+                <div class="column"><strong>Balance Sheet </strong></br></br>
+                    <div class="ui grey small message" id="modal_balance_sheet"></div>
+                </div>
+                <div class="column"><strong>Revenue </strong></br></br>
+                    <div class="ui grey small message" id="modal_revenue"></div>
+                </div>
+                <div class="column"><strong>Members (for associations) </strong></br></br>
+                    <div class="ui grey small message" id="modal_employees"></div>
+                </div>
+                <div class="column"><strong>Students </strong></br></br>
+                    <div class="ui grey small message" id="modal_students"></div>
+                </div>
+            </div>
+        </div>
+        <div class="ui actions">
+            <div class="ui right floated red button" onclick="$('.ui.small.modal').modal('hide');">Close</div>
+            <br><br>
+        </div>
     </div>
-</div>
-<form id="entity_delete_form" action="" method="POST">
-    @csrf
-    @method('DELETE')
-</form>
-<form id="entity_verify_form" action="" method="POST">
-    @csrf
-</form>
+    <form id="entity_delete_form" action="" method="POST">
+        @csrf
+        @method('DELETE')
+    </form>
+    <form id="entity_verify_form" action="" method="POST">
+        @csrf
+    </form>
 @endsection
 
 @section('scripts')
-<script>
-    $(function(){
+    <script>
+        $(function () {
             $('#filter_form').show();
             $('.tooltip').popup();
         });
-    $('.ui.checkbox').checkbox();
+        $('.ui.checkbox').checkbox();
         $('.ui.small.modal').modal();
-        function handleViewEntity(e, id){
+
+        function handleViewEntity(e, id) {
             e.preventDefault();
             var token = '{{Session::token()}}';
-            var url = '/admin/api/entity/'+id;
+            var url = '/admin/api/entity/' + id;
             var users_url = '/admin/entities';
             $.ajax({
                 method: "GET",
@@ -187,16 +193,18 @@
                 if (msg['id'] === id) {
                     msg['created_at'] = new Date(msg['created_at']).toDateString();
                     msg['updated_at'] = new Date(msg['updated_at']).toDateString();
-                    msg['phone'] = ((msg['phone'] != null) ? ('+('+msg['phone_country_code']+') '+msg['phone']) : null);
+                    msg['phone'] = ((msg['phone'] != null) ? ('+(' + msg['phone_country_code'] + ') ' + msg['phone']) : null);
                     msg['name'] = msg['name'] + ((msg['name_additional'] != null) ? msg['name_additional'] : '');
+
                     function fill_modal(key, index) {
-                        if(msg[key]){
-                            $('#modal_'+key).html(msg[key]);
-                        }else{
-                            $('#modal_'+key).html('None');
+                        if (msg[key]) {
+                            $('#modal_' + key).html(msg[key]);
+                        } else {
+                            $('#modal_' + key).html('None');
                         }
                         return true;
                     }
+
                     Object.keys(msg).map(fill_modal);
                     $('.ui.small.modal').modal('show');
 
@@ -205,14 +213,16 @@
                 }
             });
         }
-        function handleDeleteEntity(e, id){
+
+        function handleDeleteEntity(e, id) {
             e.preventDefault();
-            var url = '/admin/api/entity/'+id;
-            $('#entity_delete_form').attr('action',url).submit();
+            var url = '/admin/api/entity/' + id;
+            $('#entity_delete_form').attr('action', url).submit();
         }
+
         $('.verify.entity.checkbox').change(function () {
-            var url = '/admin/api/entity/'+$(this).attr('data-value');
-            $('#entity_verify_form').attr('action',url).submit();
+            var url = '/admin/api/entity/' + $(this).attr('data-value');
+            $('#entity_verify_form').attr('action', url).submit();
         });
-</script>
+    </script>
 @endsection

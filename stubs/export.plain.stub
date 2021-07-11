@@ -1,0 +1,13 @@
+<?php
+
+namespace DummyNamespace;
+
+use Maatwebsite\Excel\Concerns\FromCollection;
+
+class DummyClass implements FromCollection
+{
+    public function collection()
+    {
+        //
+    }
+}
