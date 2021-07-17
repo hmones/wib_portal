@@ -63,6 +63,17 @@ class AdminUserCreationTest extends TestCase
             ->assertSessionHas('success');
     }
 
+    public function testAdminCanUpdateTheirInformationEvenIfPasswordIsEmpty(): void
+    {
+        $this->actingAs($this->admin, 'admin')
+            ->put(route('admin.admins.update', $this->admin), [
+                'name'  => 'testAdmin',
+                'email' => 'test@test.test',
+            ])->assertRedirect(route('dashboard'))
+            ->assertSessionHasNoErrors()
+            ->assertSessionHas('success');
+    }
+
     public function testAdminCanNotUpdateTheirInformationWithInvalidData(): void
     {
         $this->actingAs($this->admin, 'admin')
