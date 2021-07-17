@@ -13,7 +13,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class deleteUserTest extends TestCase
+class DeleteUserTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -22,42 +22,40 @@ class deleteUserTest extends TestCase
         $country = Country::factory()->create();
         $city = City::factory()->create();
         $entityType = EntityType::factory()->create(['name' => 'business']);
-        $user = User::factory()->create();
+        $user1 = User::factory()->create();
         $user2 = User::factory()->create();
         Entity::factory()->count(9)->create([
-            'entity_type_id' => $entityType->id,
+            'entity_type_id'     => $entityType->id,
             'primary_country_id' => $country->id,
-            'primary_city_id' => $city->id
+            'primary_city_id'    => $city->id
         ]);
         $entity = Entity::factory()->create([
-            'owned_by' => $user->id,
-            'entity_type_id' => $entityType->id,
+            'owned_by'           => $user1->id,
+            'entity_type_id'     => $entityType->id,
             'primary_country_id' => $country->id,
-            'primary_city_id' => $city->id
+            'primary_city_id'    => $city->id
         ]);
 
-        $user->entities()->attach($entity->id, ['relation_type' => 'Owner', 'relation_active' => 1]);
+        $user1->entities()->attach($entity->id, ['relation_type' => 'Owner', 'relation_active' => 1]);
 
         $user1Posts = Post::factory()->count(2)->has(
             Comment::factory()->count(3)->has(
                 Reaction::factory()->count(3)
             )
-        )->create(['user_id' => $user->id, 'country_id' => $country->id]);
+        )->create(['user_id' => $user1->id, 'country_id' => $country->id]);
 
-        $user2Posts = Post::factory()->count(2)->has(
+        Post::factory()->count(2)->has(
             Comment::factory()->count(3)->has(
                 Reaction::factory()->count(3)
             )
         )->create(['user_id' => $user2->id, 'country_id' => $country->id]);
 
 
-        $response = $this->actingAs($user)->get('/home');
+        $this->actingAs($user1)->get('/home')->assertViewIs('home');
 
-        $response->assertViewIs('home');
+        $this->actingAs($user1)->delete($user1->path);
 
-        $response = $this->actingAs($user)->delete($user->path);
-
-        $this->assertEquals(User::find($user->id), null);
+        $this->assertEquals(User::find($user1->id), null);
 
         $this->assertEquals(Post::whereIn('id', $user1Posts->pluck('id'))->count(), 0);
 
