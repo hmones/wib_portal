@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Models\Post;
+use App\Repositories\PostRepository;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -22,10 +22,6 @@ class DeletePost implements ShouldQueue
 
     public function handle()
     {
-        foreach ($this->post->comments()->withoutGlobalScopes()->get() as $comment) {
-            DeleteComment::dispatch($comment);
-        }
-        $this->post->delete();
-        Post::where('active', 0)->withoutGlobalScopes()->delete();
+        resolve(PostRepository::class)->destroy($this->post);
     }
 }

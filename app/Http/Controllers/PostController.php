@@ -36,11 +36,11 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'content' => 'required',
-            'post_type' => 'exclude_if:post_type,null|nullable',
+            'content'    => 'required',
+            'post_type'  => 'exclude_if:post_type,null|nullable',
             'country_id' => 'exclude_if:coutnry_id,null|nullable|exists:countries,id',
-            'sector_id' => 'exclude_if:sector_id,null|nullable|exists:sectors,id',
-            'user_id' => 'required|integer|size:' . Auth::id()
+            'sector_id'  => 'exclude_if:sector_id,null|nullable|exists:sectors,id',
+            'user_id'    => 'required|integer|size:' . Auth::id()
         ]);
 
         $post = Post::create($data);
@@ -51,9 +51,9 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $post->update(['active' => 0]);
-        $post->comments()->update(['active' => 0]);
-        DeletePost::dispatch($post);
 
-        return response('Post Deleted Successfully', 200);
+        dispatch(new DeletePost($post));
+
+        return response('Post Deleted Successfully');
     }
 }

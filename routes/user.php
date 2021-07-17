@@ -16,8 +16,7 @@ Route::post('/reaction', 'ReactionController@store')->name('reaction.store');
 Route::delete('/reaction/{reaction}', 'ReactionController@destroy')->middleware('can:delete,reaction')->name('reaction.destroy');
 
 Route::get('/post/{post}/comments', 'CommentController@index')->name('comments.get.api');
-Route::post('/comment','CommentController@store')->name('comment.store');
-Route::delete('/comment/{comment}', 'CommentController@destroy')->middleware('can:delete,comment')->name('comment.destroy');
+Route::resource('comment', 'CommentController');
 
 Route::prefix('profile/entities')->as('profile.entities')->group(function () {
     Route::get('/', 'EntityController@indexUser');
