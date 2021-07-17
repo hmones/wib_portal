@@ -16,13 +16,14 @@ class DeletePostTest extends TestCase
 {
     use DatabaseTransactions;
 
+    const DELETE_ROUTE = 'post.destroy';
     protected $user;
     protected $otherUser;
     protected $post;
 
     public function testResourcesRenderNormallyForInactiveComments(): void
     {
-        $this->actingAs($this->user)->delete(route('post.destroy', $this->post))->assertOk()->assertSee('Post Deleted Successfully');
+        $this->actingAs($this->user)->delete(route(self::DELETE_ROUTE, $this->post))->assertOk()->assertSee('Post Deleted Successfully');
         $this->actingAs($this->user)->get(route('home'))->assertOk()->assertDontSee($this->post->content);
         $this->actingAs($this->user)->get(route('notifications'))->assertOk()->assertDontSee($this->post->content);
     }
@@ -32,7 +33,7 @@ class DeletePostTest extends TestCase
         Queue::fake();
 
         $this->actingAs($this->user)
-            ->delete(route('post.destroy', $this->post))
+            ->delete(route(self::DELETE_ROUTE, $this->post))
             ->assertOk()
             ->assertSee('Post Deleted Successfully');
 
@@ -44,7 +45,7 @@ class DeletePostTest extends TestCase
         Queue::fake();
 
         $this->actingAs($this->otherUser)
-            ->delete(route('post.destroy', $this->post))
+            ->delete(route(self::DELETE_ROUTE, $this->post))
             ->assertStatus(Response::HTTP_FORBIDDEN);
 
         Queue::assertNothingPushed();
