@@ -2,10 +2,10 @@
 
 @if($type == 'user')
 
-@if($user->image)
+@if(optional($user)->image)
 {{$user->image}}
 @else
-@if ($user->gender === 'Female')
+@if (optional($user)->gender === 'Female')
 {{asset('images/female_avatar.jpg')}}
 @else
 {{asset('images/male_avatar.jpg')}}
@@ -22,4 +22,4 @@
 
 @endif
 
-" style="{{isset($styles)?$styles:''}}" />
+    " style="{{isset($styles)?$styles:''}}"/>

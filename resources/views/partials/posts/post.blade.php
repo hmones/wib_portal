@@ -4,7 +4,11 @@
             <div class="item">
                 @include('partials.components.avatar',['user'=>$post->user, 'type' => 'user'])
                 <div class="content">
-                    <a class="header" href="{{$post->user->path}}">{{$post->user->name}}</a>
+                    @if($post->user()->exists())
+                        <a class="header" href="{{$post->user->path}}">{{$post->user->name}}</a>
+                    @else
+                        <div class="header"> Deleted User</div>
+                    @endif
                     <div class="description">{{$post->created_at->diffForHumans()}}</div>
                 </div>
             </div>
@@ -50,7 +54,7 @@
                 @include('partials.likes.show',['reactions' => $post->reactions, 'id'=>$post->id,
                 'type'=>'App\Models\Post'])
                 <a href="{{route('messenger')}}" class="ui basic teal mini button"> <i
-                            class="paper plane teal icon"></i> Message</a>
+                        class="paper plane teal icon"></i> Message</a>
             </div>
             <div class="right floated ten wide right aligned column column">
                 <i class="blue thumbs up icon"></i>

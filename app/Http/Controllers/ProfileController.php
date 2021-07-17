@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\{FilterUser, StoreUser, UpdateUser};
 use App\Jobs\DeleteUser;
+use App\Jobs\UpdateUser as UpdateUserJob;
 use App\Models\{Entity, SupportedLink, User};
 use App\Notifications\MemberRegistered;
 use App\Repositories\FileStorage;
@@ -40,11 +41,11 @@ class ProfileController extends Controller
     {
         $supported_links = SupportedLink::all();
         return view('profile.create', [
-            'activities' => $this->activities,
-            'education' => $this->education,
-            'cities' => [],
+            'activities'      => $this->activities,
+            'education'       => $this->education,
+            'cities'          => [],
             'supported_links' => $supported_links,
-            'associations' => $this->associations,
+            'associations'    => $this->associations,
         ]);
     }
 
@@ -75,7 +76,7 @@ class ProfileController extends Controller
             $related_user->notify(new MemberRegistered($user));
         });
 
-        dispatch(new \App\Jobs\UpdateUser($user));
+        dispatch(new UpdateUserJob($user));
 
         $request->session()->flash('success', 'User was created successfully!');
 
@@ -94,7 +95,7 @@ class ProfileController extends Controller
         }
 
         return view('profile.show', [
-            'user' => $profile,
+            'user'        => $profile,
             'association' => $association
         ]);
     }
@@ -103,11 +104,11 @@ class ProfileController extends Controller
     {
         $supported_links = SupportedLink::all();
         return view('profile.edit', [
-            'user' => $profile,
-            'activities' => $this->activities,
-            'education' => $this->education,
+            'user'            => $profile,
+            'activities'      => $this->activities,
+            'education'       => $this->education,
             'supported_links' => $supported_links,
-            'associations' => $this->associations,
+            'associations'    => $this->associations,
         ]);
     }
 
@@ -141,27 +142,19 @@ class ProfileController extends Controller
     public function destroy(User $profile, string $slug)
     {
         $profile->update(['active' => 0]);
-        $profile->posts()->update(['active' => 0]);
-        $profile->comments()->update(['active' => 0]);
-        $profile->sentMessages()->delete();
-        $profile->receivedMessages()->delete();
-        DeleteUser::dispatch($profile);
-        Session::flash('success', $profile->name . ' has been successfully removed from the platform');
 
-        return Redirect::to(route('login'));
+        dispatch(new DeleteUser($profile));
+
+        return redirect(route('login'))->with(['success' => $profile->name . ' has been successfully removed from the platform']);
     }
 
     public function destroyAdmin(User $profile)
     {
         $profile->update(['active' => 0]);
-        $profile->posts()->update(['active' => 0]);
-        $profile->comments()->update(['active' => 0]);
-        $profile->sentMessages()->delete();
-        $profile->receivedMessages()->delete();
-        DeleteUser::dispatch($profile);
-        Session::flash('success', $profile->name . ' has been successfully removed from the platform');
 
-        return Redirect::back();
+        dispatch(new DeleteUser($profile));
+
+        return back()->with(['success' => $profile->name . ' has been successfully removed from the platform']);
     }
 
     public function verify(User $profile)
@@ -177,6 +170,21 @@ class ProfileController extends Controller
         Session::flash('success', 'Verification updated successfully');
 
         return Redirect::back();
+    }
+
+    protected function deleteRelatedModels(User $user): void
+    {
+        $user->sentMessages()->delete();
+        $user->receivedMessages()->delete();
+        $user->links()->delete();
+        $user->owned_entities()->update(['owned_by' => null]);
+        $user->sectors()->detach();
+        $user->entities()->detach();
+        $user->posts()->update(['active' => 0]);
+        $user->comments()->update(['active' => 0]);
+        $user->reactions()->update(['active' => 0]);
+        $user->update(['active' => 0]);
+        $user->save();
     }
 
 }
