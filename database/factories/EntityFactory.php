@@ -16,7 +16,7 @@ class EntityFactory extends Factory
     {
         return [
             "founding_year"         => $this->faker->year,
-            "entity_type_id"        => EntityType::factory()->create(['name' => 'Business'])->id,
+            "entity_type_id"        => EntityType::factory(),
             "name"                  => $this->faker->company,
             "name_additional"       => $this->faker->companySuffix,
             "primary_email"         => $this->faker->safeEmail,
@@ -25,8 +25,8 @@ class EntityFactory extends Factory
             "phone"                 => $this->faker->numberBetween($min = 100000000, $max = 999999999),
             "fax"                   => $this->faker->numberBetween($min = 100000000, $max = 999999999),
             "primary_address"       => $this->faker->streetAddress,
-            "primary_country_id"    => Country::factory()->create(['name' => 'Egypt'])->id,
-            "primary_city_id"       => City::factory()->create(['name' => 'Cairo'])->id,
+            "primary_country_id"    => Country::factory(),
+            "primary_city_id"       => City::factory(),
             "primary_postbox"       => $this->faker->postcode,
             "primary_postal_code"   => $this->faker->postcode,
             "secondary_address"     => $this->faker->streetAddress,
