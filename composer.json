@@ -8,7 +8,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.2",
+        "php": "^7.4",
         "babenkoivan/elastic-migrations": "^1.2",
         "babenkoivan/elastic-scout-driver": "^1.2",
         "babenkoivan/elastic-scout-driver-plus": "^1.11",
@@ -21,19 +21,20 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.0",
         "league/flysystem-aws-s3-v3": "^1.0",
+        "livewire/livewire": "^2.5",
         "maatwebsite/excel": "^3.1",
         "predis/predis": "^1.1",
         "pusher/pusher-php-server": "^4.1",
         "sentry/sentry-laravel": "^2.3"
     },
     "require-dev": {
-      "barryvdh/laravel-debugbar": "^3.2",
-      "barryvdh/laravel-ide-helper": "^2.6",
-      "facade/ignition": "^2.5",
-      "fzaninotto/faker": "^1.4",
-      "mockery/mockery": "^1.4.2",
-      "nunomaduro/collision": "^5.0",
-      "phpunit/phpunit": "^9.3.3"
+        "barryvdh/laravel-debugbar": "^3.2",
+        "barryvdh/laravel-ide-helper": "^2.6",
+        "facade/ignition": "^2.5",
+        "fzaninotto/faker": "^1.4",
+        "mockery/mockery": "^1.4.2",
+        "nunomaduro/collision": "^5.0",
+        "phpunit/phpunit": "^9.3.3"
     },
     "config": {
         "optimize-autoloader": true,
@@ -62,7 +63,8 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "@php artisan package:discover --ansi",
+            "@php artisan vendor:publish --force --tag=livewire:assets --ansi"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
