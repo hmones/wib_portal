@@ -51,13 +51,14 @@
             <div>{{$success}}</div>
         </div>
     @endif
-    <table class="ui celled stackable table">
+    <table class="ui celled stackable table" aria-label="admin users table">
+        <caption></caption>
         <thead>
         <tr>
-            <th class="four wide">Name</th>
-            <th class="five wide">Email</th>
-            <th class="one wide">Created</th>
-            <th class="one wide">Actions</th>
+            <th class="four wide" id="name_column">Name</th>
+            <th class="five wide" id="email_column">Email</th>
+            <th class="one wide" id="created_column">Created</th>
+            <th class="one wide" id="actions_column">Actions</th>
         </tr>
         </thead>
         <tbody>

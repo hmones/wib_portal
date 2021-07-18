@@ -8,9 +8,8 @@ use App\Jobs\UpdateUser as UpdateUserJob;
 use App\Models\{Entity, SupportedLink, User};
 use App\Notifications\MemberRegistered;
 use App\Repositories\FileStorage;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\{Auth, Hash, Redirect, Session};
+use Illuminate\Support\Facades\{Hash, Redirect};
 
 class ProfileController extends Controller
 {
@@ -159,17 +158,12 @@ class ProfileController extends Controller
 
     public function verify(User $profile)
     {
-        $admin = Auth::id();
-        $approved_at = $profile->approved_at ? Carbon::now() : null;
+        $approved_by = auth()->guard('admin')->id();
+        $approved_at = $profile->approved_at ? null : now();
 
-        $profile->update([
-            'approved_at' => $approved_at,
-            'approved_by' => $admin
-        ]);
+        $profile->update(compact('approved_by', 'approved_at'));
 
-        Session::flash('success', 'Verification updated successfully');
-
-        return Redirect::back();
+        return back()->with(['success' => 'Verification updated successfully']);
     }
 
     protected function deleteRelatedModels(User $user): void
