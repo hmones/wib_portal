@@ -21,16 +21,18 @@ Route::namespace('Admin')->group(function () {
 Route::resource('entityType', 'EntityTypeController')->except(['index', 'create', 'show', 'edit']);
 Route::resource('sector', 'SectorController')->except(['index', 'create', 'show', 'edit']);
 Route::prefix('/api')->group(function () {
-    Route::get('profile/{profile}', function (User $profile) {
+    $profileRoute = 'profile/{profile}';
+    $entityRoute = 'entity/{entity}';
+    Route::get($profileRoute, function (User $profile) {
         return $profile;
     });
-    Route::delete('profile/{profile}', 'ProfileController@destroyAdmin');
-    Route::post('profile/{profile}', 'ProfileController@verify');
-    Route::get('entity/{entity}', function (Entity $entity) {
+    Route::delete($profileRoute, 'ProfileController@destroyAdmin');
+    Route::post($profileRoute, 'ProfileController@verify');
+    Route::get($entityRoute, function (Entity $entity) {
         return $entity;
     });
-    Route::delete('entity/{entity}', 'EntityController@destroyAdmin');
-    Route::post('entity/{entity}', 'EntityController@verify');
+    Route::delete($entityRoute, 'EntityController@destroyAdmin');
+    Route::post($entityRoute, 'EntityController@verify');
 });
 
 

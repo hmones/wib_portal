@@ -18,10 +18,7 @@ class ShowAdmins extends Component
 
     public function render()
     {
-        $users = Admin::latest()->paginate(12);
-        $isOpen = $this->isOpen;
-
-        return view('livewire.show-admins', compact('users', 'isOpen'));
+        return view('livewire.show-admins', ['users' => Admin::latest()->paginate(12)]);
     }
 
     public function hideForm(): void
