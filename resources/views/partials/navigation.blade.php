@@ -72,7 +72,8 @@
                                     <i class="university blue icon"></i> My Business
                                 </a>
                                 <div class="ui blue inverted item" style="background: none !important;">
-                                    <form method="post" action="{{route('logout')}}">
+                                    <form method="get"
+                                          action="@auth('admin'){{route('admin.impersonate.index')}}@else{{route('logout')}}@endauth">
                                         @csrf
                                         <button type="submit" class="ui teal fluid button">Logout</button>
                                     </form>
@@ -103,7 +104,7 @@
                 <div class="right aligned seven wide column">
                     <button onclick="$('#mobileMenu').toggle('fade');" class="ui grey button"
                             style="margin-top: 20px;margin-right: -30px;padding: 10px 5px 10px 15px;"><i
-                                class="bars black icon"></i></button>
+                            class="bars black icon"></i></button>
                 </div>
             @endauth
             @guest
@@ -169,7 +170,8 @@
                         <div class="item"><a href="{{route('profile.entities')}}">MY ORGANIZATIONS</a></div>
                         <br>
                         <div class="ui blue inverted " style="background: none !important;">
-                            <form method="post" action="{{route('logout')}}">
+                            <form method="get"
+                                  action="@auth('admin'){{route('admin.impersonate.index')}}@else{{route('logout')}}@endauth">
                                 @csrf
                                 <button type="submit" class="ui teal fluid button">Logout</button>
                             </form>

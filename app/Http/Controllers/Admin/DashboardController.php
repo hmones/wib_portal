@@ -40,7 +40,7 @@ class DashboardController extends Controller
 
     public function indexUsers(FilterUser $request)
     {
-        $users = User::where('name', 'like', $request->input('query') . '%')->filter($request->validated());
+        $users = User::where('name', 'like', $request->input('query') . '%')->filter($request->validated())->latest();
 
         return $request->export === 'xlsx'
             ? Excel::download(new UsersExport($users->get()), 'users.xlsx')
@@ -49,7 +49,7 @@ class DashboardController extends Controller
 
     public function indexEntities(FilterEntity $request)
     {
-        $entities = Entity::where('name', 'like', $request->input('query') . '%')->filter($request->validated());
+        $entities = Entity::where('name', 'like', $request->input('query') . '%')->filter($request->validated())->latest();
 
         return $request->export === 'xlsx'
             ? Excel::download(new EntitiesExport($entities->get()), 'entities.xlsx')

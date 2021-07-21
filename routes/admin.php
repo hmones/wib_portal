@@ -16,10 +16,12 @@ Route::namespace('Admin')->group(function () {
     Route::get('/users', 'DashboardController@indexUsers')->name('users');
     Route::get('/entities', 'DashboardController@indexEntities')->name('entities');
     Route::resource('admins', 'AdminController')->only(['index', 'edit', 'update']);
+    Route::resource('impersonate', 'ImpersonateController')->only(['store', 'index']);
 });
 
 Route::resource('entityType', 'EntityTypeController')->except(['index', 'create', 'show', 'edit']);
 Route::resource('sector', 'SectorController')->except(['index', 'create', 'show', 'edit']);
+
 Route::prefix('/api')->group(function () {
     $profileRoute = 'profile/{profile}';
     $entityRoute = 'entity/{entity}';
