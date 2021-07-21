@@ -77,6 +77,8 @@
                     </td>
                     <td class="center aligned">
                         <a href="#" onclick="handleViewUser(event, {{$user->id}});"><i class="eye blue icon"></i></a>
+                        <a href="#" onclick="handleImpersonateUser(event, {{$user->id}});"><i
+                                class="secret user blue icon"></i></a>
                         <a href="#" onclick="handleDeleteUser(event, {{$user->id}});"><i class="trash red icon"></i></a>
                     </td>
                     <td>
@@ -164,6 +166,10 @@
     <form id="user_verify_form" action="" method="POST">
         @csrf
     </form>
+    <form action="{{route('admin.impersonate.store')}}" id="user_impersonate_form" method="post">
+        @csrf
+        <input type="hidden" name="user_id" id="impersonation_id" value="">
+    </form>
 @endsection
 
 @section('scripts')
@@ -210,6 +216,12 @@
             e.preventDefault();
             var url = '/admin/api/profile/' + id;
             $('#user_delete_form').attr('action', url).submit();
+        }
+
+        function handleImpersonateUser(e, id) {
+            e.preventDefault();
+            $('#impersonation_id').val(id);
+            $('#user_impersonate_form').submit();
         }
 
         $('.verify.user.checkbox').change(function () {
