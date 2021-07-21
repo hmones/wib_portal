@@ -56,8 +56,8 @@
         <thead>
         <tr>
             <th class="four wide" id="name_column">Name</th>
-            <th class="five wide" id="email_column">Email</th>
-            <th class="one wide" id="created_column">Created</th>
+            <th class="four wide" id="email_column">Email</th>
+            <th class="two wide" id="created_column">Created</th>
             <th class="one wide" id="actions_column">Actions</th>
         </tr>
         </thead>
