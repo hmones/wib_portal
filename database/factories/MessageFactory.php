@@ -13,7 +13,7 @@ class MessageFactory extends Factory
     public function definition(): array
     {
         return [
-            'id'         => $this->faker->randomDigit + time(),
+            'id'         => $this->faker->unique()->randomDigit,
             'type'       => 'user',
             'from_id'    => User::factory(),
             'to_id'      => User::factory(),
