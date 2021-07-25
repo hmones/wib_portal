@@ -34,6 +34,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    protected $appends = ['age'];
+
     protected $dates = ['last_login'];
 
     public static function searchForm(): SearchRequestBuilder
@@ -147,5 +149,10 @@ class User extends Authenticatable implements MustVerifyEmail
             $query->orderBy('name', $data['name']);
         }
         return $query;
+    }
+
+    public function getAgeAttribute(): int
+    {
+        return $this->birth_year ? now()->year - $this->birth_year : 0;
     }
 }
