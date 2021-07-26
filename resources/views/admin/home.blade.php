@@ -35,6 +35,22 @@
                 <div id="entitiesSectors" class="ui basic segment"></div>
             </div>
         </div>
+        <div class="ui stackable grid">
+            <div class="eight wide column">
+                <div id="entitiesRevenue" class="ui basic segment"></div>
+            </div>
+            <div class="eight wide column">
+                <div id="entitiesType" class="ui basic segment"></div>
+            </div>
+        </div>
+        <div class="ui stackable grid">
+            <div class="eight wide column">
+                <div id="entitiesTurnover" class="ui basic segment"></div>
+            </div>
+            <div class="eight wide column">
+                <div id="entitiesSize" class="ui basic segment"></div>
+            </div>
+        </div>
     </div>
 @endsection
 
@@ -356,6 +372,126 @@
         };
 
         var chart = new ApexCharts(document.querySelector("#entitiesSectors"), options);
+
+        chart.render();
+    </script>
+    <script>
+        var options = {
+            title: {
+                text: 'Entities by Revenue',
+                align: 'center',
+                margin: 0,
+            },
+            series: [{{implode(',', data_get($entitiesRevenue, 'data'))}}],
+            chart: {
+                type: 'donut'
+            },
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: 200
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }],
+            labels: [`{{implode('`,`', data_get($entitiesRevenue, 'labels', []))}}`],
+
+        };
+
+        var chart = new ApexCharts(document.querySelector("#entitiesRevenue"), options);
+
+        chart.render();
+    </script>
+    <script>
+        var options = {
+            title: {
+                text: 'Entities by Business Type',
+                align: 'center',
+                margin: 0,
+            },
+            series: [{{implode(',', data_get($entitiesType, 'data'))}}],
+            chart: {
+                type: 'donut'
+            },
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: 200
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }],
+            labels: [`{{implode('`,`', data_get($entitiesType, 'labels', []))}}`],
+
+        };
+
+        var chart = new ApexCharts(document.querySelector("#entitiesType"), options);
+
+        chart.render();
+    </script>
+    <script>
+        var options = {
+            title: {
+                text: 'Entities by Turnover',
+                align: 'center',
+                margin: 0,
+            },
+            series: [{{implode(',', data_get($entitiesTurnover, 'data'))}}],
+            chart: {
+                type: 'donut'
+            },
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: 200
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }],
+            labels: [`{{implode('`,`', data_get($entitiesTurnover, 'labels', []))}}`],
+
+        };
+
+        var chart = new ApexCharts(document.querySelector("#entitiesTurnover"), options);
+
+        chart.render();
+    </script>
+    <script>
+        var options = {
+            title: {
+                text: 'Entities by Size',
+                align: 'center',
+                margin: 0,
+            },
+            series: [{{implode(',', data_get($entitiesSize, 'data'))}}],
+            chart: {
+                type: 'donut'
+            },
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: 200
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }],
+            labels: [`{{implode('`,`', data_get($entitiesSize, 'labels', []))}}`],
+
+        };
+
+        var chart = new ApexCharts(document.querySelector("#entitiesSize"), options);
 
         chart.render();
     </script>

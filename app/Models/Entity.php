@@ -2,23 +2,74 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Laravel\Scout\Searchable;
-use ElasticScoutDriverPlus\CustomSearch;
 use App\Search\EntitySearchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
+use ElasticScoutDriverPlus\CustomSearch;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Laravel\Scout\Searchable;
 
 class Entity extends Model
 {
     use HasFactory;
     use Searchable, CustomSearch;
-    
-    protected $table = 'entities';
 
+    public const ACTIVITIES = ['Export', 'Import', 'Production', 'Services', 'Trade'];
+    public const BUSINESS_TYPE = ['Start-Up', 'Scale-Up', 'Traditional Business'];
+    public const SIZE = ['1-25', '26-50', '51-100', '101-250', '>250'];
+    public const EMPLOYEES = ['100-300', '150-200', '101-250', '250-500', '>500'];
+    public const STUDENTS = [
+        '<200',
+        '201-500',
+        '501-1000',
+        '1001-5000',
+        '5001-10000',
+        '10001-20000',
+        '20001-50000',
+        '50001-100000',
+        '>100000'
+    ];
+    public const TURNOVER = [
+        '<25K',
+        '25K-50K',
+        '50K-100K',
+        '100K-500K',
+        '500K-1Mio',
+        '1Mio-3Mio',
+        '3Mio-5Mio',
+        '5Mio-10Mio',
+        '>10Mio'
+    ];
+    public const BALANCE_SHEET = [
+        '<25Mio',
+        '25Mio-50Mio',
+        '50Mio-100Mio',
+        '100Mio-500Mio',
+        '500Mio-1Bil',
+        '1Bil-3Bil',
+        '3Bil-5Bil',
+        '5Bil-10Bil',
+        '>10Bil'
+    ];
+    public const REVENUE = [
+        '<25K',
+        '25K-50K',
+        '50K-100K',
+        '100K-500K',
+        '500K-1Mio',
+        '1Mio-3Mio',
+        '3Mio-5Mio',
+        '5Mio-10Mio',
+        '>10Mio'
+    ];
+    protected $table = 'entities';
     protected $guarded = [];
 
+    public static function searchForm(): SearchRequestBuilder
+    {
+        return new SearchRequestBuilder(new static(), new EntitySearchQueryBuilder());
+    }
 
     public function type()
     {
@@ -94,11 +145,11 @@ class Entity extends Model
     public function scopeFilter($query, array $data)
     {
         if (isset($data['countries'])) {
-            $countries = explode(",",$data['countries']);
+            $countries = explode(",", $data['countries']);
             $query->whereIn('primary_country_id', $countries);
         }
         if (isset($data['sectors'])) {
-            $sectors = explode(',',$data['sectors']);
+            $sectors = explode(',', $data['sectors']);
             $query->whereHas('sectors', function ($q) use ($sectors) {
                 $q->whereIn('id', $sectors);
             });
@@ -110,31 +161,25 @@ class Entity extends Model
             $query->orderBy('name', $data['name']);
         }
         if (isset($data['type'])) {
-            if($data['type'] == 'business'){
-                $query->whereHas('type', function($q){
-                    $q->where('name','Business');
+            if ($data['type'] == 'business') {
+                $query->whereHas('type', function ($q) {
+                    $q->where('name', 'Business');
                 });
-            }else{
-                $query->whereHas('type', function($q){
-                    $q->where('name','!=','Business');
+            } else {
+                $query->whereHas('type', function ($q) {
+                    $q->where('name', '!=', 'Business');
                 });
             }
         }
         return $query;
     }
-    
 
     public function toSearchableArray()
     {
         return [
-            'name' => $this->name,
+            'name'            => $this->name,
             'name_additional' => $this->name_additional,
         ];
-    }
-
-    public static function searchForm(): SearchRequestBuilder
-    {
-        return new SearchRequestBuilder(new static(), new EntitySearchQueryBuilder());
     }
 
 

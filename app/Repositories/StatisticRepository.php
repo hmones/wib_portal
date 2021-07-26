@@ -66,6 +66,36 @@ class StatisticRepository
         ];
     }
 
+    public function getEntitiesByRevenue(): array
+    {
+        return $this->getResourceFieldCount(Entity::class, 'revenue');
+    }
+
+    protected function getResourceFieldCount(string $model, string $field): array
+    {
+        $data = resolve($model)->select($field, DB::raw('COUNT(*) as model_count'))->groupBy($field)->orderBy('model_count', 'desc')->get();
+
+        return [
+            'labels' => $data->pluck($field),
+            'data'   => $data->pluck('model_count')->toArray()
+        ];
+    }
+
+    public function getEntitiesByBusinessType(): array
+    {
+        return $this->getResourceFieldCount(Entity::class, 'business_type');
+    }
+
+    public function getEntitiesBySize(): array
+    {
+        return $this->getResourceFieldCount(Entity::class, 'entity_size');
+    }
+
+    public function getEntitiesByTurnover(): array
+    {
+        return $this->getResourceFieldCount(Entity::class, 'turn_over');
+    }
+
     public function getUsersByAge(): array
     {
         $data = User::select('birth_year', DB::raw('COUNT(*) as users_count'))->groupBy('birth_year')->orderBy('users_count', 'desc')->get();

@@ -27,7 +27,11 @@ class DashboardController extends Controller
             'entitiesSectors'    => $statisticRepository->getEntitiesBySector(),
             'entitiesTypes'      => $statisticRepository->getEntitiesByType(),
             'registeredUsers'    => $statisticRepository->getRegisteredUsers(),
-            'registeredEntities' => $statisticRepository->getRegisteredEntities()
+            'registeredEntities' => $statisticRepository->getRegisteredEntities(),
+            'entitiesRevenue'    => $statisticRepository->getEntitiesByRevenue(),
+            'entitiesType'       => $statisticRepository->getEntitiesByBusinessType(),
+            'entitiesTurnover'   => $statisticRepository->getEntitiesByTurnover(),
+            'entitiesSize'       => $statisticRepository->getEntitiesBySize()
         ]);
     }
 
