@@ -73,10 +73,10 @@ class StatisticRepository
 
     protected function getResourceFieldCount(string $model, string $field): array
     {
-        $data = resolve($model)->select($field, DB::raw('COUNT(*) as model_count'))->groupBy($field)->orderBy('model_count', 'desc')->get();
+        $data = resolve($model)->select($field, DB::raw('COUNT(*) as model_count'))->whereNotNull($field)->groupBy($field)->orderBy('model_count', 'desc')->get();
 
         return [
-            'labels' => $data->pluck($field),
+            'labels' => $data->pluck($field)->toArray(),
             'data'   => $data->pluck('model_count')->toArray()
         ];
     }
