@@ -6,5 +6,6 @@
     "/js/loadResources.js": "/js/loadResources.js",
     "/js/profile.create.js": "/js/profile.create.js",
     "/js/entity.upload.photos.js": "/js/entity.upload.photos.js",
-    "/js/app.js": "/js/app.js"
+    "/js/app.js": "/js/app.js",
+    "/js/adminDashboard.js": "/js/adminDashboard.js"
 }
