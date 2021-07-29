@@ -64,6 +64,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.27.3/apexcharts.min.css"
           integrity="sha512-Tv+8HvG00Few62pkPxSs1WVfPf9Hft4U1nMD6WxLxJzlY/SLhfUPFPP6rovEmo4zBgwxMsArU6EkF11fLKT8IQ=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <style>
+        div.apexcharts-legend-series {
+            text-align: left !important;
+        }
+    </style>
     <script>
         var charts = [
             {
@@ -166,5 +171,4 @@
         ];
     </script>
     <script src="{{asset('js/adminDashboard.js')}}"></script>
-
 @endsection
