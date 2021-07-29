@@ -10,21 +10,28 @@ use App\Models\Entity;
 use App\Models\EntityType;
 use App\Models\Sector;
 use App\Models\User;
+use App\Repositories\StatisticRepository;
 use Maatwebsite\Excel\Facades\Excel;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $users = User::count();
-        $entities = Entity::count();
-        $entityTypes = EntityType::count();
-        $sectors = Sector::count();
+        $statisticRepository = new StatisticRepository();
+
         return view('admin.home', [
-            "users"       => $users,
-            "entities"    => $entities,
-            "entityTypes" => $entityTypes,
-            "sectors"     => $sectors
+            'activeUsers'        => $statisticRepository->getActiveUsers(),
+            'usersCountries'     => $statisticRepository->getUsersByCountry(),
+            'usersAge'           => $statisticRepository->getUsersByAge(),
+            'usersSectors'       => $statisticRepository->getUsersBySector(),
+            'entitiesSectors'    => $statisticRepository->getEntitiesBySector(),
+            'entitiesTypes'      => $statisticRepository->getEntitiesByType(),
+            'registeredUsers'    => $statisticRepository->getRegisteredUsers(),
+            'registeredEntities' => $statisticRepository->getRegisteredEntities(),
+            'entitiesRevenue'    => $statisticRepository->getEntitiesByRevenue(),
+            'entitiesType'       => $statisticRepository->getEntitiesByBusinessType(),
+            'entitiesTurnover'   => $statisticRepository->getEntitiesByTurnover(),
+            'entitiesSize'       => $statisticRepository->getEntitiesBySize()
         ]);
     }
 

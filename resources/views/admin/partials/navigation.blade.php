@@ -1,9 +1,12 @@
-<div class="ui fixed inverted menu" style="border:none;box-shadow: none;">
+<div class="ui fixed inverted borderless menu" style="border:none;box-shadow: none;">
     <div class="ui container">
-        <a href="/admin/" class="item">
+        <div class="ui image item">
+            <img class="ui image" src="{{asset('images/logo.png')}}" style="filter:invert(0.85);" width="70px"
+                 alt="Women in Business Logo">
+        </div>
+        <a href="{{route('admin.home')}}" class="item">
             <i class="home icon"></i> Dashboard
         </a>
-
         <a href="{{route('admin.users')}}" class="{{request()->path() === 'admin/users' ? 'active':''}} item">
             <i class="users icon"></i> Users
         </a>
@@ -19,10 +22,14 @@
             <i class="user circle icon"></i> Admins
         </a>
 
-        <div class="right item">
-            <a href="{{route('admin.admins.edit', Auth::guard('admin')->user())}}">Edit Profile <i
-                    class="pencil icon"></i></a>&nbsp;&nbsp;&nbsp;
-            <a href="javascript:void(0)" onclick="$('#admin_logout').submit();">Logout <i class="logout icon"></i></a>
+        <div class="ui right inverted menu">
+            <a href="{{route('admin.admins.edit', auth()->guard('admin')->user())}}"
+               class="{{request()->url() === route('admin.admins.edit', Auth::guard('admin')->user()) ? 'active' : ''}} item">
+                <i class="pencil icon"></i> Edit Profile
+            </a>&nbsp;&nbsp;&nbsp;
+            <a href="javascript:void(0)" onclick="$('#admin_logout').submit();" class="item">
+                <i class="logout icon"></i> Logout
+            </a>
         </div>
     </div>
 </div>
