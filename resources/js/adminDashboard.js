@@ -8,8 +8,8 @@ if (typeof charts === 'object') {
 
 function renderChart(chart) {
     var options = getOptions(chart, chart.type);
-    var chart = new ApexCharts(document.querySelector('#' + chart.target), options);
-    chart.render();
+    var chartElement = new ApexCharts(document.querySelector('#' + chart.target), options);
+    chartElement.render();
 }
 
 function getOptions(chart, type) {
