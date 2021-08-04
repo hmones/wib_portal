@@ -31,11 +31,10 @@
     width: 18px;
     height: 18px;
     box-sizing: border-box;
+    border: solid 2px transparent;
     border-top-color: #153e7a !important;
     border-left-color: #153e7a !important;
-    border: solid 2px transparent;
     border-radius: 50%;
-
     -webkit-animation: nprogress-spinner 400ms linear infinite;
     animation: nprogress-spinner 400ms linear infinite;
 }
@@ -916,12 +915,12 @@ body {
 
 .loadingPlaceholder-body div,
 .loadingPlaceholder-header tr td div {
+    background: #f6f7f8;
+    background-image: -webkit-linear-gradient(left, #f6f7f8 0%, #eaecf3 20%, #f6f7f8 40%, #f6f7f8 100%);
     background-repeat: no-repeat;
     background-size: 800px 104px;
     height: 104px;
     position: relative;
-    background: #f6f7f8;
-    background-image: -webkit-linear-gradient(left, #f6f7f8 0%, #eaecf3 20%, #f6f7f8 40%, #f6f7f8 100%);
 }
 
 .loadingPlaceholder-body div {
