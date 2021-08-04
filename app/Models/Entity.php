@@ -2,18 +2,13 @@
 
 namespace App\Models;
 
-use App\Search\EntitySearchQueryBuilder;
-use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
-use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Laravel\Scout\Searchable;
 
 class Entity extends Model
 {
     use HasFactory;
-    use Searchable, CustomSearch;
 
     public const ACTIVITIES = ['Export', 'Import', 'Production', 'Services', 'Trade'];
     public const BUSINESS_TYPE = ['Start-Up', 'Scale-Up', 'Traditional Business'];
@@ -65,11 +60,6 @@ class Entity extends Model
     ];
     protected $table = 'entities';
     protected $guarded = [];
-
-    public static function searchForm(): SearchRequestBuilder
-    {
-        return new SearchRequestBuilder(new static(), new EntitySearchQueryBuilder());
-    }
 
     public function type()
     {
@@ -181,6 +171,4 @@ class Entity extends Model
             'name_additional' => $this->name_additional,
         ];
     }
-
-
 }
