@@ -3,14 +3,11 @@
 namespace App\Models;
 
 use App\Scopes\ActiveScope;
-use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
-use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
-use Laravel\Scout\Searchable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Search\EntitySearchQueryBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -61,11 +60,6 @@ class Entity extends Model
     ];
     protected $table = 'entities';
     protected $guarded = [];
-
-    public static function searchForm(): SearchRequestBuilder
-    {
-        return new SearchRequestBuilder(new static(), new EntitySearchQueryBuilder());
-    }
 
     public function type()
     {
@@ -177,6 +171,4 @@ class Entity extends Model
             'name_additional' => $this->name_additional,
         ];
     }
-
-
 }
