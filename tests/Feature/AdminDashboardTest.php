@@ -148,7 +148,6 @@ class AdminDashboardTest extends TestCase
 
     public function test_users_by_age_statistics_is_correctly_retreived(): void
     {
-
         User::factory()->count(2)->create(['birth_year' => now()->subYears(20)->year]);
         User::factory()->create(['birth_year' => now()->subYears(50)->year]);
 
@@ -167,7 +166,6 @@ class AdminDashboardTest extends TestCase
 
         $this->assertEquals($this->statistics->getUsersByAge(), $expectedData);
     }
-
 
     protected function setUp(): void
     {
