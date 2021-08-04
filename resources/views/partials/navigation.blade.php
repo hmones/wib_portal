@@ -77,10 +77,10 @@
             </div>
         </div>
     </div>
-    <div class="column mobile tablet only grey row">
+    <div class="column mobile tablet only row">
         <div class="ui four column grid" id="topMainTabletMenu">
             <div class="center aligned eight wide column">
-                <a href="/"><img class="ui image left item" src="{{asset('images/logo.png')}}" alt="" width="190px"></a>
+                <a href="/"><img class="ui image left item" src="{{asset('images/logo.png')}}" alt="" width="150px"></a>
             </div>
             @auth('web')
                 <div class="right aligned seven wide column">
