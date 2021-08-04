@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Scopes\ActiveScope;
-use App\Search\UserSearchQueryBuilder;
 use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
 use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -16,7 +15,6 @@ use Laravel\Scout\Searchable;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
-    use Searchable, CustomSearch;
     use HasFactory;
 
     protected $fillable = [
@@ -37,11 +35,6 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $appends = ['age'];
 
     protected $dates = ['last_login'];
-
-    public static function searchForm(): SearchRequestBuilder
-    {
-        return new SearchRequestBuilder(new static(), new UserSearchQueryBuilder());
-    }
 
     protected static function boot()
     {

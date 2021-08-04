@@ -3,24 +3,14 @@
 namespace App\Models;
 
 use App\Scopes\ActiveScope;
-use App\Search\PostSearchQueryBuilder;
-use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
-use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Scout\Searchable;
 
 class Post extends Model
 {
     use HasFactory;
-    use Searchable, CustomSearch;
 
     protected $guarded = [];
-
-    public static function searchForm(): SearchRequestBuilder
-    {
-        return new SearchRequestBuilder(new static(), new PostSearchQueryBuilder());
-    }
 
     protected static function boot()
     {
