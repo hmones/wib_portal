@@ -12,6 +12,29 @@ function renderChart(chart) {
     chartElement.render();
 }
 
+function getToolbarOptions() {
+    return {
+        show: true,
+        tools: {
+            download: true
+        },
+        export: {
+            csv: {
+                filename: 'chart-data',
+                columnDelimiter: ',',
+                headerCategory: 'category',
+                headerValue: 'value',
+                dateFormatter(timestamp) {
+                    return new Date(timestamp).toDateString()
+                }
+            },
+            png: {
+                filename: 'chart-image',
+            }
+        }
+    };
+}
+
 function getOptions(chart, type) {
     switch (type) {
         case 'bar':
@@ -26,7 +49,8 @@ function getOptions(chart, type) {
                 }],
                 chart: {
                     type: 'bar',
-                    height: 350
+                    height: 350,
+                    toolbar: getToolbarOptions()
                 },
                 plotOptions: {
                     bar: {
@@ -51,7 +75,8 @@ function getOptions(chart, type) {
                 },
                 series: chart.data,
                 chart: {
-                    type: 'donut'
+                    type: 'donut',
+                    toolbar: getToolbarOptions()
                 },
                 theme: {
                     monochrome: {
@@ -84,6 +109,7 @@ function getOptions(chart, type) {
                     sparkline: {
                         enabled: true
                     },
+                    toolbar: getToolbarOptions()
                 },
                 stroke: {
                     curve: 'straight'

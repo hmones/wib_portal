@@ -50,7 +50,7 @@ class DashboardController extends Controller
         $users = User::where('name', 'like', $request->input('query') . '%')->filter($request->validated())->latest();
 
         return $request->export === 'xlsx'
-            ? Excel::download(new UsersExport($users->get()), 'users.xlsx')
+            ? Excel::download(new UsersExport($users->limit(1000)->get()), 'users.xls')
             : view('admin.users', ['users' => $users->paginate(20), 'request' => $request->validated()]);
     }
 
@@ -59,7 +59,7 @@ class DashboardController extends Controller
         $entities = Entity::where('name', 'like', $request->input('query') . '%')->filter($request->validated())->latest();
 
         return $request->export === 'xlsx'
-            ? Excel::download(new EntitiesExport($entities->get()), 'entities.xlsx')
+            ? Excel::download(new EntitiesExport($entities->limit(1000)->get()), 'entities.xls')
             : view('admin.entities', ['entities' => $entities->paginate(20), 'request' => $request->validated()]);
     }
 }
