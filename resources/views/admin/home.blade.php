@@ -1,10 +1,6 @@
 @extends('layouts.auth')
 
 @section('content')
-    <div class="ui container">
-        <h2 class="ui blue header">Statistics in the last 7 days</h2>
-    </div>
-    <br><br>
     <div class="ui center aligned container">
         <div class="ui stackable grid">
             <div class="five wide column">
