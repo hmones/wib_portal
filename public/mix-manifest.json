@@ -1,10 +1,12 @@
 {
     "/css/app.css": "/css/app.css",
+    "/css/messenger.css": "/css/messenger.css",
     "/js/ui.js": "/js/ui.js",
     "/js/entity.create.js": "/js/entity.create.js",
     "/js/post.posts.js": "/js/post.posts.js",
     "/js/loadResources.js": "/js/loadResources.js",
     "/js/profile.create.js": "/js/profile.create.js",
     "/js/entity.upload.photos.js": "/js/entity.upload.photos.js",
-    "/js/app.js": "/js/app.js"
+    "/js/app.js": "/js/app.js",
+    "/js/adminDashboard.js": "/js/adminDashboard.js"
 }

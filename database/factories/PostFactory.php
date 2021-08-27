@@ -11,16 +11,16 @@ class PostFactory extends Factory
 
     public function definition()
     {
-        $users = User::latest()->take(100)->pluck('id')->toArray();
-        $countries = Country::take(10)->pluck('id')->toArray();
-        $sectors = Sector::pluck('id')->toArray();
         return [
-            'content' => $this->faker->paragraph(3),
-            'image' => $this->faker->randomElement(array('https://source.unsplash.com/random', '', '', '')),
-            'post_type' => $this->faker->randomElement(array('Help', 'Recommendations', 'Advice', 'Products', 'Services', 'Buyer', 'Seller', 'Attending a fair', 'Organizing a fair', 'Participating in an event', 'Announcing news', 'Launching new product')),
-            'user_id' => $this->faker->randomElement($users),
-            'sector_id' => $this->faker->randomElement($sectors),
-            'country_id' => $this->faker->randomElement([$countries, '', '', '', '', '', '', '', '', '', '']),
+            'content'    => $this->faker->paragraph(3),
+            'image'      => $this->faker->randomElement(array('https://source.unsplash.com/random', '', '', '')),
+            'post_type'  => $this->faker->randomElement(array('Help', 'Recommendations', 'Advice', 'Products',
+                                                              'Services', 'Buyer', 'Seller', 'Attending a fair',
+                                                              'Organizing a fair', 'Participating in an event',
+                                                              'Announcing news', 'Launching new product')),
+            'user_id'    => User::factory(),
+            'sector_id'  => Sector::factory(),
+            'country_id' => Country::factory(),
             'created_at' => now(),
             'updated_at' => now()
         ];

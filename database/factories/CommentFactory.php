@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Comment;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CommentFactory extends Factory
@@ -11,10 +12,10 @@ class CommentFactory extends Factory
 
     public function definition()
     {
-        $users = \App\Models\User::latest()->take(100)->pluck('id')->toArray();
         return [
-            'content' => $this->faker->sentence(),
-            'user_id' => $this->faker->randomElement($users),
+            'content'    => $this->faker->sentence(),
+            'active'     => 1,
+            'user_id'    => User::factory(),
             'created_at' => now(),
             'updated_at' => now()
         ];

@@ -1,32 +1,88 @@
-#desktopMenu{
+#desktopMenu {
     border: none;
     box-shadow: 7px 11px -5px 5px #f3f4f5;
     border-radius: 0px;
-    & a.selected{
+
+    & a.selected {
         border-bottom: none !important;
     }
 }
-.ui.dropdown.account.item{
-    border-bottom: none!important;
-    top:-7px;
-    font-weight:normal;
-    margin-bottom:-13px !important;
+
+.ui.dropdown.account.item {
+    border-bottom: none !important;
+    top: -7px;
+    font-weight: normal;
+    margin-bottom: -13px !important;
     padding-left: 10px !important;
+
+    &.mainMenu {
+        margin-bottom: -4px !important;
+        margin-right: 10px;
+    }
 }
 
-i.menuNotification.icon{
+i.menuNotification.icon {
     font-size: 0.75em !important;
     top: -10px !important;
     right: -5px !important;
-    & span{
-        color:white;
+
+    & span {
+        color: white;
         text-shadow: none;
         font-weight: bold;
     }
 }
 
-div.menu.network{
+div.menu.network {
     border: none !important;
     box-shadow: 7px 11px -5px -6px #f3f4f5 !important;
     border-radius: 0px !important;
+    letter-spacing: normal !important;
 }
+
+.item.mainMenu {
+    letter-spacing: 1.5px;
+    color: rgb(21, 62, 122) !important;
+    font-size: 15px;
+    font-weight: 600 !important;
+}
+
+.item.mainMenu:focus {
+    font-size: 15px;
+    font-weight: 600 !important;
+}
+
+#topMainDesktopMenu {
+    border: none;
+    box-shadow: none;
+
+    & .big.avatar {
+        margin-right: 0px;
+        width: 37px;
+    }
+}
+
+#topMainTabletMenu {
+    & img {
+        padding-left: 20px;
+    }
+
+    & button {
+        margin-top: 12px;
+        margin-right: -30px;
+        padding: 10px 5px 10px 15px;
+    }
+}
+
+#mobileMenu {
+    padding-top: 0px;
+    z-index: 10;
+    background: white;
+
+    & .item {
+        text-transform: uppercase;
+        letter-spacing: 1.68px;
+        color: #1a4d99;
+    }
+}
+

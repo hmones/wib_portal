@@ -1,22 +1,35 @@
-<div class="ui fixed inverted menu" style="border:none;box-shadow: none;">
+<div class="ui fixed inverted borderless menu" style="border:none;box-shadow: none;">
     <div class="ui container">
-        <a href="/admin/" class="item">
+        <div class="ui image item">
+            <img class="ui image" src="{{asset('images/logo.png')}}" style="filter:invert(0.85);" width="70px"
+                 alt="Women in Business Logo">
+        </div>
+        <a href="{{route('admin.home')}}" class="item">
             <i class="home icon"></i> Dashboard
         </a>
-
-        <a href="{{route('admin.users')}}" class="{{Request::path() === 'admin/users' ? 'active':''}} item">
+        <a href="{{route('admin.users')}}" class="{{request()->path() === 'admin/users' ? 'active':''}} item">
             <i class="users icon"></i> Users
         </a>
-        <a href="{{route('admin.entities')}}" class="{{Request::path() === 'admin/entities' ? 'active':''}} item">
+        <a href="{{route('admin.entities')}}" class="{{request()->path() === 'admin/entities' ? 'active':''}} item">
             <i class="building icon"></i> Entities
         </a>
 
-        <a href="{{route('admin.options')}}" class="{{Request::path() === 'admin/options' ? 'active':''}} item">
+        <a href="{{route('admin.options')}}" class="{{request()->path() === 'admin/options' ? 'active':''}} item">
             <i class="cog icon"></i> Options
         </a>
-        <div class="right item">
-            Welcome, {{Auth::guard('admin')->user()->name}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <button class="ui basic inverted tiny button" onclick="$('#admin_logout').submit();">Logout</button>
+
+        <a href="{{route('admin.admins.index')}}" class="{{request()->path() === 'admin/admins' ? 'active':''}} item">
+            <i class="user circle icon"></i> Admins
+        </a>
+
+        <div class="ui right inverted menu">
+            <a href="{{route('admin.admins.edit', auth()->guard('admin')->user())}}"
+               class="{{request()->url() === route('admin.admins.edit', Auth::guard('admin')->user()) ? 'active' : ''}} item">
+                <i class="pencil icon"></i> Edit Profile
+            </a>&nbsp;&nbsp;&nbsp;
+            <a href="javascript:void(0)" onclick="$('#admin_logout').submit();" class="item">
+                <i class="logout icon"></i> Logout
+            </a>
         </div>
     </div>
 </div>

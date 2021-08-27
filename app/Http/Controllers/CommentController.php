@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:delete,comment')->only('destroy');
+    }
+
     public function index(Post $post)
     {
         $comments = $post->comments()->latest()->paginate(3);
@@ -23,10 +28,10 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'content' => 'required',
+            'user_id'          => 'required|exists:users,id',
+            'content'          => 'required',
             'commentable_type' => 'required|in:App\Models\Post,App\Models\Comment',
-            'commentable_id' => 'required|exists:posts,id'
+            'commentable_id'   => 'required|exists:posts,id'
         ]);
 
         $comment = Comment::create($data);
@@ -37,7 +42,8 @@ class CommentController extends Controller
     public function destroy(Comment $comment)
     {
         $comment->update(['active' => 0]);
-        DeleteComment::dispatch($comment);
+
+        dispatch(new DeleteComment($comment));
 
         return response('Comment Deleted Successfully', 200);
     }

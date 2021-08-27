@@ -3,20 +3,15 @@
 namespace App\Models;
 
 use App\Scopes\ActiveScope;
-use App\Search\UserSearchQueryBuilder;
-use ElasticScoutDriverPlus\Builders\SearchRequestBuilder;
-use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
-use Laravel\Scout\Searchable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
-    use Searchable, CustomSearch;
     use HasFactory;
 
     protected $fillable = [
@@ -34,12 +29,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    protected $dates = ['last_login'];
+    protected $appends = ['age'];
 
-    public static function searchForm(): SearchRequestBuilder
-    {
-        return new SearchRequestBuilder(new static(), new UserSearchQueryBuilder());
-    }
+    protected $dates = ['last_login'];
 
     protected static function boot()
     {
@@ -147,5 +139,10 @@ class User extends Authenticatable implements MustVerifyEmail
             $query->orderBy('name', $data['name']);
         }
         return $query;
+    }
+
+    public function getAgeAttribute(): int
+    {
+        return $this->birth_year ? now()->year - $this->birth_year : 0;
     }
 }

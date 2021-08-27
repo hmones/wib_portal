@@ -2,17 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Link extends Model
 {
+    use HasFactory;
+
     protected $table = 'links';
 
     protected $guarded = [];
 
-    /**
-     * Get the owning linkable model.
-     */
     public function linkable()
     {
         return $this->morphTo();
@@ -22,6 +22,4 @@ class Link extends Model
     {
         return $this->belongsTo('App\Models\SupportedLink');
     }
-
-
 }
