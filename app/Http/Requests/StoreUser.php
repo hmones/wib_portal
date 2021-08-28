@@ -42,6 +42,7 @@ class StoreUser extends FormRequest
             'user.education'                => 'required|in:Highschool,Bachelor,Master,Doctorate',
             'user.gender'                   => 'required|in:Male,Female',
             'user.birth_year'               => 'nullable|date_format:Y',
+            'links.*'                       => 'exclude_if:links.*.url,null|required',
             'links.*.url'                   => 'exclude_if:links.*.url,null|required|active_url',
             'links.*.type_id'               => 'exclude_if:links.*.url,null|required|exists:supported_links,id',
             'user.phone_country_code'       => 'required|digits_between:1,5',
