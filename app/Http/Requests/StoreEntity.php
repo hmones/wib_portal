@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreEntity extends FormRequest
 {
-    public function attributes()
+    public function attributes(): array
     {
         return [
             "entity.image"                 => "logo",
@@ -48,7 +48,7 @@ class StoreEntity extends FormRequest
         ];
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             "entity.image"                 => "exclude_if:entity.image,null|nullable|image|max:2048",
