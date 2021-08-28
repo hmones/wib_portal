@@ -4,14 +4,16 @@ namespace App\Http\Traits;
 
 trait HasValidationRules
 {
-    protected $postalCodeRules = 'nullable|alpha_num|between:0,50';
+    protected string $postalCodeRules = 'nullable|alpha_num|between:0,50';
+    protected string $linksUrlKey = 'links.*.url';
+    protected string $sectorsIdKey = 'sectors.*.sector_id';
 
     protected function linkRules(): array
     {
         return [
-            'links.*'         => 'exclude_if:links.*.url,null|required',
-            'links.*.url'     => 'exclude_if:links.*.url,null|required|active_url',
-            'links.*.type_id' => 'exclude_if:links.*.url,null|required|exists:supported_links,id'
+            'links.*'          => 'exclude_if:links.*.url,null|required',
+            $this->linksUrlKey => 'exclude_if:links.*.url,null|required|active_url',
+            'links.*.type_id'  => 'exclude_if:links.*.url,null|required|exists:supported_links,id'
         ];
     }
 
@@ -27,13 +29,13 @@ trait HasValidationRules
             'user.education'                => 'Education',
             'user.gender'                   => 'Gender',
             'user.birth_year'               => 'Birth year',
-            'links.*.url'                   => 'Profile link',
+            $this->linksUrlKey              => 'Profile link',
             'user.phone_country_code'       => 'Phone country code',
             'user.phone'                    => 'Phone',
             'user.country_id'               => 'Country',
             'user.city_id'                  => 'City',
             'user.postal_code'              => 'Postal code',
-            'sectors.*.sector_id'           => 'Sector',
+            $this->sectorsIdKey             => 'Sector',
             'user.business_association_wom' => 'Business women association',
             'user.gdpr_consent'             => 'GDPR consent',
         ];
@@ -83,7 +85,7 @@ trait HasValidationRules
             'entity.secondary_city_id'     => 'nullable|exists:cities,id',
             'entity.secondary_postbox'     => 'nullable|alpha_num|between:0,100',
             'entity.secondary_postal_code' => $this->postalCodeRules,
-            'sectors.*.sector_id'          => 'exclude_if:sectors.*.sector_id,null|nullable|exists:sectors,id',
+            $this->sectorsIdKey            => 'exclude_if:sectors.*.sector_id,null|nullable|exists:sectors,id',
             'entity.legal_form'            => 'nullable|in:Public,Private',
             'entity.activity'              => 'nullable|in:Export,Import,Production,Services,Trade',
             'entity.business_type'         => 'nullable|in:Start-Up,Scale-Up,Traditional Business',
@@ -114,12 +116,12 @@ trait HasValidationRules
             'entity.phone_country_code'    => 'country calling code',
             'entity.phone'                 => 'phone number',
             'entity.fax'                   => 'fax number',
-            'links.*.url'                  => 'link',
+            $this->linksUrlKey             => 'link',
             'links.*.type_id'              => 'link type',
             'entity.photosID[*]'           => 'organization photo',
             'entity.primary_address'       => 'primary address',
             'entity.primary_country_id'    => 'primary country',
-            'ntity.primary_city_id'        => 'primary city',
+            'entity.primary_city_id'       => 'primary city',
             'entity.primary_postbox'       => 'primary post box',
             'entity.primary_postal_code'   => 'primary postal code',
             'entity.secondary_address'     => 'secondary address',
@@ -127,7 +129,7 @@ trait HasValidationRules
             'entity.secondary_city_id'     => 'secondary city',
             'entity.secondary_postbox'     => 'secondary post box',
             'entity.secondary_postal_code' => 'secondary postal code',
-            'sectors.*.sector_id'          => 'field of work',
+            $this->sectorsIdKey            => 'field of work',
             'entity.legal_form'            => 'legal form',
             'entity.activity'              => 'organization activity',
             'entity.business_type'         => 'business type',
