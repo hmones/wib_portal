@@ -54,13 +54,19 @@
                                     <i class="user blue icon"></i> Account
                                 </a>
                                 <div class="ui blue inverted item" style="background: none !important;">
-                                    <form method="get"
-                                          action="@auth('admin'){{route('admin.impersonate.index')}}@else{{route('logout')}}@endauth">
-                                        @csrf
-                                        <button type="submit" class="ui teal fluid button">
-                                            Logout
-                                        </button>
-                                    </form>
+                                    @auth('admin')
+                                        <form method="get" action="{{route('admin.impersonate.index')}}">
+                                            @csrf
+                                            <button type="submit" class="ui teal fluid button">Logout
+                                            </button>
+                                        </form>
+                                    @else
+                                        <form method="post" action="{{route('logout')}}">
+                                            @csrf
+                                            <button type="submit" class="ui teal fluid button">Logout
+                                            </button>
+                                        </form>
+                                    @endauth
                                 </div>
                             </div>
                         </div>
@@ -129,11 +135,17 @@
                         <a href="{{auth()->user()->path . '/edit'}}" class="item">Account</a>
                         <a href="{{route('profile.entities')}}" class="item">My Business</a>
                         <br>
-                        <form method="get"
-                              action="@auth('admin'){{route('admin.impersonate.index')}}@else{{route('logout')}}@endauth">
-                            @csrf
-                            <button type="submit" class="ui teal fluid button">Logout</button>
-                        </form>
+                        @auth('admin')
+                            <form method="get" action="{{route('admin.impersonate.index')}}">
+                                @csrf
+                                <button type="submit" class="ui teal fluid button">Logout</button>
+                            </form>
+                        @else
+                            <form method="post" action="{{route('logout')}}">
+                                @csrf
+                                <button type="submit" class="ui teal fluid button">Logout</button>
+                            </form>
+                        @endauth
                     </div>
                 </div>
             </div>
