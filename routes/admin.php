@@ -1,26 +1,26 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ImpersonateController;
+use App\Http\Controllers\EntityController;
+use App\Http\Controllers\EntityTypeController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SectorController;
 use App\Models\Entity;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Admin Panel Routes
-|--------------------------------------------------------------------------
-*/
-
-Route::namespace('Admin')->group(function () {
-    Route::get('/', 'DashboardController@index')->name('home');
-    Route::get('/options', 'DashboardController@indexOptions')->name('options');
-    Route::get('/users', 'DashboardController@indexUsers')->name('users');
-    Route::get('/entities', 'DashboardController@indexEntities')->name('entities');
-    Route::resource('admins', 'AdminController')->only(['index', 'edit', 'update']);
-    Route::resource('impersonate', 'ImpersonateController')->only(['store', 'index']);
-});
-
-Route::resource('entityType', 'EntityTypeController')->except(['index', 'create', 'show', 'edit']);
-Route::resource('sector', 'SectorController')->except(['index', 'create', 'show', 'edit']);
+Route::get('/', [DashboardController::class, 'index'])->name('home');
+Route::get('/options', [DashboardController::class, 'indexOptions'])->name('options');
+Route::get('/users', [DashboardController::class, 'indexUsers'])->name('users');
+Route::get('/entities', [DashboardController::class, 'indexEntities'])->name('entities');
+Route::resource('admins', AdminController::class)->only(['index', 'edit', 'update']);
+Route::resource('impersonate', ImpersonateController::class)->only(['store', 'index']);
+Route::resource('entityType', EntityTypeController::class)->except(['index', 'create', 'show', 'edit']);
+Route::resource('sector', SectorController::class)->except(['index', 'create', 'show', 'edit']);
+Route::resource('events', EventController::class);
 
 Route::prefix('/api')->group(function () {
     $profileRoute = 'profile/{profile}';
@@ -28,13 +28,13 @@ Route::prefix('/api')->group(function () {
     Route::get($profileRoute, function (User $profile) {
         return $profile;
     });
-    Route::delete($profileRoute, 'ProfileController@destroyAdmin');
-    Route::post($profileRoute, 'ProfileController@verify');
+    Route::delete($profileRoute, [ProfileController::class, 'destroyAdmin']);
+    Route::post($profileRoute, [ProfileController::class, 'verify']);
     Route::get($entityRoute, function (Entity $entity) {
         return $entity;
     });
-    Route::delete($entityRoute, 'EntityController@destroyAdmin');
-    Route::post($entityRoute, 'EntityController@verify');
+    Route::delete($entityRoute, [EntityController::class, 'destroyAdmin']);
+    Route::post($entityRoute, [EntityController::class, 'verify']);
 });
 
 
