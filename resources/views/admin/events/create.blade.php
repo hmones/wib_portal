@@ -1,21 +1,24 @@
 @extends('layouts.auth')
 
 @section('content')
+    <link rel="stylesheet" href="{{asset('css/calendar.min.css')}}"/>
+    <script src="{{asset('js/calendar.min.js')}}"></script>
     <div class="ui centered container">
         <h2 class="ui left floated blue header">
-            <a href="{{route('admin.events.index')}}">Events</a> > @isset($event) Edit @endisset Event
+            <a href="{{route('admin.events.index')}}">Events</a> > @isset($event) Edit @else New @endisset Event
         </h2>
         <br><br>
-        <form class="ui form" @isset($event) action="{{route('admin.events.update', $event)}}" method="post"
-              @else action="{{route('admin.events.store')}}" method="post" @endisset>
+        <form class="ui form"
+              action="{{isset($event) ? route('admin.events.update', $event) : route('admin.events.store')}}"
+              method="post">
             @isset($event)@method('PUT')@endisset
             @csrf
             <div class="ui container">
                 <div class="ui padded basic segment">
                     <div class="ui three column stackable grid">
                         <div class="column">
-                            <strong>Image </strong>
-                            <div class="ui grey small message">
+                            <div class="required field">
+                                <label>Image </label>
                                 @include('partials.components.imageUpload', [
                                 'options' => [
                                     'value'  => isset($event) ? optional($event)->image : null,
@@ -26,48 +29,52 @@
                             </div>
                         </div>
                         <div class="column">
-                            <strong><label for="title">Title </label></strong>
                             <div class="required field">
-                                <br>
+                                <label for="title">Title </label>
                                 <input required id="title" type="text" name="title" placeholder="Event title..."
                                        value="{{$event->title ?? old('title')}}"/>
                             </div>
-                            <strong><label for="description">Description</label> </strong>
                             <div class="field">
-                                <br>
+                                <label for="description">Description</label>
                                 <textarea id="description" rows="16" type="text" name="description"
                                           placeholder="Event description...">{{$event->description ?? old('description')}}</textarea>
                             </div>
                         </div>
                         <div class="column">
-                            <strong><label for="location">Location </label></strong>
                             <div class="required field">
-                                <br>
-                                <input required id="location" type="text" name="location" placeholder="Event location..."
+                                <label for="location">Location </label>
+                                <input required id="location" type="text" name="location"
+                                       placeholder="Event location..."
                                        value="{{$event->location ?? old('location')}}"/>
                             </div>
-                            <strong><label for="from">From </label> </strong>
                             <div class="required field">
-                                <br>
-                                <input required id="from" type="text" name="from" placeholder="Event start date..."
-                                       value="{{$event->from ?? old('from')}}"/>
+                                <label for="to">From </label>
+                                <div class="ui calendar">
+                                    <div class="ui input left icon">
+                                        <i class="calendar icon"></i>
+                                        <input id="to" name="to" type="text" placeholder="Event start date..."
+                                               value="{{$event->from ?? old('from')}}">
+                                    </div>
+                                </div>
                             </div>
-                            <strong><label for="to">To </label> </strong>
                             <div class="required field">
-                                <br>
-                                <input required id="to" type="text" name="to" placeholder="Event end date..."
-                                       value="{{$event->to ?? old('to')}}"/>
+                                <label for="to">To </label>
+                                <div class="ui calendar">
+                                    <div class="ui input left icon">
+                                        <i class="calendar icon"></i>
+                                        <input id="to" name="to" type="text" placeholder="Event end date..."
+                                               value="{{$event->to ?? old('to')}}">
+                                    </div>
+                                </div>
                             </div>
-                            <strong><label for="link">Event Link </label></strong>
                             <div class="field">
-                                <br>
+                                <label for="link">Event Link </label>
                                 <input id="link" type="text" name="link"
                                        placeholder="Event link..."
                                        value="{{$event->link ?? old('link')}}"/>
                             </div>
-                            <strong><label for="button_text">Button Text </label></strong>
                             <div class="field">
-                                <br>
+                                <label for="button_text">Button Text </label>
                                 <input id="button_text" type="text" name="button_text"
                                        placeholder="Event button text..."
                                        value="{{$event->button_text ?? old('button_text')}}"/>
@@ -78,7 +85,13 @@
                 <div class="ui padded basic segment">
                     <button type="submit" class="ui primary button"><i class="save icon"></i>Save</button>
                 </div>
+            </div>
         </form>
     </div>
     <br><br>
+@endsection
+@section('scripts')
+    <script>
+        $('.ui.calendar').calendar();
+    </script>
 @endsection

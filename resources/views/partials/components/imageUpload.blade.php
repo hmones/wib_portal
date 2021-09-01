@@ -1,17 +1,25 @@
+<style>
+    #image_upload_icon {
+        display: block;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-image: url("{{data_get($options, 'value')}}");
+        width: {{data_get($options, 'width', 300)}}px;
+        height: {{data_get($options, 'height', 300)}}px;
+    }
+</style>
 <div class="ui center aligned basic segment" style="height:{{data_get($options, 'height', 300)}}px">
+    <div class="ui top left attached label" style="z-index: 1000;">
+        Image size {{data_get($options, 'width', 300)}}px x {{data_get($options, 'height', 300)}}px
+    </div>
     <label for="image_upload_input">
         <a href="javascript:void(0);" id="image_upload_icon">
-            @isset($options['value'])
-                <img class='ui {{data_get($options, 'shape', '')}} centered small image'
-                     src='{{$options['value']}}' alt=""/>
-            @else
+            @if(!isset($options['value']))
                 <i style="margin-top:50%;"
                    class="{{data_get($options, 'shape', '')}} inverted grey images huge icon"></i>
-            @endisset
+            @endif
         </a>
     </label>
-    <div class="image description"><small>Image size {{data_get($options, 'width', 300)}}px
-            x {{data_get($options, 'height', 300)}}px</small></div>
     <input type="file" name="{{data_get($options, 'field_name', 'image')}}" accept="image/*" style="display: none;"
            id="image_upload_input" value="{{data_get($options, 'field_value')}}">
     <script>

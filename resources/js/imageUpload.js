@@ -5,12 +5,10 @@ $(document).on('click', '#image_upload_icon', function () {
 $(document).on('change', '#image_upload_input', function () {
     var file = $(this)[0].files[0];
     if (file != null && file.size < 2000000) {
-        var image_html = "<img src='' alt=''/>";
         var reader = new FileReader();
         reader.onload = function () {
-            var html = $(image_html).attr('src', reader.result).css('width', width).css('height', height).addClass('ui').addClass(shape).addClass('centered small image');
-            $('#image_upload_icon').html(html);
-            $('div.image.description small').css('color', 'black');
+            $('#image_upload_icon i').remove();
+            $('#image_upload_icon').css('background-image', 'url("' + reader.result + '")');
         }
         reader.readAsDataURL(file);
     } else {
