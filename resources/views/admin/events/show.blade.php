@@ -65,6 +65,16 @@
                     </div>
                 </div>
             </div>
+            <div class="ui padded basic segment">
+                <form action="{{route('admin.events.destroy', $event)}}">
+                    @method('DELETE')
+                    @csrf
+                    <a class="ui primary button" href="{{route('admin.events.edit', $event)}}">
+                        <i class="pencil icon"></i>Edit
+                    </a>
+                    <button type="submit" class="ui red button"><i class="trash icon"></i>Delete</button>
+                </form>
+            </div>
         </div>
     </div>
     <br><br>
