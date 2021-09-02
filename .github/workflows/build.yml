@@ -26,11 +26,11 @@ jobs:
         with:
           fetch-depth: 1
       - name: Install composer dependencies
-        run: composer install composer install --no-scripts
+        run: composer install --no-scripts
       - name: Prepare Laravel Application
         run: |
           cp .env.ci .env
           php artisan key:generate
           php artisan migrate:fresh --seed
       - name: Execute tests
-        run: vendor/bin/phpunit --verbose
+        run: php artisan test
