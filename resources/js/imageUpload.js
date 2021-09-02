@@ -3,7 +3,6 @@ $(document).on('click', '#image_upload_icon', function () {
 });
 
 $(document).on('change', '#image_upload_input', function () {
-
     var file = $(this)[0].files[0];
     if (file != null && file.size < 2000000) {
         var reader = new FileReader();
