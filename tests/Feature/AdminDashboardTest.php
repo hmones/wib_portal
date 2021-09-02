@@ -68,7 +68,7 @@ class AdminDashboardTest extends TestCase
     {
         $expectedData = $this->createResourceAndRelatedModels(User::class, Country::class, 'name', 'users');
 
-        $this->assertEquals($this->statistics->getUsersByCountry(), $expectedData);
+        $this->assertEquals($expectedData, $this->statistics->getUsersByCountry());
     }
 
     protected function createResourceAndRelatedModels(string $resourceModel, string $relatedModel, string $labelField, string $relationMethod, int $resourceCount = 2, int $relatedCount = 2): array

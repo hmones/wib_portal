@@ -23,7 +23,7 @@ class DataExportTest extends TestCase
         $this->actingAs($adminUser, 'admin')
             ->get(route('admin.users', ['export' => 'xlsx']));
 
-        Excel::assertDownloaded('users.xlsx', function (UsersExport $export) {
+        Excel::assertDownloaded('users.xls', function (UsersExport $export) {
             return $export->collection()->first()->name === 'person name';
         });
     }
@@ -36,7 +36,7 @@ class DataExportTest extends TestCase
         $this->actingAs($adminUser, 'admin')
             ->get(route('admin.entities', ['export' => 'xlsx']));
 
-        Excel::assertDownloaded('entities.xlsx', function (EntitiesExport $export) {
+        Excel::assertDownloaded('entities.xls', function (EntitiesExport $export) {
             return $export->collection()->first()->name === 'company name';
         });
     }

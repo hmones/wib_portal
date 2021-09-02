@@ -12,6 +12,7 @@ const mix = require('laravel-mix');
  */
 
 mix.scripts('resources/js/ui.js', 'public/js/ui.js')
+    .scripts('resources/js/imageUpload.js', 'public/js/imageUpload.js')
     .scripts('resources/js/entity/create.js', 'public/js/entity.create.js')
     .scripts('resources/js/post/posts.js', 'public/js/post.posts.js')
     .scripts('resources/js/loadResources.js', 'public/js/loadResources.js')

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreAdmin;
 use App\Http\Requests\UpdateAdmin;
 use App\Models\Admin;
 

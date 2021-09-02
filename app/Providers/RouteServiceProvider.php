@@ -11,11 +11,9 @@ use Illuminate\Support\Facades\Route;
 class RouteServiceProvider extends ServiceProvider
 {
 
-    protected $namespace = 'App\Http\Controllers';
-
     public const HOME = '/';
-
     public const ADMIN = '/admin/';
+    protected $namespace = 'App\Http\Controllers';
 
     public function boot()
     {
@@ -36,7 +34,6 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/user.php'));
 
             Route::middleware(['web', 'auth:admin'])
-                ->namespace($this->namespace)
                 ->prefix('/admin')
                 ->name('admin.')
                 ->group(base_path('routes/admin.php'));

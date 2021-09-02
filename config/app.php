@@ -177,6 +177,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+		App\Providers\FacadeServiceProvider::class,
+
     ],
 
     /*
