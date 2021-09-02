@@ -24,7 +24,7 @@
                         <strong>Description </strong>
                         <br>
                         <div class="ui grey small message">
-                            {{$event->description}}
+                            {!! $event->description ?? '<span style="color:grey;">Not provided</span>' !!}
                         </div>
                     </div>
                     <div class="column"><strong>Location </strong>
@@ -66,7 +66,7 @@
                 </div>
             </div>
             <div class="ui padded basic segment">
-                <form action="{{route('admin.events.destroy', $event)}}">
+                <form action="{{route('admin.events.destroy', $event)}}" method="post">
                     @method('DELETE')
                     @csrf
                     <a class="ui primary button" href="{{route('admin.events.edit', $event)}}">

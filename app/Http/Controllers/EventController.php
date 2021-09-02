@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Facades\FileStorage;
 use App\Http\Requests\EventStore;
 use App\Http\Requests\EventUpdate;
 use App\Models\Event;
-use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
     public function index()
     {
-        $events = Event::paginate(15);
+        $events = Event::latest()->paginate(15);
 
         return view('admin.events.index', compact('events'));
     }
@@ -23,7 +23,9 @@ class EventController extends Controller
 
     public function store(EventStore $request)
     {
-        return response($request->all());
+        Event::create(array_merge($request->safe()->toArray(), ['image' => FileStorage::store($request->image)]));
+
+        return redirect()->route('admin.events.index');
     }
 
     public function show(Event $event)
@@ -38,11 +40,18 @@ class EventController extends Controller
 
     public function update(EventUpdate $request, Event $event)
     {
-        return response($request->all());
+        $event->update(
+            $request->image
+                ? array_merge($request->safe()->toArray(), ['image' => FileStorage::store($request->image)])
+                : $request->safe()->toArray()
+        );
+
+        return redirect()->route('admin.events.index');
     }
 
     public function destroy(Event $event)
     {
+        FileStorage::destroy($event->image);
         $event->delete();
 
         return redirect()->to(route('admin.events.index'));

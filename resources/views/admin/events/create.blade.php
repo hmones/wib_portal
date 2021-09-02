@@ -10,7 +10,7 @@
         <br><br>
         <form class="ui form"
               action="{{isset($event) ? route('admin.events.update', $event) : route('admin.events.store')}}"
-              method="post">
+              method="post" enctype="multipart/form-data">
             @isset($event)@method('PUT')@endisset
             @csrf
             <div class="ui container">
@@ -48,11 +48,11 @@
                                        value="{{$event->location ?? old('location')}}"/>
                             </div>
                             <div class="required field">
-                                <label for="to">From </label>
+                                <label for="from">From </label>
                                 <div class="ui calendar">
                                     <div class="ui input left icon">
                                         <i class="calendar icon"></i>
-                                        <input id="to" name="to" type="text" placeholder="Event start date..."
+                                        <input id="from" name="from" type="text" placeholder="Event start date..."
                                                value="{{$event->from ?? old('from')}}">
                                     </div>
                                 </div>
@@ -83,6 +83,7 @@
                     </div>
                 </div>
                 <div class="ui padded basic segment">
+                    <a href="{{route('admin.events.index')}}" class="ui red button"><i class="close icon"></i>Cancel</a>
                     <button type="submit" class="ui primary button"><i class="save icon"></i>Save</button>
                 </div>
             </div>

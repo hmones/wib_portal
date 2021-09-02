@@ -9,7 +9,7 @@
     }
 </style>
 <div class="ui center aligned basic segment" style="height:{{data_get($options, 'height', 300)}}px">
-    <div class="ui top left attached label" style="z-index: 1000;">
+    <div class="ui top left attached label" style="z-index: 1000;" id="image_upload_info">
         Image size {{data_get($options, 'width', 300)}}px x {{data_get($options, 'height', 300)}}px
     </div>
     <label for="image_upload_input">
@@ -21,7 +21,7 @@
         </a>
     </label>
     <input type="file" name="{{data_get($options, 'field_name', 'image')}}" accept="image/*" style="display: none;"
-           id="image_upload_input" value="{{data_get($options, 'field_value')}}">
+           id="image_upload_input">
     <script>
         let width = '{{data_get($options, 'width', 300)}}';
         let height = '{{data_get($options, 'height', 300)}}';

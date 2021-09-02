@@ -10,6 +10,7 @@
         <h2 class="ui left floated blue header">
             Events
         </h2>
+        <a href="{{route('admin.events.create')}}" class="ui right floated primary button"><i class="plus icon"></i>New</a>
         <br><br>
         <table class="ui celled stackable table">
             <thead>
@@ -47,6 +48,9 @@
                         {{$event->updated_at->diffForHumans()}}
                     </td>
                     <td class="center aligned">
+                        <a href="{{route('admin.events.edit', $event)}}">
+                            <i class="pencil blue icon"></i>
+                        </a>
                         <a href="javascript:void(0);"
                            onclick="deleteEvent('{{route('admin.events.destroy', $event)}}');">
                             <i class="trash red icon"></i>

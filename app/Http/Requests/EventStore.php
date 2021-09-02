@@ -2,21 +2,17 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Traits\HasValidationRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EventStore extends FormRequest
 {
+    use HasValidationRules;
+
     public function rules(): array
     {
-        return [
-            'image'       => 'required|max:2048',
-            'title'       => 'required',
-            'description' => 'nullable',
-            'link'        => 'required_with:button_text|nullable',
-            'button_text' => 'required_with:link|nullable',
-            'location'    => 'nullable',
-            'from'        => 'required|date',
-            'to'          => 'required|date'
-        ];
+        return array_merge($this->eventBasicRules(), [
+            'image' => 'required|image|max:2048',
+        ]);
     }
 }
