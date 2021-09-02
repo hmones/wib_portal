@@ -30,8 +30,6 @@
             </a>
         </div>
     </div>
-
-
     <div class="item">
         <div class="header">Events</div>
         <div class="menu">
@@ -39,9 +37,17 @@
                class="item">
                 <i class="calendar plus icon"></i> Create event
             </a>
+            <a href="{{route('admin.rounds.create')}}"
+               class="item">
+                <i class="calendar icon"></i>Create B2B rounds
+            </a>
             <a href="{{route('admin.events.index')}}"
                class="item">
                 <i class="calendar icon"></i> Manage events
+            </a>
+            <a href="{{route('admin.rounds.index')}}"
+               class="item">
+                <i class="calendar icon"></i>Manage B2B rounds
             </a>
         </div>
     </div>
@@ -57,7 +63,6 @@
             </a>
         </div>
     </div>
-
     <form method="post" action="{{route('admin.logout')}}" id="admin_logout">
         @csrf
     </form>

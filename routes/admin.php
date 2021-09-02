@@ -7,6 +7,7 @@ use App\Http\Controllers\EntityController;
 use App\Http\Controllers\EntityTypeController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoundController;
 use App\Http\Controllers\SectorController;
 use App\Models\Entity;
 use App\Models\User;
@@ -21,6 +22,7 @@ Route::resource('impersonate', ImpersonateController::class)->only(['store', 'in
 Route::resource('entityType', EntityTypeController::class)->except(['index', 'create', 'show', 'edit']);
 Route::resource('sector', SectorController::class)->except(['index', 'create', 'show', 'edit']);
 Route::resource('events', EventController::class);
+Route::resource('rounds', RoundController::class);
 
 Route::prefix('/api')->group(function () {
     $profileRoute = 'profile/{profile}';

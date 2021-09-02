@@ -1,0 +1,70 @@
+@extends('layouts.auth')
+
+@section('content')
+    <div class="ui centered container">
+        <h2 class="ui left floated blue header">
+            <a href="{{route('admin.rounds.index')}}">Rounds</a> > Round Information
+        </h2>
+        <br><br>
+        <div class="ui container">
+            <div class="ui padded basic segment">
+                <div class="ui three column stackable grid">
+                    <div class="column">
+                        <strong>Description </strong>
+                        <br>
+                        <div class="ui grey small message">
+                            {!! $round->description ?? '<span style="color:grey;">Not provided</span>' !!}
+                        </div>
+                    </div>
+                    <div class="column"><strong>From </strong>
+                        <br>
+                        <div class="ui grey small message">
+                            {{$round->from}}
+                        </div>
+                    </div>
+                    <div class="column"><strong>To </strong>
+                        <br>
+                        <div class="ui grey small message">
+                            {{$round->to}}
+                        </div>
+                    </div>
+                    <div class="column"><strong>Maximum number of applicants </strong>
+                        <br>
+                        <div class="ui grey small message">
+                            {{$round->max_applicants}}
+                        </div>
+                    </div>
+                    <div class="column"><strong>Status </strong>
+                        <br>
+                        <div class="ui grey small message">
+                            {{Str::title($round->status)}}
+                        </div>
+                    </div>
+                    <div class="column"><strong>Created at </strong>
+                        <br>
+                        <div class="ui grey small message">
+                            {{$event->created_at}}
+                        </div>
+                    </div>
+                    <div class="column"><strong>Updated at </strong>
+                        <br>
+                        <div class="ui grey small message">
+                            {{$event->updated_at}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui padded basic segment">
+                <form action="{{route('admin.rounds.destroy', $round)}}" method="post">
+                    @method('DELETE')
+                    @csrf
+                    <a class="ui primary button" href="{{route('admin.rounds.edit', $round)}}">
+                        <i class="pencil icon"></i>Edit
+                    </a>
+                    <button type="submit" class="ui red button"><i class="trash icon"></i>Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br><br>
+@endsection
