@@ -9,11 +9,13 @@ use App\Models\Event;
 
 class EventController extends Controller
 {
+    protected const INDEX_ROUTE = 'admin.events.index';
+
     public function index()
     {
         $events = Event::latest()->paginate(15);
 
-        return view('admin.events.index', compact('events'));
+        return view(self::INDEX_ROUTE, compact('events'));
     }
 
     public function create()
@@ -25,7 +27,7 @@ class EventController extends Controller
     {
         Event::create(array_merge($request->safe()->toArray(), ['image' => FileStorage::store($request->image)]));
 
-        return redirect()->route('admin.events.index')->with(['success' => 'The event is saved successfully!']);
+        return redirect(route(self::INDEX_ROUTE))->with(['success' => 'The event is saved successfully!']);
     }
 
     public function show(Event $event)
@@ -46,7 +48,7 @@ class EventController extends Controller
                 : $request->safe()->toArray()
         );
 
-        return redirect()->route('admin.events.index')->with(['success' => 'The event is updated successfully!']);
+        return redirect(route(self::INDEX_ROUTE))->with(['success' => 'The event is updated successfully!']);
     }
 
     public function destroy(Event $event)
@@ -54,6 +56,6 @@ class EventController extends Controller
         FileStorage::destroy($event->image);
         $event->delete();
 
-        return redirect()->to(route('admin.events.index'))->with(['success' => 'The event is deleted successfully!']);
+        return redirect(route(self::INDEX_ROUTE))->with(['success' => 'The event is deleted successfully!']);
     }
 }

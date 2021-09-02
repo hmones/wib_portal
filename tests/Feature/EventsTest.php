@@ -17,13 +17,16 @@ class EventsTest extends TestCase
 
     protected Model $admin;
     protected array $testData;
+    protected string $indexRoute = 'admin.events.index';
+    protected string $storeRoute = 'admin.events.store';
+    protected string $testLink = 'https://www.google.com';
 
     public function test_events_are_viewed_successfully(): void
     {
         $event = Event::factory()->create();
 
         $this->actingAs($this->admin, 'admin')
-            ->get(route('admin.events.index'))
+            ->get(route($this->indexRoute))
             ->assertOk()
             ->assertSeeInOrder([
                 $event->title,
@@ -38,7 +41,7 @@ class EventsTest extends TestCase
     public function test_message_is_viewed_when_no_events(): void
     {
         $this->actingAs($this->admin, 'admin')
-            ->get(route('admin.events.index'))
+            ->get(route($this->indexRoute))
             ->assertOk()
             ->assertSeeText('No events created yet!');
     }
@@ -74,17 +77,17 @@ class EventsTest extends TestCase
 
     public function test_event_is_stored_successfully(): void
     {
-        FileStorage::shouldReceive('store')->andReturn('http://www.google.com');
+        FileStorage::shouldReceive('store')->andReturn($this->testLink);
 
         $this->actingAs($this->admin, 'admin')
-            ->post(route('admin.events.store'), $this->testData)
-            ->assertRedirect(route('admin.events.index'))
+            ->post(route($this->storeRoute), $this->testData)
+            ->assertRedirect(route($this->indexRoute))
             ->assertSessionHas('success', 'The event is saved successfully!');
 
         $event = Event::first();
 
         $this->assertEquals(1, Event::count());
-        $this->assertEquals('http://www.google.com', $event->image);
+        $this->assertEquals($this->testLink, $event->image);
     }
 
     public function test_event_is_not_stored_when_dates_are_not_correct(): void
@@ -95,7 +98,7 @@ class EventsTest extends TestCase
         ]);
 
         $this->actingAs($this->admin, 'admin')
-            ->post(route('admin.events.store'), $invalidData)
+            ->post(route($this->storeRoute), $invalidData)
             ->assertSessionHasErrors(['from', 'to']);
     }
 
@@ -104,7 +107,7 @@ class EventsTest extends TestCase
         Arr::forget($this->testData, 'button_text');
 
         $this->actingAs($this->admin, 'admin')
-            ->post(route('admin.events.store'), $this->testData)
+            ->post(route($this->storeRoute), $this->testData)
             ->assertSessionHasErrors(['button_text']);
     }
 
@@ -115,7 +118,7 @@ class EventsTest extends TestCase
         ]);
 
         $this->actingAs($this->admin, 'admin')
-            ->post(route('admin.events.store'), $invalidData)
+            ->post(route($this->storeRoute), $invalidData)
             ->assertSessionHasErrors(['image']);
     }
 
@@ -124,7 +127,7 @@ class EventsTest extends TestCase
         Arr::forget($this->testData, ['title', 'description', 'location']);
 
         $this->actingAs($this->admin, 'admin')
-            ->post(route('admin.events.store'), $this->testData)
+            ->post(route($this->storeRoute), $this->testData)
             ->assertSessionHasErrors(['title']);
     }
 
@@ -135,7 +138,7 @@ class EventsTest extends TestCase
 
         $this->actingAs($this->admin, 'admin')
             ->put(route('admin.events.update', $event), $this->testData)
-            ->assertRedirect(route('admin.events.index'))
+            ->assertRedirect(route($this->indexRoute))
             ->assertSessionHas('success', 'The event is updated successfully!');
 
         $event->refresh();
@@ -150,7 +153,7 @@ class EventsTest extends TestCase
 
         $this->actingAs($this->admin, 'admin')
             ->delete(route('admin.events.destroy', $event))
-            ->assertRedirect(route('admin.events.index'))
+            ->assertRedirect(route($this->indexRoute))
             ->assertSessionHas('success', 'The event is deleted successfully!');
 
         $this->assertNull(Event::first());
@@ -164,7 +167,7 @@ class EventsTest extends TestCase
             'title' => 'my title',
             'image' => UploadedFile::fake()->image('photo.png'),
             'description' => 'my description',
-            'link'        => 'http://www.google.com',
+            'link'        => $this->testLink,
             'button_text' => 'read more',
             'location'    => 'Cairo',
             'from'        => now(),

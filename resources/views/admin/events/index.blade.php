@@ -12,16 +12,16 @@
         </h2>
         <a href="{{route('admin.events.create')}}" class="ui right floated primary button"><i class="plus icon"></i>New</a>
         <br><br>
-        <table class="ui celled stackable table">
+        <table class="ui celled stackable table" aria-describedby="Events table">
             <thead>
             <tr>
-                <th class="three wide">Title</th>
-                <th class="one wide">From</th>
-                <th class="one wide">To</th>
-                <th class="one wide">Location</th>
-                <th class="one wide">Created at</th>
-                <th class="one wide">Updated at</th>
-                <th class="one wide">Action</th>
+                <th scope="col" class="three wide">Title</th>
+                <th scope="col" class="one wide">From</th>
+                <th scope="col" class="one wide">To</th>
+                <th scope="col" class="one wide">Location</th>
+                <th scope="col" class="one wide">Created at</th>
+                <th scope="col" class="one wide">Updated at</th>
+                <th scope="col" class="one wide">Action</th>
             </tr>
             </thead>
             <tbody>
