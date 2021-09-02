@@ -10,13 +10,13 @@ use App\Models\Sector;
 use App\Models\User;
 use App\Repositories\StatisticRepository;
 use Carbon\CarbonPeriod;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Arr;
 use Tests\TestCase;
 
 class AdminDashboardTest extends TestCase
 {
-    use DatabaseTransactions;
+    use RefreshDatabase;
 
     protected $admin;
     protected $statistics;
