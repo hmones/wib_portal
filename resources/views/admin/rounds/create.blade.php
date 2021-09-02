@@ -19,7 +19,7 @@
                         <div class="column">
                             <div class="field">
                                 <label for="description">Description</label>
-                                <textarea id="description" rows="16" type="text" name="description"
+                                <textarea id="description" rows="5" type="text" name="description"
                                           placeholder="Round description...">{{$round->description ?? old('description')}}</textarea>
                             </div>
                         </div>
@@ -30,7 +30,7 @@
                                     <div class="ui input left icon">
                                         <i class="calendar icon"></i>
                                         <input id="from" name="from" type="text" placeholder="Round opening date..."
-                                               value="{{$event->from ?? old('from')}}">
+                                               value="{{$round->from ?? old('from')}}">
                                     </div>
                                 </div>
                             </div>

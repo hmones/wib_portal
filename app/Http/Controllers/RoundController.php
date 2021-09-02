@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RoundStore;
-use App\Models\Event;
 use App\Models\Round;
 
 class RoundController extends Controller
@@ -24,7 +23,7 @@ class RoundController extends Controller
 
     public function store(RoundStore $request)
     {
-        Event::create($request->safe()->toArray());
+        Round::create($request->safe()->toArray());
 
         return redirect(route(self::INDEX_ROUTE))->with(['success' => 'The round is saved successfully!']);
     }

@@ -28,24 +28,27 @@
             @forelse ($rounds as $round)
                 <tr>
                     <td>
-                        {{$event->from->format('d-m-Y')}}
+                        {{$round->from->format('d-m-Y')}}
                     </td>
                     <td>
-                        {{$event->to->format('d-m-Y')}}
+                        {{$round->to->format('d-m-Y')}}
                     </td>
                     <td>
-                        {{$event->max_applicants}}
+                        {{$round->max_applicants}}
                     </td>
                     <td>
-                        {{Str::title($event->status)}}
+                        {{Str::title($round->status)}}
                     </td>
                     <td>
-                        {{$event->created_at->diffForHumans()}}
+                        {{$round->created_at->diffForHumans()}}
                     </td>
                     <td>
-                        {{$event->updated_at->diffForHumans()}}
+                        {{$round->updated_at->diffForHumans()}}
                     </td>
                     <td class="center aligned">
+                        <a href="{{route('admin.rounds.show', $round)}}">
+                            <i class="eye blue icon"></i>
+                        </a>
                         <a href="{{route('admin.rounds.edit', $round)}}">
                             <i class="pencil blue icon"></i>
                         </a>

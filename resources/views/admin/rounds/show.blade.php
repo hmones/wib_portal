@@ -43,13 +43,19 @@
                     <div class="column"><strong>Created at </strong>
                         <br>
                         <div class="ui grey small message">
-                            {{$event->created_at}}
+                            {{$round->created_at}}
                         </div>
                     </div>
                     <div class="column"><strong>Updated at </strong>
                         <br>
                         <div class="ui grey small message">
-                            {{$event->updated_at}}
+                            {{$round->updated_at}}
+                        </div>
+                    </div>
+                    <div class="column"><strong>Link </strong>
+                        <br>
+                        <div class="ui grey small message">
+                            <a href="{{url('rounds/'.$round->id)}}">{{url('rounds/'.$round->id)}}</a>
                         </div>
                     </div>
                 </div>
