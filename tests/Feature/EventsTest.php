@@ -78,7 +78,8 @@ class EventsTest extends TestCase
 
         $this->actingAs($this->admin, 'admin')
             ->post(route('admin.events.store'), $this->testData)
-            ->assertRedirect(route('admin.events.index'));
+            ->assertRedirect(route('admin.events.index'))
+            ->assertSessionHas('success', 'The event is saved successfully!');
 
         $event = Event::first();
 
@@ -134,7 +135,8 @@ class EventsTest extends TestCase
 
         $this->actingAs($this->admin, 'admin')
             ->put(route('admin.events.update', $event), $this->testData)
-            ->assertRedirect(route('admin.events.index'));
+            ->assertRedirect(route('admin.events.index'))
+            ->assertSessionHas('success', 'The event is updated successfully!');
 
         $event->refresh();
 
@@ -148,7 +150,8 @@ class EventsTest extends TestCase
 
         $this->actingAs($this->admin, 'admin')
             ->delete(route('admin.events.destroy', $event))
-            ->assertRedirect(route('admin.events.index'));
+            ->assertRedirect(route('admin.events.index'))
+            ->assertSessionHas('success', 'The event is deleted successfully!');
 
         $this->assertNull(Event::first());
     }

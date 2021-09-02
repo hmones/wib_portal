@@ -25,7 +25,7 @@ class EventController extends Controller
     {
         Event::create(array_merge($request->safe()->toArray(), ['image' => FileStorage::store($request->image)]));
 
-        return redirect()->route('admin.events.index');
+        return redirect()->route('admin.events.index')->with(['success' => 'The event is saved successfully!']);
     }
 
     public function show(Event $event)
@@ -46,7 +46,7 @@ class EventController extends Controller
                 : $request->safe()->toArray()
         );
 
-        return redirect()->route('admin.events.index');
+        return redirect()->route('admin.events.index')->with(['success' => 'The event is updated successfully!']);
     }
 
     public function destroy(Event $event)
@@ -54,6 +54,6 @@ class EventController extends Controller
         FileStorage::destroy($event->image);
         $event->delete();
 
-        return redirect()->to(route('admin.events.index'));
+        return redirect()->to(route('admin.events.index'))->with(['success' => 'The event is deleted successfully!']);
     }
 }

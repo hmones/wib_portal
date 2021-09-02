@@ -59,7 +59,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="4">
+                    <td class="center aligned" colspan="7">
                         <p>No events created yet!</p>
                     </td>
                 </tr>
