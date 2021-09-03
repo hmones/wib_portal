@@ -9,13 +9,18 @@ class EntityResource extends JsonResource
     public function toArray($request): array
     {
         return [
+            'owner_id'          => optional($this->owned_by()->first())->id,
+            'owner_name'        => optional($this->owned_by()->first())->name,
+            'owner_association' => optional($this->owned_by()->first())->business_association_wom,
             'business_type'     => $this->business_type,
+            'field_of_activity' => optional($this->sectors()->first())->name,
             'name'              => $this->name,
             'additional_name'   => $this->name_additional,
             'image'             => $this->image,
             'entity_type'       => optional($this->type)->name,
             'founding_year'     => $this->founding_year,
-            'primary_address'   => $this->primary_address . ' ' . $this->primary_postal_code . ' ' . optional($this->primary_city)->name . ' ' . optional($this->primary_country)->name,
+            'primary_address'   => $this->primary_address . ' ' . $this->primary_postal_code . ' ' . optional($this->primary_city)->name,
+            'primary_country'   => optional($this->primary_country)->name,
             'secondary_address' => $this->secondary_address . ' ' . $this->secondary_postal_code . ' ' . optional($this->secondary_city)->name . ' ' . optional($this->secondary_country)->name,
             'primary_email'     => $this->primary_email,
             'secondary_email'   => $this->secondary_email,

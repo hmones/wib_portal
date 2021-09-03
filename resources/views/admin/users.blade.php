@@ -20,7 +20,7 @@
         </div>
         <h4 class="ui dividing header" style="margin-bottom: 0px;">Filter records</h4>
         @include('partials.filter_section', ['route' => route('admin.users'), 'recent_online' => true])
-        <a href="{{route('admin.users', ['export' => 'xlsx'])}}" class="ui right floated green button">
+        <a href="{{route('admin.users', ['export' => 'xlsx'] + request()->input())}}" class="ui right floated green button">
             Download Data &nbsp;&nbsp;<i class="download icon"></i>
         </a>
         <br><br>

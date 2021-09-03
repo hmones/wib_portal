@@ -23,6 +23,7 @@ class UsersExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
+            'id',
             'title',
             'name',
             'email',

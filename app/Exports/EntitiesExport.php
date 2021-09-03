@@ -23,13 +23,18 @@ class EntitiesExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
+            'owner_id',
+            'owner_name',
+            'owner_association',
             'business type',
+            'field_of_activity',
             'name',
             'additional Name',
             'image Link',
             'entity type',
             'founding year',
             'primary address',
+            'primary_country',
             'secondary address',
             'primary email',
             'secondary email',
