@@ -90,14 +90,15 @@ class Messenger
     }
 
     /**
-     * Authintication for pusher
+     * Authentication for pusher
      *
      * @param string $channelName
      * @param string $socket_id
      * @param array $data
-     * @return void
+     * @return string
      */
-    public function pusherAuth($channelName, $socket_id, $data = []){
+    public function pusherAuth($channelName, $socket_id, $data = []): string
+    {
         return $this->pusher()->socket_auth($channelName, $socket_id, $data);
     }
 
@@ -137,15 +138,10 @@ class Messenger
         ];
     }
 
-    /**
-     * Return a message card with the given data.
-     *
-     * @param array $data
-     * @param string $viewType
-     * @return void
-     */
+
     public function messageCard($data, $viewType = null){
         $data['viewType'] = ($viewType) ? $viewType : $data['viewType'];
+
         return view('Messenger::layouts.messageCard',$data)->render();
     }
 
