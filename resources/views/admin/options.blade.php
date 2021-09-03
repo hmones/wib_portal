@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="ui centered container">
+        <h2 class="ui blue header">Business Types</h2>
         <table class="ui celled stackable table">
             <thead>
             <tr>
@@ -24,14 +25,14 @@
                                value="{{$entityType->icon}}">
                     </td>
                     <td class="center aligned">
-                        <button class="ui blue basic button"
-                                onclick="handleUpdateEntityType('{{$entityType->id}}');">
-                            <i class="pencil icon"></i>Edit
-                        </button>
-                        <button class="ui red basic button"
-                                onclick="handleDeleteEntityType('{{$entityType->id}}');">
-                            <i class="trash icon"></i>Remove
-                        </button>
+                        <a href="javascript:void(0);"
+                           onclick="handleUpdateEntityType('{{$entityType->id}}');">
+                            <i class="pencil blue icon"></i>
+                        </a>
+                        <a href="javascript:void(0);"
+                           onclick="handleDeleteEntityType('{{$entityType->id}}');">
+                            <i class="trash red icon"></i>
+                        </a>
                     </td>
                 </tr>
             @empty
@@ -90,8 +91,7 @@
 
     <br><br>
     <div class="ui centered container">
-        <h2 class="ui blue header">Registered sectors</h2>
-        <br>
+        <h2 class="ui blue header">Sectors</h2>
         <table class="ui celled stackable table">
             <thead>
             <tr>
@@ -112,12 +112,12 @@
                         <input type="hidden" name="sector_{{$sector->id}}_icon" value="{{$sector->icon}}">
                     </td>
                     <td class="center aligned">
-                        <button class="ui blue basic button" onclick="handleUpdateSector('{{$sector->id}}');"><i
-                                class="pencil icon"></i>Edit
-                        </button>
-                        <button class="ui red basic button" onclick="handleDeleteSector('{{$sector->id}}');"><i
-                                class="trash icon"></i>Remove
-                        </button>
+                        <a href="javascript:void(0);" onclick="handleUpdateSector('{{$sector->id}}');">
+                            <i class="pencil blue icon"></i>
+                        </a>
+                        <a href="javascript:void(0);" onclick="handleDeleteSector('{{$sector->id}}');">
+                            <i class="trash red icon"></i>
+                        </a>
                     </td>
 
                 </tr>

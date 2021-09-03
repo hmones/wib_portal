@@ -24,9 +24,9 @@
             <div class="column"><br><br></div>
         </div>
     </div>
-    @if($breadcrumbItems)
+    @isset($breadcrumbItems)
         @include('components.breadcrumb', compact('breadcrumbItems'))
-    @endif
+    @endisset
     @include('partials.flash-message')
     @yield('content')
     @yield('scripts')

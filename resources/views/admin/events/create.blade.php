@@ -78,7 +78,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="ui padded basic segment">
+                <div class="ui padded basic right floated segment">
                     <a href="{{route('admin.events.index')}}" class="ui red button"><i class="close icon"></i>Cancel</a>
                     <button type="submit" class="ui primary button"><i class="save icon"></i>Save</button>
                 </div>

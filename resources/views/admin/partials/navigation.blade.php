@@ -12,7 +12,11 @@
             <a href="{{route('admin.users')}}" class="item">
                 <i class="users icon"></i> Manage users
             </a>
+            <a href="{{route('admin.admins.index')}}" class="item">
+                <i class="user icon"></i> Manage admins
+            </a>
         </div>
+
     </div>
     <div class="item">
         <div class="header">Entities</div>

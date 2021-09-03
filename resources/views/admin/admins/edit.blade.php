@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div class="ui padded basic segment" style="margin:0px; padding-top: 0px">
-                <button class="ui right floated blue button" type="submit">Update</button>
+                <button class="ui right floated blue button" type="submit"><i class="save icon"></i>Save</button>
                 <br><br>
             </div>
         </form>
