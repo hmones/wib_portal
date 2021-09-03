@@ -57,6 +57,10 @@
                                 <select name="status" id="status">
                                     <option value="{{\App\Models\Round::DRAFT}}">Draft</option>
                                     <option value="{{\App\Models\Round::PUBLISHED}}">Published</option>
+                                    @isset($round)
+                                        <option value="{{\App\Models\Round::OPEN}}">Draft</option>
+                                        <option value="{{\App\Models\Round::CLOSED}}">Published</option>
+                                    @endisset
                                 </select>
                             </div>
                         </div>

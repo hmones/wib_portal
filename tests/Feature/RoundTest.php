@@ -6,6 +6,7 @@ use App\Models\Admin;
 use App\Models\Round;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -83,74 +84,58 @@ class RoundTest extends TestCase
         $this->assertEquals($this->testData['description'], $round->description);
     }
 
-//    public function test_event_is_not_stored_when_dates_are_not_correct(): void
-//    {
-//        $invalidData = array_merge($this->testData, [
-//            'from' => now(),
-//            'to'   => now()->subHour()
-//        ]);
-//
-//        $this->actingAs($this->admin, 'admin')
-//            ->post(route($this->storeRoute), $invalidData)
-//            ->assertSessionHasErrors(['from', 'to']);
-//    }
-//
-//    public function test_event_is_not_stored_when_link_and_button_text_are_not_together(): void
-//    {
-//        Arr::forget($this->testData, 'button_text');
-//
-//        $this->actingAs($this->admin, 'admin')
-//            ->post(route($this->storeRoute), $this->testData)
-//            ->assertSessionHasErrors(['button_text']);
-//    }
-//
-//    public function test_event_is_not_stored_when_image_size_is_large(): void
-//    {
-//        $invalidData = array_merge($this->testData, [
-//            'image' => UploadedFile::fake()->image('name.png')->size(2050)
-//        ]);
-//
-//        $this->actingAs($this->admin, 'admin')
-//            ->post(route($this->storeRoute), $invalidData)
-//            ->assertSessionHasErrors(['image']);
-//    }
-//
-//    public function test_event_is_not_stored_when_title_is_not_present(): void
-//    {
-//        Arr::forget($this->testData, ['title', 'description', 'location']);
-//
-//        $this->actingAs($this->admin, 'admin')
-//            ->post(route($this->storeRoute), $this->testData)
-//            ->assertSessionHasErrors(['title']);
-//    }
-//
-//    public function test_event_is_updated_even_if_image_is_not_present(): void
-//    {
-//        $event = Event::factory()->create();
-//        Arr::forget($this->testData, 'image');
-//
-//        $this->actingAs($this->admin, 'admin')
-//            ->put(route('admin.events.update', $event), $this->testData)
-//            ->assertRedirect(route($this->indexRoute))
-//            ->assertSessionHas('success', 'The event is updated successfully!');
-//
-//        $event->refresh();
-//
-//        $this->assertEquals($this->testData['title'], $event->title);
-//    }
-//
-//    public function test_admin_can_delete_event(): void
-//    {
-//        $event = Event::factory()->create();
-//        FileStorage::shouldReceive('destroy')->andReturn(true);
-//
-//        $this->actingAs($this->admin, 'admin')
-//            ->delete(route('admin.events.destroy', $event))
-//            ->assertRedirect(route($this->indexRoute))
-//            ->assertSessionHas('success', 'The event is deleted successfully!');
-//
-//        $this->assertNull(Event::first());
-//    }
+    public function test_round_is_not_stored_when_dates_are_not_correct(): void
+    {
+        $invalidData = array_merge($this->testData, [
+            'from' => now(),
+            'to'   => now()->subHour()
+        ]);
+
+        $this->actingAs($this->admin, 'admin')
+            ->post(route($this->storeRoute), $invalidData)
+            ->assertSessionHasErrors(['from', 'to']);
+    }
+
+
+    public function test_round_is_not_stored_when_max_applicants_is_not_present(): void
+    {
+        Arr::forget($this->testData, ['max_applicants', 'description', 'location']);
+
+        $this->actingAs($this->admin, 'admin')
+            ->post(route($this->storeRoute), $this->testData)
+            ->assertSessionHasErrors(['max_applicants']);
+    }
+
+    public function test_round_create_page_see_only_draft_and_published_status(): void
+    {
+        $this->actingAs($this->admin, 'admin')
+            ->get(route('admin.rounds.create'))
+            ->assertOk()
+            ->assertSee([Round::DRAFT, Round::PUBLISHED])
+            ->assertDontSee([Str::title(Round::OPEN), Round::CLOSED]);
+    }
+
+    public function test_round_edit_page_see_all_statuses(): void
+    {
+        $round = Round::factory()->create();
+
+        $this->actingAs($this->admin, 'admin')
+            ->get(route('admin.rounds.edit', $round))
+            ->assertOk()
+            ->assertSee(Round::STATUSES);
+    }
+
+    public function test_admin_can_delete_round(): void
+    {
+        $round = Round::factory()->create();
+
+        $this->actingAs($this->admin, 'admin')
+            ->delete(route('admin.rounds.destroy', $round))
+            ->assertRedirect(route($this->indexRoute))
+            ->assertSessionHas('success', 'The round is deleted successfully!');
+
+        $this->assertNull(Round::first());
+    }
 
     protected function setUp(): void
     {
