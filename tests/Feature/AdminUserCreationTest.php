@@ -43,6 +43,7 @@ class AdminUserCreationTest extends TestCase
 
     public function testAdminCanViewOtherAdmins(): void
     {
+        $this->withoutExceptionHandling();
         $adminUser = Admin::factory()->create();
         $this->actingAs($this->admin, 'admin')
             ->get(route('admin.admins.index'))
