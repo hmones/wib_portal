@@ -1,9 +1,7 @@
-@extends('layouts.auth')
+@extends('layouts.auth', ['breadcrumbItems' => [['name' => 'Edit options']]])
 
 @section('content')
     <div class="ui centered container">
-        <h2 class="ui blue header">Registered organization types</h2>
-        <br>
         <table class="ui celled stackable table">
             <thead>
             <tr>

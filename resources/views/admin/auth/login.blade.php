@@ -6,9 +6,6 @@
         <div class="centered three wide column">
             <div class="ui very padded center aligned raised inverted segment">
                 <br><br>
-                <div class="ui center aligned centered header">
-                    Administration Dashboard login
-                </div>
                 <div class="ui image">
                     <img class="ui image" src="{{asset('images/logo.png')}}" style="filter:invert(0.85);" alt="">
                 </div>

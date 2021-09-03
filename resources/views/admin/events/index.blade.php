@@ -1,4 +1,4 @@
-@extends('layouts.auth')
+@extends('layouts.auth', ['breadcrumbItems' => [['name' => 'Events']]])
 
 @section('content')
     <script>
@@ -7,9 +7,6 @@
         }
     </script>
     <div class="ui centered container">
-        <h2 class="ui left floated blue header">
-            Events
-        </h2>
         <a href="{{route('admin.events.create')}}" class="ui right floated primary button"><i class="plus icon"></i>New</a>
         <br><br>
         <table class="ui celled stackable table" aria-describedby="Events table">

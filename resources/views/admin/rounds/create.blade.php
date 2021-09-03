@@ -1,13 +1,9 @@
-@extends('layouts.auth')
+@extends('layouts.auth', ['breadcrumbItems' => [['name' => 'Rounds', 'url'  => route('admin.rounds.index')], ['name' => isset($round) ? 'Edit Round' : 'New Round']]])
 
 @section('content')
     <link rel="stylesheet" href="{{asset('css/calendar.min.css')}}"/>
     <script src="{{asset('js/calendar.min.js')}}"></script>
     <div class="ui centered container">
-        <h2 class="ui left floated blue header">
-            <a href="{{route('admin.events.index')}}">Rounds</a> > @isset($event) Edit @else New @endisset Round
-        </h2>
-        <br><br>
         <form class="ui form"
               action="{{isset($round) ? route('admin.rounds.update', $round) : route('admin.rounds.store')}}"
               method="post">

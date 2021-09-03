@@ -1,11 +1,7 @@
-@extends('layouts.auth')
+@extends('layouts.auth', ['breadcrumbItems' => [['name' => 'Rounds', 'url'  => route('admin.rounds.index')], ['name' => 'Round information']]])
 
 @section('content')
     <div class="ui centered container">
-        <h2 class="ui left floated blue header">
-            <a href="{{route('admin.rounds.index')}}">Rounds</a> > Round Information
-        </h2>
-        <br><br>
         <div class="ui container">
             <div class="ui padded basic segment">
                 <div class="ui three column stackable grid">

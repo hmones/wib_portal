@@ -1,5 +1,4 @@
-@extends('layouts.auth')
-
+@extends('layouts.auth', ['breadcrumbItems' => [['name' => 'Dashboard']]])
 @section('content')
     <div class="ui center aligned container">
         <div class="ui stackable grid">

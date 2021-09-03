@@ -1,8 +1,7 @@
-@extends('layouts.auth')
+@extends('layouts.auth', ['breadcrumbItems' => [['name' => 'Edit profile']]])
 
 @section('content')
     <div class="ui centered container">
-        <h2 class="ui blue header">Edit profile information</h2>
         <form action="{{route('admin.admins.update', $admin)}}" method="post">
             @csrf
             @method('patch')
