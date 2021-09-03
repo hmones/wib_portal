@@ -34,3 +34,5 @@ jobs:
           php artisan migrate:fresh
       - name: Execute tests
         run: php artisan test
+      - name: Execute clean code test
+        run: ./vendor/bin/phpstan analyse
