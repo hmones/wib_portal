@@ -26,7 +26,7 @@ class UserFactory extends Factory
             "title"                    => $this->faker->titleFemale,
             "gender"                   => $this->faker->randomElement($array = array('Male', 'Female')),
             "phone_country_code"       => 20,
-            "phone"                    => $this->faker->numberBetween($min = 100000000, $max = 999999999),
+            "phone"                    => $this->faker->numberBetween(100000000, 999999999),
             "country_id"               => Country::factory(),
             "city_id"                  => City::factory(),
             "postal_code"              => $this->faker->postcode,
@@ -38,7 +38,7 @@ class UserFactory extends Factory
             "education"                => $this->faker->randomElement($array = array('Highschool', 'Bachelor', 'Master',
                                                                                      'Doctorate')),
             "network"                  => 'wib',
-            'bio'                      => $this->faker->paragraph($nbSentences = 3, $variableNbSentences = true),
+            'bio'                      => $this->faker->paragraph
         ];
     }
 }

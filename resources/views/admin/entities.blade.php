@@ -1,32 +1,26 @@
-@extends('layouts.auth')
+@extends('layouts.auth', ['breadcrumbItems' => [['name' => 'Manage entities']]])
 
 @section('content')
-    <style>
-        .ui.grey.label {
-            color: black !important;
-        }
-    </style>
     <div class="ui centered container">
-        <h2 class="ui left floated blue header">
-            Registered Entities
-        </h2>
-        <br/><br>
-        <h4 class="ui dividing header"> Search records</h4>
-        <div class="ui inverted grey segment">
-            <form action="{{route('admin.entities')}}" method="GET" class="ui form">
-                @csrf
-                <div class="ui icon input fluid field">
-                    <input type="text" name="query" value="{{request()->has('query')?request()->input('query'):''}}"/>
-                    <i class="inverted circular search link blue icon"></i>
+        <form action="{{route('admin.entities')}}" method="GET" class="ui form">
+            @csrf
+            <div class="sixteen fields">
+                <div class="thirteen wide field">
+                    <div class="ui icon input fluid field">
+                        <input type="text" name="query" value="{{request()->has('query')?request()->input('query'):''}}" placeholder="Search ..."/>
+                        <i class="search link icon"></i>
+                    </div>
                 </div>
-            </form>
-        </div>
-        <h4 class="ui dividing header" style="margin-bottom: 0px;">Filter records</h4>
+                <div class="three wide field">
+                    <a href="{{route('admin.entities', ['export' => 'xlsx'] + request()->input())}}"
+                       class="ui fluid primary basic button">
+                        <i class="download icon"></i> Download
+                    </a>
+                </div>
+            </div>
+
+        </form>
         @include('partials.filter_section', ['route' => route('admin.entities'), 'recent_online' => false])
-        <a href="{{route('admin.entities', ['export' => 'xlsx'] + request()->input())}}" class="ui right floated green button">
-            Download Data &nbsp;&nbsp;<i class="download icon"></i>
-        </a>
-        <br><br>
         <table class="ui celled stackable table">
             <thead>
             <tr>

@@ -75,7 +75,7 @@
                 </td>
                 <td class="center aligned">
                     <a href="javascript:void(0)" wire:click="destroy({{$user->id}})">
-                        <i class="close red icon"></i> Remove
+                        <i class="trash red icon"></i>
                     </a>
                 </td>
             </tr>

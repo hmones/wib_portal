@@ -1,5 +1,5 @@
 <div class="ui container">
-    @if ($message = Session::get('success'))
+    @if ($message = session()->get('success'))
 
         <div class="ui blue message"
              style="background: #fafafa;box-shadow: 3px 1px 12px -8px #153e7a;border: solid 1px #dbdbdb;">
@@ -12,19 +12,23 @@
 
     @if($errors->any())
         <div class="ui error message"
-             style="background: #fafafa;box-shadow: 3px 1px 12px -8px #9f3a38;border: solid 1px #dbdbdb;margin-bottom: -45px;">
+             style="background: #fafafa;box-shadow: 3px 1px 12px -8px #9f3a38;border: solid 1px #dbdbdb;">
             <i class="close icon"></i>
-            @foreach ($errors->all() as $error)
-                <span>{{ $error }}</span>
-            @endforeach
+            <div class="ui small header">Errors:</div>
+            <div style="padding-left: 10px;margin-top:10px;">
+                @foreach ($errors->all() as $error)
+                    <span>{{ $error }}</span>
+                    <br>
+                @endforeach
+            </div>
         </div>
         <br/>
     @endif
 
-    @if ($message = Session::get('error'))
+    @if ($message = session()->get('error'))
 
         <div class="ui error message"
-             style="background: #fafafa;box-shadow: 3px 1px 12px -8px #153e7a;border: solid 1px #dbdbdb;margin-bottom: -45px;">
+             style="background: #fafafa;box-shadow: 3px 1px 12px -8px #153e7a;border: solid 1px #dbdbdb;">
             <i class="close icon"></i>
             <span>{{ $message }}</span>
 
@@ -33,7 +37,7 @@
     @endif
 
 
-    @if ($message = Session::get('warning'))
+    @if ($message = session()->get('warning'))
 
         <div class="ui blue message"
              style="background: #fafafa;box-shadow: 3px 1px 12px -8px #153e7a;border: solid 1px #dbdbdb;">
@@ -45,7 +49,7 @@
     @endif
 
 
-    @if ($message = Session::get('info'))
+    @if ($message = session()->get('info'))
 
         <div class="ui blue message"
              style="background: #fafafa;box-shadow: 3px 1px 12px -8px #153e7a;border: solid 1px #dbdbdb;">

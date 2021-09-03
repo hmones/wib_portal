@@ -62,6 +62,19 @@ trait HasValidationRules
         ];
     }
 
+    protected function eventBasicRules(): array
+    {
+        return [
+            'title'       => 'required',
+            'description' => 'nullable',
+            'link'        => 'required_with:button_text|nullable',
+            'button_text' => 'required_with:link|nullable',
+            'location'    => 'nullable',
+            'from'        => 'required|date|before:to',
+            'to'          => 'required|date|after:from'
+        ];
+    }
+
     protected function entityBasicRules(): array
     {
         return [

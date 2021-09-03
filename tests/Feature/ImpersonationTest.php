@@ -35,7 +35,7 @@ class ImpersonationTest extends TestCase
     }
 
     public function testAdminCanQuitImpersonation(): void
-    {
+    {$this->withoutExceptionHandling();
         $this->actingAs($this->admin, 'admin')
             ->post(route(self::IMPERSONATION_ROUTE), ['user_id' => $this->user->id]);
         $this->assertNotNull(auth()->guard('web')->user());

@@ -16,18 +16,18 @@ class FileStorage
         $this->dir_path = $dir_path;
     }
 
-    public function store(UploadedFile $file): string
+    public function store(UploadedFile $file, int $width = 300, int $height = 300): string
     {
         $extension = $file->extension();
         $filename = uniqid() . '.' . $extension;
-        $normal = Image::make($file)->fit(300, 300)->encode($extension);
+        $normal = Image::make($file)->fit($width, $height)->encode($extension);
         $storage_path = $this->dir_path . $filename;
         Storage::disk('s3')->put($storage_path, (string)$normal, 'public');
 
         return $this->web_path . $storage_path;
     }
 
-    public function destroy($url): bool
+    public function destroy(?string $url): bool
     {
         $file_path = str_replace($this->web_path, '', $url);
 

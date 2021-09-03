@@ -1,8 +1,7 @@
-@extends('layouts.auth')
+@extends('layouts.auth', ['breadcrumbItems' => [['name' => 'Edit profile']]])
 
 @section('content')
     <div class="ui centered container">
-        <h2 class="ui blue header">Edit profile information</h2>
         <form action="{{route('admin.admins.update', $admin)}}" method="post">
             @csrf
             @method('patch')
@@ -41,7 +40,7 @@
                 </div>
             </div>
             <div class="ui padded basic segment" style="margin:0px; padding-top: 0px">
-                <button class="ui right floated blue button" type="submit">Update</button>
+                <button class="ui right floated blue button" type="submit"><i class="save icon"></i>Save</button>
                 <br><br>
             </div>
         </form>
