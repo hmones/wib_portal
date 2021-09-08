@@ -2,7 +2,6 @@
 @section('title', 'Home Page')
 @section('content')
     <div class="ui container">
-        <h1 class="ui blue header"><i class="stop wib bullet icon"></i>Member Space</h1>
         @include('partials.posts.new')
     </div>
     <br/>
