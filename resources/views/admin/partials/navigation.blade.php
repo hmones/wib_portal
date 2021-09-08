@@ -1,3 +1,4 @@
+@include('partials.semantic-component', ['componentName' => 'sidebar'])
 <div class="ui sidebar inverted vertical menu">
     <a class="ui header item" href="{{route('admin.home')}}" style="background-color:#262626;">
         <img class="ui image" src="{{asset('images/logo.png')}}" style="filter:invert(0.85);width:50%;"
