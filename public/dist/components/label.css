@@ -910,36 +910,36 @@ a.ui.ui.ui.inverted.basic.red.label:hover {
 }
 .ui.orange.labels .label,
 .ui.ui.ui.orange.label {
-  background-color: #F2711C;
-  border-color: #F2711C;
+  background-color: #F4A642;
+  border-color: #F4A642;
   color: #FFFFFF;
 }
 
 /* Link */
 .ui.orange.labels a.label:hover,
 a.ui.ui.ui.orange.label:hover {
-  background-color: #f26202;
-  border-color: #f26202;
+  background-color: #fd9c20;
+  border-color: #fd9c20;
   color: #FFFFFF;
 }
 
 /* Ribbon */
 .ui.ui.ui.orange.ribbon.label {
-  border-color: #cf590c;
+  border-color: #f18f12;
 }
 
 /* Basic */
 .ui.basic.labels .orange.label,
 .ui.ui.ui.basic.orange.label {
   background: none #FFFFFF;
-  border-color: #F2711C;
-  color: #F2711C;
+  border-color: #F4A642;
+  color: #F4A642;
 }
 .ui.basic.labels a.orange.label:hover,
 a.ui.ui.ui.basic.orange.label:hover {
   background: none #FFFFFF;
-  border-color: #f26202;
-  color: #f26202;
+  border-color: #fd9c20;
+  color: #fd9c20;
 }
 
 /* Inverted */

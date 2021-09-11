@@ -8,6 +8,7 @@
 @blue           : #153e7a;
 @grey           : #f4f3f0;
 @black          : #262626;
+@orange         : #F4A642;
 
 @emSize            : 16px;
 @fontSize          : 16px;

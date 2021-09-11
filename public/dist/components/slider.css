@@ -343,7 +343,7 @@
 
 /* Standard */
 .ui.orange.slider .inner .track-fill {
-  background-color: #F2711C;
+  background-color: #F4A642;
 }
 .ui.orange.inverted.slider .inner .track-fill {
   background-color: #FF851B;
@@ -351,11 +351,11 @@
 
 /* Basic */
 .ui.orange.slider.basic .inner .thumb {
-  background-color: #F2711C;
+  background-color: #F4A642;
 }
 .ui.orange.slider.basic .inner .thumb:hover,
 .ui.orange.slider.basic:focus .inner .thumb {
-  background-color: #f26202;
+  background-color: #fd9c20;
 }
 
 /* Basic Inverted */

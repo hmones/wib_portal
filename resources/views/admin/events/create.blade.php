@@ -15,12 +15,12 @@
                             <div class="required field">
                                 <label>Image </label>
                                 @include('partials.components.imageUpload', [
-                                'options' => [
-                                    'value'  => isset($event) ? optional($event)->image : null,
-                                    'width'  => 300,
-                                    'height' => 500,
-                                ]
-                            ])
+                                    'options' => [
+                                        'value'  => isset($event) ? optional($event)->image : null,
+                                        'width'  => 500,
+                                        'height' => 700,
+                                    ]
+                                ])
                             </div>
                         </div>
                         <div class="column">

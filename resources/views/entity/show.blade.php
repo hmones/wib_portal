@@ -3,6 +3,7 @@
 
 @section('content')
     @include('partials.semantic-component', ['componentName' => 'rating'])
+    @include('partials.semantic-component', ['componentName' => 'modal'])
     <br><br>
     <div class="ui centered container">
         <div class="ui stackable grid">
@@ -195,7 +196,7 @@
                         </a>
                         <div class="ui basic modal" id="image_{{$photo->id}}">
                             <div class="ui center aligned basic segment">
-                                <img src="{{$photo->url}}" alt="">
+                                <img class="ui image" src="{{$photo->url}}" alt="">
                             </div>
                         </div>
                     </div>

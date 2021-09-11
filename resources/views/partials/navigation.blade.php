@@ -6,8 +6,8 @@
                 <div class="right item">
                     @auth('web')
                         @include('partials.search')
-                        <a href="/" class="item mainMenu"> HOME </a>
-                        <a href="{{route('home')}}" class="item mainMenu"> POSTS </a>
+                        <a href="{{route('home')}}" class="item mainMenu"> HOME </a>
+                        <a href="{{route('post.index')}}" class="item mainMenu"> POSTS </a>
                         <div class="ui dropdown account item mainMenu">
                             NETWORK <i class="angle down black icon"></i>
                             <div class="menu network">
@@ -111,7 +111,7 @@
                 @include('partials.search')
             </div>
             <div class="ui divided very relaxed list">
-                <a class="item" href="{{route('home')}}">Posts</a>
+                <a class="item" href="{{route('post.index')}}">Posts</a>
                 <a href="{{route('messenger')}}" class="item">
                     Messages
                     @if(auth()->user()->unreadNotifications()->where('type','App\Notifications\MessageSent')->count())

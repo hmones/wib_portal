@@ -1921,7 +1921,7 @@
 }
 .ui.orange.buttons .button,
 .ui.orange.button {
-  background-color: #F2711C;
+  background-color: #F4A642;
   color: #FFFFFF;
   text-shadow: none;
   background-image: none;
@@ -1932,19 +1932,19 @@
 }
 .ui.orange.buttons .button:hover,
 .ui.orange.button:hover {
-  background-color: #f26202;
+  background-color: #fd9c20;
   color: #FFFFFF;
   text-shadow: none;
 }
 .ui.orange.buttons .button:focus,
 .ui.orange.button:focus {
-  background-color: #e55b00;
+  background-color: #ff950e;
   color: #FFFFFF;
   text-shadow: none;
 }
 .ui.orange.buttons .button:active,
 .ui.orange.button:active {
-  background-color: #cf590c;
+  background-color: #f18f12;
   color: #FFFFFF;
   text-shadow: none;
 }
@@ -1952,7 +1952,7 @@
 .ui.orange.buttons .active.button:active,
 .ui.orange.active.button,
 .ui.orange.button .active.button:active {
-  background-color: #f56100;
+  background-color: #ff9c1e;
   color: #FFFFFF;
   text-shadow: none;
 }
@@ -1961,36 +1961,36 @@
 .ui.basic.orange.buttons .button,
 .ui.basic.orange.button {
   background: transparent;
-  -webkit-box-shadow: 0 0 0 1px #F2711C inset;
-          box-shadow: 0 0 0 1px #F2711C inset;
-  color: #F2711C;
+  -webkit-box-shadow: 0 0 0 1px #F4A642 inset;
+          box-shadow: 0 0 0 1px #F4A642 inset;
+  color: #F4A642;
 }
 .ui.basic.orange.buttons .button:hover,
 .ui.basic.orange.button:hover {
   background: transparent ;
-  -webkit-box-shadow: 0 0 0 1px #f26202 inset;
-          box-shadow: 0 0 0 1px #f26202 inset;
-  color: #f26202;
+  -webkit-box-shadow: 0 0 0 1px #fd9c20 inset;
+          box-shadow: 0 0 0 1px #fd9c20 inset;
+  color: #fd9c20;
 }
 .ui.basic.orange.buttons .button:focus,
 .ui.basic.orange.button:focus {
   background: transparent ;
-  -webkit-box-shadow: 0 0 0 1px #e55b00 inset;
-          box-shadow: 0 0 0 1px #e55b00 inset;
-  color: #f26202;
+  -webkit-box-shadow: 0 0 0 1px #ff950e inset;
+          box-shadow: 0 0 0 1px #ff950e inset;
+  color: #fd9c20;
 }
 .ui.basic.orange.buttons .active.button,
 .ui.basic.orange.active.button {
   background: transparent ;
-  -webkit-box-shadow: 0 0 0 1px #f56100 inset;
-          box-shadow: 0 0 0 1px #f56100 inset;
-  color: #cf590c;
+  -webkit-box-shadow: 0 0 0 1px #ff9c1e inset;
+          box-shadow: 0 0 0 1px #ff9c1e inset;
+  color: #f18f12;
 }
 .ui.basic.orange.buttons .button:active,
 .ui.basic.orange.button:active {
-  -webkit-box-shadow: 0 0 0 1px #cf590c inset;
-          box-shadow: 0 0 0 1px #cf590c inset;
-  color: #cf590c;
+  -webkit-box-shadow: 0 0 0 1px #f18f12 inset;
+          box-shadow: 0 0 0 1px #f18f12 inset;
+  color: #f18f12;
 }
 .ui.buttons:not(.vertical) > .basic.orange.button:not(:first-child) {
   margin-left: -1px;
@@ -2078,21 +2078,21 @@
   background: transparent;
   -webkit-box-shadow: none;
           box-shadow: none;
-  color: #F2711C;
+  color: #F4A642;
 }
 .ui.tertiary.orange.buttons .button:hover,
 .ui.tertiary.orange.buttons button:hover,
 .ui.tertiary.orange.button:hover {
-  -webkit-box-shadow: inset 0 -0.2em 0 #da671b;
-          box-shadow: inset 0 -0.2em 0 #da671b;
-  color: #da671b;
+  -webkit-box-shadow: inset 0 -0.2em 0 #e69936;
+          box-shadow: inset 0 -0.2em 0 #e69936;
+  color: #e69936;
 }
 .ui.tertiary.orange.buttons .button:focus,
 .ui.tertiary.orange.buttons .tertiary.button:focus,
 .ui.tertiary.orange.button:focus {
-  -webkit-box-shadow: inset 0 -0.2em 0 #ce6017;
-          box-shadow: inset 0 -0.2em 0 #ce6017;
-  color: #ce6017;
+  -webkit-box-shadow: inset 0 -0.2em 0 #e79326;
+          box-shadow: inset 0 -0.2em 0 #e79326;
+  color: #e79326;
 }
 .ui.tertiary.orange.buttons .active.button,
 .ui.tertiary.orange.buttons .tertiary.active.button,
@@ -2100,9 +2100,9 @@
 .ui.tertiary.orange.buttons .button:active,
 .ui.tertiary.orange.buttons .tertiary.button:active,
 .ui.tertiary.orange.button:active {
-  -webkit-box-shadow: inset 0 -0.2em 0 #f56100;
-          box-shadow: inset 0 -0.2em 0 #f56100;
-  color: #f56100;
+  -webkit-box-shadow: inset 0 -0.2em 0 #ff9c1e;
+          box-shadow: inset 0 -0.2em 0 #ff9c1e;
+  color: #ff9c1e;
 }
 .ui.yellow.buttons .button,
 .ui.yellow.button {
