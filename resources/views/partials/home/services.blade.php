@@ -1,12 +1,10 @@
-<div class="ui inverted blue basic segment" style="margin: 0;">
+<div class="ui section inverted blue basic segment">
     <div class="ui container">
         <div class="ui hidden divider"></div>
         <div class="ui hidden divider"></div>
         <div class="ui hidden divider"></div>
-        <p style="font-weight: 600;font-size: 16px;line-height: 0;letter-spacing: 0.105em;"><span
-                class="ui white text">JOIN THE COMMUNITY AND THE DEBATE</span></p>
-        <h1 class="ui header" style="margin-top: 8px;font-size: 56px;"><span class="ui white text"
-                                                                             style="color: white;">Portal Services</span>
+        <p class="byline normal"><span class="ui white text">JOIN THE COMMUNITY AND THE DEBATE</span></p>
+        <h1 class="ui page header"><span class="ui white text">Portal Services</span>
         </h1>
         <div class="ui hidden divider"></div>
         <div class="ui hidden divider"></div>

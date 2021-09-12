@@ -1,6 +1,7 @@
 {
     "/css/app.css": "/css/app.css",
     "/css/messenger.css": "/css/messenger.css",
+    "/css/home.css": "/css/home.css",
     "/js/ui.js": "/js/ui.js",
     "/js/imageUpload.js": "/js/imageUpload.js",
     "/js/entity.create.js": "/js/entity.create.js",
@@ -9,5 +10,6 @@
     "/js/profile.create.js": "/js/profile.create.js",
     "/js/entity.upload.photos.js": "/js/entity.upload.photos.js",
     "/js/app.js": "/js/app.js",
-    "/js/adminDashboard.js": "/js/adminDashboard.js"
+    "/js/adminDashboard.js": "/js/adminDashboard.js",
+    "/js/home.js": "/js/home.js"
 }
