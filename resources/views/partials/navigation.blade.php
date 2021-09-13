@@ -76,7 +76,7 @@
                             <a href="{{ route('profile.create') }}" class="ui blue basic button">Signup</a>
                         </a>
                         <div class="item">
-                            <a href="{{route('home')}}" class="ui blue button">Login</a>
+                            <a href="{{route('login')}}" class="ui blue button">Login</a>
                         </div>
                     @endguest
                 </div>

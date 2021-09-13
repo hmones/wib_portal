@@ -7,12 +7,12 @@
     <script src="{{asset('js/home.js')}}"></script>
 @endsection
 @section('content')
-    @include('partials.home.image-slide', ['event' => $events->first()])
+    @includeWhen($events->count() > 0, 'partials.home.image-slide', ['event' => $events->first()])
     <div class="ui hidden divider"></div>
-    @include('partials.separator')
-    @include('partials.home.upcoming-events')
+    @includeWhen($events->count() > 0, 'partials.separator')
+    @includeWhen($events->count() > 0, 'partials.home.upcoming-events')
     @include('partials.home.services')
-    @includeWhen(auth()->check(), 'partials.home.signup')
+    @includeWhen(auth()->guest(), 'partials.home.signup')
     @include('partials.home.testimonial-slider')
     <br/>
 @endsection

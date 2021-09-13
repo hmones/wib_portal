@@ -11,11 +11,11 @@
             @foreach($events as $event)
                 <div class="ui four wide column">
                     <div class="ui card raised padded segment">
-                        <p class="date">28 -30 September 2019</p>
-                        <p class="location">Alexandria, Egypt</p>.
+                        <p class="date">{{$event->from->format('d')}} - {{$event->to->format('d F Y')}}</p>
+                        <p class="location">{{$event->location}}</p>.
                         <div class="ui hidden divider"></div>
                         <div class="ui blue card header">
-                            Techne Summit
+                            {{$event->title}}
                         </div>
                         <a href="#">
                             <span class="ui primary text">VIEW DETAILS</span>
