@@ -14,49 +14,49 @@
                         <strong>Title </strong>
                         <br>
                         <div class="ui grey small message">
-                            {{$event->title}}
+                            <span class="ui black text">{{$event->title}}</span>
                         </div>
                         <br>
                         <strong>Description </strong>
                         <br>
                         <div class="ui grey small message">
-                            {!! $event->description ?? '<span style="color:grey;">Not provided</span>' !!}
+                            <span class="ui black text">{!! $event->description ?? '<span style="color:grey;">Not provided</span>' !!}</span>
                         </div>
                     </div>
                     <div class="column"><strong>Location </strong>
                         <br>
                         <div class="ui grey small message">
-                            {{$event->location}}
+                            <span class="ui black text">{{$event->location}}</span>
                         </div>
                     </div>
                     <div class="column"><strong>From </strong>
                         <br>
                         <div class="ui grey small message">
-                            {{$event->from}}
+                            <span class="ui black text">{{$event->from}}</span>
                         </div>
                     </div>
                     <div class="column"><strong>To </strong>
                         <br>
                         <div class="ui grey small message">
-                            {{$event->to}}
+                            <span class="ui black text">{{$event->to}}</span>
                         </div>
                     </div>
                     <div class="column"><strong>Button Text </strong>
                         <br>
                         <div class="ui grey small message">
-                            {{$event->button_text}}
+                            <span class="ui black text">{{$event->button_text}}</span>
                         </div>
                     </div>
                     <div class="column"><strong>Created at </strong>
                         <br>
                         <div class="ui grey small message">
-                            {{$event->created_at}}
+                            <span class="ui black text">{{$event->created_at}}</span>
                         </div>
                     </div>
                     <div class="column"><strong>Updated at </strong>
                         <br>
                         <div class="ui grey small message">
-                            {{$event->updated_at}}
+                            <span class="ui black text">{{$event->updated_at}}</span>
                         </div>
                     </div>
                 </div>

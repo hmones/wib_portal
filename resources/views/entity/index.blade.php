@@ -29,10 +29,10 @@
 @endsection
 @section('scripts')
 <script>
-    var url = "{{route('entities.get.api')}}";
-    var last_page = {{$entities->lastPage()}};
-    var app_token = "{{Session::token()}}";
-    var main_container = "#entities_list";
+    let url = "{{route('entities.get.api')}}";
+    let last_page = {{$entities->lastPage()}};
+    let app_token = "{{session()->token()}}";
+    let main_container = "#entities_list";
 </script>
 <script src="{{asset('js/loadResources.js')}}" type="application/javascript"></script>
 @endsection

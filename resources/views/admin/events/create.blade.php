@@ -1,8 +1,7 @@
 @extends('layouts.auth', ['breadcrumbItems' => [['name' => 'Events', 'url'  => route('admin.events.index')], ['name' => isset($event) ? 'Edit Event' : 'New Event']]])
 
 @section('content')
-    <link rel="stylesheet" href="{{asset('css/calendar.min.css')}}"/>
-    <script src="{{asset('js/calendar.min.js')}}"></script>
+    @include('partials.semantic-component', ['componentName' => 'calendar'])
     <div class="ui centered container">
         <form class="ui form"
               action="{{isset($event) ? route('admin.events.update', $event) : route('admin.events.store')}}"
@@ -16,12 +15,12 @@
                             <div class="required field">
                                 <label>Image </label>
                                 @include('partials.components.imageUpload', [
-                                'options' => [
-                                    'value'  => isset($event) ? optional($event)->image : null,
-                                    'width'  => 300,
-                                    'height' => 500,
-                                ]
-                            ])
+                                    'options' => [
+                                        'value'  => isset($event) ? optional($event)->image : null,
+                                        'width'  => 500,
+                                        'height' => 700,
+                                    ]
+                                ])
                             </div>
                         </div>
                         <div class="column">

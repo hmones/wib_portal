@@ -1,6 +1,7 @@
 @extends('layouts.default')
 @section('title','My Companies and Organizations')
 @section('content')
+    @include('partials.semantic-component', ['componentName' => 'table'])
 <br>
 <div class="ui centered container">
     <h1 class="ui blue header"><i class="stop wib bullet icon"></i>My Companies and Organizations</h1>

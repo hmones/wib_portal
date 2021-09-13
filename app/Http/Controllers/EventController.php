@@ -25,7 +25,7 @@ class EventController extends Controller
 
     public function store(EventStore $request)
     {
-        Event::create(array_merge($request->safe()->toArray(), ['image' => FileStorage::store($request->image)]));
+        Event::create(array_merge($request->safe()->toArray(), ['image' => FileStorage::store($request->image, 500, 700)]));
 
         return redirect(route(self::INDEX_ROUTE))->with(['success' => 'The event is saved successfully!']);
     }
@@ -44,7 +44,7 @@ class EventController extends Controller
     {
         $event->update(
             $request->image
-                ? array_merge($request->safe()->toArray(), ['image' => FileStorage::store($request->image)])
+                ? array_merge($request->safe()->toArray(), ['image' => FileStorage::store($request->image, 500, 700)])
                 : $request->safe()->toArray()
         );
 

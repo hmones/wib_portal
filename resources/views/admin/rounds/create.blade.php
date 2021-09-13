@@ -1,8 +1,7 @@
 @extends('layouts.auth', ['breadcrumbItems' => [['name' => 'Rounds', 'url'  => route('admin.rounds.index')], ['name' => isset($round) ? 'Edit Round' : 'New Round']]])
 
 @section('content')
-    <link rel="stylesheet" href="{{asset('css/calendar.min.css')}}"/>
-    <script src="{{asset('js/calendar.min.js')}}"></script>
+    @include('partials.semantic-component', ['componentName' => 'calendar'])
     <div class="ui centered container">
         <form class="ui form"
               action="{{isset($round) ? route('admin.rounds.update', $round) : route('admin.rounds.store')}}"

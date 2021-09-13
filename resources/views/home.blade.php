@@ -1,21 +1,19 @@
 @extends('layouts.default')
 @section('title', 'Home Page')
-@section('content')
-    <div class="ui container">
-        <h1 class="ui blue header"><i class="stop wib bullet icon"></i>Member Space</h1>
-        @include('partials.posts.new')
-    </div>
-    <br/>
-    <div class="ui container" id="posts_container">
-        <div id="new_posts"></div>
-        @include('partials.posts.list', $posts)
-        <div id="extra_posts"></div>
-    </div>
+@section('styles')
+    <link rel="stylesheet" href="{{asset('css/home.css')}}">
 @endsection
 @section('scripts')
-    <script>
-        var posts_url = "{{route('posts.get.api')}}";
-        var app_token = "{{Session::token()}}";
-    </script>
-    <script src="{{asset('js/post.posts.js')}}" type="application/javascript"></script>
+    <script src="{{asset('js/home.js')}}"></script>
 @endsection
+@section('content')
+    @includeWhen($events->count() > 0, 'partials.home.image-slide', ['event' => $events->first()])
+    <div class="ui hidden divider"></div>
+    @includeWhen($events->count() > 0, 'partials.separator')
+    @includeWhen($events->count() > 0, 'partials.home.upcoming-events')
+    @include('partials.home.services')
+    @includeWhen(auth()->guest(), 'partials.home.signup')
+    @include('partials.home.testimonial-slider')
+    <br/>
+@endsection
+

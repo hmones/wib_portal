@@ -2,24 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\{Redirect, Auth};
-use App\Models\{User, Entity};
+use Illuminate\Support\Facades\{Auth, Redirect};
 
 class HomeController extends Controller
 {
     public function index()
     {
-        $users = User::with('sectors:name', 'country')->with(['avatar'=>function($query){
-            $query->where('resolution', '300');
-        }])->latest()->take(8)->get();
-        $entities = Entity::with('sectors:name', 'primary_country')->with(['logo'=>function($query){
-            $query->where('resolution', '300');
-        }])->latest()->take(8)->get();
-        return view('home', [
-            'users' => $users,
-            'entities' => $entities
-        ]);
+        $events = Event::orderBy('from', 'asc')->take(10)->get();
+
+        return view('home', compact('events'));
     }
 
     public function cookie(Request $request)
@@ -45,12 +38,12 @@ class HomeController extends Controller
     {
         if($request->has('unread')){
             Auth::user()->unreadNotifications
-                        ->where('type','!=','App\Notifications\MessageSent')
-                        ->markAsRead();
+                ->where('type','!=','App\Notifications\MessageSent')
+                ->markAsRead();
         }
         $notifications = Auth::user()->notifications
-                                     ->where('type','!=','App\Notifications\MessageSent')
-                                     ->take(50);
+            ->where('type','!=','App\Notifications\MessageSent')
+            ->take(50);
         return view('notifications', compact('notifications'));
     }
 }

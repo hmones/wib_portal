@@ -6,10 +6,10 @@
                 <div class="right item">
                     @auth('web')
                         @include('partials.search')
-                        <a href="/" class="item mainMenu"> HOME </a>
-                        <a href="{{route('home')}}" class="item mainMenu"> POSTS </a>
+                        <a href="{{route('home')}}" class="item mainMenu"> HOME </a>
+                        <a href="{{route('post.index')}}" class="item mainMenu"> POSTS </a>
                         <div class="ui dropdown account item mainMenu">
-                            NETWORK
+                            NETWORK <i class="angle down black icon"></i>
                             <div class="menu network">
                                 <a href="{{route('profile.index')}}" class="item">
                                     <i class="users blue icon"></i> People
@@ -76,7 +76,7 @@
                             <a href="{{ route('profile.create') }}" class="ui blue basic button">Signup</a>
                         </a>
                         <div class="item">
-                            <a href="{{route('home')}}" class="ui blue button">Login</a>
+                            <a href="{{route('login')}}" class="ui blue button">Login</a>
                         </div>
                     @endguest
                 </div>
@@ -89,14 +89,14 @@
                 <a href="/"><img class="ui image left item" src="{{asset('images/logo.png')}}" alt="" width="150px"></a>
             </div>
             @auth('web')
-                <div class="right aligned seven wide column">
+                <div class="right aligned three wide column">
                     <button onclick="$('#mobileMenu').toggle('fade');" class="ui grey button">
                         <i class="bars black icon"></i>
                     </button>
                 </div>
             @endauth
             @guest
-                <div class="right aligned seven wide column" style="margin-top: 22px;">
+                <div class="right aligned three wide column" style="margin-top: 22px;">
                     <a href="{{route('login')}}"><i class="circular inverted teal lock icon"></i></a>
                     <a href="{{route('profile.create')}}"><i class="circular inverted teal user icon"></i></a>
                 </div>
@@ -106,48 +106,45 @@
 </div>
 @auth('web')
     <div class="ui grid">
-        <div class="column mobile tablet only row" id="mobileMenu" style="display: none;">
-            <div class="ui four column centered grid">
-                <div class="center aligned sixteen wide column">
-                    @include('partials.search')
-                    <br>
-                    <div class="ui divided very relaxed list">
-                        <a class="item" href="{{route('home')}}">Posts</a>
-                        <a href="{{route('messenger')}}" class="item">
-                            Messages
-                            @if(auth()->user()->unreadNotifications()->where('type','App\Notifications\MessageSent')->count())
-                                <div class="floating ui red label">
-                                    {{auth()->user()->unreadNotifications()->where('type','App\Notifications\MessageSent')->count()}}
-                                </div>
-                            @endif
-                        </a>
-                        <a href="{{route('notifications')}}" class="item">
-                            Notifications
-                            @if(auth()->user()->unreadNotifications()->where('type','!=','App\Notifications\MessageSent')->count())
-                                <div class="floating ui red label">
-                                    {{auth()->user()->unreadNotifications()->where('type','!=','App\Notifications\MessageSent')->count()}}
-                                </div>
-                            @endif
-                        </a>
-                        <a href="{{route('profile.index')}}" class="item"> People </a>
-                        <a href="{{route('entity.index')}}?type=business" class="item"> Companies </a>
-                        <a href="{{route('entity.index')}}?type=organization" class="item"> Organizations </a>
-                        <a href="{{auth()->user()->path . '/edit'}}" class="item">Account</a>
-                        <a href="{{route('profile.entities')}}" class="item">My Business</a>
-                        <br>
-                        @auth('admin')
-                            <form method="get" action="{{route('admin.impersonate.index')}}">
-                                @csrf
-                                <button type="submit" class="ui teal fluid button">Logout</button>
-                            </form>
-                        @else
-                            <form method="post" action="{{route('logout')}}">
-                                @csrf
-                                <button type="submit" class="ui teal fluid button">Logout</button>
-                            </form>
-                        @endauth
-                    </div>
-                </div>
+        <div class="center aligned column mobile tablet only" id="mobileMenu" style="display: none;">
+            <div class="ui center aligned basic segment">
+                @include('partials.search')
+            </div>
+            <div class="ui divided very relaxed list">
+                <a class="item" href="{{route('post.index')}}">Posts</a>
+                <a href="{{route('messenger')}}" class="item">
+                    Messages
+                    @if(auth()->user()->unreadNotifications()->where('type','App\Notifications\MessageSent')->count())
+                        <div class="floating ui red label">
+                            {{auth()->user()->unreadNotifications()->where('type','App\Notifications\MessageSent')->count()}}
+                        </div>
+                    @endif
+                </a>
+                <a href="{{route('notifications')}}" class="item">
+                    Notifications
+                    @if(auth()->user()->unreadNotifications()->where('type','!=','App\Notifications\MessageSent')->count())
+                        <div class="floating ui red label">
+                            {{auth()->user()->unreadNotifications()->where('type','!=','App\Notifications\MessageSent')->count()}}
+                        </div>
+                    @endif
+                </a>
+                <a href="{{route('profile.index')}}" class="item"> People </a>
+                <a href="{{route('entity.index')}}?type=business" class="item"> Companies </a>
+                <a href="{{route('entity.index')}}?type=organization" class="item"> Organizations </a>
+                <a href="{{auth()->user()->path . '/edit'}}" class="item">Account</a>
+                <a href="{{route('profile.entities')}}" class="item">My Business</a>
+                <br>
+                @auth('admin')
+                    <form method="get" action="{{route('admin.impersonate.index')}}">
+                        @csrf
+                        <button type="submit" class="ui teal fluid button">Logout</button>
+                    </form>
+                @else
+                    <form method="post" action="{{route('logout')}}">
+                        @csrf
+                        <button type="submit" class="ui teal fluid button">Logout</button>
+                    </form>
+                @endauth
             </div>
         </div>
     </div>

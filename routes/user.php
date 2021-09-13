@@ -8,10 +8,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::get('/home', 'PostController@index')->name('home');
-Route::get('/posts', 'PostController@indexAPI')->name('posts.get.api');
-Route::post('/post', 'PostController@store')->name('post.store');
-Route::delete('/post/{post}', 'PostController@destroy')->middleware('can:delete,post')->name('post.destroy');
+Route::resource('post', 'PostController')->only(['index', 'store', 'destroy']);
 Route::post('/reaction', 'ReactionController@store')->name('reaction.store');
 Route::delete('/reaction/{reaction}', 'ReactionController@destroy')->middleware('can:delete,reaction')->name('reaction.destroy');
 

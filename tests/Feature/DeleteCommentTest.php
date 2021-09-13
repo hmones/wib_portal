@@ -24,7 +24,7 @@ class DeleteCommentTest extends TestCase
     public function testResourcesRenderNormallyForInactiveComments(): void
     {
         $this->actingAs($this->user)->delete(route(self::DELETE_ROUTE, $this->comment))->assertOk()->assertSee('Comment Deleted Successfully');
-        $this->actingAs($this->user)->get(route('home'))->assertOk()->assertDontSee($this->comment->content);
+        $this->actingAs($this->user)->get(route('post.index'))->assertOk()->assertDontSee($this->comment->content);
         $this->actingAs($this->user)->get(route('notifications'))->assertOk()->assertDontSee($this->comment->content);
     }
 

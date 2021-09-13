@@ -8,10 +8,9 @@
         @endisset
         <input type="hidden" name="entity[network]" value="wib" />
         <div class="ui stackable grid">
-            <div class="five wide column">
+            <div class="two wide column">
                 <div class="ui medium image">
                     <div class="ui center aligned basic segment field">
-                        <h4 class="ui header">Organization logo</h4>
                         <label for="logo">
                             <a href="#" id="logo_upload_icon">
                                 @if($entity->image)
@@ -27,7 +26,7 @@
                     </div>
                 </div>
             </div>
-            <div class="eleven wide column ui form">
+            <div class="ten wide column ui form">
                 <div class="two fields">
                     <div class="required field">
                         <label for="entity[entity_type_id]">Type of Organization</label>
@@ -378,10 +377,10 @@
 
 
         <div class="ui right floated basic segment">
-            <a class="ui blue deny button" href="{{route('profile.entities')}}">
+            <a class="ui blue basic deny button" href="{{route('profile.entities')}}">
                 Cancel
             </a>
-            <div class="ui positive right labeled icon button" id="entity_submit">
+            <div class="ui primary right labeled icon button" id="entity_submit">
                 Save
                 <i class="checkmark icon"></i>
             </div>

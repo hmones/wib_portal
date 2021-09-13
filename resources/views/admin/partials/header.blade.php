@@ -7,8 +7,13 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 <!-- Fonts -->
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&display=swap');
+</style>
 <link href="{{asset('dist/semantic.min.css')}}" rel="stylesheet" type="text/css">
-<script src="{{asset('dist/jquery-3.1.1.min.js')}}"></script>
+@include('partials.semantic-component', ['componentName' => 'table'])
+<script src="{{asset('js/jquery-3.6.0.min.js')}}"></script>
 <script type="application/javascript" src="{{asset('dist/semantic.min.js')}}"></script>
 <!-- Scripts -->
 <script src="{{ asset('js/ui.js') }}"></script>
@@ -22,10 +27,3 @@
 <link rel="manifest" href="https://gpp-wib-staging.frb.io/assets/img/favicons/wib/site.webmanifest">
 <!-- Styles -->
 <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-<script>
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-</script>

@@ -1,6 +1,6 @@
 <div class="ui padded raised segment" id="post_{{$post->id}}">
     <div class="ui stackable grid">
-        <div class="six wide column ui list">
+        <div class="seven wide column ui list">
             <div class="item">
                 @include('partials.components.avatar',['user'=>$post->user, 'type' => 'user'])
                 <div class="content">
@@ -13,8 +13,7 @@
                 </div>
             </div>
         </div>
-
-        <div class="ten wide column">
+        <div class="five wide column">
             <div class="ui basic right aligned segment" style="padding-top:0px;">
                 <span style="border-bottom: 2px">
                      @if ($post->post_type or isset($post->country) or isset($post->sector))

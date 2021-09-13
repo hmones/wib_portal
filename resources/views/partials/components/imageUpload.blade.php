@@ -4,11 +4,11 @@
         background-repeat: no-repeat;
         background-position: center;
         background-image: url("{{data_get($options, 'value')}}");
-        width: {{data_get($options, 'width', 300)}}px;
-        height: {{data_get($options, 'height', 300)}}px;
+        width: 100%;
+        height: 420px;
     }
 </style>
-<div class="ui center aligned basic segment" style="height:{{data_get($options, 'height', 300)}}px">
+<div class="ui center aligned basic segment" style="min-height:420px">
     <div class="ui top left attached label" style="z-index: 1000;" id="image_upload_info">
         Image size {{data_get($options, 'width', 300)}}px x {{data_get($options, 'height', 300)}}px
     </div>

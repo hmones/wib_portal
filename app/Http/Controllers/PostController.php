@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:delete,post')->only('destroy');
+    }
+
     public function index(Request $request)
     {
         if ($request->has('id')) {
@@ -18,19 +23,7 @@ class PostController extends Controller
             $posts = Post::with('comments.reactions', 'comments.user', 'reactions.user', 'user')->latest()->take(12)->get();
         }
         $sectors = Sector::all();
-        return view('home', compact(['posts', 'sectors']));
-    }
-
-    public function indexAPI()
-    {
-        $posts = Post::with('comments.reactions', 'comments.user', 'reactions.user', 'user')->latest()->paginate(12);
-
-        if ($posts->count() > 0) {
-            return view('partials.posts.list', compact('posts'));
-        }
-
-        return response('Error', 200);
-
+        return view('posts', compact(['posts', 'sectors']));
     }
 
     public function store(Request $request)

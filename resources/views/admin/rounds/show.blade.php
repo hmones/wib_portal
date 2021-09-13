@@ -9,43 +9,43 @@
                         <strong>Description </strong>
                         <br>
                         <div class="ui grey small message">
-                            {!! $round->description ?? '<span style="color:grey;">Not provided</span>' !!}
+                            <span class="ui black text">{!! $round->description ?? '<span style="color:grey;">Not provided</span>' !!}</span>
                         </div>
                     </div>
                     <div class="column"><strong>From </strong>
                         <br>
                         <div class="ui grey small message">
-                            {{$round->from}}
+                            <span class="ui black text">{{$round->from}}</span>
                         </div>
                     </div>
                     <div class="column"><strong>To </strong>
                         <br>
                         <div class="ui grey small message">
-                            {{$round->to}}
+                            <span class="ui black text">{{$round->to}}</span>
                         </div>
                     </div>
                     <div class="column"><strong>Maximum number of applicants </strong>
                         <br>
                         <div class="ui grey small message">
-                            {{$round->max_applicants}}
+                            <span class="ui black text">{{$round->max_applicants}}</span>
                         </div>
                     </div>
                     <div class="column"><strong>Status </strong>
                         <br>
                         <div class="ui grey small message">
-                            {{Str::title($round->status)}}
+                            <span class="ui black text">{{Str::title($round->status)}}</span>
                         </div>
                     </div>
                     <div class="column"><strong>Created at </strong>
                         <br>
                         <div class="ui grey small message">
-                            {{$round->created_at}}
+                            <span class="ui black text">{{$round->created_at}}</span>
                         </div>
                     </div>
                     <div class="column"><strong>Updated at </strong>
                         <br>
                         <div class="ui grey small message">
-                            {{$round->updated_at}}
+                            <span class="ui black text">{{$round->updated_at}}</span>
                         </div>
                     </div>
                     <div class="column"><strong>Link </strong>

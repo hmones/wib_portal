@@ -6,13 +6,13 @@
     <div class="ui grid">
         <h2 class="ui blue header breadcrumb">
             <a class="section" href="{{route('profile.index')}}">Members</a>
-            <i class="right angle icon divider"></i>
+            <div class="divider"><i class="right angle icon"></i></div>
             <a class="active section" href="{{$user->path}}">{{$user->name}}</a>
         </h2>
     </div>
     <br><br><br>
     <div class="ui stackable middle aligned stackable grid" id="userInfoHeader">
-        <div class="three wide column">
+        <div class="two wide column">
             <img class="ui circular small image" src="
                     @if($user->image)
                     {{$user->image}}
@@ -34,7 +34,7 @@
                 <a href="{{$link->url}}"> <i class="circular blue {{$link->type->icon}} icon"></i> </a>
             @endforeach
         </div>
-        <div class="seven wide column">
+        <div class="four wide column">
             <a href="{{route('messenger')}}"
                class="ui right floated right labeled top aligned basic teal icon large button">
                 <i class="send icon"></i>
@@ -44,7 +44,7 @@
     </div>
     <br><br><br><br>
     <div class="ui stackable grid">
-        <div class="five wide column">
+        <div class="four wide column">
             <h4 class="ui blue header"><i class="stop wib bullet icon"></i>User's Organizations</h4>
             <div class="ui relaxed list">
                 @forelse($user->entities as $entity)
@@ -63,7 +63,7 @@
             </div>
 
         </div>
-        <div class="seven wide column">
+        <div class="four wide column">
             <h4 class="ui blue header"><i class="stop wib bullet icon"></i>Profile</h4>
             <div class="ui left-bordered basic segment">
                 @if($user->bio)
