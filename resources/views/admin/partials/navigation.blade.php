@@ -38,17 +38,9 @@
     <div class="item">
         <div class="header">Events</div>
         <div class="menu">
-            <a href="{{route('admin.events.create')}}"
-               class="item">
-                <i class="calendar plus icon"></i> Create event
-            </a>
-            <a href="{{route('admin.rounds.create')}}"
-               class="item">
-                <i class="calendar icon"></i>Create B2B rounds
-            </a>
             <a href="{{route('admin.events.index')}}"
                class="item">
-                <i class="calendar icon"></i> Manage events
+                <i class="calendar plus icon"></i> Manage events
             </a>
             <a href="{{route('admin.rounds.index')}}"
                class="item">
@@ -64,7 +56,7 @@
                 <i class="pencil icon"></i> Edit Profile
             </a>
             <a href="javascript:void(0)" onclick="$('#admin_logout').submit();" class="item">
-                <i class="logout icon"></i> Logout
+                <i class="sign out alternate icon"></i> Logout
             </a>
         </div>
     </div>

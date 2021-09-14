@@ -10,9 +10,10 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $events = Event::orderBy('from', 'asc')->take(10)->get();
+        $events = Event::where('is_main', false)->orderByDesc('from')->take(10)->get();
+        $mainEvent = Event::where('is_main', true)->orderByDesc('from')->first();
 
-        return view('home', compact('events'));
+        return view('home', compact('events', 'mainEvent'));
     }
 
     public function cookie(Request $request)

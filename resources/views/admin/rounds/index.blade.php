@@ -7,8 +7,7 @@
         }
     </script>
     <div class="ui centered container">
-        <a href="{{route('admin.rounds.create')}}" class="ui right floated primary button"><i class="plus icon"></i>New</a>
-        <br><br>
+        <a href="{{route('admin.rounds.create')}}" class="ui primary basic button"><i class="plus icon"></i>New B2B round</a>
         <table class="ui celled stackable table" aria-describedby="Events table">
             <thead>
             <tr>

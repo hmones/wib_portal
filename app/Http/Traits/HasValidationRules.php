@@ -71,7 +71,8 @@ trait HasValidationRules
             'button_text' => 'required_with:link|nullable',
             'location'    => 'nullable',
             'from'        => 'required|date|before:to',
-            'to'          => 'required|date|after:from'
+            'to'          => 'required|date|after:from',
+            'is_main'     => 'sometimes|boolean'
         ];
     }
 

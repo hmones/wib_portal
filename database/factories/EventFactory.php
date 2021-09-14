@@ -20,6 +20,7 @@ class EventFactory extends Factory
             'image'       => $this->faker->imageUrl(),
             'link'        => $this->faker->url,
             'button_text' => 'Read more',
+            'is_main'     => false,
             'created_at'  => now(),
             'updated_at'  => now(),
         ];

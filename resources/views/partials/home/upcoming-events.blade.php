@@ -12,16 +12,18 @@
                 <div class="ui four wide column">
                     <div class="ui card raised padded segment">
                         <p class="date">{{$event->from->format('d')}} - {{$event->to->format('d F Y')}}</p>
-                        <p class="location">{{$event->location}}</p>.
+                        <p class="location">{{$event->location}}</p>
                         <div class="ui hidden divider"></div>
                         <div class="ui blue card header">
                             {{$event->title}}
                         </div>
-                        <a href="#">
-                            <span class="ui primary text">VIEW DETAILS</span>
-                            &nbsp;
-                            <img src="{{asset('images/shapes/arrow.svg')}}" height="11px" alt="arrow-event">
-                        </a>
+                        @isset($event->link)
+                            <a href="{{$event->link}}">
+                                <span class="ui primary text">VIEW DETAILS</span>
+                                &nbsp;
+                                <img src="{{asset('images/shapes/arrow.svg')}}" height="11px" alt="arrow-event">
+                            </a>
+                        @endisset
                     </div>
                 </div>
             @endforeach

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Round extends Model
 {
@@ -21,4 +22,9 @@ class Round extends Model
         'from' => 'datetime',
         'to'   => 'datetime'
     ];
+
+    public function applications(): HasMany
+    {
+        return $this->hasMany(B2bApplication::class);
+    }
 }

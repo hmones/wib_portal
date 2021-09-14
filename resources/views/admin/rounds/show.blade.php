@@ -9,7 +9,8 @@
                         <strong>Description </strong>
                         <br>
                         <div class="ui grey small message">
-                            <span class="ui black text">{!! $round->description ?? '<span style="color:grey;">Not provided</span>' !!}</span>
+                            <span
+                                class="ui black text">{!! $round->description ?? '<span style="color:grey;">Not provided</span>' !!}</span>
                         </div>
                     </div>
                     <div class="column"><strong>From </strong>
@@ -51,7 +52,9 @@
                     <div class="column"><strong>Link </strong>
                         <br>
                         <div class="ui grey small message">
-                            <a href="{{url('rounds/'.$round->id)}}">{{url('rounds/'.$round->id)}}</a>
+                            <a href="{{route('rounds.service-providers.index', $round)}}">
+                                {{route('rounds.service-providers.index', $round)}}
+                            </a>
                         </div>
                     </div>
                 </div>

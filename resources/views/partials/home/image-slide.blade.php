@@ -4,9 +4,11 @@
             <p class="byline">NEXT EVENT</p>
             <h1 class="ui blue banner header">{{$event->title}}</h1>
             <p class="description">{{$event->description}}</p>
-            <a href="{{$event->link}}" class="ui orange link button">
-                <span class="ui blue text">{{$event->button_text}}</span>
-            </a>
+            @isset($event->link)
+                <a href="{{$event->link}}" class="ui orange link button">
+                    <span class="ui blue text">{{$event->button_text}}</span>
+                </a>
+            @endisset
         </div>
     </div>
     <div class="event details"
@@ -49,9 +51,11 @@
             </div>
         </div>
         <p class="description">{{$event->description}}</p>
-        <a href="{{$event->link}}" class="ui orange link button">
-            <span class="ui blue text">{{$event->button_text}}</span>
-        </a>
+        @isset($event->link)
+            <a href="{{$event->link}}" class="ui orange link button">
+                <span class="ui blue text">{{$event->button_text}}</span>
+            </a>
+        @endisset
         <br><br>
         <img class="diamond shape" src="{{asset('images/shapes/diamond.svg')}}" alt="diamond">
         <img class="rectangle shape" src="{{asset('images/shapes/rectangle.svg')}}" alt="rectangle">

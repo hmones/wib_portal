@@ -11,6 +11,17 @@ class HomePageTest extends TestCase
 {
     use DatabaseTransactions;
 
+    public function test_main_event_displayed_in_image_slider(): void
+    {
+        $event = Event::factory()->create(['from'  => now(), 'to' => now()->addDay(), 'is_main' => true,
+                                           'image' => 'https://www.testImage.com']);
+        Event::factory()->count(3)->create(['is_main' => false, 'image' => 'https://www.otherImage.com']);
+
+        $this->get(route('home'))
+            ->assertSee($event->image)
+            ->assertDontSee('https://www.otherImage.com');
+    }
+
     public function test_homepage_doesnt_display_events_when_no_events(): void
     {
         $this->get(route('home'))
