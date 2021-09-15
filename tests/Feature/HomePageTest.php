@@ -31,13 +31,17 @@ class HomePageTest extends TestCase
 
     public function test_events_are_viewed_successfully_on_homepage(): void
     {
-        [$firstEvent, $secondEvent, $thirdEvent] = Event::factory()->count(3)->create();
+        $mainEvent = Event::factory()->create(['is_main' => true]);
+        $firstEvent = Event::factory()->create(['from' => now()->subDay()]);
+        $secondEvent = Event::factory()->create(['from' => now()->subMonth()]);
+        $thirdEvent = Event::factory()->create(['from' => now()->subYear()]);
 
         $this->get(route('home'))
+            ->assertSee($mainEvent->image)
             ->assertSeeTextInOrder([
-                $firstEvent->title,
-                $firstEvent->location,
-                $firstEvent->description,
+                $mainEvent->title,
+                $mainEvent->location,
+                $mainEvent->description,
                 $firstEvent->location,
                 $firstEvent->title,
                 $secondEvent->location,

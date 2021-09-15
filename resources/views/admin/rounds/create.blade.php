@@ -51,11 +51,8 @@
                                 <label for="status">Round status</label>
                                 <select name="status" id="status">
                                     <option value="{{\App\Models\Round::DRAFT}}">Draft</option>
-                                    <option value="{{\App\Models\Round::PUBLISHED}}">Published</option>
-                                    @isset($round)
-                                        <option value="{{\App\Models\Round::OPEN}}">Draft</option>
-                                        <option value="{{\App\Models\Round::CLOSED}}">Published</option>
-                                    @endisset
+                                    <option value="{{\App\Models\Round::OPEN}}">Open</option>
+                                    <option value="{{\App\Models\Round::CLOSED}}">Closed</option>
                                 </select>
                             </div>
                         </div>

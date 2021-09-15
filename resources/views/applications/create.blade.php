@@ -32,7 +32,7 @@
             <input type="hidden" name="type" value="provider"/>
             <div class="ui hidden divider"></div>
             <div class="two fields">
-                <div class="field">
+                <div class="required field">
                     <label for="entity">Check the company you want to apply with:</label>
                     <div class="ui selection dropdown">
                         <input type="hidden" name="entity_id" id="entity">
@@ -47,18 +47,18 @@
                 </div>
                 <div class="field">
                     <label class="computer only">&nbsp;</label>
-                    <a href="{{route('entity.create')}}" class="ui primary basic button">
+                    <a href="{{route('entity.create')}}" target="_blank" class="ui primary basic button">
                         <i class="plus icon"></i>Register your company
                     </a>
                 </div>
             </div>
-            <div class="field">
+            <div class="required field">
                 <label for="presentation">Please write a short presentation of your company</label>
-                <textarea name="data[presentation]" id="presentation" cols="30" rows="10"></textarea>
+                <textarea required name="data[presentation]" id="presentation" cols="30" rows="10"></textarea>
             </div>
-            <div class="field">
+            <div class="required field">
                 <label for="motivation">What motivates you to be part of the B2B program</label>
-                <textarea name="data[motivation]" id="motivation" cols="30" rows="10"></textarea>
+                <textarea required name="data[motivation]" id="motivation" cols="30" rows="10"></textarea>
             </div>
             <div class="field">
                 <label for="representative">Please mention the name of who will be representing you in case you will not
@@ -73,12 +73,12 @@
                              countrycode=1 :value="auth()->user()->phone_country_code"/>
                 <div class="twelve wide required field">
                     <label for="user[phone]">Phone Number</label>
-                    <input type="text" name="user[phone]" placeholder="e.g. 15444444499" maxlength="15"
+                    <input required type="text" name="user[phone]" placeholder="e.g. 15444444499" maxlength="15"
                            value="{{auth()->user()->phone}}">
                 </div>
             </div>
             <div class="four fields">
-                @foreach (\App\Models\SupportedLink::all() as $link)
+                @foreach ($links as $link)
                     <div class="field">
                         <div class="ui left icon input">
                             <input type="text" placeholder="{{$link->name}} Link" data-type="{{$link->id}}"
@@ -90,9 +90,9 @@
                     </div>
                 @endforeach
             </div>
-            <div class="field">
-                <label for="bio">Profile</label>
-                <textarea id="bio" rows="5" name="user[bio]"
+            <div class="required field">
+                <label for="bio">Your profile</label>
+                <textarea required id="bio" rows="5" name="user[bio]"
                           placeholder="Max. 2500 charachters">{{auth()->user()->bio}}</textarea>
             </div>
             <div class="ui hidden divider"></div>
