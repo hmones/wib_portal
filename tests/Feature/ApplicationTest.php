@@ -75,7 +75,7 @@ class ApplicationTest extends TestCase
 
         $this->actingAs($this->user)
             ->get(route(self::CREATE_ROUTE, $this->round))
-            ->assertRedirect(route('home'));
+            ->assertRedirect(route(self::INDEX_ROUTE, $this->round));
 
         $this->round->update(['status' => Round::CLOSED]);
 
