@@ -67,6 +67,57 @@ class ApplicationTest extends TestCase
             ->assertSessionHas('success', 'An application has been submitted for the same user!');
     }
 
+    public function test_application_cannot_be_viewed_if_round_is_draft_or_closed(): void
+    {
+        $this->round->update(['status' => Round::DRAFT]);
+
+        $this->actingAs($this->user)
+            ->get(route('rounds.service-providers.create', $this->round))
+            ->assertRedirect(route('home'));
+
+        $this->round->update(['status' => Round::CLOSED]);
+
+        $this->actingAs($this->user)
+            ->get(route('rounds.service-providers.create', $this->round))
+            ->assertRedirect(route('rounds.service-providers.index', $this->round));
+    }
+
+    public function test_list_of_providers_cannot_be_viewed_if_round_is_draft_or_open(): void
+    {
+        $this->round->update(['status' => Round::DRAFT]);
+
+        $this->actingAs($this->user)
+            ->get(route('rounds.service-providers.index', $this->round))
+            ->assertRedirect(route('home'));
+
+        $this->round->update(['status' => Round::OPEN]);
+
+        $this->actingAs($this->user)
+            ->get(route('rounds.service-providers.index', $this->round))
+            ->assertRedirect(route('rounds.service-providers.create', $this->round));
+    }
+
+    public function test_list_of_providers_contains_only_accepted_users_when_status_is_closed(): void
+    {
+        $this->round->update(['status' => Round::CLOSED]);
+
+        $application1 = B2bApplication::factory()->create(['status' => B2bApplication::SUBMITTED, 'round_id' => $this->round->id]);
+        $application2 = B2bApplication::factory()->create(['status' => B2bApplication::DECLINED, 'round_id' => $this->round->id]);
+        $application = B2bApplication::factory()->has(User::factory())->has(Entity::factory())->create(['status' => B2bApplication::ACCEPTED, 'round_id' => $this->round->id]);
+
+        $this->actingAs($this->user)
+            ->get(route('rounds.service-providers.index', $this->round))
+            ->assertOk()
+            ->assertSee([$application->user->name, $application->entity->name])
+            ->assertDontSee([$application1->user->name, $application2->user->name]);
+
+        $this->round->update(['status' => Round::OPEN]);
+
+        $this->actingAs($this->user)
+            ->get(route('rounds.service-providers.index', $this->round))
+            ->assertRedirect(route('rounds.service-providers.create', $this->round));
+    }
+
     public function test_admin_can_view_applications(): void
     {
         $application = B2bApplication::factory()->create();

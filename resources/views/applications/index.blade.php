@@ -27,7 +27,7 @@
                             </p>
                             <div style="font-size: 20px; line-height: 30px;padding-top:24px;">
                                 <p>{{$provider->entity->name}}</p>
-                                <p>{{$provider->user->sectors->first()->name}}</p>
+                                <p>{{optional($provider->user->sectors->first())->name}}</p>
                             </div>
                             <div style="text-align: center">
                                 <a href="{{$provider->user->path}}" class="ui black link tiny button">KNOW MORE</a>

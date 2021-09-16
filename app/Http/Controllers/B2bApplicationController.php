@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\B2bApplicationStoreRequest;
 use App\Models\B2bApplication;
-use App\Models\Link;
 use App\Models\Round;
 use App\Models\SupportedLink;
 use App\Models\User;
@@ -19,35 +18,37 @@ class B2bApplicationController extends Controller
 
     public function index(Round $round)
     {
-        if($round->status !== Round::CLOSED) {
-            $route = route('home');
-            $message = 'The B2B round is currently not open for applications';
-
-            if ($round->status === Round::OPEN) {
-                $route = route('rounds.service-providers.create', $round);
-                $message = null;
-            }
-
-            return redirect($route)->with('success', $message);
+        if ($round->status === Round::DRAFT) {
+            return redirect(route('home'))->with('success', 'The B2B round is currently not open for applications');
         }
 
-        $providers = $round->applications()->where('type', 'provider')->get();
+        if ($round->status === Round::OPEN) {
+            return redirect(route('rounds.service-providers.create', $round));
+        }
+
+        $providers = $round->applications()->where('type', 'provider')
+            ->where('status', B2bApplication::ACCEPTED)
+            ->get();
 
         return view('applications.index', compact('providers'));
     }
 
     public function create(Round $round)
     {
-        if ($round->applications()->where('user_id', auth()->id())->count()) {
 
+        if ($round->applications()->where('user_id', auth()->id())->count()) {
             return redirect(route('home'))->with('success', 'An application has been submitted for the same user!');
         }
 
-        $links = SupportedLink::limit(5)->get();
+        if ($round->status === Round::DRAFT) {
+            return redirect(route('home'));
+        }
 
-        return $round->status !== Round::OPEN
-            ? redirect(route('rounds.service-providers.index', $round))
-            : view('applications.create', compact('links'));
+        if ($round->status === Round::CLOSED) {
+            return redirect(route('rounds.service-providers.index', $round));
+        }
+
+        return view('applications.create', ['links' => SupportedLink::limit(5)->get()]);
     }
 
     public function store(Round $round, B2bApplicationStoreRequest $request)
