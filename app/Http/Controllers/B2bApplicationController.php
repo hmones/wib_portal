@@ -35,16 +35,11 @@ class B2bApplicationController extends Controller
 
     public function create(Round $round)
     {
-
         if ($round->applications()->where('user_id', auth()->id())->count()) {
             return redirect(route('home'))->with('success', 'An application has been submitted for the same user!');
         }
 
-        if ($round->status === Round::DRAFT) {
-            return redirect(route('home'));
-        }
-
-        if ($round->status === Round::CLOSED) {
+        if ($round->status === Round::CLOSED || $round->status === Round::DRAFT) {
             return redirect(route('rounds.service-providers.index', $round));
         }
 

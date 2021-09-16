@@ -10,10 +10,12 @@ trait HasValidationRules
 
     protected function linkRules($prefix = null): array
     {
+        $excludeRule = 'exclude_if:' . $prefix . 'links.*.url,null';
+
         return [
-            $prefix . 'links.*'          => 'exclude_if:' . $prefix . 'links.*.url,null|required',
-            $prefix . $this->linksUrlKey => 'exclude_if:' . $prefix . 'links.*.url,null|required|active_url',
-            $prefix . 'links.*.type_id'  => 'exclude_if:' . $prefix . 'links.*.url,null|required|exists:supported_links,id'
+            $prefix . 'links.*'          => $excludeRule . '|required',
+            $prefix . $this->linksUrlKey => $excludeRule . '|required|active_url',
+            $prefix . 'links.*.type_id'  => $excludeRule . '|required|exists:supported_links,id'
         ];
     }
 

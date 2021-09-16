@@ -47,7 +47,7 @@
                 </div>
                 <div class="field">
                     <label class="computer only">&nbsp;</label>
-                    <a href="{{route('entity.create')}}" target="_blank" class="ui primary basic button">
+                    <a href="{{route('entity.create')}}" target="_blank" rel="noopener" class="ui primary basic button">
                         <i class="plus icon"></i>Register your company
                     </a>
                 </div>
