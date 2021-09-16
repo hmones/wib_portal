@@ -11,6 +11,17 @@ class HomePageTest extends TestCase
 {
     use DatabaseTransactions;
 
+    public function test_main_event_displayed_in_image_slider(): void
+    {
+        $event = Event::factory()->create(['from'  => now(), 'to' => now()->addDay(), 'is_main' => true,
+                                           'image' => 'https://www.testImage.com']);
+        Event::factory()->count(3)->create(['is_main' => false, 'image' => 'https://www.otherImage.com']);
+
+        $this->get(route('home'))
+            ->assertSee($event->image)
+            ->assertDontSee('https://www.otherImage.com');
+    }
+
     public function test_homepage_doesnt_display_events_when_no_events(): void
     {
         $this->get(route('home'))
@@ -20,13 +31,17 @@ class HomePageTest extends TestCase
 
     public function test_events_are_viewed_successfully_on_homepage(): void
     {
-        [$firstEvent, $secondEvent, $thirdEvent] = Event::factory()->count(3)->create();
+        $mainEvent = Event::factory()->create(['is_main' => true]);
+        $firstEvent = Event::factory()->create(['from' => now()->subDay()]);
+        $secondEvent = Event::factory()->create(['from' => now()->subMonth()]);
+        $thirdEvent = Event::factory()->create(['from' => now()->subYear()]);
 
         $this->get(route('home'))
+            ->assertSee($mainEvent->image)
             ->assertSeeTextInOrder([
-                $firstEvent->title,
-                $firstEvent->location,
-                $firstEvent->description,
+                $mainEvent->title,
+                $mainEvent->location,
+                $mainEvent->description,
                 $firstEvent->location,
                 $firstEvent->title,
                 $secondEvent->location,

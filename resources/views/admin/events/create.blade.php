@@ -74,6 +74,12 @@
                                        placeholder="Event button text..."
                                        value="{{$event->button_text ?? old('button_text')}}"/>
                             </div>
+                            <div class="inline field">
+                                <input class="ui toggle checkbox" id="is_main" type="checkbox" name="is_main"
+                                       checked="{{$event->is_main ?? old('is_main')}}"
+                                       value="1" />
+                                <label for="is_main">Highlight on Homepage</label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -89,5 +95,6 @@
 @section('scripts')
     <script>
         $('.ui.calendar').calendar();
+        $('.ui.checkbox').checkbox();
     </script>
 @endsection

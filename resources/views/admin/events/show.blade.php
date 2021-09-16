@@ -20,40 +20,56 @@
                         <strong>Description </strong>
                         <br>
                         <div class="ui grey small message">
-                            <span class="ui black text">{!! $event->description ?? '<span style="color:grey;">Not provided</span>' !!}</span>
+                            <span
+                                class="ui black text">{!! $event->description ?? '<span style="color:grey;">Not provided</span>' !!}</span>
                         </div>
-                    </div>
-                    <div class="column"><strong>Location </strong>
+                        <br>
+                        <strong>From </strong>
+                        <br>
+                        <div class="ui grey small message">
+                            <span class="ui black text">{{$event->from}}</span>
+                        </div>
+                        <br>
+                        <strong>To </strong>
+                        <br>
+                        <div class="ui grey small message">
+                            <span class="ui black text">{{$event->to}}</span>
+                        </div>
+                        <br>
+                        <strong>Location </strong>
                         <br>
                         <div class="ui grey small message">
                             <span class="ui black text">{{$event->location}}</span>
                         </div>
                     </div>
-                    <div class="column"><strong>From </strong>
+                    <div class="column">
+                        <strong>Button Text </strong>
                         <br>
                         <div class="ui grey small message">
-                            <span class="ui black text">{{$event->from}}</span>
+                            <span
+                                class="ui black text">{!! $event->button_text ?? '<span style="color:grey;">Not provided</span>' !!}</span>
                         </div>
-                    </div>
-                    <div class="column"><strong>To </strong>
+                        <br>
+                        <strong>Link </strong>
                         <br>
                         <div class="ui grey small message">
-                            <span class="ui black text">{{$event->to}}</span>
+                            <span
+                                class="ui black text">{!! $event->link ?? '<span style="color:grey;">Not provided</span>' !!}</span>
                         </div>
-                    </div>
-                    <div class="column"><strong>Button Text </strong>
+                        <br>
+                        <strong>is Highlighted </strong>
                         <br>
                         <div class="ui grey small message">
-                            <span class="ui black text">{{$event->button_text}}</span>
+                            <span class="ui black text">{{$event->is_main ? 'Yes' : 'No'}}</span>
                         </div>
-                    </div>
-                    <div class="column"><strong>Created at </strong>
+                        <br>
+                        <strong>Created at </strong>
                         <br>
                         <div class="ui grey small message">
                             <span class="ui black text">{{$event->created_at}}</span>
                         </div>
-                    </div>
-                    <div class="column"><strong>Updated at </strong>
+                        <br>
+                        <strong>Updated at </strong>
                         <br>
                         <div class="ui grey small message">
                             <span class="ui black text">{{$event->updated_at}}</span>

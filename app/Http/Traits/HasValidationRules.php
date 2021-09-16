@@ -8,12 +8,14 @@ trait HasValidationRules
     protected string $linksUrlKey = 'links.*.url';
     protected string $sectorsIdKey = 'sectors.*.sector_id';
 
-    protected function linkRules(): array
+    protected function linkRules($prefix = null): array
     {
+        $excludeRule = 'exclude_if:' . $prefix . 'links.*.url,null';
+
         return [
-            'links.*'          => 'exclude_if:links.*.url,null|required',
-            $this->linksUrlKey => 'exclude_if:links.*.url,null|required|active_url',
-            'links.*.type_id'  => 'exclude_if:links.*.url,null|required|exists:supported_links,id'
+            $prefix . 'links.*'          => $excludeRule . '|required',
+            $prefix . $this->linksUrlKey => $excludeRule . '|required|active_url',
+            $prefix . 'links.*.type_id'  => $excludeRule . '|required|exists:supported_links,id'
         ];
     }
 
@@ -71,7 +73,8 @@ trait HasValidationRules
             'button_text' => 'required_with:link|nullable',
             'location'    => 'nullable',
             'from'        => 'required|date|before:to',
-            'to'          => 'required|date|after:from'
+            'to'          => 'required|date|after:from',
+            'is_main'     => 'sometimes|boolean'
         ];
     }
 

@@ -106,13 +106,12 @@ class RoundTest extends TestCase
             ->assertSessionHasErrors(['max_applicants']);
     }
 
-    public function test_round_create_page_see_only_draft_and_published_status(): void
+    public function test_round_create_page_see_all_status(): void
     {
         $this->actingAs($this->admin, 'admin')
             ->get(route('admin.rounds.create'))
             ->assertOk()
-            ->assertSee([Round::DRAFT, Round::PUBLISHED])
-            ->assertDontSee([Str::title(Round::OPEN), Round::CLOSED]);
+            ->assertSee(Round::STATUSES);
     }
 
     public function test_round_edit_page_see_all_statuses(): void

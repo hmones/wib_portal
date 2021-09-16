@@ -7,7 +7,7 @@
     <script src="{{asset('js/home.js')}}"></script>
 @endsection
 @section('content')
-    @includeWhen($events->count() > 0, 'partials.home.image-slide', ['event' => $events->first()])
+    @includeWhen($mainEvent, 'partials.home.image-slide', ['event' => $mainEvent])
     <div class="ui hidden divider"></div>
     @includeWhen($events->count() > 0, 'partials.separator')
     @includeWhen($events->count() > 0, 'partials.home.upcoming-events')

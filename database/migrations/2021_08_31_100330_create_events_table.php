@@ -18,6 +18,7 @@ class CreateEventsTable extends Migration
             $table->string('image')->nullable();
             $table->string('link')->nullable();
             $table->string('button_text')->nullable();
+            $table->boolean('is_main')->default(false);
             $table->timestamps();
         });
     }
