@@ -41,13 +41,13 @@ class B2bApplicants extends Component
 
         $application->update(['status' => data_get($this->status, $application->id)]);
 
-        session()->flash('message', 'Application for '.$application->user->name.' has been set to '.data_get($this->status, $application->id));
+        session()->flash('message', 'Application for ' . $application->user->name . ' has been set to ' . data_get($this->status, $application->id));
     }
 
     public function destroy(B2bApplication $application): void
     {
         $application->delete();
 
-        session()->flash('message', 'Application for '.$application->user->name.' has been deleted');
+        session()->flash('message', 'Application for ' . $application->user->name . ' has been deleted');
     }
 }

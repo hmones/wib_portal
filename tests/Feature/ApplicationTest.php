@@ -91,20 +91,6 @@ class ApplicationTest extends TestCase
         $this->assertNull(B2bApplication::find($application->id));
     }
 
-    public function test_admin_can_update_applications(): void
-    {
-        $application = B2bApplication::factory()->create(['status' => B2bApplication::SUBMITTED]);
-
-        Livewire::test(B2bApplicants::class)
-            ->set('status.'.$application->id, B2bApplication::DECLINED)
-            ->call('update', $application->id)
-            ->assertSeeText('Application for '.$application->user->name.' has been set to '.B2bApplication::DECLINED);
-
-        $application->refresh();
-
-        $this->assertEquals(B2bApplication::DECLINED, $application->status);
-    }
-
     protected function setUp(): void
     {
         parent::setUp();
