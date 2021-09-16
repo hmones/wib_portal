@@ -82,5 +82,5 @@
         @endforeach
         </tbody>
     </table>
-
+    {{ $users->links('vendor.pagination.semantic-ui-livewire') }}
 </div>

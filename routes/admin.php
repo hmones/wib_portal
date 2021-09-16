@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ImpersonateController;
+use App\Http\Controllers\Admin\B2bApplicationController;
 use App\Http\Controllers\EntityController;
 use App\Http\Controllers\EntityTypeController;
 use App\Http\Controllers\EventController;
@@ -18,6 +19,7 @@ Route::get('/options', [DashboardController::class, 'indexOptions'])->name('opti
 Route::get('/users', [DashboardController::class, 'indexUsers'])->name('users');
 Route::get('/entities', [DashboardController::class, 'indexEntities'])->name('entities');
 Route::resource('admins', AdminController::class)->only(['index', 'edit', 'update']);
+Route::resource('b2b-applications', B2bApplicationController::class)->only('index');
 Route::resource('impersonate', ImpersonateController::class)->only(['store', 'index']);
 Route::resource('entityType', EntityTypeController::class)->except(['index', 'create', 'show', 'edit']);
 Route::resource('sector', SectorController::class)->except(['index', 'create', 'show', 'edit']);

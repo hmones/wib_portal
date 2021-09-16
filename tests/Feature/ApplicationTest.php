@@ -2,12 +2,15 @@
 
 namespace Tests\Feature;
 
+use App\Http\Livewire\B2bApplicants;
+use App\Models\Admin;
 use App\Models\B2bApplication;
 use App\Models\Entity;
 use App\Models\Link;
 use App\Models\Round;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Livewire\Livewire;
 use Tests\TestCase;
 
 class ApplicationTest extends TestCase
@@ -64,10 +67,49 @@ class ApplicationTest extends TestCase
             ->assertSessionHas('success', 'An application has been submitted for the same user!');
     }
 
+    public function test_admin_can_view_applications(): void
+    {
+        $application = B2bApplication::factory()->create();
+
+        $this->actingAs($this->admin, 'admin')
+            ->get(route('admin.b2b-applications.index'))
+            ->assertSeeInOrder([
+                $application->user->name,
+                $application->user->email,
+                $application->entity->name,
+                $application->created_at->diffForHumans(),
+                $application->updated_at->diffForHumans()
+            ]);
+    }
+
+    public function test_admin_can_delete_applications(): void
+    {
+        $application = B2bApplication::factory()->create();
+
+        Livewire::test(B2bApplicants::class)->call('destroy', $application->id);
+
+        $this->assertNull(B2bApplication::find($application->id));
+    }
+
+    public function test_admin_can_update_applications(): void
+    {
+        $application = B2bApplication::factory()->create(['status' => B2bApplication::SUBMITTED]);
+
+        Livewire::test(B2bApplicants::class)
+            ->set('status.'.$application->id, B2bApplication::DECLINED)
+            ->call('update', $application->id)
+            ->assertSeeText('Application for '.$application->user->name.' has been set to '.B2bApplication::DECLINED);
+
+        $application->refresh();
+
+        $this->assertEquals(B2bApplication::DECLINED, $application->status);
+    }
+
     protected function setUp(): void
     {
         parent::setUp();
         $this->round = Round::factory()->create();
         $this->user = User::factory()->has(Link::factory()->count(5))->create();
+        $this->admin = Admin::factory()->create();
     }
 }

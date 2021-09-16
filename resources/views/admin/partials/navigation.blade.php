@@ -46,6 +46,10 @@
                class="item">
                 <i class="calendar icon"></i>Manage B2B rounds
             </a>
+            <a href="{{route('admin.b2b-applications.index')}}"
+               class="item">
+                <i class="file outline icon"></i>Manage B2B applications
+            </a>
         </div>
     </div>
     <div class="item">

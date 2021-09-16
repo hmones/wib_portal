@@ -50,9 +50,12 @@
                             <div class="field">
                                 <label for="status">Round status</label>
                                 <select name="status" id="status">
-                                    <option value="" {{isset($round->status) ? '' : 'selected'}} disabled hidden>Select status ...</option>
+                                    <option value="" {{isset($round->status) ? '' : 'selected'}} disabled hidden>Select
+                                        status ...
+                                    </option>
                                     @foreach(\App\Models\Round::STATUSES as $status)
-                                        <option value="{{$status}}" {{($round->status ?? old('status')) === $status ? 'selected' : ''}}>
+                                        <option
+                                            value="{{$status}}" {{($round->status ?? old('status')) === $status ? 'selected' : ''}}>
                                             {{Str::title($status)}}
                                         </option>
                                     @endforeach
