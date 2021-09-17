@@ -7,6 +7,7 @@ use App\Models\B2bApplication;
 use App\Models\Round;
 use App\Models\SupportedLink;
 use App\Models\User;
+use App\Notifications\B2bApplicationNotification;
 use Illuminate\Support\Arr;
 
 class B2bApplicationController extends Controller
@@ -14,14 +15,11 @@ class B2bApplicationController extends Controller
     public function __construct()
     {
         $this->middleware(['web', 'auth', 'verified'])->only(['index', 'store', 'create']);
+        $this->middleware('rounds')->only(['index', 'create']);
     }
 
     public function index(Round $round)
     {
-        if ($round->status === Round::DRAFT) {
-            return redirect(route('home'))->with('success', 'The B2B round is currently not open for applications');
-        }
-
         if ($round->status === Round::OPEN) {
             return redirect(route('rounds.service-providers.create', $round));
         }
@@ -35,11 +33,7 @@ class B2bApplicationController extends Controller
 
     public function create(Round $round)
     {
-        if ($round->applications()->where('user_id', auth()->id())->count()) {
-            return redirect(route('home'))->with('success', 'An application has been submitted for the same user!');
-        }
-
-        if ($round->status === Round::CLOSED || $round->status === Round::DRAFT) {
+        if ($round->status === Round::CLOSED) {
             return redirect(route('rounds.service-providers.index', $round));
         }
 
@@ -57,14 +51,17 @@ class B2bApplicationController extends Controller
             $user->links()->createMany(data_get($data, 'links'));
         }
 
-        B2bApplication::create(array_merge(Arr::except($data, 'user'), [
+        $application = B2bApplication::create(array_merge(Arr::except($data, 'user'), [
             'round_id' => $round->id,
-            'user_id'  => $user->id
+            'user_id'  => $user->id,
+            'status'   => B2bApplication::SUBMITTED
         ]));
+
+        $user->notify(new B2bApplicationNotification($application));
 
         return redirect(route('home'))->with(
             'success',
-            'Your application has been submitted successfully, you will hear back from us soon!'
+            'Your application was submitted successfully'
         );
     }
 }

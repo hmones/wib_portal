@@ -105,11 +105,11 @@
                         {{$application->entity->name}}
                     </td>
                     <td>
-                        <select name="status" wire:model="status.{{$application->id}}"
+                        <select name="statuses[]" wire:model="statuses.{{$application->id}}"
                                 wire:change="update({{$application->id}})" class="ui small dropdown">
                             @foreach(\App\Models\B2bApplication::STATUSES as $status)
                                 <option
-                                    value="{{$status}}" {{$application->status === data_get($status, $application->id) ? 'selected' : ''}}>
+                                    value="{{$status}}" {{$application->status === data_get($statuses, $application->id) ? 'selected' : ''}}>
                                     {{Str::title($status)}}
                                 </option>
                             @endforeach
