@@ -93,7 +93,7 @@
             </tr>
             </thead>
             <tbody>
-            @foreach ($applications as $application)
+            @forelse ($applications as $application)
                 <tr>
                     <td>
                         {{Str::of($application->user->name)->limit(50, $end='..')}}
@@ -130,7 +130,13 @@
                         </a>
                     </td>
                 </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td class="center aligned" colspan="7">
+                        <p>No applications created yet!</p>
+                    </td>
+                </tr>
+            @endforelse
             </tbody>
         </table>
         {{ $applications->links('vendor.pagination.semantic-ui-livewire') }}
