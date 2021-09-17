@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\B2bApplication;
+use App\Notifications\B2bApplicationNotification;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -11,12 +12,12 @@ class B2bApplicants extends Component
 {
     use WithPagination;
 
-    public $application = null, $status = [], $isOpen = false;
+    public $application = null, $statuses = [], $isOpen = false;
 
     public function render()
     {
         $applications = B2bApplication::latest()->paginate(2);
-        $this->status = $applications->pluck('status', 'id')->toArray();
+        $this->statuses = $applications->pluck('status', 'id')->toArray();
 
         return view('livewire.b2b-applicants', compact('applications'));
     }
@@ -36,12 +37,18 @@ class B2bApplicants extends Component
     public function update(B2bApplication $application): void
     {
         $this->validate([
-            'status.' . $application->id => ['required', Rule::in(B2bApplication::STATUSES)]
+            'statuses.' . $application->id => ['required', Rule::in(B2bApplication::STATUSES)]
         ]);
 
-        $application->update(['status' => data_get($this->status, $application->id)]);
+        $status = data_get($this->statuses, $application->id);
 
-        session()->flash('message', 'Application for ' . $application->user->name . ' has been set to ' . data_get($this->status, $application->id));
+        $application->update(compact('status'));
+
+        if (in_array($status, [B2bApplication::ACCEPTED, B2bApplication::DECLINED])) {
+            auth()->user()->notify(new B2bApplicationNotification($application));
+        }
+
+        session()->flash('message', 'Application for ' . $application->user->name . ' has been set to ' . $status);
     }
 
     public function destroy(B2bApplication $application): void

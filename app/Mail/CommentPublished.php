@@ -14,23 +14,12 @@ class CommentPublished extends Mailable implements ShouldQueue
 
     public $post, $comment;
 
-    /**
-     * Create a new message instance.
-     * @param Post $post
-     * @param Comment $comment
-     * @return void
-     */
     public function __construct(Post $post, Comment $comment)
     {
         $this->post = $post;
         $this->comment = $comment;
     }
 
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
     public function build()
     {
         return $this->subject('Someone commented on your post')

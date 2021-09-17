@@ -24,4 +24,17 @@ class B2bApplicationStoreRequest extends FormRequest
             'user.bio'                => $requiredStringRule,
         ], $this->linkRules('user.'));
     }
+
+    public function attributes(): array
+    {
+        return [
+            'entity_id'               => 'company',
+            'data.presentation'       => 'company\'s presentation',
+            'data.motivation'         => 'motivation statement',
+            'data.representation'     => 'name of representative',
+            'user.phone_country_code' => 'phone country code',
+            'user.phone'              => 'phone number',
+            'user.bio'                => 'profile',
+        ];
+    }
 }
