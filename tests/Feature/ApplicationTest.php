@@ -24,6 +24,7 @@ class ApplicationTest extends TestCase
 
     protected const CREATE_ROUTE = 'rounds.service-providers.create';
     protected const INDEX_ROUTE = 'rounds.service-providers.index';
+    protected const CLOSED_ROUND_MESSAGE = 'This B2B round is now closed';
     protected $round, $user;
 
     public function test_guests_cannot_access_application(): void
@@ -125,7 +126,7 @@ class ApplicationTest extends TestCase
         $this->actingAs($this->user)
             ->get(route(self::INDEX_ROUTE, $this->round))
             ->assertRedirect(route('home'))
-            ->assertSessionHas('success', 'This B2B round is now closed');;
+            ->assertSessionHas('success', self::CLOSED_ROUND_MESSAGE);
 
         $this->round->update(['status' => Round::OPEN]);
 
@@ -141,12 +142,12 @@ class ApplicationTest extends TestCase
         $this->actingAs($this->user)
             ->get(route(self::INDEX_ROUTE, $this->round))
             ->assertRedirect(route('home'))
-            ->assertSessionHas('success', 'This B2B round is now closed');
+            ->assertSessionHas('success', self::CLOSED_ROUND_MESSAGE);
 
         $this->actingAs($this->user)
             ->get(route(self::CREATE_ROUTE, $this->round))
             ->assertRedirect(route('home'))
-            ->assertSessionHas('success', 'This B2B round is now closed');
+            ->assertSessionHas('success', self::CLOSED_ROUND_MESSAGE);
     }
 
     public function test_application_cannot_be_accessed_when_max_number_of_applicants_are_reached(): void
