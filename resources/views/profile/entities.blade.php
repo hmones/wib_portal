@@ -13,12 +13,12 @@
             </div>
         </div>
         <br><br>
-        <table class="ui middle aligned centered very basic table">
+        <table aria-label="user owned companies" class="ui middle aligned centered very basic table">
             <thead>
             <tr>
-                <th class="ui blue header five wide column">Company/Organization</th>
-                <th class="ui blue header four wide column">Affiliation</th>
-                <th class="ui blue header three wide column">Actions</th>
+                <th scope="col" class="ui blue header five wide column">Company/Organization</th>
+                <th scope="col" class="ui blue header four wide column">Affiliation</th>
+                <th scope="col" class="ui blue header three wide column">Actions</th>
             </tr>
             </thead>
             @forelse($owned_entities as $entity)
@@ -58,12 +58,12 @@
         <h1 class="ui blue page header">Network Companies</h1>
         <div class="page subheader">Register your affiliation to other companies and organizations in the network</div>
         <br>
-        <table class="ui middle aligned centered very basic table">
+        <table class="ui middle aligned centered very basic table" aria-label="user affiliation to network companies">
             <thead>
             <tr>
-                <th class="ui blue header five wide">Company/Organization</th>
-                <th class="ui blue header four wide">Affiliation</th>
-                <th class="ui blue header three wide">Actions</th>
+                <th scope="col" class="ui blue header five wide">Company/Organization</th>
+                <th scope="col" class="ui blue header four wide">Affiliation</th>
+                <th scope="col" class="ui blue header three wide">Actions</th>
             </tr>
             </thead>
             @forelse($other_entities as $entity)
