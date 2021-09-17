@@ -34,7 +34,6 @@ class EventsTest extends TestCase
                 $event->to->format('d-m-Y'),
                 $event->location,
                 $event->created_at->diffForHumans(),
-                $event->updated_at->diffForHumans(),
             ]);
     }
 

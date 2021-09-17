@@ -2,9 +2,10 @@
 @section('title', 'Edit business or organization details')
 @section('content')
 <div class="ui container">
-    <h1 class="ui blue header">
-        Edit business or organization's details
+    <h1 class="ui blue page header">
+        Update your company
     </h1>
+    <br>
     @include('partials.entity.registrationForm')
     <br><br>
 </div>

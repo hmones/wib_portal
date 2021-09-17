@@ -2,147 +2,147 @@
 @section('title','My Companies and Organizations')
 @section('content')
     @include('partials.semantic-component', ['componentName' => 'table'])
-<br>
-<div class="ui centered container">
-    <h1 class="ui blue header"><i class="stop wib bullet icon"></i>My Companies and Organizations</h1>
-    <br>
-    <table class="ui middle aligned centered center aligned very basic table">
-        <thead>
-            <tr>
-                <th colspan="2" class="ui blue center aligned header">Organization name</th>
-                <th class="ui blue center aligned header">Relationship to the organization</th>
-                <th class="ui blue center aligned header">Actions</th>
-            </tr>
-        </thead>
-        @forelse($owned_entities as $entity)
-        <tr>
-            <td>
-                @if($entity->image)
-                <img class="ui tiny circular centered image" src="{{$entity->image}}" alt="{{$entity->name}}">
-                @else
-                <i class="circular grey inverted image big icon"></i>
-                @endif
-
-            </td>
-            <td>
-                {{$entity->name}}
-            </td>
-            <td>
-                {{isset($entity->users()->where('id',Auth::id())->first()->pivot->relation_type)?$entity->users()->where('id',Auth::id())->first()->pivot->relation_type:'No relationship'}}
-            </td>
-            <td>
-                <a href="{{$entity->path . '/edit'}}" class="ui basic blue button"> <i class="pencil icon"></i> Edit</a>
-                <a data-text="{{$entity->path}}" class="ui basic red button delete entity"> <i class="trash icon"></i>
-                    Remove</a>
-            </td>
-        </tr>
-        @empty
-            <tr>
-                <td colspan="4">You have no organization registered</td>
-            </tr>
-        @endforelse
-        <tr class="ui table">
-            <td colspan="4">
-                <div class="ui basic centered center aligned basic segment">
-                    <a class="ui teal large button" href="{{route('entity.create')}}"> <i class="tasks icon"></i>
-                        Register a new organization</a>
+    @include('partials.semantic-component', ['componentName' => 'api'])
+    <div class="ui centered container">
+        <div class="ui grid">
+            <div class="ui seven wide column">
+                <h1 class="ui blue page header">Your Companies</h1>
+                <div class="page subheader">Register your companies and organizations below and access more features on
+                    the portal
                 </div>
-            </td>
-        </tr>
-    </table>
-    <br><br>
-    <h1 class="ui blue header"><i class="stop wib bullet icon"></i>Other Companies and Organizations</h1>
-    <br>
-    <table class="ui middle aligned centered very basic table">
-        <thead>
-        <tr>
-            <th class="ui blue header">Logo</th>
-            <th class="ui blue header">Organization name</th>
-            <th class="ui blue header">Relationship to the organization</th>
-            <th class="ui blue header">Actions</th>
-        </tr>
-        </thead>
-        @forelse($other_entities as $entity)
+            </div>
+        </div>
+        <br><br>
+        <table aria-label="user owned companies" class="ui middle aligned centered very basic table">
+            <thead>
             <tr>
-                <td>
-                    @if($entity->image)
-                        <img class="ui tiny circular image" src="{{$entity->image}}" alt="{{$entity->name}}">
-                    @else
-                        <i class="circular grey inverted image big icon"></i>
-                    @endif
+                <th scope="col" class="ui blue header five wide column">Company/Organization</th>
+                <th scope="col" class="ui blue header four wide column">Affiliation</th>
+                <th scope="col" class="ui blue header three wide column">Actions</th>
+            </tr>
+            </thead>
+            @forelse($owned_entities as $entity)
+                <tr>
+                    <td>
+                        {{$entity->name}}
+                    </td>
+                    <td>
+                        {{isset($entity->users()->where('id',Auth::id())->first()->pivot->relation_type)?$entity->users()->where('id',Auth::id())->first()->pivot->relation_type:'No relationship'}}
+                    </td>
+                    <td>
+                        <a href="{{$entity->path . '/edit'}}" class="ui basic blue small button">
+                            <i class="pencil icon"></i> Edit
+                        </a>
+                        <a data-text="{{$entity->path}}" class="ui basic red small button">
+                            <i class="trash icon"></i> Remove
+                        </a>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="4">
+                        <div class="ui center aligned basic segment">You have no organizations registered</div>
+                    </td>
+                </tr>
+            @endforelse
+            <tr class="ui table">
+                <td colspan="4">
+                    <div class="ui basic centered center aligned basic segment">
+                        <a class="ui teal large button" href="{{route('entity.create')}}"> <i class="tasks icon"></i>
+                            Register a new organization</a>
+                    </div>
                 </td>
-                <td>
-                    {{$entity->name}}
-                </td>
-                <td>
-                    {{isset($entity->users()->find(Auth::id())->pivot->relation_type)?$entity->users()->find(Auth::id())->pivot->relation_type:'No relationship'}}
-                </td>
-                <td>
-                    <a data-text="{{$entity->id}}" class="ui fluid basic red button disassociate entity"> <i
+            </tr>
+        </table>
+        <br><br>
+        <h1 class="ui blue page header">Network Companies</h1>
+        <div class="page subheader">Register your affiliation to other companies and organizations in the network</div>
+        <br>
+        <table class="ui middle aligned centered very basic table" aria-label="user affiliation to network companies">
+            <thead>
+            <tr>
+                <th scope="col" class="ui blue header five wide">Company/Organization</th>
+                <th scope="col" class="ui blue header four wide">Affiliation</th>
+                <th scope="col" class="ui blue header three wide">Actions</th>
+            </tr>
+            </thead>
+            @forelse($other_entities as $entity)
+                <tr>
+                    <td>
+                        {{$entity->name}}
+                    </td>
+                    <td>
+                        {{isset($entity->users()->find(Auth::id())->pivot->relation_type)?$entity->users()->find(Auth::id())->pivot->relation_type:'No relationship'}}
+                    </td>
+                    <td>
+                        <a data-text="{{$entity->id}}" class="ui basic red button disassociate entity"> <i
                                 class="trash icon"></i> Remove</a>
-                </td>
-            </tr>
-        @empty
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="4">
+                        <div class="ui center aligned basic segment">
+                            You have no affiliated companies or organizations
+                        </div>
+                    </td>
+                </tr>
+            @endforelse
             <tr>
-                <td colspan="4">You have no organization registered</td>
+                <form id="entity_associate_form"
+                      action="{{route('profile.entities.associate',['profile'=> Auth::user()])}}"
+                      method="POST">
+                    @csrf
+                    <td>
+                        <div class="required field">
+                            <div id="entity_search_dropdown"
+                                 class="ui fluid search selection dropdown entity_search_dropdown @error('other_entity_name') error @enderror">
+                                <input required type="hidden" name="other_entity_name">
+                                <i class="search icon" style="padding-top:10px;"></i>
+                                <div class="default text">Search for a registered organization</div>
+                                <div class="menu">
+                                    <div class="item">Select an organization</div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="required field">
+                            <div
+                                class="ui fluid search selection dropdown @error('other_entity_relation') error @enderror">
+                                <input required type="hidden" name="other_entity_relation">
+                                <i class="dropdown icon"></i>
+                                <div class="default text">What is your relation to the organization?</div>
+                                <div class="menu">
+                                    <div class="item">Select relationship</div>
+                                    @foreach ($relations as $relation)
+                                        <div class="item" data-value="{{$relation}}">{{$relation}}</div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <button type="submit" class="ui teal fluid button"><i class="tasks icon"></i> Add</button>
+                    </td>
+                </form>
             </tr>
-        @endforelse
-        <tr>
-            <form id="entity_associate_form" action="{{route('profile.entities.associate',['profile'=> Auth::user()])}}"
-                  method="POST">
-                @csrf
-                <td>
-                    <i class="circular grey inverted image big icon"></i>
-                </td>
-                <td>
-                    <div class="required field">
-                        <div id="entity_search_dropdown"
-                             class="ui fluid search selection dropdown entity_search_dropdown @error('other_entity_name') error @enderror">
-                            <input required type="hidden" name="other_entity_name">
-                            <i class="search icon" style="padding-top:10px;"></i>
-                            <div class="default text">Search for a registered organization</div>
-                            <div class="menu">
-                                <div class="item">Select an organization</div>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <div class="required field">
-                        <div class="ui fluid search selection dropdown @error('other_entity_relation') error @enderror">
-                            <input required type="hidden" name="other_entity_relation">
-                            <i class="dropdown icon"></i>
-                            <div class="default text">What is your relation to the organization?</div>
-                            <div class="menu">
-                                <div class="item">Select relationship</div>
-                                @foreach ($relations as $relation)
-                                <div class="item" data-value="{{$relation}}">{{$relation}}</div>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <button type="submit" class="ui teal fluid button"><i class="tasks icon"></i> Add</button>
-                </td>
-            </form>
-        </tr>
-    </table>
-</div>
-<br><br><br>
-<form id="entity_disassociate" action="" method="POST">
-    @csrf
-    @method('POST')
-</form>
-<form id="entity_delete" action="" method="POST">
-    @csrf
-    @method('DELETE')
-</form>
+        </table>
+    </div>
+    <br><br><br>
+    <form id="entity_disassociate" action="" method="POST">
+        @csrf
+        @method('POST')
+    </form>
+    <form id="entity_delete" action="" method="POST">
+        @csrf
+        @method('DELETE')
+    </form>
 @endsection
 
 @section('scripts')
-<script type="application/javascript">
-    $('.ui.basic.red.button.disassociate.entity').click(function () {
+    <script type="application/javascript">
+        $('.ui.basic.red.button.disassociate.entity').click(function () {
             let disassociated_entity = $(this).attr('data-text');
             if (disassociated_entity !== '') {
                 let disassociate_url = '/profile/entities/' + disassociated_entity + '/disassociate';
@@ -245,5 +245,5 @@
                 }
             }
         });
-</script>
+    </script>
 @endsection

@@ -10,19 +10,16 @@
         <div class="ui hidden divider"></div>
         <div class="ui stackable grid">
             <div class="ui four wide column">
-                @include('partials.home.service-card', ['link' => route('messenger'), 'icon' => 'comment outline', 'title' => 'Messaging', 'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce non lacus auctor, vestibulum leo ac, elementum elit.'])
+                @include('partials.home.service-card', ['link' => route('profile.index'), 'icon' => 'address book outline', 'title' => 'Business Directory', 'content' => 'WiB portal enables women entrepreneurs to search for and find business partners by accessing profiles of over 400 businesswomen from the MENA Region.'])
             </div>
             <div class="ui four wide column">
-                @include('partials.home.service-card', ['link' => route('profile.index'), 'icon' => 'address book outline', 'title' => 'Business Women Directory', 'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce non lacus auctor, vestibulum leo ac, elementum elit.'])
+                @include('partials.home.service-card', ['link' => route('entity.index'), 'icon' => 'building outline', 'title' => 'Company Directory', 'content' => 'WiB portal enables women entrepreneurs to search for and find business partners by accessing profiles of over 400 companies from the MENA Region.'])
             </div>
             <div class="ui four wide column">
-                @include('partials.home.service-card', ['link' => route('entity.index'), 'icon' => 'building outline', 'title' => 'Company Directory', 'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce non lacus auctor, vestibulum leo ac, elementum elit.'])
+                @include('partials.home.service-card', ['link' => '#', 'icon' => 'calendar alternate outline', 'title' => 'Networking Events', 'content' => 'The portal allows businesswomen to take part of the network events and stay informed about upcoming activities, in particular the regular online B2B events.'])
             </div>
             <div class="ui four wide column">
-                @include('partials.home.service-card', ['link' => route('post.index'), 'icon' => 'edit outline', 'title' => 'Posting', 'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce non lacus auctor, vestibulum leo ac, elementum elit.'])
-            </div>
-            <div class="ui four wide column">
-                @include('partials.home.service-card', ['link' => '#', 'icon' => 'calendar alternate outline', 'title' => 'Networking Events', 'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce non lacus auctor, vestibulum leo ac, elementum elit.'])
+                @include('partials.home.service-card', ['link' => null, 'icon' => 'chart bar outline', 'title' => 'Data Analysis', 'content' => 'The portal is a rich and diverse platform of businesswomen in the MENA Region, this allows to have access to robust data about women entrepreneurship in the region.'])
             </div>
         </div>
         <div class="ui hidden divider"></div>
