@@ -4,17 +4,22 @@
     @include('partials.semantic-component', ['componentName' => 'progress'])
     <div class="ui centered container">
         <div class="ui padded basic segment" style="padding: 0px;">
-            <div class="ui right floated center aligned basic segment" style="width: 25%;margin-top:-7px;">
-                <span
-                    style="position: absolute;font-size: .9375em;font-weight: 700;left: -122px;">Profile Completion</span>
+            <div class="ui grid">
+                <div class="seven wide column">
+                    <h1 class="ui blue page header">Account</h1>
+                    <div class="page subheader">Keep your information up to date and control your account settings
+                        here
+                    </div>
+                </div>
+            </div>
+            <div class="ui center aligned basic segment">
                 <div class="ui active blue progress" data-percent="{{$user->data_percent}}">
                     <div class="bar">
                         <div class="progress"></div>
                     </div>
+                    <div class="label">Profile completion</div>
                 </div>
             </div>
-            <h1 class="ui blue header"><i class="stop wib bullet icon"></i>My Account</h1>
-            <br>
             <div class="ui fluid stackable steps">
                 <div class="active step" id="personal_info">
                     <i class="address card outline blue icon"></i>

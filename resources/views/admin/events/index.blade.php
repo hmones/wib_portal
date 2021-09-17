@@ -15,8 +15,8 @@
                 <th scope="col" class="one wide">From</th>
                 <th scope="col" class="one wide">To</th>
                 <th scope="col" class="one wide">Location</th>
+                <th scope="col" class="one wide">Highlighted?</th>
                 <th scope="col" class="one wide">Created at</th>
-                <th scope="col" class="one wide">Updated at</th>
                 <th scope="col" class="one wide">Action</th>
             </tr>
             </thead>
@@ -38,12 +38,15 @@
                         {{$event->location}}
                     </td>
                     <td>
-                        {{$event->created_at->diffForHumans()}}
+                        {{$event->is_main ? 'Yes' : 'No'}}
                     </td>
                     <td>
-                        {{$event->updated_at->diffForHumans()}}
+                        {{$event->created_at->diffForHumans()}}
                     </td>
                     <td class="center aligned">
+                        <a href="{{route('admin.events.show', $event)}}">
+                            <i class="eye blue icon"></i>
+                        </a>
                         <a href="{{route('admin.events.edit', $event)}}">
                             <i class="pencil blue icon"></i>
                         </a>

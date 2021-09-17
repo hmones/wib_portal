@@ -18,11 +18,7 @@
                             {{$event->title}}
                         </div>
                         @isset($event->link)
-                            <a href="{{$event->link}}">
-                                <span class="ui primary text">VIEW DETAILS</span>
-                                &nbsp;
-                                <img src="{{asset('images/shapes/arrow.svg')}}" height="11px" alt="arrow-event">
-                            </a>
+                            @include('partials.components.link', ['link' => $event->link, 'text' => 'VIEW DETAILS'])
                         @endisset
                     </div>
                 </div>

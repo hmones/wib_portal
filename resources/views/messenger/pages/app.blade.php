@@ -1,9 +1,7 @@
 @extends('layouts.messenger')
-@section('title','Profile Settings')
+@section('title','Messenger')
 @section('content')
 <div class="ui container" style="min-height:80vh;">
-    <h1 class="ui blue header"><i class="stop wib bullet icon"></i>Member Messaging</h1>
-    <div class="ui hidden divider"></div>
     <div class="messenger" style="min-height:80vh;">
         {{-- ----------------------Users/Groups lists side---------------------- --}}
         <div class="messenger-listView" style="border:none !important;">

@@ -2,50 +2,50 @@
 @section('content')
     <div class="ui center aligned container">
         <div class="ui stackable grid">
-            <div class="five wide column">
+            <div class="four wide column">
                 <div id="activeUsers" class="ui basic segment"></div>
             </div>
-            <div class="six wide column">
+            <div class="four wide column">
                 <div id="registeredUsers" class="ui basic segment"></div>
             </div>
-            <div class="five wide column">
+            <div class="four wide column">
                 <div id="registeredEntities" class="ui basic segment"></div>
             </div>
         </div>
         <div class="ui stackable grid">
-            <div class="sixteen wide column">
+            <div class="twelve wide column">
                 <div id="usersCountries" class="ui basic segment"></div>
             </div>
         </div>
         <div class="ui stackable grid">
-            <div class="eight wide column">
+            <div class="six wide column">
                 <div id="usersAge" class="ui basic segment"></div>
             </div>
-            <div class="eight wide column">
+            <div class="six wide column">
                 <div id="entitiesTypes" class="ui basic segment"></div>
             </div>
         </div>
         <div class="ui stackable grid">
-            <div class="eight wide column">
+            <div class="six wide column">
                 <div id="usersSectors" class="ui basic segment"></div>
             </div>
-            <div class="eight wide column">
+            <div class="six wide column">
                 <div id="entitiesSectors" class="ui basic segment"></div>
             </div>
         </div>
         <div class="ui stackable grid">
-            <div class="eight wide column">
+            <div class="six wide column">
                 <div id="entitiesRevenue" class="ui basic segment"></div>
             </div>
-            <div class="eight wide column">
+            <div class="six wide column">
                 <div id="entitiesType" class="ui basic segment"></div>
             </div>
         </div>
         <div class="ui stackable grid">
-            <div class="eight wide column">
+            <div class="six wide column">
                 <div id="entitiesTurnover" class="ui basic segment"></div>
             </div>
-            <div class="eight wide column">
+            <div class="six wide column">
                 <div id="entitiesSize" class="ui basic segment"></div>
             </div>
         </div>

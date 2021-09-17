@@ -2,9 +2,10 @@
 @section('title', 'Register a new business or organization')
 @section('content')
 <div class="ui container">
-    <h1 class="ui blue header">
-        Register a new business or organization
+    <h1 class="ui blue page header">
+        Register a company
     </h1>
+    <br>
     @include('partials.entity.registrationForm')
     <br><br>
 </div>

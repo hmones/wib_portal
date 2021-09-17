@@ -7,6 +7,9 @@
     <a href="{{route('admin.home')}}" class="item">
         <i class="home icon"></i> Dashboard
     </a>
+    <a href="{{route('home')}}" target="_blank" rel="noopener" class="item">
+        <i class="crosshairs icon"></i> View website
+    </a>
     <div class="item">
         <div class="header">Users</div>
         <div class="menu">

@@ -91,7 +91,7 @@
             @auth('web')
                 <div class="right aligned three wide column">
                     <button onclick="$('#mobileMenu').toggle('fade');" class="ui grey button">
-                        <i class="bars black icon"></i>
+                        <i class="bars black large icon"></i>
                     </button>
                 </div>
             @endauth
@@ -110,7 +110,7 @@
             <div class="ui center aligned basic segment">
                 @include('partials.search')
             </div>
-            <div class="ui divided very relaxed list">
+            <div class="ui very relaxed list">
                 <a class="item" href="{{route('post.index')}}">Posts</a>
                 <a href="{{route('messenger')}}" class="item">
                     Messages

@@ -6,8 +6,7 @@
         <div class="ui blue flex card header">{{$title}}</div>
         <p>{{$content}}</p>
     </div>
-    <a href="{{$link}}">
-        <span class="ui primary text">EXPLORE </span> &nbsp;
-        <img src="{{asset('images/shapes/arrow.svg')}}" height="11px" alt="arrow-event">
-    </a>
+    @if($link)
+        @include('partials.components.link', ['link' => $link, 'text' => 'EXPLORE'])
+    @endif
 </div>
