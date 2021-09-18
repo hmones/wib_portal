@@ -10,24 +10,13 @@ use Sentry;
 class Sectors extends Component
 {
     public $label;
-
     public $fieldname;
-
     public $defaultText;
-
     public $emptyOption;
-
     public $value;
-
     public $offset;
-
     public $dropdownCss;
 
-    /**
-     * Create a new component instance.
-     *
-     * @return void
-     */
     public function __construct($label = null, $fieldname = null, $defaultText = null, $emptyOption = null, $value = null, $offset = 0, $dropdownCss = "")
     {
         $this->label = $label;
@@ -39,11 +28,6 @@ class Sectors extends Component
         $this->dropdownCss = $dropdownCss;
     }
 
-    /**
-     * Get the view / contents that represent the component.
-     *
-     * @return \Illuminate\Contracts\View\View|string
-     */
     public function render()
     {
         return view('components.Sectors');
@@ -65,10 +49,6 @@ class Sectors extends Component
 
     public function sectorList()
     {
-        if (isset(request()->sectors)) {
-            return request()->sectors;
-        }
-
-        return '';
+        return request()->has('sectors') ? request()->sectors : '';
     }
 }

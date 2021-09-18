@@ -45,8 +45,8 @@ class AdminUserCreationTest extends TestCase
     {
         $adminUser = Admin::factory()->create();
         $this->actingAs($this->admin, 'admin')
-            ->post(route('admin.admins.index'))
-            ->assertSeeInOrder([$adminUser->name, $adminUser->email, $adminUser->created_at]);
+            ->get(route('admin.admins.index'))
+            ->assertSeeInOrder([$adminUser->name, $adminUser->email, $adminUser->created_at->diffForHumans()]);
     }
 
     public function testAdminCanDeleteOtherAdmins(): void

@@ -32,9 +32,8 @@
             <div id="personal_info_form" style="">
                 <h4 class="ui dividing header">Personal Information</h4>
                 <div class="ui stackable grid">
-                    <div class="four wide column">
+                    <div class="three wide column">
                         <div class="ui center aligned basic segment field">
-                            <h4 class="ui header">Profile Picture</h4>
                             <label for="avatar">
                                 <a href="#" id="avatar_upload_icon">
                                     <i class="circular inverted grey user huge icon"></i>
@@ -45,7 +44,7 @@
                                 id="avatar_upload_input" value="{{old('user.image')}}">
                         </div>
                     </div>
-                    <div class="twelve wide column">
+                    <div class="nine wide column">
                         <div class="fields">
                             <div class="required field">
                                 <label for="user[title]">Title</label>

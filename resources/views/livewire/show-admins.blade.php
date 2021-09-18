@@ -39,8 +39,8 @@
                 </div>
             </div>
             <div class="ui padded basic segment" style="margin:0px; padding-top: 0px">
-                <div class="ui right floated red button" wire:click="hideForm()">Close</div>
-                <button class="ui right floated blue button" type="submit">Create</button>
+                <button class="ui right floated blue button" type="submit"><i class="save icon"></i>Save</button>
+                <div class="ui right floated red button" wire:click="hideForm()"><i class="close icon"></i>Cancel</div>
                 <br><br>
             </div>
         </form>
@@ -75,12 +75,12 @@
                 </td>
                 <td class="center aligned">
                     <a href="javascript:void(0)" wire:click="destroy({{$user->id}})">
-                        <i class="close red icon"></i> Remove
+                        <i class="trash red icon"></i>
                     </a>
                 </td>
             </tr>
         @endforeach
         </tbody>
     </table>
-
+    {{ $users->links('vendor.pagination.semantic-ui-livewire') }}
 </div>

@@ -42,7 +42,7 @@ class DeleteUserTest extends TestCase
         $this->actingAs($this->user2)->get(route('messenger'))->assertOk()->assertDontSee($name);
         $this->actingAs($this->user2)->post(route('messages.seen'), compact('id'))->assertOk();
         $this->actingAs($adminUser, 'admin')->get('admin.users')->assertOk()->assertDontSee($name);
-        $this->actingAs($this->user2)->get(route('home'))->assertOk()->assertDontSee($name)->assertSeeText('Deleted User');
+        $this->actingAs($this->user2)->get(route('post.index'))->assertOk()->assertDontSee($name)->assertSeeText('Deleted User');
         $this->actingAs($this->user2)->get(route('notifications'))->assertOk()->assertDontSee($name);
         $this->actingAs($this->user2)->get($path)->assertNotFound();
         $this->actingAs($this->user2)->get(route('profile.index'))->assertOk()->assertDontSee($name);

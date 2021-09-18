@@ -1,25 +1,28 @@
 @extends('layouts.default')
 @section('title', $entity->name)
+
 @section('content')
-    <br><br>
+    @include('partials.semantic-component', ['componentName' => 'rating'])
+    @include('partials.semantic-component', ['componentName' => 'modal'])
+    <br>
     <div class="ui centered container">
         <div class="ui stackable grid">
-            <h2 class="ui blue header breadcrumb">
-                <a class="section" href="{{route('entity.index')}}">Organizations</a>
-                <i class="right angle icon divider"></i>
-                <a class="active section" href="{{$entity->path}}">{{$entity->name}}</a>
+            <h2 class="ui breadcrumb">
+                <a class="section byline" href="{{route('entity.index')}}">Organizations</a>
+                <div class="divider byline"><i class="right angle icon"></i></div>
+                <a class="active section byline" href="{{$entity->path}}">{{$entity->name}}</a>
             </h2>
         </div>
         <br><br><br>
         <div class="ui stackable middle aligned grid">
-            <div class="three wide column">
+            <div class="two wide column">
                 <img class="ui circular small image" src="
                 @if($entity->image)
                 {{$entity->image}}
                 @else
                 {{asset('images/logo_avatar.png')}}
                 @endif
-                        " alt="{{$entity->name}}'s logo">
+                    " alt="{{$entity->name}}'s logo">
             </div>
             <div class="six wide column">
                 <p><i class="{{$entity->type->icon}} teal icon"></i> {{strtoupper($entity->type->name)}}</p>
@@ -32,44 +35,39 @@
             </div>
             <div class="right floated four wide column">
                 @auth
-                    <div class="ui stackable grid">
+                    <div class="ui stackable grid left-bordered basic segment">
                         <div class="row">
-                            <div class="two wide column">
+                            <div class="twelve wide column">
                                 <i class="mobile alternate blue icon"></i>
-                            </div>
-                            <div class="fourteen wide column">
                                 @isset($entity->phone)
                                     +({{$entity->phone_country_code??'00'}})&nbsp;{{$entity->phone}}
                                 @else
-                                    No phone available
+                                    <span style="color: #a7a7a7;">No phone available</span>
                                 @endisset
                             </div>
                         </div>
                         <div class="row" style="padding-top:0px;">
-                            <div class="two wide column">
+                            <div class="twelve wide column">
                                 <i class="at blue icon"></i>
-                            </div>
-                            <div class="fourteen wide column">
                                 @isset($entity->phone)
                                     <a href="mailto:{{$entity->primary_email??'#'}}">{{$entity->primary_email}}</a>
                                 @else
-                                    No email available
+                                    <span style="color: #a7a7a7;">No email available</span>
                                 @endisset
                             </div>
                         </div>
                         @if(optional($entity->type)->name === 'Business')
                             <div class="row" style="padding-top:0px;">
-                                <div class="two wide column">
+                                <div class="twelve wide column">
                                     <i class="shopping cart blue icon"></i>
-                                </div>
-                                <div class="fourteen wide column">
                                     @if($entity->ecommerce_link)
-                                        <a href="{{$entity->ecommerce_link??'#'}}">Store</a>
-                                        <div class="ui star rating" data-rating="{{floor($entity->ecommerce_rating)}}"
+                                        <a href="{{$entity->ecommerce_link??'#'}}">Store</a> &nbsp;
+                                        <div class="ui orange star rating"
+                                             data-rating="{{floor($entity->ecommerce_rating)}}"
                                              data-max-rating="5">
                                         </div>
                                     @else
-                                        No store available
+                                        <span style="color: #a7a7a7;">No store available</span>
                                     @endif
                                 </div>
                             </div>
@@ -84,7 +82,8 @@
                         </div>
                         <div class="paragraph">
                             <div class="ui center aligned basic segment">To view contact information <a
-                                        href="{{route('home')}}">login</a> or <a href="{{route('profile.create')}}">signup</a>
+                                    href="{{route('home')}}">login</a> or <a
+                                    href="{{route('profile.create')}}">signup</a>
                             </div>
                         </div>
                         <div class="paragraph">
@@ -95,12 +94,11 @@
                 @endguest
 
             </div>
-
         </div>
-        <br><br><br><br>
+        <br><br><br>
         <div class="ui stackable grid">
-            <div class="five wide column">
-                <h4 class="ui blue header"><i class="stop wib bullet icon"></i>Members</h4>
+            <div class="four wide column">
+                <h4 class="ui blue header">Members</h4>
                 @auth
                     <div class="ui very relaxed list">
                         @forelse($entity->users as $user)
@@ -113,13 +111,10 @@
                                 </div>
                             </div>
                         @empty
-                            <div class="ui comment">
-                                <i class="info circle teal icon"></i> No information to show!
-                            </div>
+                            <span style="color: #a7a7a7;">Not provided</span>
                         @endforelse
                     </div>
                 @endauth
-
                 @guest
                     <div class="ui placeholder" style="border:1px #ececec solid;border-radius:15px;">
                         <div class="paragraph">
@@ -136,10 +131,9 @@
                         </div>
                     </div>
                 @endguest
-
             </div>
-            <div class="five wide column">
-                <h4 class="ui blue header"><i class="stop wib bullet icon"></i>Fields of Activity</h4>
+            <div class="four wide column">
+                <h4 class="ui blue header">Fields of Activity</h4>
                 <div class="ui left-bordered basic segment">
                     @foreach($entity->sectors as $sector)
                         <div>
@@ -147,34 +141,26 @@
                         </div>
                     @endforeach
                 </div>
-
-                <h4 class="ui blue header"><i class="stop wib bullet icon"></i>Business Activity</h4>
+                <h4 class="ui blue header">Business Activity</h4>
                 <div class="ui left-bordered basic segment">
                     @if($entity->activity)
                         {{$entity->activity}}
                     @else
-                        <i class="info circle teal icon"></i> No information to show!
+                        <span style="color: #a7a7a7;">Not provided</span>
                     @endif
                 </div>
             </div>
-            <div class="five wide column">
-                <h4 class="ui blue header"><i class="stop wib bullet icon"></i>Locations</h4>
+            <div class="four wide column">
+                <h4 class="ui blue header">Address</h4>
                 <div class="ui left-bordered basic segment">
-                    {{$entity->primary_address}} <br> {{$entity->primary_city->name}}
-                    <br>{{$entity->primary_country->name}}
+                    <i class="map marker alternate icon"></i>
+                    {{$entity->primary_address}}, {{$entity->primary_city->name}}, {{$entity->primary_country->name}}
+                    @if($entity->secondary_address)
+                        <div class="ui hidden divider"></div>
+                        <i class="map marker alternate icon"></i>
+                        {{$entity->secondary_address ?? ''}} {{$entity->secondary_city->name ?? ''}} {{$entity->secondary_country->name ?? ''}}
+                    @endif
                 </div>
-
-                @if($entity->secondary_address)
-                    <div class="ui divider"></div>
-                    <div class="ui grey message">
-                        {{$entity->secondary_address ?? ""}}
-                        <br>
-                        {{$entity->secondary_city->name ?? ""}}
-                        <br>
-                        {{$entity->secondary_country->name ?? ""}}
-                    </div>
-                @endif
-
             </div>
         </div>
         <div class="ui six column stackable grid">
@@ -185,15 +171,15 @@
                 @foreach($entity->photos()->get() as $photo)
                     <div class="column">
                         <a href="javascript:void(0);" onclick="$('#image_{{$photo->id}}').modal('show');"><img
-                                    class="ui image"
-                                    src="{{$photo->thumbnail}}" alt="">
+                                class="ui image"
+                                src="{{$photo->thumbnail}}" alt="">
                             <div class="ui center aligned basic segment">
                                 {{$photo->comment}}
                             </div>
                         </a>
                         <div class="ui basic modal" id="image_{{$photo->id}}">
                             <div class="ui center aligned basic segment">
-                                <img src="{{$photo->url}}" alt="">
+                                <img class="ui image" src="{{$photo->url}}" alt="">
                             </div>
                         </div>
                     </div>

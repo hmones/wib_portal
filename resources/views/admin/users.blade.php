@@ -1,29 +1,25 @@
-@extends('layouts.auth')
+@extends('layouts.auth', ['breadcrumbItems' => [['name' => 'Manage users']]])
 
 @section('content')
-    <style>
-        .ui.grey.label {
-            color: black !important;
-        }
-    </style>
     <div class="ui centered container">
-        <h2 class="ui blue header">Registered members</h2>
-        <h4 class="ui dividing header"> Search records</h4>
-        <div class="ui inverted grey segment">
-            <form action="{{route('admin.users')}}" method="GET" class="ui form">
-                @csrf
-                <div class="ui icon input fluid field">
-                    <input type="text" name="query" value="{{request()->has('query')?request()->input('query'):''}}"/>
-                    <i class="inverted circular search link blue icon"></i>
+        <form action="{{route('admin.users')}}" method="GET" class="ui form">
+            @csrf
+            <div class="sixteen fields">
+                <div class="thirteen wide field">
+                    <div class="ui icon input fluid field">
+                        <input type="text" name="query" value="{{request()->has('query')?request()->input('query'):''}}"/>
+                        <i class="search link icon"></i>
+                    </div>
                 </div>
-            </form>
-        </div>
-        <h4 class="ui dividing header" style="margin-bottom: 0px;">Filter records</h4>
+                <div class="three wide field">
+                    <a href="{{route('admin.users', ['export' => 'xlsx'] + request()->input())}}"
+                       class="ui primary basic fluid button">
+                        <i class="download icon"></i> Download
+                    </a>
+                </div>
+            </div>
+        </form>
         @include('partials.filter_section', ['route' => route('admin.users'), 'recent_online' => true])
-        <a href="{{route('admin.users', ['export' => 'xlsx'] + request()->input())}}" class="ui right floated green button">
-            Download Data &nbsp;&nbsp;<i class="download icon"></i>
-        </a>
-        <br><br>
         <table class="ui celled stackable table">
             <thead>
             <tr>
@@ -112,45 +108,45 @@
         <div class="ui padded basic segment">
             <div class="user information ui three column stackable grid">
                 <div class="column"><strong>Name </strong></br></br>
-                    <div class="ui grey small message" id="modal_name"></div>
+                    <div class="ui left-bordered basic segment" id="modal_name"></div>
                 </div>
                 <div class="column"><strong>Gender </strong></br></br>
-                    <div class="ui grey small message" id="modal_gender"></div>
+                    <div class="ui left-bordered basic segment" id="modal_gender"></div>
                 </div>
                 <div class="column"><strong>Birth Year </strong></br></br>
-                    <div class="ui grey small message" id="modal_birth_year"></div>
+                    <div class="ui left-bordered basic segment" id="modal_birth_year"></div>
                 </div>
                 <div class="column"><strong>Account created at </strong></br></br>
-                    <div class="ui grey small message" id="modal_created_at"></div>
+                    <div class="ui left-bordered basic segment" id="modal_created_at"></div>
                 </div>
                 <div class="column"><strong>Information updated at </strong></br></br>
-                    <div class="ui grey small message" id="modal_updated_at"></div>
+                    <div class="ui left-bordered basic segment" id="modal_updated_at"></div>
                 </div>
                 <div class="column"><strong>Email </strong></br></br>
-                    <div class="ui grey small message" id="modal_email"></div>
+                    <div class="ui left-bordered basic segment" id="modal_email"></div>
                 </div>
                 <div class="column"><strong>Email verified at</strong></br></br>
-                    <div class="ui grey small message" id="modal_email_verified_at"></div>
+                    <div class="ui left-bordered basic segment" id="modal_email_verified_at"></div>
                 </div>
                 <div class="column"><strong>Education </strong></br></br>
-                    <div class="ui grey small message" id="modal_education"></div>
+                    <div class="ui left-bordered basic segment" id="modal_education"></div>
                 </div>
                 <div class="column"><strong>Mena Diaspora </strong></br></br>
-                    <div class="ui grey small message" id="modal_mena_diaspora"></div>
+                    <div class="ui left-bordered basic segment" id="modal_mena_diaspora"></div>
                 </div>
                 <div class="column"><strong>Association </strong></br></br>
-                    <div class="ui grey small message" id="modal_business_association_wom"></div>
+                    <div class="ui left-bordered basic segment" id="modal_business_association_wom"></div>
                 </div>
                 <div class="column"><strong>Phone Number </strong></br></br>
-                    <div class="ui grey small message" id="modal_phone"></div>
+                    <div class="ui left-bordered basic segment" id="modal_phone"></div>
                 </div>
                 <div class="column"><strong>Subscribed to Newsletter? </strong></br></br>
-                    <div class="ui grey small message" id="modal_newsletter"></div>
+                    <div class="ui left-bordered basic segment" id="modal_newsletter"></div>
                 </div>
             </div>
             <div class="ui stackable grid">
                 <div class="column"><strong>Bio </strong></br></br>
-                    <div class="ui grey small message" id="modal_bio"></div>
+                    <div class="ui left-bordered basic segment" id="modal_bio"></div>
                 </div>
             </div>
         </div>

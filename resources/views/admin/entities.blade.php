@@ -1,32 +1,26 @@
-@extends('layouts.auth')
+@extends('layouts.auth', ['breadcrumbItems' => [['name' => 'Manage entities']]])
 
 @section('content')
-    <style>
-        .ui.grey.label {
-            color: black !important;
-        }
-    </style>
     <div class="ui centered container">
-        <h2 class="ui left floated blue header">
-            Registered Entities
-        </h2>
-        <br/><br>
-        <h4 class="ui dividing header"> Search records</h4>
-        <div class="ui inverted grey segment">
-            <form action="{{route('admin.entities')}}" method="GET" class="ui form">
-                @csrf
-                <div class="ui icon input fluid field">
-                    <input type="text" name="query" value="{{request()->has('query')?request()->input('query'):''}}"/>
-                    <i class="inverted circular search link blue icon"></i>
+        <form action="{{route('admin.entities')}}" method="GET" class="ui form">
+            @csrf
+            <div class="sixteen fields">
+                <div class="thirteen wide field">
+                    <div class="ui icon input fluid field">
+                        <input type="text" name="query" value="{{request()->has('query')?request()->input('query'):''}}" placeholder="Search ..."/>
+                        <i class="search link icon"></i>
+                    </div>
                 </div>
-            </form>
-        </div>
-        <h4 class="ui dividing header" style="margin-bottom: 0px;">Filter records</h4>
+                <div class="three wide field">
+                    <a href="{{route('admin.entities', ['export' => 'xlsx'] + request()->input())}}"
+                       class="ui fluid primary basic button">
+                        <i class="download icon"></i> Download
+                    </a>
+                </div>
+            </div>
+
+        </form>
         @include('partials.filter_section', ['route' => route('admin.entities'), 'recent_online' => false])
-        <a href="{{route('admin.entities', ['export' => 'xlsx'] + request()->input())}}" class="ui right floated green button">
-            Download Data &nbsp;&nbsp;<i class="download icon"></i>
-        </a>
-        <br><br>
         <table class="ui celled stackable table">
             <thead>
             <tr>
@@ -112,49 +106,49 @@
         <div class="ui padded basic segment">
             <div class="entity information ui three column stackable grid">
                 <div class="column"><strong>Name </strong></br></br>
-                    <div class="ui grey small message" id="modal_name"></div>
+                    <div class="ui left-bordered basic segment" id="modal_name"></div>
                 </div>
                 <div class="column"><strong>Founding year </strong></br></br>
-                    <div class="ui grey small message" id="modal_founding_year"></div>
+                    <div class="ui left-bordered basic segment" id="modal_founding_year"></div>
                 </div>
                 <div class="column"><strong>Primary Address </strong></br></br>
-                    <div class="ui grey small message" id="modal_primary_address"></div>
+                    <div class="ui left-bordered basic segment" id="modal_primary_address"></div>
                 </div>
                 <div class="column"><strong>Entity created at </strong></br></br>
-                    <div class="ui grey small message" id="modal_created_at"></div>
+                    <div class="ui left-bordered basic segment" id="modal_created_at"></div>
                 </div>
                 <div class="column"><strong>Information updated at </strong></br></br>
-                    <div class="ui grey small message" id="modal_updated_at"></div>
+                    <div class="ui left-bordered basic segment" id="modal_updated_at"></div>
                 </div>
                 <div class="column"><strong>Primary Email </strong></br></br>
-                    <div class="ui grey small message" id="modal_primary_email"></div>
+                    <div class="ui left-bordered basic segment" id="modal_primary_email"></div>
                 </div>
                 <div class="column"><strong>Secondary Email </strong></br></br>
-                    <div class="ui grey small message" id="modal_secondary_email"></div>
+                    <div class="ui left-bordered basic segment" id="modal_secondary_email"></div>
                 </div>
                 <div class="column"><strong>Phone </strong></br></br>
-                    <div class="ui grey small message" id="modal_phone"></div>
+                    <div class="ui left-bordered basic segment" id="modal_phone"></div>
                 </div>
                 <div class="column"><strong>Entity size </strong></br></br>
-                    <div class="ui grey small message" id="modal_entity_size"></div>
+                    <div class="ui left-bordered basic segment" id="modal_entity_size"></div>
                 </div>
                 <div class="column"><strong>Business Type </strong></br></br>
-                    <div class="ui grey small message" id="modal_business_type"></div>
+                    <div class="ui left-bordered basic segment" id="modal_business_type"></div>
                 </div>
                 <div class="column"><strong>Turn Over </strong></br></br>
-                    <div class="ui grey small message" id="modal_turn_over"></div>
+                    <div class="ui left-bordered basic segment" id="modal_turn_over"></div>
                 </div>
                 <div class="column"><strong>Balance Sheet </strong></br></br>
-                    <div class="ui grey small message" id="modal_balance_sheet"></div>
+                    <div class="ui left-bordered basic segment" id="modal_balance_sheet"></div>
                 </div>
                 <div class="column"><strong>Revenue </strong></br></br>
-                    <div class="ui grey small message" id="modal_revenue"></div>
+                    <div class="ui left-bordered basic segment" id="modal_revenue"></div>
                 </div>
                 <div class="column"><strong>Members (for associations) </strong></br></br>
-                    <div class="ui grey small message" id="modal_employees"></div>
+                    <div class="ui left-bordered basic segment" id="modal_employees"></div>
                 </div>
                 <div class="column"><strong>Students </strong></br></br>
-                    <div class="ui grey small message" id="modal_students"></div>
+                    <div class="ui left-bordered basic segment" id="modal_students"></div>
                 </div>
             </div>
         </div>

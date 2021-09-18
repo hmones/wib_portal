@@ -1,0 +1,1 @@
+function toggleTestimonial(i,e,t){$("#testimonial_"+e).hide(),$("#testimonial_"+t).hide(),$("#testimonial_"+i).fadeIn(),$("#testimonial_img_"+e).removeClass("active"),$("#testimonial_img_"+t).removeClass("active"),$("#testimonial_img_"+i).addClass("active")}

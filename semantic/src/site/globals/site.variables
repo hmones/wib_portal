@@ -8,20 +8,23 @@
 @blue           : #153e7a;
 @grey           : #f4f3f0;
 @black          : #262626;
+@orange         : #F4A642;
 
 @emSize            : 16px;
 @fontSize          : 16px;
 @h1                : 2rem;
 @fontSmoothing     : antialiased;
 
-@headerFont        : 'PT Serif', Helvetica, sans-serif;
-@pageFont          : 'Source Sans Pro', Arial, sans-serif;
+@headerFont        : 'PT Serif', sans-serif, Helvetica;
+@pageFont          : 'Source Sans Pro', sans-serif, Arial;
 
-@importGoogleFonts : true;
-
-@googleProtocol    : 'https://';
-@googleFontRequest : 'PT+Serif:700|Source+Sans+Pro:400,600,700';
-
+@importGoogleFonts : false;
 
 @bold              : bold;
 @normal            : normal;
+
+/*-------------------
+        Grid
+--------------------*/
+
+@columnCount: 12;

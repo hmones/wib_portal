@@ -15,12 +15,6 @@ use Illuminate\Support\Str;
 
 class MessagesController extends Controller
 {
-    /**
-     * Authinticate the connection for pusher
-     *
-     * @param Request $request
-     * @return void
-     */
     public function pusherAuth(Request $request)
     {
         // Auth data
@@ -39,15 +33,9 @@ class MessagesController extends Controller
             );
         }
         // if not authorized
-        return new Response('Unauthorized', 401);
+        return response('Unauthorized', 401);
     }
 
-    /**
-     * Returning the view of the app with the required data.
-     *
-     * @param int $id
-     * @return void
-     */
     public function index($id = null)
     {
         // get current route
@@ -68,12 +56,6 @@ class MessagesController extends Controller
     }
 
 
-    /**
-     * Fetch data by id for (user/group)
-     *
-     * @param Request $request
-     * @return collection
-     */
     public function idFetchData(Request $request)
     {
         // Favorite
@@ -104,29 +86,16 @@ class MessagesController extends Controller
         ]);
     }
 
-    /**
-     * This method to make a links for the attachments
-     * to be downloadable.
-     *
-     * @param string $fileName
-     * @return void
-     */
     public function download($fileName)
     {
         $path = storage_path() . '/app/public/' . config('messenger.attachments.folder') . '/' . $fileName;
         if (file_exists($path)) {
             return Response::download($path, $fileName);
-        } else {
-            return abort(404, "Sorry, File does not exist in our server or may have been deleted!");
         }
+
+        return response('Sorry, File does not exist in our server or may have been deleted!', 404);
     }
 
-    /**
-     * Send a message to database
-     *
-     * @param Request $request
-     * @return JSON response
-     */
     public function send(Request $request)
     {
         // default variables
@@ -196,12 +165,6 @@ class MessagesController extends Controller
         ]);
     }
 
-    /**
-     * fetch [user/group] messages from database
-     *
-     * @param Request $request
-     * @return JSON response
-     */
     public function fetch(Request $request)
     {
         // messages variable
@@ -231,12 +194,6 @@ class MessagesController extends Controller
         ]);
     }
 
-    /**
-     * Make messages as seen
-     *
-     * @param Request $request
-     * @return void
-     */
     public function seen(Request $request)
     {
         // make as seen
@@ -272,12 +229,6 @@ class MessagesController extends Controller
         ], 200);
     }
 
-    /**
-     * Update user's list item data
-     *
-     * @param Request $request
-     * @return JSON response
-     */
     public function updateContactItem(Request $request)
     {
         // Get user data
@@ -290,12 +241,6 @@ class MessagesController extends Controller
         ], 200);
     }
 
-    /**
-     * Put a user in the favorites list
-     *
-     * @param Request $request
-     * @return void
-     */
     public function favorite(Request $request)
     {
         // check action [star/unstar]
@@ -315,12 +260,6 @@ class MessagesController extends Controller
         ], 200);
     }
 
-    /**
-     * Get favorites list
-     *
-     * @param Request $request
-     * @return void
-     */
     public function getFavorites(Request $request)
     {
         $favoritesList = null;
@@ -340,12 +279,6 @@ class MessagesController extends Controller
         ], 200);
     }
 
-    /**
-     * Search in messenger
-     *
-     * @param Request $request
-     * @return void
-     */
     public function search(Request $request)
     {
         $getRecords = null;
@@ -367,12 +300,6 @@ class MessagesController extends Controller
         ], 200);
     }
 
-    /**
-     * Get shared photos
-     *
-     * @param Request $request
-     * @return void
-     */
     public function sharedPhotos(Request $request)
     {
         $shared = Messenger::getSharedPhotos($request['user_id']);
@@ -391,12 +318,6 @@ class MessagesController extends Controller
         ], 200);
     }
 
-    /**
-     * Delete conversation
-     *
-     * @param Request $request
-     * @return void
-     */
     public function deleteConversation(Request $request)
     {
         // delete
