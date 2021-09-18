@@ -8,7 +8,7 @@
                     Session booking, B2B events
                 </h1>
                 <div class="page subheader">
-                    Join the B2B event as a client and connect to registered service providers.
+                    {{request()->round->text_providers}}
                 </div>
             </div>
         </div>
@@ -26,7 +26,7 @@
                                 <span class="ui blue text">{{$provider->user->name}}</span>
                             </p>
                             <div style="font-size: 20px; line-height: 30px;padding-top:24px;">
-                                <p>{{$provider->entity->name}}</p>
+                                <p>{{$provider->entity->name}}, {{$provider->user->country->name}}</p>
                                 <p>{{optional($provider->user->sectors->first())->name}}</p>
                             </div>
                             <div style="text-align: center">

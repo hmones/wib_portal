@@ -74,11 +74,18 @@
                                        placeholder="Event button text..."
                                        value="{{$event->button_text ?? old('button_text')}}"/>
                             </div>
-                            <div class="inline field">
-                                <input class="ui toggle checkbox" id="is_main" type="checkbox" name="is_main"
-                                       checked="{{$event->is_main ?? old('is_main')}}"
-                                       value="1" />
+                            <div class="field">
                                 <label for="is_main">Highlight on Homepage</label>
+                                <select name="is_main" id="is_main">
+                                    <option
+                                        value="1" {{($event->is_main ?? old('is_main')) == 1 ? 'selected' : ''}}>
+                                        Yes
+                                    </option>
+                                    <option
+                                        value="0" {{($event->is_main ?? old('is_main')) == 0 ? 'selected' : ''}}>
+                                        No
+                                    </option>
+                                </select>
                             </div>
                         </div>
                     </div>

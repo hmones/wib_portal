@@ -106,49 +106,49 @@
         <div class="ui padded basic segment">
             <div class="entity information ui three column stackable grid">
                 <div class="column"><strong>Name </strong></br></br>
-                    <div class="ui grey small message" id="modal_name"></div>
+                    <div class="ui left-bordered basic segment" id="modal_name"></div>
                 </div>
                 <div class="column"><strong>Founding year </strong></br></br>
-                    <div class="ui grey small message" id="modal_founding_year"></div>
+                    <div class="ui left-bordered basic segment" id="modal_founding_year"></div>
                 </div>
                 <div class="column"><strong>Primary Address </strong></br></br>
-                    <div class="ui grey small message" id="modal_primary_address"></div>
+                    <div class="ui left-bordered basic segment" id="modal_primary_address"></div>
                 </div>
                 <div class="column"><strong>Entity created at </strong></br></br>
-                    <div class="ui grey small message" id="modal_created_at"></div>
+                    <div class="ui left-bordered basic segment" id="modal_created_at"></div>
                 </div>
                 <div class="column"><strong>Information updated at </strong></br></br>
-                    <div class="ui grey small message" id="modal_updated_at"></div>
+                    <div class="ui left-bordered basic segment" id="modal_updated_at"></div>
                 </div>
                 <div class="column"><strong>Primary Email </strong></br></br>
-                    <div class="ui grey small message" id="modal_primary_email"></div>
+                    <div class="ui left-bordered basic segment" id="modal_primary_email"></div>
                 </div>
                 <div class="column"><strong>Secondary Email </strong></br></br>
-                    <div class="ui grey small message" id="modal_secondary_email"></div>
+                    <div class="ui left-bordered basic segment" id="modal_secondary_email"></div>
                 </div>
                 <div class="column"><strong>Phone </strong></br></br>
-                    <div class="ui grey small message" id="modal_phone"></div>
+                    <div class="ui left-bordered basic segment" id="modal_phone"></div>
                 </div>
                 <div class="column"><strong>Entity size </strong></br></br>
-                    <div class="ui grey small message" id="modal_entity_size"></div>
+                    <div class="ui left-bordered basic segment" id="modal_entity_size"></div>
                 </div>
                 <div class="column"><strong>Business Type </strong></br></br>
-                    <div class="ui grey small message" id="modal_business_type"></div>
+                    <div class="ui left-bordered basic segment" id="modal_business_type"></div>
                 </div>
                 <div class="column"><strong>Turn Over </strong></br></br>
-                    <div class="ui grey small message" id="modal_turn_over"></div>
+                    <div class="ui left-bordered basic segment" id="modal_turn_over"></div>
                 </div>
                 <div class="column"><strong>Balance Sheet </strong></br></br>
-                    <div class="ui grey small message" id="modal_balance_sheet"></div>
+                    <div class="ui left-bordered basic segment" id="modal_balance_sheet"></div>
                 </div>
                 <div class="column"><strong>Revenue </strong></br></br>
-                    <div class="ui grey small message" id="modal_revenue"></div>
+                    <div class="ui left-bordered basic segment" id="modal_revenue"></div>
                 </div>
                 <div class="column"><strong>Members (for associations) </strong></br></br>
-                    <div class="ui grey small message" id="modal_employees"></div>
+                    <div class="ui left-bordered basic segment" id="modal_employees"></div>
                 </div>
                 <div class="column"><strong>Students </strong></br></br>
-                    <div class="ui grey small message" id="modal_students"></div>
+                    <div class="ui left-bordered basic segment" id="modal_students"></div>
                 </div>
             </div>
         </div>

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Sector;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\{Cache, Redirect, Session};
+use Illuminate\Support\Facades\{Cache};
 use Sentry;
 
 class SectorController extends Controller
@@ -21,6 +21,13 @@ class SectorController extends Controller
             'icon' => $data['sector_create_icon']
         ]);
 
+        $this->refreshSectorsCache();
+
+        return redirect(route('admin.options'))->with('success', 'Sector was saved successfully!');
+    }
+
+    protected function refreshSectorsCache(): void
+    {
         try {
             Cache::forget('sectors');
             Cache::rememberForever('sectors', function () {
@@ -29,11 +36,6 @@ class SectorController extends Controller
         } catch (\Throwable $exception) {
             Sentry\captureException($exception);
         }
-
-
-        $request->session()->flash('success', 'Sector was saved successfully!');
-
-        return Redirect::route('admin.options');
     }
 
     public function update(Request $request, Sector $sector)
@@ -48,16 +50,15 @@ class SectorController extends Controller
             'icon' => $request->sector_update_icon
         ]);
 
-        $sector->save();
-        $request->session()->flash('success', 'Your data was updated successfully!');
+        $this->refreshSectorsCache();
 
-        return Redirect::route('admin.options');
+        return redirect(route('admin.options'))->with('success', 'Your data was updated successfully!');
     }
 
     public function destroy(Sector $sector)
     {
         $sector->delete();
-        Session::flash('success', 'Sector was deleted successfully!');
-        return Redirect::route('admin.options');
+
+        return redirect(route('admin.options'))->with('success', 'Sector was deleted successfully!');
     }
 }

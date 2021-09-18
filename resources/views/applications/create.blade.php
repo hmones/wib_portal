@@ -21,7 +21,7 @@
                     B2B Service Provider Application
                 </h1>
                 <div class="page subheader">
-                    Join the B2B event as a service provider and talk to members about your business offers
+                    {{request()->round->text_application}}
                 </div>
             </div>
         </div>

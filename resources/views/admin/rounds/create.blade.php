@@ -13,9 +13,14 @@
                     <div class="ui three column stackable grid">
                         <div class="column">
                             <div class="field">
-                                <label for="description">Description</label>
-                                <textarea id="description" rows="5" type="text" name="description"
-                                          placeholder="Round description...">{{$round->description ?? old('description')}}</textarea>
+                                <label for="text_application">Description for application page</label>
+                                <textarea id="text_application" rows="2" type="text" name="text_application"
+                                          placeholder="Text for application page...">{{$round->text_application ?? old('text_application')}}</textarea>
+                            </div>
+                            <div class="field">
+                                <label for="text_providers">Description for providers page</label>
+                                <textarea id="text_providers" rows="2" type="text" name="text_providers"
+                                          placeholder="Round text for providers page...">{{$round->text_providers ?? old('text_providers')}}</textarea>
                             </div>
                         </div>
                         <div class="column">

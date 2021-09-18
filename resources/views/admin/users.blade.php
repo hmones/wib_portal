@@ -108,45 +108,45 @@
         <div class="ui padded basic segment">
             <div class="user information ui three column stackable grid">
                 <div class="column"><strong>Name </strong></br></br>
-                    <div class="ui grey small message" id="modal_name"></div>
+                    <div class="ui left-bordered basic segment" id="modal_name"></div>
                 </div>
                 <div class="column"><strong>Gender </strong></br></br>
-                    <div class="ui grey small message" id="modal_gender"></div>
+                    <div class="ui left-bordered basic segment" id="modal_gender"></div>
                 </div>
                 <div class="column"><strong>Birth Year </strong></br></br>
-                    <div class="ui grey small message" id="modal_birth_year"></div>
+                    <div class="ui left-bordered basic segment" id="modal_birth_year"></div>
                 </div>
                 <div class="column"><strong>Account created at </strong></br></br>
-                    <div class="ui grey small message" id="modal_created_at"></div>
+                    <div class="ui left-bordered basic segment" id="modal_created_at"></div>
                 </div>
                 <div class="column"><strong>Information updated at </strong></br></br>
-                    <div class="ui grey small message" id="modal_updated_at"></div>
+                    <div class="ui left-bordered basic segment" id="modal_updated_at"></div>
                 </div>
                 <div class="column"><strong>Email </strong></br></br>
-                    <div class="ui grey small message" id="modal_email"></div>
+                    <div class="ui left-bordered basic segment" id="modal_email"></div>
                 </div>
                 <div class="column"><strong>Email verified at</strong></br></br>
-                    <div class="ui grey small message" id="modal_email_verified_at"></div>
+                    <div class="ui left-bordered basic segment" id="modal_email_verified_at"></div>
                 </div>
                 <div class="column"><strong>Education </strong></br></br>
-                    <div class="ui grey small message" id="modal_education"></div>
+                    <div class="ui left-bordered basic segment" id="modal_education"></div>
                 </div>
                 <div class="column"><strong>Mena Diaspora </strong></br></br>
-                    <div class="ui grey small message" id="modal_mena_diaspora"></div>
+                    <div class="ui left-bordered basic segment" id="modal_mena_diaspora"></div>
                 </div>
                 <div class="column"><strong>Association </strong></br></br>
-                    <div class="ui grey small message" id="modal_business_association_wom"></div>
+                    <div class="ui left-bordered basic segment" id="modal_business_association_wom"></div>
                 </div>
                 <div class="column"><strong>Phone Number </strong></br></br>
-                    <div class="ui grey small message" id="modal_phone"></div>
+                    <div class="ui left-bordered basic segment" id="modal_phone"></div>
                 </div>
                 <div class="column"><strong>Subscribed to Newsletter? </strong></br></br>
-                    <div class="ui grey small message" id="modal_newsletter"></div>
+                    <div class="ui left-bordered basic segment" id="modal_newsletter"></div>
                 </div>
             </div>
             <div class="ui stackable grid">
                 <div class="column"><strong>Bio </strong></br></br>
-                    <div class="ui grey small message" id="modal_bio"></div>
+                    <div class="ui left-bordered basic segment" id="modal_bio"></div>
                 </div>
             </div>
         </div>

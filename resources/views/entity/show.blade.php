@@ -61,8 +61,9 @@
                                 <div class="twelve wide column">
                                     <i class="shopping cart blue icon"></i>
                                     @if($entity->ecommerce_link)
-                                        <a href="{{$entity->ecommerce_link??'#'}}">Store</a>
-                                        <div class="ui star rating" data-rating="{{floor($entity->ecommerce_rating)}}"
+                                        <a href="{{$entity->ecommerce_link??'#'}}">Store</a> &nbsp;
+                                        <div class="ui orange star rating"
+                                             data-rating="{{floor($entity->ecommerce_rating)}}"
                                              data-max-rating="5">
                                         </div>
                                     @else
@@ -154,12 +155,12 @@
                 <div class="ui left-bordered basic segment">
                     <i class="map marker alternate icon"></i>
                     {{$entity->primary_address}}, {{$entity->primary_city->name}}, {{$entity->primary_country->name}}
+                    @if($entity->secondary_address)
+                        <div class="ui hidden divider"></div>
+                        <i class="map marker alternate icon"></i>
+                        {{$entity->secondary_address ?? ''}} {{$entity->secondary_city->name ?? ''}} {{$entity->secondary_country->name ?? ''}}
+                    @endif
                 </div>
-                @if($entity->secondary_address)
-                    <div class="ui divider"></div>
-                    <i class="map marker alternate icon"></i>
-                    {{$entity->secondary_address ?? ''}} {{$entity->secondary_city->name ?? ''}} {{$entity->secondary_country->name ?? ''}}
-                @endif
             </div>
         </div>
         <div class="ui six column stackable grid">

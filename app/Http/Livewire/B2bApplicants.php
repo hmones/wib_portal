@@ -16,7 +16,7 @@ class B2bApplicants extends Component
 
     public function render()
     {
-        $applications = B2bApplication::latest()->paginate(2);
+        $applications = B2bApplication::latest()->paginate(12);
         $this->statuses = $applications->pluck('status', 'id')->toArray();
 
         return view('livewire.b2b-applicants', compact('applications'));
