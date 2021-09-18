@@ -9,6 +9,8 @@ use Sentry;
 
 class SectorController extends Controller
 {
+    protected const OPTIONS_ROUTE = 'admin.options';
+
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -23,7 +25,7 @@ class SectorController extends Controller
 
         $this->refreshSectorsCache();
 
-        return redirect(route('admin.options'))->with('success', 'Sector was saved successfully!');
+        return redirect(route(self::OPTIONS_ROUTE))->with('success', 'Sector was saved successfully!');
     }
 
     protected function refreshSectorsCache(): void
@@ -52,13 +54,13 @@ class SectorController extends Controller
 
         $this->refreshSectorsCache();
 
-        return redirect(route('admin.options'))->with('success', 'Your data was updated successfully!');
+        return redirect(route(self::OPTIONS_ROUTE))->with('success', 'Your data was updated successfully!');
     }
 
     public function destroy(Sector $sector)
     {
         $sector->delete();
 
-        return redirect(route('admin.options'))->with('success', 'Sector was deleted successfully!');
+        return redirect(route(self::OPTIONS_ROUTE))->with('success', 'Sector was deleted successfully!');
     }
 }

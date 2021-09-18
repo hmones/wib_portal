@@ -6,6 +6,7 @@ use App\Models\Admin;
 use App\Models\Round;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -13,6 +14,7 @@ use Tests\TestCase;
 class RoundTest extends TestCase
 {
     use DatabaseTransactions;
+    use withFaker;
 
     protected Model $admin;
     protected array $testData;
@@ -81,7 +83,7 @@ class RoundTest extends TestCase
         $round = Round::first();
 
         $this->assertEquals(1, Round::count());
-        $this->assertEquals($this->testData['description'], $round->description);
+        $this->assertEquals($this->testData['text_application'], $round->text_application);
     }
 
     public function test_round_is_not_stored_when_dates_are_not_correct(): void
@@ -141,11 +143,12 @@ class RoundTest extends TestCase
         parent::setUp();
         $this->admin = Admin::factory()->create();
         $this->testData = [
-            'description'    => 'Event description',
-            'from'           => now(),
-            'to'             => now()->addWeek(),
-            'max_applicants' => 10,
-            'status'         => Round::DRAFT
+            'text_application' => $this->faker->sentence,
+            'text_providers'   => $this->faker->sentence,
+            'from'             => now(),
+            'to'               => now()->addWeek(),
+            'max_applicants'   => 10,
+            'status'           => Round::DRAFT
         ];
     }
 }
