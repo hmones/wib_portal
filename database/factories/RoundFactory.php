@@ -12,11 +12,12 @@ class RoundFactory extends Factory
     public function definition(): array
     {
         return [
-            'description'    => $this->faker->sentence,
-            'from'           => now(),
-            'to'             => now()->addWeek(),
-            'max_applicants' => $this->faker->randomDigit,
-            'status'         => $this->faker->randomElement(Round::STATUSES)
+            'text_providers'   => $this->faker->sentence,
+            'text_application' => $this->faker->sentence,
+            'from'             => now(),
+            'to'               => now()->addWeek(),
+            'max_applicants'   => $this->faker->randomDigit,
+            'status'           => $this->faker->randomElement(Round::STATUSES)
         ];
     }
 
@@ -25,15 +26,6 @@ class RoundFactory extends Factory
         return $this->state(function () {
             return [
                 'status' => Round::DRAFT,
-            ];
-        });
-    }
-
-    public function published(): Factory
-    {
-        return $this->state(function () {
-            return [
-                'status' => Round::PUBLISHED,
             ];
         });
     }

@@ -10,7 +10,7 @@
         <div class="ui hidden divider"></div>
         <div class="ui stackable grid">
             <div class="ui four wide column">
-                @include('partials.home.service-card', ['link' => route('profile.index'), 'icon' => 'address book outline', 'title' => 'Business Directory', 'content' => 'WiB portal enables women entrepreneurs to search for and find business partners by accessing profiles of over 400 businesswomen from the MENA Region.'])
+                @include('partials.home.service-card', ['link' => route('profile.index'), 'icon' => 'address book outline', 'title' => 'Business Women Directory', 'content' => 'WiB portal enables women entrepreneurs to search for and find business partners by accessing profiles of over 400 businesswomen from the MENA Region.'])
             </div>
             <div class="ui four wide column">
                 @include('partials.home.service-card', ['link' => route('entity.index'), 'icon' => 'building outline', 'title' => 'Company Directory', 'content' => 'WiB portal enables women entrepreneurs to search for and find business partners by accessing profiles of over 400 companies from the MENA Region.'])
