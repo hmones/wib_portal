@@ -88,19 +88,11 @@
             <div class="center aligned eight wide column">
                 <a href="/"><img class="ui image left item" src="{{asset('images/logo.png')}}" alt="" width="150px"></a>
             </div>
-            @auth('web')
-                <div class="right aligned three wide column">
-                    <button onclick="$('#mobileMenu').toggle('fade');" class="ui grey button">
-                        <i class="bars black large icon"></i>
-                    </button>
-                </div>
-            @endauth
-            @guest
-                <div class="right aligned three wide column" style="margin-top: 22px;">
-                    <a href="{{route('login')}}"><i class="circular inverted teal lock icon"></i></a>
-                    <a href="{{route('profile.create')}}"><i class="circular inverted teal user icon"></i></a>
-                </div>
-            @endguest
+            <div class="right aligned three wide column">
+                <button onclick="$('#mobileMenu').toggle('fade');" class="ui grey button">
+                    <i class="bars black large icon"></i>
+                </button>
+            </div>
         </div>
     </div>
 </div>
@@ -149,4 +141,14 @@
         </div>
     </div>
 @endauth
+@guest
+    <div class="ui grid">
+        <div class="center aligned column mobile tablet only" id="mobileMenu" style="display: none;">
+            <div class="ui very relaxed divided list">
+                <a href="{{route('login')}}" class="ui primary button">Login</a>
+                <a href="{{ route('profile.create') }}" class="ui primary basic button">Sign up</a>
+            </div>
+        </div>
+    </div>
+@endguest
 <br><br>
