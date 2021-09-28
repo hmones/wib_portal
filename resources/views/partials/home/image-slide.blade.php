@@ -16,7 +16,8 @@
         <div class="wrapper">
             <div class="bottom content">
                 <p>
-                    <i class="clock outline icon"></i> {{$event->from->format('d')}} - {{$event->to->format('d F Y')}}
+                    <i class="clock outline icon"></i> {{$event->from->format('d M')}}
+                    - {{$event->to->format('d M Y')}}
                 </p>
                 <p>
                     <i class="map pin icon"></i> {{$event->location}}
@@ -42,7 +43,8 @@
             <div class="wrapper">
                 <div class="bottom content">
                     <p>
-                        <i class="clock outline icon"></i> {{$event->from->format('d')}} - {{$event->to->format('d M Y')}}
+                        <i class="clock outline icon"></i> {{$event->from->format('d M')}}
+                        - {{$event->to->format('d M Y')}}
                     </p>
                     <p>
                         <i class="map pin icon"></i> {{$event->location}}
