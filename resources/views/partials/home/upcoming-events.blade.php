@@ -3,7 +3,7 @@
         <div class="ui hidden divider"></div>
         <div class="ui hidden divider"></div>
         <div class="ui hidden divider"></div>
-        <p class="byline normal"><span class="ui black text">JOIN THE COMMUNITY AND THE DEBATE</span></p>
+        <p class="byline normal"><span class="ui black text">JOIN OUR EVENTS AND DEBATE</span></p>
         <h1 class="ui page header"><span class="ui blue text">Upcoming Events</span></h1>
         <div class="ui hidden divider"></div>
         <div class="ui hidden divider"></div>
