@@ -5,7 +5,7 @@
         <div class="ui stackable grid">
             <div class="seven wide column">
                 <h1 class="ui page blue header">
-                    Session booking, B2B events
+                    Book your B2B Meeting
                 </h1>
                 <div class="page subheader">
                     {{request()->round->text_providers}}
@@ -31,7 +31,8 @@
                             </div>
                             <div style="text-align: center">
                                 <a href="{{$provider->user->path}}" class="ui black link tiny button">KNOW MORE</a>
-                                <a href="#" class="ui orange link tiny button">BOOK A SESSION</a>
+                                <a href="https://docs.google.com/forms/d/e/1FAIpQLScx1tr42K6tRwL2XS4EdjSXt0ZDiUjqL8LPu9lPARa6gDR09A/viewform"
+                                   target="_blank" rel="noopener" class="ui orange link tiny button">BOOK A SESSION</a>
                             </div>
                         </div>
                     </div>

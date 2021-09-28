@@ -18,7 +18,7 @@
         <div class="ui stackable grid">
             <div class="seven wide column">
                 <h1 class="ui page blue header">
-                    B2B Service Provider Application
+                    B2B Supplier Application
                 </h1>
                 <div class="page subheader">
                     {{request()->round->text_application}}
@@ -33,7 +33,7 @@
             <div class="ui hidden divider"></div>
             <div class="two fields">
                 <div class="required field">
-                    <label for="entity">Check the company you want to apply with:</label>
+                    <label for="entity">Select the company you want to apply with:</label>
                     <div class="ui selection dropdown">
                         <input type="hidden" name="entity_id" id="entity">
                         <i class="dropdown icon"></i>
@@ -61,7 +61,8 @@
                 <textarea required name="data[motivation]" id="motivation" cols="30" rows="10"></textarea>
             </div>
             <div class="field">
-                <label for="representative">Please mention the name of who will be representing you in case you will not
+                <label for="representative">Please mention the name of who will be representing your company in case you
+                    will not
                     be present at the B2B</label>
                 <input name="data[representative]" id="representative" type="text">
             </div>
@@ -91,7 +92,7 @@
                 @endforeach
             </div>
             <div class="required field">
-                <label for="bio">Your profile</label>
+                <label for="bio">Your personal bio (max 150 words)</label>
                 <textarea required id="bio" rows="5" name="user[bio]"
                           placeholder="Max. 2500 charachters">{{auth()->user()->bio}}</textarea>
             </div>
