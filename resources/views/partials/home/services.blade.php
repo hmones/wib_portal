@@ -3,7 +3,7 @@
         <div class="ui hidden divider"></div>
         <div class="ui hidden divider"></div>
         <div class="ui hidden divider"></div>
-        <p class="byline normal"><span class="ui white text">JOIN THE COMMUNITY AND THE DEBATE</span></p>
+        <p class="byline normal"><span class="ui white text">JOIN THE COMMUNITY AND NETWORK</span></p>
         <h1 class="ui page header"><span class="ui white text">Portal Services</span>
         </h1>
         <div class="ui hidden divider"></div>
