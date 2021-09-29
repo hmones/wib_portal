@@ -11,7 +11,13 @@
             @foreach($events as $event)
                 <div class="ui four wide column">
                     <div class="ui card raised padded segment">
-                        <p class="date">{{$event->from->format('d')}} - {{$event->to->format('d F Y')}}</p>
+                        <p class="date">
+                            @if($event->from->isSameMonth($event->to))
+                                {{$event->from->format('d')}} - {{$event->to->format('d F Y')}}
+                            @else
+                                {{$event->from->format('d M')}} - {{$event->to->format('d M Y')}}
+                            @endif
+                        </p>
                         <p class="location">{{$event->location}}</p>
                         <div class="ui hidden divider"></div>
                         <div class="ui blue card header">
