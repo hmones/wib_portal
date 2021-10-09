@@ -2,12 +2,12 @@
 <div class="ui grid">
     <div class="ui container" style="z-index:200;position:fixed;bottom:0px;right:0px;">
         <div class="ui padded basic inverted grey segment">
-            <div class="ui blue header">Your Privacy</div>
+            <div class="ui blue header"><span class="ui blue text">Your Privacy</span></div>
             <div style="color:grey;">
                 We use cookies to improve your experience on our site. To find out more, read our updated <a
                     href="#">privacy policy</a> and <a href="#">cookie policy</a>.
             </div>
-            <br />
+            <br/>
             <div class="ui stackable two column grid">
                 <div class="column">
                     <a class="ui blue button" href="javascript:void(0);" onclick="cookie_consent_submit('all');">
