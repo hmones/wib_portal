@@ -31,7 +31,7 @@
                             </div>
                             <div style="text-align: center">
                                 <a href="{{$provider->user->path}}" class="ui black link tiny button">KNOW MORE</a>
-                                <a href="https://docs.google.com/forms/d/e/1FAIpQLScx1tr42K6tRwL2XS4EdjSXt0ZDiUjqL8LPu9lPARa6gDR09A/viewform"
+                                <a href="https://forms.gle/bux6d4m1BE9pDnoH9"
                                    target="_blank" rel="noopener" class="ui orange link tiny button">BOOK A SESSION</a>
                             </div>
                         </div>
