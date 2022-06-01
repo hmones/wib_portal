@@ -14,7 +14,7 @@ trait HasValidationRules
 
         return [
             $prefix . 'links.*'          => $excludeRule . '|required',
-            $prefix . $this->linksUrlKey => $excludeRule . '|required|active_url',
+            $prefix . $this->linksUrlKey => $excludeRule . '|required|url',
             $prefix . 'links.*.type_id'  => $excludeRule . '|required|exists:supported_links,id'
         ];
     }
