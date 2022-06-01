@@ -233,7 +233,7 @@
                         <div class="field">
                             <div class="ui toggle checkbox">
                                 <input type="checkbox" name="user[mena_diaspora]" tabindex="0" class="hidden"
-                                       {{$user->mena_diaspora?'checked':''}} value=1/>
+                                       {{$user->mena_diaspora?'checked':''}} value="1"/>
                                 <label>Are you from the MENA region but living abroad?</label>
                             </div>
                         </div>
@@ -242,7 +242,7 @@
                         <div class="field">
                             <div class="ui toggle checkbox">
                                 <input type="checkbox" name="user[newsletter]" tabindex="0" class="hidden"
-                                       {{$user->mena_diaspora?'checked':''}} value=1/>
+                                       {{$user->mena_diaspora?'checked':''}} value="1"/>
                                 <label>Would you like to receive a newsletter from Women in Business about the recent
                                     updates to the platform and updates in the network?</label>
                             </div>
