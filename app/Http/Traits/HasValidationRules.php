@@ -58,7 +58,7 @@ trait HasValidationRules
             'user.country_id'               => 'required|exists:countries,id',
             'user.city_id'                  => 'required|exists:cities,id',
             'user.postal_code'              => $this->postalCodeRules,
-            'user.business_association_wom' => 'nullable|in:ABWA,BWE21,CNFCE,LLWB,SEVE,EBRD,Other',
+            'user.business_association_wom' => 'nullable|in:ABWA,BWE21,CNFCE,LLWB,SEVE,EBRD,WICS,WICC,Other',
             'user.newsletter'               => 'nullable|boolean',
             'user.mena_diaspora'            => 'nullable|boolean',
         ];

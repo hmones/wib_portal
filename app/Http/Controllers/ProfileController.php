@@ -15,7 +15,7 @@ class ProfileController extends Controller
 {
     private $activities = array('Export', 'Import', 'Production', 'Services', 'Trade');
     private $education = array('Highschool', 'Bachelor', 'Master', 'Doctorate');
-    private $associations = array('ABWA', 'BWE21', 'CNFCE', 'EBRD', 'LLWB', 'SEVE');
+    private $associations = array('ABWA', 'BWE21', 'CNFCE', 'EBRD', 'LLWB', 'SEVE', 'WICS', 'WICC');
 
     public function index(FilterUser $request)
     {
