@@ -96,13 +96,13 @@
             @forelse ($applications as $application)
                 <tr>
                     <td>
-                        {{Str::of($application->user->name)->limit(50, $end='..')}}
+                        {{Str::of($application->user?->name)->limit(50, $end='..')}}
                     </td>
                     <td>
-                        <a href="mailto:{{$application->user->email}}">{{$application->user->email}}</a>
+                        <a href="mailto:{{$application->user?->email}}">{{$application->user?->email}}</a>
                     </td>
                     <td>
-                        {{$application->entity->name}}
+                        {{$application->entity?->name}}
                     </td>
                     <td>
                         <select name="statuses[]" wire:model="statuses.{{$application->id}}"
