@@ -79,10 +79,10 @@
                                             <div class="item" data-value="Ms.">
                                                 Ms.
                                             </div>
-                                            <div class="item" data-value="Ms.">
+                                            <div class="item" data-value="Prof.">
                                                 Prof.
                                             </div>
-                                            <div class="item" data-value="Ms.">
+                                            <div class="item" data-value="Dr.">
                                                 Dr.
                                             </div>
                                         </div>
