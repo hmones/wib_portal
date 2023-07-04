@@ -127,6 +127,7 @@ class ProfileController extends Controller
         }
 
         $data_percent = $this->userRepository->calculateCompletion(array_merge(data_get($data, 'user', []), data_get($data, 'links', [])));
+        Log::info("user data", array_merge($data['user'], compact('data_percent')));
 
         $profile->update(array_merge($data['user'], compact('data_percent')));
 
