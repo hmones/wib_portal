@@ -127,7 +127,6 @@ class ProfileController extends Controller
         }
 
         $data_percent = $this->userRepository->calculateCompletion(array_merge(data_get($data, 'user', []), data_get($data, 'links', [])));
-        Log::info($data_percent);
 
         $profile->update(array_merge($data['user'], compact('data_percent')));
 
@@ -140,7 +139,6 @@ class ProfileController extends Controller
             $profile->links()->createMany($data['links']);
         }
 
-        dispatch(new \App\Jobs\UpdateUser($profile));
         $request->session()->flash('success', 'Your data was updated successfully!');
 
         return Redirect::to($profile->path . '/edit');
