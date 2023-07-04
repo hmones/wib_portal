@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\UserRepository;
 use App\Http\Requests\{FilterUser, StoreUser, UpdateUser};
 use App\Jobs\DeleteUser;
-use App\Jobs\UpdateUser as UpdateUserJob;
 use App\Models\{Entity, SupportedLink, User};
 use App\Notifications\MemberRegistered;
 use App\Repositories\FileStorage;
@@ -16,6 +16,11 @@ class ProfileController extends Controller
     private $activities = array('Export', 'Import', 'Production', 'Services', 'Trade');
     private $education = array('Highschool', 'Bachelor', 'Master', 'Doctorate');
     private $associations = array('ABWA', 'BWE21', 'CNFCE', 'EBRD', 'LLWB', 'SEVE', 'WICS', 'WICC');
+
+    public function __construct(protected UserRepository $userRepository)
+    {
+        //
+    }
 
     public function index(FilterUser $request)
     {
@@ -58,7 +63,9 @@ class ProfileController extends Controller
             $data['user']['image'] = $storage->store($data['user']['image']);
         }
 
-        $user = User::create($data['user']);
+        $data_percent = $this->userRepository->calculateCompletion(array_merge($data['user'], $data['links']));
+
+        $user = User::create(array_merge($data['user'], compact('data_percent')));
 
         $sectors = $data['sectors'];
         $user->sectors()->attach($sectors);
@@ -74,8 +81,6 @@ class ProfileController extends Controller
         $related_users->each(function ($related_user) use ($user) {
             $related_user->notify(new MemberRegistered($user));
         });
-
-        dispatch(new UpdateUserJob($user));
 
         $request->session()->flash('success', 'User was created successfully!');
 
@@ -121,7 +126,9 @@ class ProfileController extends Controller
             $data['user']['image'] = $storage->store($data['user']['image']);
         }
 
-        $profile->update($data['user']);
+        $data_percent = $this->userRepository->calculateCompletion(array_merge($data['user'], $data['links']));
+
+        $profile->update(array_merge($data['user'], compact('data_percent')));
 
         $profile->sectors()->detach();
         $profile->links()->delete();

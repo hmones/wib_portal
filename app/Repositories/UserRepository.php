@@ -6,14 +6,11 @@ use App\Models\Message;
 
 class UserRepository
 {
-    protected $commentRepository, $postRepository, $fileStorage;
-
-    public function __construct(CommentRepository $commentRepository, PostRepository $postRepository, FileStorage $fileStorage)
-    {
-        $this->commentRepository = $commentRepository;
-        $this->postRepository = $postRepository;
-        $this->fileStorage = $fileStorage;
-    }
+    public function __construct(
+        protected CommentRepository $commentRepository,
+        protected PostRepository $postRepository,
+        protected FileStorage $fileStorage
+    ) { }
 
     public function destroy($user): void
     {
@@ -38,5 +35,17 @@ class UserRepository
         Message::where('from_id', $user->id)->orWhere('to_id', $user->id)->delete();
 
         $user->delete();
+    }
+
+    public function calculateCompletion(array $data): float
+    {
+        $filled = 0;
+        foreach ($data as $record) {
+            if (!empty($record)) {
+                $filled++;
+            }
+        }
+
+        return ($filled / sizeof($data)) * 100;
     }
 }
