@@ -71,23 +71,23 @@
                 'target': 'activeUsers',
                 'title': {{ last(data_get($activeUsers, 'data')) ?? '0' }},
                 'data': [{{ implode(',',  data_get($activeUsers, 'data', [])) }}],
-                'name': 'Active Users',
+                'name': 'Active users today',
                 'labels': [`{!! implode('`,`',  data_get($activeUsers, 'days', [])) !!}`],
             },
             {
                 'type': 'area',
                 'target': 'registeredUsers',
-                'title': {{ last(data_get($registeredUsers, 'data')) ?? '0' }},
+                'title': {{ $totalUsers ?? '0' }},
                 'data': [{{ implode(',',  data_get($registeredUsers, 'data', [])) }}],
-                'name': 'Registered Users',
+                'name': 'Total registered users',
                 'labels': [`{!! implode('`,`',  data_get($registeredUsers, 'days', [])) !!}`],
             },
             {
                 'type': 'area',
                 'target': 'registeredEntities',
-                'title': {{ last(data_get($registeredEntities, 'data')) ?? '0' }},
+                'title': {{ $totalEntities ?? '0' }},
                 'data': [{{ implode(',',  data_get($registeredEntities, 'data', [])) }}],
-                'name': 'Registered Entities',
+                'name': 'Total registered entities',
                 'labels': [`{!! implode('`,`',  data_get($registeredEntities, 'days', [])) !!}`]
             },
             {

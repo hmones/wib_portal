@@ -31,7 +31,9 @@ class DashboardController extends Controller
             'entitiesRevenue'    => $statisticRepository->getEntitiesByRevenue(),
             'entitiesType'       => $statisticRepository->getEntitiesByBusinessType(),
             'entitiesTurnover'   => $statisticRepository->getEntitiesByTurnover(),
-            'entitiesSize'       => $statisticRepository->getEntitiesBySize()
+            'entitiesSize'       => $statisticRepository->getEntitiesBySize(),
+            'totalUsers'         => User::all()->count(),
+            'totalEntities'      => Entity::all()->count(),
         ]);
     }
 
