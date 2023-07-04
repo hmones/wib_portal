@@ -4,12 +4,15 @@
         <div class="ui stackable grid">
             <div class="four wide column">
                 <div id="activeUsers" class="ui basic segment"></div>
+                <div>last 7 days</div>
             </div>
             <div class="four wide column">
                 <div id="registeredUsers" class="ui basic segment"></div>
+                <div>last 7 days</div>
             </div>
             <div class="four wide column">
                 <div id="registeredEntities" class="ui basic segment"></div>
+                <div>last 7 days</div>
             </div>
         </div>
         <div class="ui stackable grid">
