@@ -38,7 +38,7 @@ class UserRepository
         $user->delete();
     }
 
-    public function calculateCompletion(array $data): float
+    public function calculateCompletion(array $data): string
     {
         $filled = 0;
         foreach ($data as $record) {
@@ -46,8 +46,7 @@ class UserRepository
                 $filled++;
             }
         }
-        Log::info("filled $filled and total size");
 
-        return ($filled / sizeof($data)) * 100;
+        return number_format(($filled / sizeof($data)) * 100);
     }
 }
