@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Message;
+use Illuminate\Support\Facades\Log;
 
 class UserRepository
 {
@@ -45,6 +46,7 @@ class UserRepository
                 $filled++;
             }
         }
+        Log::info("filled $filled and total size");
 
         return ($filled / sizeof($data)) * 100;
     }

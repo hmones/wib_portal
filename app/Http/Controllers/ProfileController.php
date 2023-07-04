@@ -9,7 +9,7 @@ use App\Models\{Entity, SupportedLink, User};
 use App\Notifications\MemberRegistered;
 use App\Repositories\FileStorage;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\{Hash, Redirect};
+use Illuminate\Support\Facades\{Hash, Log, Redirect};
 
 class ProfileController extends Controller
 {
@@ -127,6 +127,7 @@ class ProfileController extends Controller
         }
 
         $data_percent = $this->userRepository->calculateCompletion(array_merge(data_get($data, 'user', []), data_get($data, 'links', [])));
+        Log::info($data_percent);
 
         $profile->update(array_merge($data['user'], compact('data_percent')));
 
