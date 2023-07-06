@@ -63,7 +63,11 @@ class ProfileController extends Controller
             $data['user']['image'] = $storage->store($data['user']['image']);
         }
 
-        $data_percent = $this->userRepository->calculateCompletion(array_merge(data_get($data, 'user', []), data_get($data, 'links', [])));
+        $data_percent = $this->userRepository->calculateCompletion(array_merge(
+            data_get($data, 'user', []),
+            data_get($data, 'links', []),
+            ['image' => data_get($data, 'user.image')]
+        ));
 
         $user = User::create(array_merge($data['user'], compact('data_percent')));
 
@@ -126,7 +130,11 @@ class ProfileController extends Controller
             $data['user']['image'] = $storage->store($data['user']['image']);
         }
 
-        $data_percent = $this->userRepository->calculateCompletion(array_merge(data_get($data, 'user', []), data_get($data, 'links', [])));
+        $data_percent = $this->userRepository->calculateCompletion(array_merge(
+            data_get($data, 'user', []),
+            data_get($data, 'links', []),
+            ['image' => data_get($data, 'user.image')]
+        ));
 
         $profile->update(array_merge($data['user'], compact('data_percent')));
 
