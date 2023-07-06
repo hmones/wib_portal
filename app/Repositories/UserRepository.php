@@ -42,7 +42,7 @@ class UserRepository
     {
         $filled = 0;
         foreach ($data as $record) {
-            if (!empty($record)) {
+            if ($record != null && $record != "") {
                 $filled++;
             }
         }
