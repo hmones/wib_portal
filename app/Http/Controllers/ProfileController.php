@@ -174,8 +174,9 @@ class ProfileController extends Controller
     {
         $approved_by = auth()->guard('admin')->id();
         $approved_at = $profile->approved_at ? null : now();
+        $email_verified_at = now();
 
-        $profile->update(compact('approved_by', 'approved_at'));
+        $profile->update(compact('approved_by', 'approved_at', 'email_verified_at'));
 
         return back()->with(['success' => 'Verification updated successfully']);
     }
