@@ -9,7 +9,7 @@
 @section('content')
     @includeWhen($mainEvent, 'partials.home.image-slide', ['event' => $mainEvent])
     <div class="ui hidden divider"></div>
-    @includeWhen($events->count() > 0, 'partials.separator')
+    @includeWhen($events->count() > 0 && $mainEvent, 'partials.separator')
     @includeWhen($events->count() > 0, 'partials.home.upcoming-events')
     @include('partials.home.services')
     @includeWhen(auth()->guest(), 'partials.home.signup')
