@@ -18,7 +18,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name', 'email', 'active', 'password', 'gender', 'birth_year', 'title', 'phone_country_code', 'phone',
         'postal_code', 'sphere', 'activity', 'business_association_wom', 'gdpr_consent', 'newsletter',
         'mena_diaspora', 'education', 'network', 'bio', 'city_id', 'country_id', 'approved_at', 'approved_by',
-        'last_login', 'image', 'notify_message', 'notify_post', 'notify_user', 'notify_comment',
+        'last_login', 'image', 'notify_message', 'notify_post', 'notify_user', 'notify_comment', 'data_percent'
     ];
 
     protected $hidden = [
