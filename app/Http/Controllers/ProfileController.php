@@ -78,14 +78,6 @@ class ProfileController extends Controller
             $user->links()->createMany($data['links']);
         }
 
-        $related_users = User::whereHas('sectors', function (Builder $query) use ($sectors) {
-            $query->whereIn('id', $sectors);
-        })->where('notify_user', 1)->get();
-
-        $related_users->each(function ($related_user) use ($user) {
-            $related_user->notify(new MemberRegistered($user));
-        });
-
         $request->session()->flash('success', 'User was created successfully!');
 
         return response()->redirectTo('/login');
