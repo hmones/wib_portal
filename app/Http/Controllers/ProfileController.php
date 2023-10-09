@@ -133,7 +133,7 @@ class ProfileController extends Controller
         $profile->sectors()->detach();
         $profile->links()->delete();
 
-        $profile->sectors()->attach($data['sectors']);
+        $profile->sectors()->attach(data_get($data, 'sectors', []));
 
         if (isset($data['links'])) {
             $profile->links()->createMany($data['links']);
