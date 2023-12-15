@@ -15,7 +15,7 @@ class RouteServiceProvider extends ServiceProvider
     public const ADMIN = '/admin/';
     protected $namespace = 'App\Http\Controllers';
 
-    public function boot()
+    public function boot(): void
     {
         $this->configureRateLimiting();
 
@@ -50,7 +50,7 @@ class RouteServiceProvider extends ServiceProvider
         });
     }
 
-    protected function configureRateLimiting()
+    protected function configureRateLimiting(): void
     {
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());

@@ -7,7 +7,7 @@ use Illuminate\Console\Scheduling\Schedule;
 
 class Kernel extends ConsoleKernel
 {
-    protected function commands()
+    protected function commands(): void
     {
         $this->load(__DIR__ . '/Commands');
 
@@ -17,5 +17,6 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('queue:retry all')->weekly();
+        $schedule->command('cache:prune-stale-tags')->hourly();
     }
 }

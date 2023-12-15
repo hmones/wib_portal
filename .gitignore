@@ -1,4 +1,6 @@
+/.phpunit.cache
 /node_modules
+/public/build
 /public/hot
 /.idea
 /public/storage
@@ -6,10 +8,12 @@
 /vendor
 .env
 .env.backup
+.env.production
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
+auth.json
 npm-debug.log
 yarn-error.log
+/.fleet
 /.vscode
-/laradock_wib
