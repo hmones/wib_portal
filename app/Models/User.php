@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+use App\Notifications\CustomResetPassword;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -144,5 +145,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getAgeAttribute(): int
     {
         return $this->birth_year ? now()->year - $this->birth_year : 0;
+    }
+
+    public function sendPasswordResetNotification($token): void
+    {
+        $this->notify(new CustomResetPassword($token));
     }
 }
