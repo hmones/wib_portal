@@ -93,7 +93,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'noreply@womeninbusiness-mena.com'),
+        'address' => env('MAIL_FROM_ADDRESS', 'noreply@womeninbusiness-network.com'),
         'name' => env('MAIL_FROM_NAME', 'Women in Business Portal'),
     ],
 

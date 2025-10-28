@@ -1,5 +1,5 @@
 # Women in Business Portal
-<p align="center"><img src="https://portal.womeninbusiness-mena.com/images/logo.png" width="150"></p>
+<p align="center"><img src="https://portal.womeninbusiness-network.com/images/logo.png" width="150"></p>
 
 
 ## About Women in Business Portal
