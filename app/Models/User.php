@@ -146,9 +146,4 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->birth_year ? now()->year - $this->birth_year : 0;
     }
-
-    public function sendPasswordResetNotification($token): void
-    {
-        $this->notify(new CustomResetPassword($token));
-    }
 }
